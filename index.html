@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Experience Montenegro — Personal Travel Curation</title>
-<meta name="description" content="Tailored Montenegro adventures designed around you. Rafting, canyoning, coastal kayaking, wine tours — curated by a local expert. Personal reply within 12h.">
+<meta name="description" content="Tailored Montenegro adventures designed around you. Rafting, canyoning, coastal kayaking, wine tours — curated by a local expert. Personal reply within 2h.">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -100,15 +100,24 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 
 .slider-dot.active { background: var(--stone); width: 32px; }
 
 /* HOW IT WORKS */
-.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 1px solid rgba(200,184,154,0.15); }
-.step { padding: 2rem 1.5rem; border-right: 1px solid rgba(200,184,154,0.15); transition: background 0.3s; }
-.step:last-child { border-right: none; }
-.step:hover { background: rgba(200,184,154,0.04); }
-.step-num { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: rgba(200,184,154,0.2); line-height: 1; margin-bottom: 1.2rem; }
-.step-title { font-size: 0.9rem; font-weight: 500; margin-bottom: 0.6rem; }
-.step-desc { font-size: 0.82rem; line-height: 1.7; color: rgba(245,242,238,0.5); }
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.step { padding: 2rem 1.75rem; border: 1px solid rgba(200,184,154,0.1); background: rgba(200,184,154,0.02); position: relative; overflow: hidden; transition: border-color 0.3s, background 0.3s; }
+.step::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--cta), transparent); opacity: 0; transition: opacity 0.3s; }
+.step:hover { background: rgba(200,184,154,0.04); border-color: rgba(200,184,154,0.2); }
+.step:hover::before { opacity: 1; }
+.step-num { font-family: 'Playfair Display', serif; font-size: 3.5rem; color: rgba(46,139,114,0.12); line-height: 1; margin-bottom: 1.5rem; }
+.step-title { font-size: 0.95rem; font-weight: 500; margin-bottom: 0.65rem; color: var(--white); }
+.step-desc { font-size: 0.82rem; line-height: 1.75; color: rgba(245,242,238,0.48); }
+.step-tag { display: block; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--cta); margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid rgba(46,139,114,0.15); }
 
 /* ACTIVITIES */
+/* AND MORE */
+.and-more-tile { display: flex; align-items: center; justify-content: space-between; gap: 2rem; padding: 1.5rem 2rem; border: 1px dashed rgba(200,184,154,0.15); margin-top: 1px; background: rgba(200,184,154,0.02); flex-wrap: wrap; }
+.and-more-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; margin-bottom: 0.3rem; color: var(--white); }
+.and-more-list { font-size: 0.75rem; color: rgba(200,184,154,0.42); line-height: 1.6; }
+.and-more-cta { flex-shrink: 0; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cta); text-decoration: none; border-bottom: 1px solid rgba(46,139,114,0.3); padding-bottom: 2px; white-space: nowrap; transition: color 0.2s; }
+.and-more-cta:hover { color: var(--cta-hover); }
+
 .activities-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(200,184,154,0.12); }
 .activity { background: var(--black); position: relative; overflow: hidden; transition: background 0.3s; cursor: pointer; }
 .activity.expanded { grid-column: span 3; background: rgba(12,12,12,1); cursor: default; }
@@ -153,12 +162,13 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 
 
 /* PRICING */
 .pricing-section { padding: 5rem 2rem; background: #0e1f1b; position: relative; overflow: hidden; }
+.pricing-section > div { max-width: 1100px; margin-left: auto; margin-right: auto; }
 .pricing-section::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 70% 50%, rgba(46,139,114,0.09) 0%, transparent 65%); }
 .pricing-note { font-size: 0.82rem; color: rgba(245,242,238,0.42); line-height: 1.7; margin-top: -1.5rem; margin-bottom: 0; max-width: 520px; }
 .pricing-note strong { color: rgba(245,242,238,0.68); font-weight: 400; }
-.pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(46,139,114,0.15); margin-top: 3rem; }
-.price-card { background: #0e1f1b; padding: 2rem 1.5rem; transition: background 0.3s; border: 1px solid rgba(46,139,114,0.15); }
-.price-card:hover { background: rgba(16,36,30,0.98); }
+.pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; max-width: 880px; margin-left: auto; margin-right: auto; }
+.price-card { background: rgba(10,20,15,0.85); padding: 2rem 1.5rem; border: 1px solid rgba(46,139,114,0.15); position: relative; transition: border-color 0.3s; }
+.price-card:hover { border-color: rgba(46,139,114,0.35); }
 .price-card.featured { background: var(--cta); box-shadow: 0 0 50px rgba(46,139,114,0.18); }
 .price-card.featured .price-label { color: rgba(255,255,255,0.52) !important; }
 .price-card.featured .price-name, .price-card.featured .price-amount, .price-card.featured .price-per { color: var(--white) !important; }
@@ -171,11 +181,61 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 
 .price-per { font-size: 0.72rem; opacity: 0.42; margin-bottom: 1.2rem; }
 .price-includes { list-style: none; }
 .price-includes li { font-size: 0.8rem; color: rgba(245,242,238,0.52); padding: 0.35rem 0; border-bottom: 1px solid rgba(46,139,114,0.15); display: flex; align-items: flex-start; gap: 0.6rem; }
-.price-card.price-private { background: #0a0a0a; border: 1px solid rgba(200,184,154,0.2); }
-.price-card.price-private .price-name { color: var(--stone); }
-.price-card.price-private .price-amount { color: var(--stone); }
-.price-card.price-private .price-includes li { border-bottom-color: rgba(200,184,154,0.08); color: rgba(245,242,238,0.45); }
-.price-card.price-private .price-includes li::before { color: var(--stone); }
+.price-card.price-private { background: #060a08; border: 1px solid rgba(200,184,154,0.2); position: relative; overflow: hidden; }
+.price-card.price-private::after { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(200,184,154,0.3), transparent); }
+.price-card.price-private .price-includes li { border-bottom-color: rgba(200,184,154,0.08); color: rgba(245,242,238,0.42); }
+.price-card.price-private .price-includes li::before { color: rgba(200,184,154,0.4); }
+.price-divider { width: 100%; height: 1px; background: rgba(46,139,114,0.15); margin: 1.2rem 0; }
+.pricing-scroll-hint { display: none; }
+.price-card.featured .price-divider { background: rgba(255,255,255,0.15); }
+.price-card.price-private .price-divider { background: rgba(200,184,154,0.1); }
+
+
+/* THE DIFFERENCE */
+.diff-section { padding: 5rem 2rem; background: #080f0c; border-top: 1px solid rgba(46,139,114,0.1); border-bottom: 1px solid rgba(46,139,114,0.1); }
+.diff-section > * { max-width: 1100px; margin-left: auto; margin-right: auto; }
+.diff-grid { display: grid; grid-template-columns: 1fr auto 1fr; gap: 0; align-items: stretch; margin-top: 2rem; max-width: 860px; margin-left: auto; margin-right: auto; }
+.diff-col-hdr { margin-bottom: 1.5rem; }
+.diff-col-label { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; padding: 0.28rem 0.8rem; display: inline-block; }
+.diff-label-before { color: rgba(245,242,238,0.3); border: 1px solid rgba(245,242,238,0.1); }
+.diff-label-after { color: var(--cta); border: 1px solid rgba(46,139,114,0.3); background: rgba(46,139,114,0.06); }
+.diff-row { display: flex; align-items: flex-start; gap: 0.75rem; padding: 1.4rem 0; border-bottom: 1px solid rgba(200,184,154,0.06); font-size: 0.9rem; line-height: 1.4; }
+.diff-row:last-child { border-bottom: none; }
+.diff-before .diff-row { color: rgba(245,242,238,0.35); }
+.diff-after .diff-row { color: rgba(245,242,238,0.82); }
+.diff-icon { font-size: 0.7rem; flex-shrink: 0; margin-top: 2px; font-weight: 700; }
+.diff-x { color: rgba(200,60,60,0.5); }
+.diff-check { color: var(--cta); }
+.diff-vs { display: flex; flex-direction: column; align-items: center; padding: 0 1.5rem; min-height: 100%; }
+.diff-vs-line { width: 1px; flex: 1; min-height: 60px; }
+.diff-vs-line:first-child { background: linear-gradient(to bottom, transparent, rgba(200,184,154,0.2)); }
+.diff-vs-line:last-child { background: linear-gradient(to bottom, rgba(200,184,154,0.2), transparent); }
+.diff-vs-word { font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(200,184,154,0.28); padding: 1rem 0; white-space: nowrap; }
+
+/* QUIZ */
+.quiz-section { padding: 5rem 2rem; background: rgba(46,139,114,0.03); border-top: 1px solid rgba(46,139,114,0.1); }
+.quiz-section > * { max-width: 1100px; margin-left: auto; margin-right: auto; }
+.quiz-wrap { max-width: 560px; margin-top: 2.5rem; min-height: 260px; }
+.quiz-step { display: none; }
+.quiz-step.active { display: block; animation: qFade 0.4s ease; }
+@keyframes qFade { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+.quiz-q { font-family: 'Playfair Display', serif; font-size: clamp(1.2rem,3vw,1.55rem); font-weight: 400; line-height: 1.25; margin-bottom: 0.75rem; color: var(--white); }
+.quiz-progress { display: flex; gap: 0.4rem; margin-bottom: 2rem; }
+.quiz-dot { width: 18px; height: 2px; background: rgba(200,184,154,0.18); transition: background 0.3s; }
+.quiz-dot.active { background: var(--cta); }
+.quiz-options { display: flex; flex-direction: column; gap: 0.6rem; }
+.quiz-opt { padding: 1rem 1.25rem; border: 1px solid rgba(200,184,154,0.12); cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; gap: 0.2rem; -webkit-tap-highlight-color: transparent; }
+.quiz-opt:hover { border-color: rgba(46,139,114,0.4); background: rgba(46,139,114,0.06); }
+.quiz-opt-title { font-size: 0.9rem; font-weight: 500; color: var(--white); }
+.quiz-opt-sub { font-size: 0.75rem; color: rgba(245,242,238,0.38); }
+.quiz-back { margin-top: 1.2rem; background: none; border: none; color: rgba(200,184,154,0.35); font-size: 0.72rem; letter-spacing: 0.08em; cursor: pointer; padding: 0; font-family: 'DM Sans', sans-serif; transition: color 0.2s; }
+.quiz-back:hover { color: rgba(200,184,154,0.65); }
+.quiz-result-icon { font-size: 1.5rem; color: var(--cta); margin-bottom: 1rem; }
+.quiz-result-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 0.75rem; color: var(--white); }
+.quiz-result-desc { font-size: 0.85rem; line-height: 1.8; color: rgba(245,242,238,0.5); margin-bottom: 1rem; max-width: 440px; }
+.quiz-prefill-note { font-size: 0.72rem; color: rgba(46,139,114,0.75); margin-bottom: 1.5rem; }
+.quiz-result-cta { display: inline-block; background: var(--cta); color: var(--white); padding: 0.85rem 2rem; font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; transition: background 0.2s; }
+.quiz-result-cta:hover { background: var(--cta-hover); }
 
 /* FORM */
 .form-section { padding: 5rem 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
@@ -265,41 +325,83 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
 @media (max-width: 768px) {
   nav { padding: 1rem 1.2rem; }
   .nav-logo { font-size: 0.85rem; }
-  .hero { padding: 6rem 1.2rem 2.5rem; }
-  .section { padding: 3.5rem 1.2rem; }
-  .section-title { margin-bottom: 2rem; }
-  .steps { grid-template-columns: 1fr; }
-  .step { border-right: none; border-bottom: 1px solid rgba(200,184,154,0.15); padding: 1.5rem 1.2rem; }
-  .step:last-child { border-bottom: none; }
-  .testimonials-section { padding: 3.5rem 1.2rem; }
-  .testimonial { flex: 0 0 calc(100% - 1px); min-width: calc(100% - 1px); }
+  .nav-links { gap: 1rem; }
+  .nav-link { display: none; }
+  .hero { padding: 5.5rem 1.2rem 2.5rem; }
+  .hero-title { font-size: clamp(2.2rem, 10vw, 3.2rem); }
+  .hero-sub { font-size: 0.88rem; max-width: 100%; }
+  .hero-actions { flex-direction: column; align-items: flex-start; gap: 0.85rem; }
+  .hero-trust { gap: 0.75rem; padding-top: 1.5rem; }
+  .section { padding: 3rem 1.2rem; }
+  .section-title { font-size: clamp(1.6rem,6vw,2.4rem); margin-bottom: 1.5rem; }
+  .section-label { margin-bottom: 1.2rem; }
+  .steps { grid-template-columns: 1fr; gap: 0.75rem; }
+  .step { padding: 1.5rem 1.25rem; }
+  .step-num { font-size: 2.5rem; margin-bottom: 1rem; }
+  .step-title { font-size: 0.9rem; }
+  .step-desc { font-size: 0.8rem; }
+  .diff-section { padding: 3rem 1rem; }
+  .diff-grid { grid-template-columns: 1fr auto 1fr; gap: 0; }
+  .diff-vs { padding: 0 0.6rem; }
+  .diff-col-label { font-size: 0.5rem; padding: 0.2rem 0.45rem; letter-spacing: 0.12em; }
+  .diff-col-hdr { margin-bottom: 1rem; }
+  .diff-row { font-size: 0.7rem; padding: 1.1rem 0; gap: 0.45rem; line-height: 1.3; }
+  .diff-icon { font-size: 0.6rem; }
+  .quiz-section { padding: 3rem 1.2rem; }
+  .quiz-wrap { max-width: 100%; }
+  .quiz-q { font-size: 1.2rem; }
+  .quiz-opt { padding: 0.85rem 1rem; }
+  .quiz-opt-title { font-size: 0.85rem; }
+  .quiz-opt-sub { font-size: 0.7rem; }
+  .quiz-result-title { font-size: 1.2rem; }
+  .quiz-result-desc { font-size: 0.8rem; }
   .activities-grid { grid-template-columns: 1fr 1fr; }
+  .and-more-tile { flex-direction: column; align-items: flex-start; gap: 1rem; padding: 1.2rem; }
+  .and-more-title { font-size: 0.95rem; }
+  .and-more-list { font-size: 0.72rem; }
   .activity.expanded { grid-column: span 2; }
   .activity.expanded .activity-img { height: 200px; }
   .activity-article ul { grid-template-columns: 1fr; }
+  .activity-article p { font-size: 0.82rem; }
+  .activity-article ul li { font-size: 0.75rem; }
   .activity-img { height: 110px; }
+  .activity-name { font-size: 0.95rem; }
   .activity-desc { display: none; }
-  .activity.expanded .activity-desc { display: block; }
-  .itineraries-section { padding: 3.5rem 1.2rem; }
-  .itineraries-grid { grid-template-columns: 1fr; }
-  .pricing-section { padding: 3.5rem 1.2rem; }
-  .pricing-grid { grid-template-columns: 1fr; }
-  .price-card { padding: 1.8rem 1.2rem; }
-  .form-section { grid-template-columns: 1fr; gap: 2.5rem; padding: 3.5rem 1.2rem; }
+  .activity.expanded .activity-desc { display: block; font-size: 0.8rem; }
+  .activity-body { padding: 1rem; }
+  .activity.expanded .activity-body { padding: 1.2rem; }
+  .pricing-section { padding: 3rem 0 3rem; }
+  .pricing-section > div:first-child { padding: 0 1.2rem; margin-bottom: 2rem; }
+  .pricing-grid { grid-template-columns: repeat(3, 82vw); gap: 1rem; max-width: none; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; padding: 0 1.2rem 1rem; scrollbar-width: none; }
+  .pricing-grid::-webkit-scrollbar { display: none; }
+  .price-card { scroll-snap-align: start; padding: 1.5rem 1.25rem; }
+  .price-amount { font-size: 1.9rem; }
+  .pricing-scroll-hint { display: block; text-align: center; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(200,184,154,0.22); padding-top: 0.75rem; }
+  .form-section { grid-template-columns: 1fr; gap: 2rem; padding: 3rem 1.2rem; }
   .form-row { grid-template-columns: 1fr; gap: 0; }
-  .about-section { padding: 3.5rem 1.2rem; }
+  .form-tagline { font-size: 0.82rem; }
+  .fd-text { font-size: 0.78rem; }
+  .lead-magnet { padding: 1rem 1.2rem; }
+  .lead-magnet-row { flex-direction: column; }
+  .lead-magnet-row input { border-right: 1px solid rgba(200,184,154,0.18); border-bottom: none; }
+  .about-section { padding: 3rem 1.2rem; }
   .about-grid { grid-template-columns: 1fr; gap: 2rem; }
   .about-photo { aspect-ratio: 4/3; }
   .about-stats { gap: 0.8rem; }
+  .about-stats > div { padding: 0.75rem 0; }
   .stat-num { font-size: 1.5rem; }
+  .stat-label { font-size: 0.62rem; }
+  .about-text h2 { font-size: 1.6rem; }
+  .about-text p { font-size: 0.82rem; }
   .faq-list { max-width: 100%; }
+  .faq-q span:first-child { font-size: 0.82rem; }
+  .faq-a { font-size: 0.8rem; }
   footer { padding: 2rem 1.2rem; flex-direction: column; align-items: flex-start; gap: 1.2rem; }
-  .footer-links { gap: 1rem; }
+  .footer-links { gap: 1rem; flex-wrap: wrap; }
   .whatsapp-btn { bottom: 1rem; right: 1rem; padding: 0.9rem; border-radius: 50%; }
   .whatsapp-btn span { display: none; }
-  .lead-magnet-row { flex-direction: column; }
-  .lead-magnet-row input { border-right: 1px solid rgba(200,184,154,0.18); border-bottom: none; }
   .scarcity-strip { font-size: 0.62rem; padding: 0.65rem 1.2rem; }
+  .hero-actions { gap: 0.75rem; }
 }
 @media (max-width: 480px) {
   .activities-grid { grid-template-columns: 1fr; }
@@ -341,7 +443,6 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
   >
   <div class="hero-overlay"></div>
   <div class="hero-content">
-    <div class="hero-label">Personal Travel Curation · Montenegro</div>
     <h1 class="hero-title">Your journey,<br><em>your way.</em></h1>
     <p class="hero-sub">Tell me your dates, your pace, your passions. I'll craft a personalised Montenegro itinerary that fits you — and only you.</p>
     <p class="hero-urgency">Limited availability — ensuring every trip gets full personal attention</p>
@@ -372,18 +473,24 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
 <!-- MARQUEE -->
 <div class="marquee-wrap">
   <div class="marquee">
-    <span class="marquee-item">Rafting · Tara Canyon</span>
-    <span class="marquee-item">Canyoning · Nevidio</span>
-    <span class="marquee-item">Kayak · Bay of Kotor</span>
-    <span class="marquee-item">Jeep Safari · Durmitor</span>
-    <span class="marquee-item">Wine · Plantaže</span>
-    <span class="marquee-item">Hiking · Prokletije</span>
-    <span class="marquee-item">Rafting · Tara Canyon</span>
-    <span class="marquee-item">Canyoning · Nevidio</span>
-    <span class="marquee-item">Kayak · Bay of Kotor</span>
-    <span class="marquee-item">Jeep Safari · Durmitor</span>
-    <span class="marquee-item">Wine · Plantaže</span>
-    <span class="marquee-item">Hiking · Prokletije</span>
+    <span class="marquee-item">Tara Rafting</span>
+    <span class="marquee-item">Canyoning</span>
+    <span class="marquee-item">Jeep Safari</span>
+    <span class="marquee-item">Kayak &amp; Boat</span>
+    <span class="marquee-item">Hiking</span>
+    <span class="marquee-item">Wine &amp; Food</span>
+    <span class="marquee-item">Horseback Riding</span>
+    <span class="marquee-item">Mountain Biking</span>
+    <span class="marquee-item">Paragliding</span>
+    <span class="marquee-item">Tara Rafting</span>
+    <span class="marquee-item">Canyoning</span>
+    <span class="marquee-item">Jeep Safari</span>
+    <span class="marquee-item">Kayak &amp; Boat</span>
+    <span class="marquee-item">Hiking</span>
+    <span class="marquee-item">Wine &amp; Food</span>
+    <span class="marquee-item">Horseback Riding</span>
+    <span class="marquee-item">Mountain Biking</span>
+    <span class="marquee-item">Paragliding</span>
   </div>
 </div>
 
@@ -396,16 +503,19 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
       <div class="step-num">01</div>
       <div class="step-title">Tell me everything</div>
       <div class="step-desc">Share your dates, travel style, group size, and what excites you. No request is too specific — the more detail, the better the plan.</div>
+      <span class="step-tag">→ Takes 5 minutes</span>
     </div>
     <div class="step">
       <div class="step-num">02</div>
       <div class="step-title">Receive your itinerary</div>
-      <div class="step-desc">Within 12 hours I craft a fully tailored day-by-day plan — activities, logistics, local tips, and things no travel blog will tell you.</div>
+      <div class="step-desc">Within 2 hours I confirm your request. Within 24–48 hours you receive a fully tailored day-by-day plan — activities, logistics, tips, and things no travel blog will tell you.</div>
+      <span class="step-tag">→ Reply in 2h · Itinerary in 24–48h</span>
     </div>
     <div class="step">
       <div class="step-num">03</div>
       <div class="step-title">Show up & experience it</div>
       <div class="step-desc">Everything is pre-arranged with trusted local operators. You just arrive and enjoy. I'm available throughout your trip if anything comes up.</div>
+      <span class="step-tag">→ Everything handled for you</span>
     </div>
   </div>
 </section>
@@ -424,7 +534,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
       </div>
       <div class="activity-body">
         <div class="activity-header">
-          <div><div class="activity-name">Tara Rafting</div><div class="activity-loc">Tara Canyon · North Montenegro</div></div>
+          <div><div class="activity-name">Tara Rafting</div></div>
           <span class="activity-toggle">+</span>
         </div>
         <div class="activity-desc">Europe's deepest canyon. Grade 3–4 rapids. A full day on one of the world's most spectacular rivers.</div>
@@ -432,7 +542,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
           <p>The Tara River Canyon is the deepest canyon in Europe at over 1,300 metres. The river runs cold and fast from April through October, with the best rapids in spring when snowmelt brings the water to its peak. No experience is needed — guides are fully certified and equipment is provided.</p>
           <p>A full-day rafting trip covers around 18km of river, passing through emerald gorges, under ancient bridges, and past waterfalls that drop directly into the canyon.</p>
           <ul>
-            <li>Duration: Full day (6–8 hours on water)</li>
+            <li>Duration: Full day (4 hours on water)</li>
             <li>Difficulty: Grade 3–4 (moderate to challenging)</li>
             <li>Best season: April – October</li>
             <li>Includes: Guide, equipment, lunch on the river</li>
@@ -451,7 +561,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
       </div>
       <div class="activity-body">
         <div class="activity-header">
-          <div><div class="activity-name">Canyoning</div><div class="activity-loc">Nevidio · Morača Gorge</div></div>
+          <div><div class="activity-name">Canyoning</div></div>
           <span class="activity-toggle">+</span>
         </div>
         <div class="activity-desc">Rappel through limestone gorges, swim through crystal pools, jump into plunge basins few ever discover.</div>
@@ -459,10 +569,10 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
           <p>Nevidio Canyon — "the unseen" — was only first explored in 1965. A narrow limestone gorge carved by the Komarnica river, with walls rising over 300 metres. Canyoning here means abseiling down waterfalls, swimming through ice-cold pools, and squeezing through passages just wide enough for one person.</p>
           <p>It's challenging, exhilarating, and unlike anything you'll find elsewhere in Europe.</p>
           <ul>
-            <li>Duration: 5–7 hours</li>
+            <li>Duration: 5–6 hours</li>
             <li>Difficulty: Challenging (good fitness required)</li>
-            <li>Best season: June – September</li>
-            <li>Includes: Guide, wetsuit, helmet, harness</li>
+            <li>Best season: May – September</li>
+            <li>Includes: Guide, wetsuit, helmet, harness, rich meal after</li>
             <li>Starting point: Šavnik area, ~2h from Podgorica</li>
           </ul>
           <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience →</a>
@@ -478,7 +588,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
       </div>
       <div class="activity-body">
         <div class="activity-header">
-          <div><div class="activity-name">Jeep Safari</div><div class="activity-loc">Durmitor · Komovi</div></div>
+          <div><div class="activity-name">Jeep Safari</div></div>
           <span class="activity-toggle">+</span>
         </div>
         <div class="activity-desc">Off-road into Montenegro's wild interior. Mountain plateaus, shepherd villages, panoramas that take your breath away.</div>
@@ -505,7 +615,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
       </div>
       <div class="activity-body">
         <div class="activity-header">
-          <div><div class="activity-name">Kayak & Boat</div><div class="activity-loc">Bay of Kotor · Skadar Lake</div></div>
+          <div><div class="activity-name">Kayak & Boat</div></div>
           <span class="activity-toggle">+</span>
         </div>
         <div class="activity-desc">Paddle through Europe's southernmost fjord, or glide across the Balkans' largest lake at sunrise.</div>
@@ -532,19 +642,19 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
       </div>
       <div class="activity-body">
         <div class="activity-header">
-          <div><div class="activity-name">Hiking</div><div class="activity-loc">Durmitor · Prokletije</div></div>
+          <div><div class="activity-name">Hiking</div></div>
           <span class="activity-toggle">+</span>
         </div>
         <div class="activity-desc">From gentle lakeside trails to summit ascents through Southern Europe's finest national parks.</div>
         <div class="activity-article">
-          <p>Montenegro has two UNESCO-listed national parks and more than 1,000km of marked trails. Durmitor's Bobotov Kuk (2,523m) is the highest accessible peak — a full-day ascent that rewards with views across four countries on a clear day.</p>
-          <p>Prokletije — the "Accursed Mountains" — borders Albania and Kosovo. Trails here are serious mountain terrain, with glacial valleys and peaks rarely visited by anyone outside the region.</p>
+          <p>Montenegro has more than 1,000km of marked trails across two UNESCO-listed national parks — from easy lakeside walks to serious multi-day mountain routes. Whatever your pace and fitness level, there is a trail that fits.</p>
+          <p>We work with experienced local guides who know the terrain in every season. Routes are selected based on your group, your fitness, and what you want to experience — not a fixed itinerary pulled from a brochure.</p>
           <ul>
             <li>Duration: Half day to multi-day</li>
             <li>Difficulty: Easy to very challenging</li>
             <li>Best season: June – October</li>
             <li>Includes: Local guide, route planning, safety equipment</li>
-            <li>Base camps: Žabljak (Durmitor), Gusinje (Prokletije)</li>
+            <li></li>
           </ul>
           <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience →</a>
         </div>
@@ -559,19 +669,100 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
       </div>
       <div class="activity-body">
         <div class="activity-header">
-          <div><div class="activity-name">Wine & Food</div><div class="activity-loc">Plantaže · Skadar Valley</div></div>
+          <div><div class="activity-name">Wine & Food</div></div>
           <span class="activity-toggle">+</span>
         </div>
         <div class="activity-desc">Private tastings at Montenegro's finest wineries, market visits, and meals that reveal local culinary identity.</div>
         <div class="activity-article">
-          <p>Plantaže, near Podgorica, is one of the largest single wine estates in Europe, producing Vranac: a deep, bold red grown only on these soils. A private tasting here, after the public tours have finished, is a very different experience from the standard visit.</p>
-          <p>The Skadar Lake valley has a dozen small family wineries producing natural wines with almost no export — ending with a meal at a local konoba overlooking the water.</p>
+          <p>Montenegro has some of the most scenic wine country in the Balkans — rolling vineyards, family-run cellars, and local konobas with views that make every glass taste better. Our partners are carefully selected local producers and hosts who offer something you won't find in any guidebook.</p>
+          <p>Whether it's a private tasting at a family winery, a market visit followed by a home-cooked meal, or a full food and wine day through the countryside — we arrange it around your group and your pace.</p>
           <ul>
             <li>Duration: Half day to full day</li>
             <li>Difficulty: Easy</li>
             <li>Best season: Year-round (harvest: September–October)</li>
             <li>Includes: Private tasting, food pairing, transport</li>
-            <li>Departures from: Podgorica</li>
+            <li></li>
+          </ul>
+          <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="activity" onclick="toggleActivity(this)">
+      <div class="activity-img">
+        <!-- IMAGE: <img src="horseback.jpg" style="width:100%;height:100%;object-fit:cover"> -->
+        <span class="activity-img-placeholder">Photo — Horseback riding</span>
+        <span class="activity-img-icon">🐎</span>
+      </div>
+      <div class="activity-body">
+        <div class="activity-header">
+          <div><div class="activity-name">Horseback Riding</div></div>
+          <span class="activity-toggle">+</span>
+        </div>
+        <div class="activity-desc">Ride through alpine meadows and beech forests above Kolašin — one of the most peaceful ways to experience Montenegro's mountain interior.</div>
+        <div class="activity-article">
+          <p>Montenegro's mountain pastures have been grazed by horses for centuries. Riding through Bjelasica's high meadows in summer — with views across three mountain ranges — is something no road can replicate.</p>
+          <p>Routes range from gentle valley trails suitable for beginners to full-day mountain crossings for experienced riders. All horses are calm, well-handled, and selected to match rider experience.</p>
+          <ul>
+            <li>Duration: 2 hours to full day</li>
+            <li>Difficulty: Beginner to advanced</li>
+            <li>Best season: May – October</li>
+            <li>Includes: Horse, guide, equipment</li>
+            <li>Departures from: Žabljak or Kolašin</li>
+          </ul>
+          <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="activity" onclick="toggleActivity(this)">
+      <div class="activity-img">
+        <!-- IMAGE: <img src="mtb.jpg" style="width:100%;height:100%;object-fit:cover"> -->
+        <span class="activity-img-placeholder">Photo — Mountain biking</span>
+        <span class="activity-img-icon">🚵</span>
+      </div>
+      <div class="activity-body">
+        <div class="activity-header">
+          <div><div class="activity-name">Mountain Biking</div></div>
+          <span class="activity-toggle">+</span>
+        </div>
+        <div class="activity-desc">Singletrack trails through national park terrain — from flowing forest paths to technical descents above the treeline.</div>
+        <div class="activity-article">
+          <p>Durmitor National Park has some of the most varied mountain biking terrain in the Balkans. The Sinjajevina plateau — the largest mountain pasture in the western Balkans — offers endless trail options with almost no traffic and views that stretch to the Adriatic on clear days.</p>
+          <p>Trails are graded from easy family-friendly routes around Žabljak to demanding technical singletrack for experienced riders. Bike hire and guided tours available.</p>
+          <ul>
+            <li>Duration: Half day to full day</li>
+            <li>Difficulty: Easy to advanced</li>
+            <li>Best season: June – October</li>
+            <li>Includes: Bike, helmet, guide, route planning</li>
+            <li>Departures from: Žabljak</li>
+          </ul>
+          <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="activity" onclick="toggleActivity(this)">
+      <div class="activity-img">
+        <!-- IMAGE: <img src="paragliding.jpg" style="width:100%;height:100%;object-fit:cover"> -->
+        <span class="activity-img-placeholder">Photo — Paragliding</span>
+        <span class="activity-img-icon">🪂</span>
+      </div>
+      <div class="activity-body">
+        <div class="activity-header">
+          <div><div class="activity-name">Paragliding</div></div>
+          <span class="activity-toggle">+</span>
+        </div>
+        <div class="activity-desc">Tandem paragliding above the Bay of Kotor or the mountain ranges above Kolašin — Montenegro from a perspective most visitors never see.</div>
+        <div class="activity-article">
+          <p>Launching from the hills above Budva gives you a bird's-eye view of the entire Adriatic coastline — islands, bays, and the walled city of Kotor stretching into the distance. Flights last 15–30 minutes depending on thermals.</p>
+          <p>Mountain launches above Kolašin offer a completely different experience — forested ridges, plateau views, and the silence of high altitude. All flights are tandem with certified instructors. No experience required.</p>
+          <ul>
+            <li>Duration: 20–40 minutes in the air</li>
+            <li>Difficulty: Easy (tandem — no experience needed)</li>
+            <li>Best season: April – October</li>
+            <li>Includes: Tandem flight, instructor, photos/video</li>
+            <li></li>
           </ul>
           <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience →</a>
         </div>
@@ -579,83 +770,117 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
     </div>
 
   </div>
+
+  <div class="and-more-tile">
+    <div class="and-more-left">
+      <div class="and-more-title">And much more.</div>
+      <div class="and-more-list">Skydiving &middot; Special events &middot; Photography &amp; drone tours &middot; Water sports &middot; Helicopter tours &middot; Fishing on Skadar Lake &middot; Cultural walks &middot; Ski &amp; Snow &middot; And anything in between.</div>
+    </div>
+    <a href="#plan" class="and-more-cta">Tell me what you want &rarr;</a>
+  </div>
 </section>
 
-<!-- SAMPLE ITINERARIES -->
-<section class="itineraries-section" id="itineraries">
-  <div class="section-label">Sample itineraries</div>
-  <h2 class="section-title">A taste of what's possible</h2>
-  <div class="itineraries-grid">
-    <div class="itinerary">
-      <div class="itinerary-img">
-        <!-- IMAGE: <img src="short-adventure.jpg" style="width:100%;height:100%;object-fit:cover"> -->
-        <span class="itinerary-img-placeholder">Photo — canyon / Tara river</span>
-      </div>
-      <div class="itinerary-body">
-        <div class="itinerary-duration">3 days · Short Adventure</div>
-        <div class="itinerary-name">The Wild Weekend</div>
-        <div class="itinerary-desc">Arrive in Podgorica, transfer to the canyon. Day one on the Tara river. Day two: Nevidio canyoning. Day three: Durmitor jeep tour, return flight.</div>
-        <div class="itinerary-tags">
-          <span class="itinerary-tag">Rafting</span>
-          <span class="itinerary-tag">Canyoning</span>
-          <span class="itinerary-tag">Jeep</span>
-        </div>
+<!-- THE DIFFERENCE -->
+<section class="diff-section" id="difference">
+  <div class="section-label">The difference</div>
+  <h2 class="section-title">What changes when you<br><em>plan it properly.</em></h2>
+  <div class="diff-grid">
+    <div class="diff-col diff-before">
+      <div class="diff-col-hdr"><span class="diff-col-label diff-label-before">Without us</span></div>
+      <div class="diff-row"><span class="diff-icon diff-x">✕</span><span>Endless choices</span></div>
+      <div class="diff-row"><span class="diff-icon diff-x">✕</span><span>Planning everything yourself</span></div>
+      <div class="diff-row"><span class="diff-icon diff-x">✕</span><span>Missing the real Montenegro</span></div>
+      <div class="diff-row"><span class="diff-icon diff-x">✕</span><span>Juggling bookings</span></div>
+      <div class="diff-row"><span class="diff-icon diff-x">✕</span><span>A trip you forget</span></div>
+    </div>
+    <div class="diff-vs">
+      <div class="diff-vs-line"></div>
+      <div class="diff-vs-word">vs</div>
+      <div class="diff-vs-line"></div>
+    </div>
+    <div class="diff-col diff-after">
+      <div class="diff-col-hdr"><span class="diff-col-label diff-label-after">With Experience Montenegro</span></div>
+      <div class="diff-row"><span class="diff-icon diff-check">✓</span><span>A journey, clearly defined</span></div>
+      <div class="diff-row"><span class="diff-icon diff-check">✓</span><span>Everything handled by a local</span></div>
+      <div class="diff-row"><span class="diff-icon diff-check">✓</span><span>Places most never find</span></div>
+      <div class="diff-row"><span class="diff-icon diff-check">✓</span><span>Every detail arranged for you</span></div>
+      <div class="diff-row"><span class="diff-icon diff-check">✓</span><span>One you'll remember for life</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section class="quiz-section" id="quiz">
+  <div class="section-label">Find your trip</div>
+  <h2 class="section-title">Let's figure out<br><em>what you're looking for.</em></h2>
+  <div class="quiz-wrap" id="quizWrap">
+
+    <div class="quiz-step active" id="qStep1">
+      <div class="quiz-q">What matters most to you on a trip?</div>
+      <div class="quiz-progress"><span class="quiz-dot active"></span><span class="quiz-dot"></span><span class="quiz-dot"></span></div>
+      <div class="quiz-options">
+        <div class="quiz-opt" onclick="quizAnswer(1,'Adventure &amp; adrenaline','adventure')"><span class="quiz-opt-title">Adrenaline &amp; action</span><span class="quiz-opt-sub">Rafting, canyoning, jeep offroad, cliff jumps</span></div>
+        <div class="quiz-opt" onclick="quizAnswer(1,'Nature &amp; hiking','nature')"><span class="quiz-opt-title">Nature &amp; stillness</span><span class="quiz-opt-sub">Mountains, lakes, trails almost nobody walks</span></div>
+        <div class="quiz-opt" onclick="quizAnswer(1,'Culture &amp; food','culture')"><span class="quiz-opt-title">Culture &amp; food</span><span class="quiz-opt-sub">Old towns, wine cellars, family dinners</span></div>
+        <div class="quiz-opt" onclick="quizAnswer(1,'A mix of everything','mix')"><span class="quiz-opt-title">A bit of everything</span><span class="quiz-opt-sub">Coast, mountains, canyons — the full contrast</span></div>
       </div>
     </div>
-    <div class="itinerary">
-      <div class="itinerary-img">
-        <!-- IMAGE: <img src="coast-mountains.jpg" style="width:100%;height:100%;object-fit:cover"> -->
-        <span class="itinerary-img-placeholder">Photo — Kotor Bay + Durmitor</span>
+
+    <div class="quiz-step" id="qStep2">
+      <div class="quiz-q">How long are you thinking?</div>
+      <div class="quiz-progress"><span class="quiz-dot active"></span><span class="quiz-dot active"></span><span class="quiz-dot"></span></div>
+      <div class="quiz-options">
+        <div class="quiz-opt" onclick="quizAnswer(2,'2-3 days','short')"><span class="quiz-opt-title">A long weekend</span><span class="quiz-opt-sub">2–3 days · Quick but intense</span></div>
+        <div class="quiz-opt" onclick="quizAnswer(2,'4-7 days','week')"><span class="quiz-opt-title">A full week</span><span class="quiz-opt-sub">4–7 days · The most popular choice</span></div>
+        <div class="quiz-opt" onclick="quizAnswer(2,'8+ days','long')"><span class="quiz-opt-title">More than a week</span><span class="quiz-opt-sub">8+ days · Deep exploration</span></div>
       </div>
-      <div class="itinerary-body">
-        <div class="itinerary-duration">5 days · Coast + Mountains</div>
-        <div class="itinerary-name">The Full Contrast</div>
-        <div class="itinerary-desc">Two days in the Bay of Kotor — kayak at sunrise, Old Town, seafood dinner. Then north: Tara rafting, mountain hiking, stargazing above the clouds.</div>
-        <div class="itinerary-tags">
-          <span class="itinerary-tag">Kayak</span>
-          <span class="itinerary-tag">Kotor</span>
-          <span class="itinerary-tag">Rafting</span>
-          <span class="itinerary-tag">Hiking</span>
-        </div>
-      </div>
+      <button class="quiz-back" onclick="quizBack(1)">← Back</button>
     </div>
-    <div class="itinerary">
-      <div class="itinerary-img">
-        <!-- IMAGE: <img src="full-montenegro.jpg" style="width:100%;height:100%;object-fit:cover"> -->
-        <span class="itinerary-img-placeholder">Photo — full Montenegro landscape</span>
+
+    <div class="quiz-step" id="qStep3">
+      <div class="quiz-q">Who's coming with you?</div>
+      <div class="quiz-progress"><span class="quiz-dot active"></span><span class="quiz-dot active"></span><span class="quiz-dot active"></span></div>
+      <div class="quiz-options">
+        <div class="quiz-opt" onclick="quizAnswer(3,'Solo','solo')"><span class="quiz-opt-title">Just me</span><span class="quiz-opt-sub">Solo travel, my own pace</span></div>
+        <div class="quiz-opt" onclick="quizAnswer(3,'2 people','couple')"><span class="quiz-opt-title">Partner or friend</span><span class="quiz-opt-sub">Two people</span></div>
+        <div class="quiz-opt" onclick="quizAnswer(3,'3-5 people','small')"><span class="quiz-opt-title">Small group</span><span class="quiz-opt-sub">3–5 people</span></div>
+        <div class="quiz-opt" onclick="quizAnswer(3,'6+ people','group')"><span class="quiz-opt-title">Larger group</span><span class="quiz-opt-sub">6+ people</span></div>
       </div>
-      <div class="itinerary-body">
-        <div class="itinerary-duration">7 days · Full Montenegro</div>
-        <div class="itinerary-name">The Complete Experience</div>
-        <div class="itinerary-desc">Everything. Coast, canyons, mountains, wine country. Kotor by boat at sunrise. Tara in full flood. A private winery dinner. Durmitor under a full moon.</div>
-        <div class="itinerary-tags">
-          <span class="itinerary-tag">All activities</span>
-          <span class="itinerary-tag">Wine</span>
-          <span class="itinerary-tag">Full country</span>
-        </div>
-      </div>
+      <button class="quiz-back" onclick="quizBack(2)">← Back</button>
     </div>
+
+    <div class="quiz-step" id="qResult">
+      <div class="quiz-result-icon">✶</div>
+      <div class="quiz-result-title">Your trip is ready to be planned.</div>
+      <div class="quiz-result-desc" id="qResultDesc"></div>
+      <div class="quiz-prefill-note">✓ Form pre-filled with your answers — scroll down to complete and send.</div>
+      <a href="#plan" class="quiz-result-cta">Plan my trip →</a>
+      <br><button class="quiz-back" onclick="quizReset()" style="margin-top:1rem;">Start over</button>
+    </div>
+
   </div>
 </section>
 
 <!-- PRICING -->
 <section class="pricing-section" id="pricing">
-  <div class="section-label" style="color:rgba(245,242,238,0.38);">Investment</div>
-  <h2 class="section-title">Simple, transparent pricing</h2>
-  <p class="pricing-note">The planning fee covers your personalised itinerary. <strong>Typical trips range from €200 to €1,500 per person</strong> depending on duration, activities, and travel style — always discussed and agreed before anything is booked.</p>
+  <div>
+    <div class="section-label" style="color:rgba(245,242,238,0.38);">Investment</div>
+    <h2 class="section-title">One fee. One plan.<br><em>Built entirely for you.</em></h2>
+    <p class="pricing-note">You pay for the trip design — the thinking, the research, the coordination. Activities and accommodation are paid directly to operators, fully transparent before anything is confirmed.</p>
+  </div>
   <div class="pricing-grid">
 
     <div class="price-card">
       <div class="price-label">Short Stay</div>
       <div class="price-name">Escape</div>
       <div class="price-amount">€19</div>
-      <div class="price-per">planning fee · 2–3 days</div>
-      <p style="font-size:0.78rem;color:rgba(245,242,238,0.4);margin-bottom:1.2rem;font-style:italic;">Perfect for a first taste of Montenegro.</p>
+      <div class="price-per">trip design · 2–3 days</div>
+      <div class="price-divider"></div>
       <ul class="price-includes">
         <li>Full tailored itinerary</li>
-        <li>1–2 core activities</li>
+        <li>Few curated activities</li>
         <li>Transfer coordination</li>
-        <li>Local insider tips</li>
+        <li>Local insider knowledge</li>
       </ul>
     </div>
 
@@ -663,24 +888,23 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
       <div class="price-badge">Most popular</div>
       <div class="price-label">Full Week</div>
       <div class="price-name">Explorer</div>
-      <div class="price-amount">€49</div>
-      <div class="price-per">planning fee · 5–7 days</div>
-      <p style="font-size:0.78rem;color:rgba(255,255,255,0.6);margin-bottom:1.2rem;font-style:italic;">The most complete Montenegro experience.</p>
+      <div class="price-amount">€29</div>
+      <div class="price-per">full travel plan · 4–7 days</div>
+      <div class="price-divider"></div>
       <ul class="price-includes">
         <li>Day-by-day itinerary</li>
         <li>All activities coordinated</li>
         <li>Accommodation suggestions</li>
-        <li>Trip support throughout</li>
+        <li>Support throughout the trip</li>
         <li>Flexible adjustments</li>
       </ul>
     </div>
 
     <div class="price-card price-private">
-      <div class="price-label" style="color:var(--stone);">Custom · Any duration</div>
-      <div class="price-name">Private</div>
-      <div class="price-amount">€99</div>
-      <div class="price-per">planning fee · your schedule</div>
-      <p style="font-size:0.78rem;color:rgba(200,184,154,0.5);margin-bottom:1.2rem;font-style:italic;">Your personal concierge — available anytime.</p>
+      <div class="price-label" style="color:rgba(200,184,154,0.5);letter-spacing:0.2em;">Private</div>
+      <div class="price-name" style="color:var(--stone);font-size:1.25rem;line-height:1.3;">Curated for you.<br><em style="font-size:1rem;color:rgba(200,184,154,0.55);">Priced accordingly.</em></div>
+      <div class="price-per" style="color:rgba(200,184,154,0.35);margin-top:0.5rem;">Full travel plan · Your schedule · Your vision</div>
+      <div class="price-divider"></div>
       <ul class="price-includes">
         <li>Everything in Explorer</li>
         <li>Multi-region routing</li>
@@ -688,13 +912,17 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
         <li>Private operator access</li>
         <li>Priority WhatsApp support</li>
       </ul>
+      <div style="margin-top:1.2rem;padding-top:1rem;border-top:1px solid rgba(200,184,154,0.08);">
+        <a href="#plan" style="font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--stone);text-decoration:none;border-bottom:1px solid rgba(200,184,154,0.25);padding-bottom:2px;">Get in touch to discuss →</a>
+      </div>
     </div>
 
   </div>
+  <div class="pricing-scroll-hint">swipe to see all plans</div>
 </section>
 
 <!-- TESTIMONIALS SLIDER -->
-<section class="testimonials-section" id="reviews">
+<section class="testimonials-section" id="reviews" style="display:none">
   <div class="testimonials-header">
     <div>
       <div class="section-label">What travellers say</div>
@@ -789,10 +1017,10 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
   <div class="form-intro">
     <div class="section-label">Let's begin</div>
     <h2 class="section-title">Plan your Montenegro experience</h2>
-    <p class="form-tagline">Fill in the form and I'll get back to you within 12 hours with a personalised itinerary. No templates, no copy-paste — a plan made entirely for you.</p>
+    <p class="form-tagline">Fill in the form and I'll get back to you within 2 hours with a personalised itinerary. No templates, no copy-paste — a plan made entirely for you.</p>
     <div class="form-detail">
       <span class="fd-icon">📅</span>
-      <div class="fd-text"><strong>Response within 12 hours</strong>A full itinerary draft sent to your email, ready to discuss and refine.</div>
+      <div class="fd-text"><strong>Response within 2 hours</strong>A full itinerary draft sent to your email, ready to discuss and refine.</div>
     </div>
     <div class="form-detail">
       <span class="fd-icon">🤝</span>
@@ -806,7 +1034,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
       <span class="fd-icon">⚡</span>
       <div class="fd-text"><strong>Only a few clients per week</strong>I limit bookings to ensure every trip gets full personal attention.</div>
     </div>
-    <div class="form-trust">No spam. Personal reply within 12h. Unsubscribe anytime.</div>
+    <div class="form-trust">No spam. Personal reply within 2h.</div>
     <div class="lead-magnet">
       <div class="lead-magnet-label">Free resource</div>
       <div class="lead-magnet-title">The Montenegro Travel Guide</div>
@@ -879,14 +1107,14 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
         <textarea id="notes" placeholder="Tell me anything — dietary needs, mobility considerations, dream experiences, places you've already seen..."></textarea>
       </div>
       <div class="fee-note">
-        <strong>Planning fee: €19–99</strong> — paid only after you approve the itinerary draft. No upfront commitment, no risk.
+        <strong>Planning fee</strong> — paid only after you approve the itinerary draft. No upfront commitment, no risk.
       </div>
       <button type="submit" class="submit-btn">Send my request →</button>
     </form>
     <div class="success-msg" id="successMsg">
       <div class="check">✦</div>
       <h3>Request received.</h3>
-      <p>I'll review your details and send your personalised itinerary within 12 hours. Check your inbox — and get ready for Montenegro.</p>
+      <p>I'll review your details and send your personalised itinerary within 2 hours. Check your inbox — and get ready for Montenegro.</p>
     </div>
   </div>
 </section>
@@ -906,9 +1134,9 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
       <p>I was born and raised here. I know which canyon trail the guidebooks haven't discovered yet. I know the winemaker who opens his cellar only for people he trusts. I know when the Tara river is at its best, and which operator will actually deliver what they promise.</p>
       <p>Experience Montenegro isn't a travel agency — it's a personal service. You get direct access to me, my knowledge, and a network built over years of living here.</p>
       <div class="about-stats">
-        <div><div class="stat-num">12h</div><div class="stat-label">Personal response time</div></div>
+        <div><div class="stat-num">2h</div><div class="stat-label">Personal response time</div></div>
         <div><div class="stat-num">100%</div><div class="stat-label">Tailored — never a template</div></div>
-        <div><div class="stat-num">12+</div><div class="stat-label">Trusted local operators</div></div>
+        <div><div class="stat-num">16+</div><div class="stat-label">Trusted local operators</div></div>
       </div>
       <div class="about-quote-block">
         <div class="about-quote-text">"Montenegro has everything — mountains, sea, canyons, culture — within two hours of each other. Most visitors see 10% of it. I want to show you the rest."</div>
@@ -1058,6 +1286,48 @@ window.addEventListener('scroll', () => {
   waBtn.style.opacity = show ? '1' : '0';
   waBtn.style.pointerEvents = show ? 'auto' : 'none';
 });
+
+// QUIZ
+var _qa={}, _im={adventure:'Adventure & adrenaline',nature:'Nature & hiking',culture:'Culture & food',mix:'A mix of everything'}, _gm={solo:'Solo',couple:'2 people',small:'3–5 people',group:'6–10 people'}, _dn={short:'a long weekend (2–3 days)',week:'a full week (4–7 days)',long:'more than a week (8+ days)'};
+var _qd={adventure:'A {d} trip built around adrenaline — rafting, canyoning, jeep offroad. Planned for {g}.',nature:'{d} in Montenegro\'s most untouched landscapes — mountains, lakes, trails almost nobody walks. Planned for {g}.',culture:'{d} of old towns, wine cellars, hidden local experiences. The Montenegro most tourists never find. Planned for {g}.',mix:'{d} across coast, canyons, and mountains. The full contrast — planned for {g}.'};
+
+function quizAnswer(step,value,key){
+  _qa['s'+step]={value:value,key:key};
+  var cur=document.getElementById('qStep'+step);
+  cur.style.opacity='0'; cur.style.transform='translateY(-8px)'; cur.style.transition='all 0.3s';
+  setTimeout(function(){
+    cur.classList.remove('active'); cur.style.opacity=''; cur.style.transform=''; cur.style.transition='';
+    if(step<3){ document.getElementById('qStep'+(step+1)).classList.add('active'); return; }
+    var sk=(_qa.s1||{key:'mix'}).key, dk=(_qa.s2||{key:'week'}).key, gk=(_qa.s3||{key:'couple'}).key;
+    var d=_dn[dk], g=_gm[gk];
+    document.getElementById('qResultDesc').textContent=_qd[sk].replace('{d}',d.charAt(0).toUpperCase()+d.slice(1)).replace('{g}',g.toLowerCase());
+    var iEl=document.getElementById('interests');
+    if(iEl){for(var i=0;i<iEl.options.length;i++){if(iEl.options[i].text===_im[sk]){iEl.selectedIndex=i;iEl.style.borderColor='var(--cta)';iEl.style.background='rgba(46,139,114,0.07)';break;}}}
+    var gEl=document.getElementById('group');
+    if(gEl){for(var i=0;i<gEl.options.length;i++){if(gEl.options[i].text===g){gEl.selectedIndex=i;gEl.style.borderColor='var(--cta)';gEl.style.background='rgba(46,139,114,0.07)';break;}}}
+    var nEl=document.getElementById('notes');
+    if(nEl&&!nEl.value){nEl.value='Style: '+_im[sk]+'\nDuration: '+d+'\nGroup: '+g;nEl.style.borderColor='rgba(46,139,114,0.35)';}
+    var tf=document.getElementById('tripForm');
+    if(tf&&!document.getElementById('_qb')){var b=document.createElement('div');b.id='_qb';b.style.cssText='font-size:0.7rem;color:var(--cta);border:1px solid rgba(46,139,114,0.2);padding:0.5rem 0.9rem;margin-bottom:1.2rem;background:rgba(46,139,114,0.05);';b.textContent='\u2713 Pre-filled from your quiz — review and send below';tf.insertBefore(b,tf.firstChild);}
+    document.getElementById('qResult').classList.add('active');
+    // Scroll happens only on "Plan my trip" button click — see quiz-result-cta handler below
+  },300);
+}
+document.addEventListener('click', function(e) {
+  if (e.target && e.target.id === 'qResultCta') {
+    e.preventDefault();
+    var el = document.getElementById('plan'); if (!el) return;
+    var t = el.getBoundingClientRect().top + window.scrollY - 80;
+    var s = window.scrollY, dist = t - s, dur = 1400, t0 = null;
+    function ease(x){ return x<0.5?2*x*x:-1+(4-2*x)*x; }
+    function tick(ts){ if(!t0)t0=ts; var p=Math.min((ts-t0)/dur,1); window.scrollTo(0,s+dist*ease(p)); if(p<1)requestAnimationFrame(tick); }
+    requestAnimationFrame(tick);
+  }
+});
+
+function quizBack(s){['qStep1','qStep2','qStep3','qResult'].forEach(function(id){var e=document.getElementById(id);if(e)e.classList.remove('active');});document.getElementById('qStep'+s).classList.add('active');}
+function quizReset(){Object.keys(_qa).forEach(function(k){delete _qa[k];});['interests','group'].forEach(function(id){var e=document.getElementById(id);if(e){e.style.borderColor='';e.style.background='';e.selectedIndex=0;}});var n=document.getElementById('notes');if(n){n.value='';n.style.borderColor='';}var b=document.getElementById('_qb');if(b)b.remove();quizBack(1);}
+
 </script>
 </body>
 </html>
