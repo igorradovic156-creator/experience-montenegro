@@ -42,7 +42,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 
 .hero-label::before { content: ''; display: block; width: 30px; height: 1px; background: var(--stone); }
 .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(2.6rem, 9vw, 7rem); line-height: 1.0; font-weight: 400; margin-bottom: 1.5rem; }
 .hero-title em { font-style: italic; color: var(--stone); }
-.hero-sub { max-width: 480px; font-size: clamp(0.88rem, 2.5vw, 1rem); line-height: 1.7; color: rgba(245,242,238,0.65); margin-bottom: 0.75rem; }
+.hero-sub { max-width: 480px; font-size: clamp(0.88rem, 2.5vw, 1rem); line-height: 1.7; color: rgba(245,242,238,0.82); margin-bottom: 0.75rem; }
 .hero-urgency { font-size: 0.72rem; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 2rem; display: flex; align-items: center; gap: 0.5rem; }
 .hero-urgency::before { content: '●'; font-size: 0.5rem; animation: pulse 2s infinite; }
 @keyframes pulse { 0%,100%{ opacity:1; } 50%{ opacity:0.35; } }
@@ -99,16 +99,23 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 
 .slider-dot { width: 20px; height: 2px; background: rgba(200,184,154,0.2); cursor: pointer; transition: all 0.3s; border: none; padding: 0; }
 .slider-dot.active { background: var(--stone); width: 32px; }
 
+
+/* STEP SCROLL ANIMATION */
+.step { opacity: 0; transform: translateY(24px); transition: opacity 0.55s ease, transform 0.55s ease, border-color 0.3s, background 0.3s; }
+.step.visible { opacity: 1; transform: translateY(0); }
+.step:nth-child(1) { transition-delay: 0s; }
+.step:nth-child(2) { transition-delay: 0.15s; }
+.step:nth-child(3) { transition-delay: 0.3s; }
 /* HOW IT WORKS */
 .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
 .step { padding: 2rem 1.75rem; border: 1px solid rgba(200,184,154,0.1); background: rgba(200,184,154,0.02); position: relative; overflow: hidden; transition: border-color 0.3s, background 0.3s; }
 .step::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--cta), transparent); opacity: 0; transition: opacity 0.3s; }
 .step:hover { background: rgba(200,184,154,0.04); border-color: rgba(200,184,154,0.2); }
 .step:hover::before { opacity: 1; }
-.step-num { font-family: 'Playfair Display', serif; font-size: 3.5rem; color: rgba(46,139,114,0.12); line-height: 1; margin-bottom: 1.5rem; }
+.step-num { font-family: 'Playfair Display', serif; font-size: 3.5rem; color: rgba(46,139,114,0.35); line-height: 1; margin-bottom: 1.5rem; }
 .step-title { font-size: 0.95rem; font-weight: 500; margin-bottom: 0.65rem; color: var(--white); }
-.step-desc { font-size: 0.82rem; line-height: 1.75; color: rgba(245,242,238,0.48); }
-.step-tag { display: block; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--cta); margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid rgba(46,139,114,0.15); }
+.step-desc { font-size: 0.82rem; line-height: 1.75; color: rgba(245,242,238,0.68); }
+.step-tag { display: block; font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--cta); margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid rgba(46,139,114,0.2); font-weight: 500; opacity: 1; }
 
 /* ACTIVITIES */
 /* AND MORE */
@@ -138,9 +145,9 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 
 .activity-desc { font-size: 0.8rem; line-height: 1.6; color: rgba(245,242,238,0.46); margin-top: 0.55rem; }
 .activity-article { max-height: 0; overflow: hidden; transition: max-height 0.5s ease, opacity 0.4s ease, margin 0.3s ease; opacity: 0; margin-top: 0; }
 .activity.expanded .activity-article { max-height: 600px; opacity: 1; margin-top: 1.5rem; }
-.activity-article p { font-size: 0.88rem; line-height: 1.85; color: rgba(245,242,238,0.62); margin-bottom: 1rem; }
+.activity-article p { font-size: 0.88rem; line-height: 1.85; color: rgba(245,242,238,0.75); margin-bottom: 1rem; }
 .activity-article ul { list-style: none; margin-bottom: 1.5rem; border-top: 1px solid rgba(200,184,154,0.1); padding-top: 1rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
-.activity-article ul li { font-size: 0.8rem; color: rgba(245,242,238,0.55); padding: 0.4rem 0; border-bottom: 1px solid rgba(200,184,154,0.08); display: flex; gap: 0.5rem; }
+.activity-article ul li { font-size: 0.8rem; color: rgba(245,242,238,0.7); padding: 0.4rem 0; border-bottom: 1px solid rgba(200,184,154,0.08); display: flex; gap: 0.5rem; }
 .activity-article ul li::before { content: '—'; color: var(--cta); opacity: 0.6; flex-shrink: 0; }
 .activity-cta { display: inline-block; margin-top: 0.5rem; font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cta); text-decoration: none; border-bottom: 1px solid rgba(46,139,114,0.4); padding-bottom: 2px; transition: color 0.2s, border-color 0.2s; }
 .activity-cta:hover { color: var(--cta-hover); border-color: var(--cta-hover); }
@@ -164,7 +171,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 
 .pricing-section { padding: 5rem 2rem; background: #0e1f1b; position: relative; overflow: hidden; }
 .pricing-section > div { max-width: 1100px; margin-left: auto; margin-right: auto; }
 .pricing-section::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 70% 50%, rgba(46,139,114,0.09) 0%, transparent 65%); }
-.pricing-note { font-size: 0.82rem; color: rgba(245,242,238,0.42); line-height: 1.7; margin-top: -1.5rem; margin-bottom: 0; max-width: 520px; }
+.pricing-note { font-size: 0.82rem; color: rgba(245,242,238,0.58); line-height: 1.7; margin-top: -1.5rem; margin-bottom: 0; max-width: 520px; }
 .pricing-note strong { color: rgba(245,242,238,0.68); font-weight: 400; }
 .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; max-width: 880px; margin-left: auto; margin-right: auto; }
 .price-card { background: rgba(10,20,15,0.85); padding: 2rem 1.5rem; border: 1px solid rgba(46,139,114,0.15); position: relative; transition: border-color 0.3s; }
@@ -180,7 +187,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 
 .price-amount { font-size: 2.2rem; font-weight: 500; margin-bottom: 0.2rem; letter-spacing: -0.02em; color: var(--white); }
 .price-per { font-size: 0.72rem; opacity: 0.42; margin-bottom: 1.2rem; }
 .price-includes { list-style: none; }
-.price-includes li { font-size: 0.8rem; color: rgba(245,242,238,0.52); padding: 0.35rem 0; border-bottom: 1px solid rgba(46,139,114,0.15); display: flex; align-items: flex-start; gap: 0.6rem; }
+.price-includes li { font-size: 0.8rem; color: rgba(245,242,238,0.72); padding: 0.35rem 0; border-bottom: 1px solid rgba(46,139,114,0.15); display: flex; align-items: flex-start; gap: 0.6rem; }
 .price-card.price-private { background: #060a08; border: 1px solid rgba(200,184,154,0.2); position: relative; overflow: hidden; }
 .price-card.price-private::after { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(200,184,154,0.3), transparent); }
 .price-card.price-private .price-includes li { border-bottom-color: rgba(200,184,154,0.08); color: rgba(245,242,238,0.42); }
@@ -209,8 +216,8 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 
 .diff-label-after { color: var(--cta); border: 1px solid rgba(46,139,114,0.3); background: rgba(46,139,114,0.06); }
 .diff-row { display: flex; align-items: flex-start; gap: 0.75rem; padding: 1.4rem 0; border-bottom: 1px solid rgba(200,184,154,0.06); font-size: 0.9rem; line-height: 1.4; }
 .diff-row:last-child { border-bottom: none; }
-.diff-before .diff-row { color: rgba(245,242,238,0.35); }
-.diff-after .diff-row { color: rgba(245,242,238,0.82); }
+.diff-before .diff-row { color: rgba(245,242,238,0.5); }
+.diff-after .diff-row { color: rgba(245,242,238,0.92); }
 .diff-icon { font-size: 0.7rem; flex-shrink: 0; margin-top: 2px; font-weight: 700; }
 .diff-x { color: rgba(200,60,60,0.5); }
 .diff-check { color: var(--cta); }
@@ -250,7 +257,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 
 .form-tagline { font-size: 0.88rem; line-height: 1.8; color: rgba(245,242,238,0.5); margin-bottom: 2rem; }
 .form-detail { display: flex; gap: 0.9rem; align-items: flex-start; margin-bottom: 1.1rem; }
 .fd-icon { font-size: 0.95rem; flex-shrink: 0; margin-top: 2px; }
-.fd-text { font-size: 0.82rem; color: rgba(245,242,238,0.5); line-height: 1.5; }
+.fd-text { font-size: 0.82rem; color: rgba(245,242,238,0.65); line-height: 1.5; }
 .fd-text strong { color: var(--white); font-weight: 500; display: block; margin-bottom: 1px; }
 .form-trust { font-size: 0.7rem; color: rgba(245,242,238,0.28); letter-spacing: 0.05em; margin-top: 1.5rem; display: flex; align-items: center; gap: 0.5rem; }
 .form-trust::before { content: '🔒'; font-size: 0.72rem; }
@@ -288,7 +295,7 @@ textarea { resize: vertical; min-height: 90px; }
 .about-text .section-label { margin-bottom: 0.75rem; }
 .about-text h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 400; line-height: 1.2; margin-bottom: 1.5rem; }
 .about-text h2 em { font-style: italic; color: var(--stone); }
-.about-text p { font-size: 0.9rem; line-height: 1.85; color: rgba(245,242,238,0.56); margin-bottom: 1.2rem; }
+.about-text p { font-size: 0.9rem; line-height: 1.85; color: rgba(245,242,238,0.72); margin-bottom: 1.2rem; }
 .about-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-top: 2rem; }
 .stat-num { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--cta); line-height: 1; margin-bottom: 0.3rem; }
 .stat-label { font-size: 0.7rem; color: rgba(245,242,238,0.36); line-height: 1.4; }
@@ -335,6 +342,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
   .nav-logo { font-size: 0.85rem; }
   .nav-links { gap: 1rem; }
   .nav-link { display: none; }
+  .nav-link.nav-activities { display: inline-block; }
   .hero { padding: 5.5rem 1.2rem 2.5rem; }
   .hero-title { font-size: clamp(2.2rem, 10vw, 3.2rem); }
   .hero-sub { font-size: 0.88rem; max-width: 100%; }
@@ -424,7 +432,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
 <nav>
   <div class="nav-logo">Experience <span>Montenegro</span></div>
   <div class="nav-links">
-    <a href="#activities" class="nav-link">Activities</a>
+    <a href="#activities" class="nav-link nav-activities">Activities</a>
     <a href="#plan" class="nav-cta">Plan My Trip</a>
   </div>
 </nav>
@@ -510,19 +518,19 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
     <div class="step">
       <div class="step-num">01</div>
       <div class="step-title">Tell me everything</div>
-      <div class="step-desc">Share your dates, travel style, group size, and what excites you. No request is too specific — the more detail, the better the plan.</div>
+      <div class="step-desc">Dates, travel style, group size. The more you share, the better the plan.</div>
       <span class="step-tag">→ Takes 5 minutes</span>
     </div>
     <div class="step">
       <div class="step-num">02</div>
       <div class="step-title">Receive your itinerary</div>
-      <div class="step-desc">Within 2 hours I confirm your request. Within 24–48 hours you receive a fully tailored day-by-day plan — activities, logistics, tips, and things no travel blog will tell you.</div>
+      <div class="step-desc">A fully tailored day-by-day plan. Activities, logistics, insider tips — built around you.</div>
       <span class="step-tag">→ Reply in 2h · Itinerary in 24–48h</span>
     </div>
     <div class="step">
       <div class="step-num">03</div>
-      <div class="step-title">Show up & experience it</div>
-      <div class="step-desc">Everything is pre-arranged with trusted local operators. You just arrive and enjoy. I'm available throughout your trip if anything comes up.</div>
+      <div class="step-title">Show up & enjoy</div>
+      <div class="step-desc">Everything pre-arranged. You just arrive. I'm available throughout if anything comes up.</div>
       <span class="step-tag">→ Everything handled for you</span>
     </div>
   </div>
@@ -1339,6 +1347,22 @@ document.addEventListener('click', function(e) {
 
 function quizBack(s){['qStep1','qStep2','qStep3','qResult'].forEach(function(id){var e=document.getElementById(id);if(e)e.classList.remove('active');});document.getElementById('qStep'+s).classList.add('active');}
 function quizReset(){Object.keys(_qa).forEach(function(k){delete _qa[k];});['interests','group'].forEach(function(id){var e=document.getElementById(id);if(e){e.style.borderColor='';e.style.background='';e.selectedIndex=0;}});var n=document.getElementById('notes');if(n){n.value='';n.style.borderColor='';}var b=document.getElementById('_qb');if(b)b.remove();quizBack(1);}
+
+
+// STEP SCROLL ANIMATION
+(function() {
+  var steps = document.querySelectorAll('.step');
+  if (!steps.length) return;
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  steps.forEach(function(step) { observer.observe(step); });
+})();
 
 </script>
 </body>
