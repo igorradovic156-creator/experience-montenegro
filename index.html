@@ -100,12 +100,49 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 
 .slider-dot.active { background: var(--stone); width: 32px; }
 
 
+
+/* GRAIN TEXTURE */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.55' numOctaves='6' seed='8' stitchTiles='stitch' result='noise'/%3E%3CfeColorMatrix type='saturate' values='0' in='noise'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.035;
+  pointer-events: none;
+  z-index: 9998;
+  mix-blend-mode: overlay;
+}
+
+/* GREEN THREAD removed */
+
+
 /* STEP SCROLL ANIMATION */
 .step { opacity: 0; transform: translateY(24px); transition: opacity 0.55s ease, transform 0.55s ease, border-color 0.3s, background 0.3s; }
 .step.visible { opacity: 1; transform: translateY(0); }
 .step:nth-child(1) { transition-delay: 0s; }
-.step:nth-child(2) { transition-delay: 0.15s; }
-.step:nth-child(3) { transition-delay: 0.3s; }
+.step:nth-child(2) { transition-delay: 0.18s; }
+.step:nth-child(3) { transition-delay: 0.36s; }
+
+/* SHIMMER */
+.step-shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -120%; bottom: 0;
+  width: 55%;
+  background: linear-gradient(105deg,
+    transparent 35%,
+    rgba(46,139,114,0.13) 50%,
+    rgba(200,184,154,0.07) 55%,
+    transparent 65%
+  );
+  transform: skewX(-12deg);
+  pointer-events: none;
+  animation: shimmerSlide 0.85s ease forwards;
+}
+@keyframes shimmerSlide {
+  from { left: -120%; }
+  to   { left: 150%; }
+}
 /* HOW IT WORKS */
 .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
 .step { padding: 2rem 1.75rem; border: 1px solid rgba(200,184,154,0.1); background: rgba(200,184,154,0.02); position: relative; overflow: hidden; transition: border-color 0.3s, background 0.3s; }
@@ -270,6 +307,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 
 .lead-magnet-row input::placeholder { color: rgba(245,242,238,0.2); }
 .lead-magnet-row button { background: var(--stone); color: var(--black); border: none; padding: 0.7rem 1rem; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; white-space: nowrap; transition: background 0.2s; }
 .lead-magnet-row button:hover { background: var(--sand); }
+.form-wrap-header { display: none; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(46,139,114,0.9); margin-bottom: 1.5rem; padding-bottom: 0.9rem; border-bottom: 1px solid rgba(46,139,114,0.2); }
 .form-group { margin-bottom: 1.2rem; }
 label { display: block; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--stone); margin-bottom: 0.45rem; }
 input[type=text], input[type=email], input[type=date], select, textarea { width: 100%; background: rgba(200,184,154,0.06); border: 1px solid rgba(200,184,154,0.18); color: var(--white); padding: 0.8rem 0.9rem; font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 300; outline: none; transition: border-color 0.2s; -webkit-appearance: none; border-radius: 0; }
@@ -394,6 +432,10 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
   .price-amount { font-size: 1.9rem; }
   .pricing-scroll-hint { display: block; text-align: center; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(200,184,154,0.22); padding-top: 0.75rem; }
   .form-section { grid-template-columns: 1fr; gap: 2rem; padding: 3rem 1.2rem; }
+  #formWrap { background: rgba(46,139,114,0.09); border: 1px solid rgba(46,139,114,0.22); padding: 1.75rem 1.25rem; position: relative; box-shadow: 0 12px 40px rgba(0,0,0,0.25); }
+  #formWrap::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--cta), rgba(46,139,114,0.3), transparent); }
+  .form-wrap-header { display: block; }
+
   .form-row { grid-template-columns: 1fr; gap: 0; }
   .form-tagline { font-size: 0.82rem; }
   .fd-text { font-size: 0.78rem; }
@@ -1065,7 +1107,8 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
       </div>
     </div>
   </div>
-  <div class="form-wrap">
+  <div class="form-wrap" id="formWrap">
+    <div class="form-wrap-header">Send your request</div>
     <form id="tripForm">
       <div class="form-row">
         <div class="form-group">
@@ -1349,18 +1392,24 @@ function quizBack(s){['qStep1','qStep2','qStep3','qResult'].forEach(function(id)
 function quizReset(){Object.keys(_qa).forEach(function(k){delete _qa[k];});['interests','group'].forEach(function(id){var e=document.getElementById(id);if(e){e.style.borderColor='';e.style.background='';e.selectedIndex=0;}});var n=document.getElementById('notes');if(n){n.value='';n.style.borderColor='';}var b=document.getElementById('_qb');if(b)b.remove();quizBack(1);}
 
 
-// STEP SCROLL ANIMATION
+// STEP SCROLL ANIMATION + SHIMMER
 (function() {
   var steps = document.querySelectorAll('.step');
   if (!steps.length) return;
   var observer = new IntersectionObserver(function(entries) {
     entries.forEach(function(entry) {
       if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
+        var step = entry.target;
+        step.classList.add('visible');
+        var td = parseFloat(getComputedStyle(step).transitionDelay) * 1000 || 0;
+        setTimeout(function() {
+          step.classList.add('step-shimmer');
+          setTimeout(function() { step.classList.remove('step-shimmer'); }, 900);
+        }, td + 420);
+        observer.unobserve(step);
       }
     });
-  }, { threshold: 0.15 });
+  }, { threshold: 0.2 });
   steps.forEach(function(step) { observer.observe(step); });
 })();
 
