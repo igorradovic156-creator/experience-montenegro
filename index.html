@@ -208,6 +208,24 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 
 .step:nth-child(1) { transition-delay: 0s; }
 .step:nth-child(2) { transition-delay: 0.15s; }
 .step:nth-child(3) { transition-delay: 0.3s; }
+
+/* SHIMMER EFFECT */
+.step::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%; right: auto; bottom: 0;
+  width: 60%;
+  background: linear-gradient(105deg, transparent 40%, rgba(46,139,114,0.12) 50%, rgba(200,184,154,0.08) 55%, transparent 65%);
+  transform: skewX(-15deg);
+  pointer-events: none;
+}
+.step.shimmer::after {
+  animation: stepShimmer 0.9s ease forwards;
+}
+@keyframes stepShimmer {
+  0%   { left: -100%; }
+  100% { left: 160%; }
+}
 /* HOW IT WORKS */
 .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
 .step { padding: 2rem 1.75rem; border: 1px solid rgba(200,184,154,0.1); background: rgba(200,184,154,0.02); position: relative; overflow: hidden; transition: border-color 0.3s, background 0.3s; }
@@ -1482,11 +1500,17 @@ function quizReset(){Object.keys(_qa).forEach(function(k){delete _qa[k];});['int
   var observer = new IntersectionObserver(function(entries) {
     entries.forEach(function(entry) {
       if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
+        var step = entry.target;
+        step.classList.add('visible');
+        var delay = parseFloat(getComputedStyle(step).transitionDelay) * 1000 || 0;
+        setTimeout(function() {
+          step.classList.add('shimmer');
+          setTimeout(function() { step.classList.remove('shimmer'); }, 1000);
+        }, delay + 400);
+        observer.unobserve(step);
       }
     });
-  }, { threshold: 0.15 });
+  }, { threshold: 0.2 });
   steps.forEach(function(step) { observer.observe(step); });
 })();
 
