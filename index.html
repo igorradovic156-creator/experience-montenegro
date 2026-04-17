@@ -24,6 +24,108 @@
 html { scroll-behavior: smooth; }
 body { background: var(--black); color: var(--white); font-family: 'DM Sans', sans-serif; font-weight: 300; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
+
+/* ═══════════════════════════════════════════
+   BRAND SYSTEM
+═══════════════════════════════════════════ */
+
+/* Grain texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.022;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Section divider star */
+.section-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(200,184,154,0.12) 20%, rgba(200,184,154,0.18) 50%, rgba(200,184,154,0.12) 80%, transparent 100%);
+  margin: 0;
+}
+.section-divider span { display: none; }
+
+/* Corner bracket decoration */
+.corner-bracket {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  opacity: 0.2;
+}
+.corner-bracket-tl { top: 1rem; left: 1rem; border-top: 1px solid var(--stone); border-left: 1px solid var(--stone); }
+.corner-bracket-tr { top: 1rem; right: 1rem; border-top: 1px solid var(--stone); border-right: 1px solid var(--stone); }
+.corner-bracket-bl { bottom: 1rem; left: 1rem; border-bottom: 1px solid var(--stone); border-left: 1px solid var(--stone); }
+.corner-bracket-br { bottom: 1rem; right: 1rem; border-bottom: 1px solid var(--stone); border-right: 1px solid var(--stone); }
+
+/* Vertical coordinate label */
+.coord-label {
+  position: absolute;
+  right: 2rem;
+  bottom: 2rem;
+  font-size: 0.52rem;
+  letter-spacing: 0.18em;
+  color: rgba(200,184,154,0.18);
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+/* Mountain silhouette watermark */
+.mountain-watermark {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  opacity: 0.025;
+  pointer-events: none;
+  overflow: hidden;
+}
+.mountain-watermark svg {
+  width: 100%;
+  height: 100%;
+  preserveAspectRatio: none;
+}
+
+/* Subtle radial glow on sections */
+.glow-green {
+  position: relative;
+}
+.glow-green::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 300px;
+  background: radial-gradient(ellipse, rgba(46,139,114,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Gold accent line on sections */
+.gold-border-top {
+  border-top: 1px solid rgba(193,127,59,0.15);
+}
+.green-border-top {
+  border-top: 1px solid rgba(46,139,114,0.12);
+}
+
+
+
+/* Decorative quote mark */
+.deco-quote {
+  font-family: 'Playfair Display', serif;
+  font-size: 6rem;
+  color: rgba(46,139,114,0.08);
+  line-height: 0.8;
+  margin-bottom: -1rem;
+  display: block;
+}
+
 /* NAV */
 nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 2rem; display: flex; justify-content: space-between; align-items: center; background: rgba(10,10,10,0.88); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid rgba(200,184,154,0.1); }
 .nav-logo { font-family: 'Playfair Display', serif; font-size: 1rem; letter-spacing: 0.05em; color: var(--white); }
@@ -270,7 +372,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 
 .lead-magnet-row input::placeholder { color: rgba(245,242,238,0.2); }
 .lead-magnet-row button { background: var(--stone); color: var(--black); border: none; padding: 0.7rem 1rem; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; white-space: nowrap; transition: background 0.2s; }
 .lead-magnet-row button:hover { background: var(--sand); }
-.form-group { margin-bottom: 1.2rem; }
+.form-wrap-label { display: none; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cta); margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(46,139,114,0.15); }
 label { display: block; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--stone); margin-bottom: 0.45rem; }
 input[type=text], input[type=email], input[type=date], select, textarea { width: 100%; background: rgba(200,184,154,0.06); border: 1px solid rgba(200,184,154,0.18); color: var(--white); padding: 0.8rem 0.9rem; font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 300; outline: none; transition: border-color 0.2s; -webkit-appearance: none; border-radius: 0; }
 input:focus, select:focus, textarea:focus { border-color: var(--cta); background: rgba(46,139,114,0.05); }
@@ -394,6 +496,10 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
   .price-amount { font-size: 1.9rem; }
   .pricing-scroll-hint { display: block; text-align: center; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(200,184,154,0.22); padding-top: 0.75rem; }
   .form-section { grid-template-columns: 1fr; gap: 2rem; padding: 3rem 1.2rem; }
+  .form-wrap { background: rgba(46,139,114,0.04); border: 1px solid rgba(46,139,114,0.18); padding: 1.5rem 1.25rem; box-shadow: 0 8px 40px rgba(0,0,0,0.3); position: relative; }
+  .form-wrap::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--cta), transparent); }
+  .form-wrap-label { display: block; }
+  .form-wrap form { margin-top: 0; }
   .form-row { grid-template-columns: 1fr; gap: 0; }
   .form-tagline { font-size: 0.82rem; }
   .fd-text { font-size: 0.78rem; }
@@ -458,6 +564,11 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
     style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"
   >
   <div class="hero-overlay"></div>
+  <div class="mountain-watermark">
+    <svg viewBox="0 0 1440 120" preserveAspectRatio="none" fill="var(--white)">
+      <path d="M0,120 L120,60 L200,90 L320,20 L440,70 L560,10 L680,55 L800,0 L920,45 L1040,25 L1160,65 L1280,30 L1440,80 L1440,120 Z"/>
+    </svg>
+  </div>
   <div class="hero-content">
     <h1 class="hero-title">Your journey,<br><em>your way.</em></h1>
     <p class="hero-sub">Tell me your dates, your pace, your passions. I'll craft a personalised Montenegro itinerary that fits you — and only you.</p>
@@ -510,24 +621,31 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
   </div>
 </div>
 
+<div class="section-divider"><span>✦</span></div>
 <!-- HOW IT WORKS -->
-<section class="section" id="how">
+<section class="section" id="how" style="position:relative;">
   <div class="section-label">The process</div>
   <h2 class="section-title">Three steps to your perfect Montenegro trip</h2>
   <div class="steps">
-    <div class="step">
+    <div class="step" style="position:relative;">
+      <span class="corner-bracket corner-bracket-tl"></span>
+      <span class="corner-bracket corner-bracket-br"></span>
       <div class="step-num">01</div>
       <div class="step-title">Tell me everything</div>
       <div class="step-desc">Dates, travel style, group size. The more you share, the better the plan.</div>
       <span class="step-tag">→ Takes 5 minutes</span>
     </div>
-    <div class="step">
+    <div class="step" style="position:relative;">
+      <span class="corner-bracket corner-bracket-tl"></span>
+      <span class="corner-bracket corner-bracket-br"></span>
       <div class="step-num">02</div>
       <div class="step-title">Receive your itinerary</div>
       <div class="step-desc">A fully tailored day-by-day plan. Activities, logistics, insider tips — built around you.</div>
       <span class="step-tag">→ Reply in 2h · Itinerary in 24–48h</span>
     </div>
-    <div class="step">
+    <div class="step" style="position:relative;">
+      <span class="corner-bracket corner-bracket-tl"></span>
+      <span class="corner-bracket corner-bracket-br"></span>
       <div class="step-num">03</div>
       <div class="step-title">Show up & enjoy</div>
       <div class="step-desc">Everything pre-arranged. You just arrive. I'm available throughout if anything comes up.</div>
@@ -537,7 +655,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
 </section>
 
 <!-- ACTIVITIES -->
-<section class="section" style="padding-top:0;" id="activities">
+<section class="section" style="padding-top:0;position:relative;" id="activities">
   <div class="section-label">What's possible</div>
   <h2 class="section-title">Montenegro, in full</h2>
   <div class="activities-grid">
@@ -793,11 +911,13 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
       <div class="and-more-list">Skydiving &middot; Special events &middot; Photography &amp; drone tours &middot; Water sports &middot; Helicopter tours &middot; Fishing on Skadar Lake &middot; Cultural walks &middot; Ski &amp; Snow &middot; And anything in between.</div>
     </div>
     <a href="#plan" class="and-more-cta">Tell me what you want &rarr;</a>
+  <div class="coord-label">42°26'N · 19°16'E</div>
   </div>
 </section>
 
+<div class="section-divider"><span>✦</span></div>
 <!-- THE DIFFERENCE -->
-<section class="diff-section" id="difference">
+<section class="diff-section" id="difference" style="position:relative;">
   <div class="diff-inner">
     <div class="section-label">The difference</div>
     <h2 class="section-title">What changes when you<br><em>plan it properly.</em></h2>
@@ -828,7 +948,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
 </section>
 
 <!-- QUIZ -->
-<section class="quiz-section" id="quiz">
+<section class="quiz-section glow-green" id="quiz" style="position:relative;">
   <div class="quiz-inner">
     <div class="section-label">Find your trip</div>
     <h2 class="section-title">Let's figure out<br><em>what you're looking for.</em></h2>
@@ -878,11 +998,13 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
     </div>
 
   </div>
+  <div class="coord-label">42°26'N · 19°16'E</div>
   </div>
 </section>
 
+<div class="section-divider"><span>✦</span></div>
 <!-- PRICING -->
-<section class="pricing-section" id="pricing">
+<section class="pricing-section" id="pricing" style="position:relative;">
   <div class="pricing-inner">
     <div class="section-label" style="color:rgba(245,242,238,0.38);">Investment</div>
     <h2 class="section-title">One fee. One plan.<br><em>Built entirely for you.</em></h2>
@@ -1032,6 +1154,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
   <div class="slider-dots" id="sliderDots"></div>
 </section>
 
+<div class="section-divider"><span>✦</span></div>
 <!-- FORM -->
 <section class="form-section" id="plan">
   <div class="form-intro">
@@ -1066,6 +1189,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
     </div>
   </div>
   <div class="form-wrap">
+    <div class="form-wrap-label">Send your request</div>
     <form id="tripForm">
       <div class="form-row">
         <div class="form-group">
@@ -1163,9 +1287,11 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
         <div class="about-sig">— Igor, Podgorica</div>
       </div>
     </div>
+  <div class="coord-label">42°26'N · 19°16'E</div>
   </div>
 </section>
 
+<div class="section-divider"><span>✦</span></div>
 <!-- FAQ -->
 <section class="section" id="faq">
   <div class="section-label">Common questions</div>
