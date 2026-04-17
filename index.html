@@ -191,6 +191,14 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 
 .price-card.price-private .price-divider { background: rgba(200,184,154,0.1); }
 
 
+
+/* SECTION INNER CONTAINERS */
+.diff-inner { max-width: 900px; margin: 0 auto; }
+.diff-inner .diff-grid { max-width: 100%; margin-left: 0; margin-right: 0; }
+.quiz-inner { max-width: 700px; margin: 0 auto; }
+.quiz-inner .quiz-wrap { max-width: 100%; }
+.pricing-inner { max-width: 920px; margin: 0 auto; }
+.pricing-inner .pricing-grid { max-width: 100%; margin-left: 0; margin-right: 0; }
 /* THE DIFFERENCE */
 .diff-section { padding: 5rem 2rem; background: #080f0c; border-top: 1px solid rgba(46,139,114,0.1); border-bottom: 1px solid rgba(46,139,114,0.1); }
 .diff-section > * { max-width: 1100px; margin-left: auto; margin-right: auto; }
@@ -782,9 +790,10 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
 
 <!-- THE DIFFERENCE -->
 <section class="diff-section" id="difference">
-  <div class="section-label">The difference</div>
-  <h2 class="section-title">What changes when you<br><em>plan it properly.</em></h2>
-  <div class="diff-grid">
+  <div class="diff-inner">
+    <div class="section-label">The difference</div>
+    <h2 class="section-title">What changes when you<br><em>plan it properly.</em></h2>
+    <div class="diff-grid">
     <div class="diff-col diff-before">
       <div class="diff-col-hdr"><span class="diff-col-label diff-label-before">Without us</span></div>
       <div class="diff-row"><span class="diff-icon diff-x">✕</span><span>Endless choices</span></div>
@@ -807,13 +816,15 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
       <div class="diff-row"><span class="diff-icon diff-check">✓</span><span>One you'll remember for life</span></div>
     </div>
   </div>
+  </div>
 </section>
 
 <!-- QUIZ -->
 <section class="quiz-section" id="quiz">
-  <div class="section-label">Find your trip</div>
-  <h2 class="section-title">Let's figure out<br><em>what you're looking for.</em></h2>
-  <div class="quiz-wrap" id="quizWrap">
+  <div class="quiz-inner">
+    <div class="section-label">Find your trip</div>
+    <h2 class="section-title">Let's figure out<br><em>what you're looking for.</em></h2>
+    <div class="quiz-wrap" id="quizWrap">
 
     <div class="quiz-step active" id="qStep1">
       <div class="quiz-q">What matters most to you on a trip?</div>
@@ -859,16 +870,16 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
     </div>
 
   </div>
+  </div>
 </section>
 
 <!-- PRICING -->
 <section class="pricing-section" id="pricing">
-  <div>
+  <div class="pricing-inner">
     <div class="section-label" style="color:rgba(245,242,238,0.38);">Investment</div>
     <h2 class="section-title">One fee. One plan.<br><em>Built entirely for you.</em></h2>
     <p class="pricing-note">You pay for the trip design — the thinking, the research, the coordination. Activities and accommodation are paid directly to operators, fully transparent before anything is confirmed.</p>
-  </div>
-  <div class="pricing-grid">
+    <div class="pricing-grid">
 
     <div class="price-card">
       <div class="price-label">Short Stay</div>
@@ -917,6 +928,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
       </div>
     </div>
 
+  </div>
   </div>
   <div class="pricing-scroll-hint">swipe to see all plans</div>
 </section>
