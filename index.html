@@ -26,7 +26,7 @@ body { background: var(--black); color: var(--white); font-family: 'DM Sans', sa
 
 /* SCROLL OFFSET FOR FIXED NAV */
 section[id], div[id] { scroll-margin-top: 70px; }
-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 2rem; display: flex; justify-content: space-between; align-items: center; background: #0a0a0a; border-bottom: 1px solid rgba(200,184,154,0.1); }
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1.2rem 2rem; display: flex; justify-content: space-between; align-items: center; background: #0a0a0a; border-bottom: 1px solid rgba(200,184,154,0.1); isolation: isolate; }
 .nav-logo { font-family: 'Playfair Display', serif; font-size: 1rem; letter-spacing: 0.05em; color: var(--white); }
 .nav-logo span { color: var(--mne-red); font-style: italic; }
 .nav-links { display: flex; align-items: center; gap: 1.5rem; }
@@ -110,7 +110,7 @@ body::before {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.55' numOctaves='6' seed='8' stitchTiles='stitch' result='noise'/%3E%3CfeColorMatrix type='saturate' values='0' in='noise'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)' opacity='1'/%3E%3C/svg%3E");
   opacity: 0.035;
   pointer-events: none;
-  z-index: 9998;
+  z-index: 50;
   mix-blend-mode: overlay;
 }
 
@@ -157,11 +157,11 @@ body::before {
 
 /* ACTIVITIES */
 /* AND MORE */
-.and-more-tile { display: flex; align-items: center; justify-content: space-between; gap: 2rem; padding: 1.5rem 2rem; border: 1px dashed rgba(200,184,154,0.15); margin-top: 1px; background: rgba(200,184,154,0.02); flex-wrap: wrap; }
-.and-more-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; margin-bottom: 0.3rem; color: var(--white); }
-.and-more-list { font-size: 0.75rem; color: rgba(200,184,154,0.42); line-height: 1.6; }
-.and-more-cta { flex-shrink: 0; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cta); text-decoration: none; border-bottom: 1px solid rgba(46,139,114,0.3); padding-bottom: 2px; white-space: nowrap; transition: color 0.2s; }
-.and-more-cta:hover { color: var(--cta-hover); }
+.and-more-tile { display: flex; align-items: center; justify-content: space-between; gap: 2rem; padding: 1.8rem 2rem; border-top: 1px solid rgba(46,139,114,0.12); border-bottom: 1px solid rgba(46,139,114,0.12); margin-top: 1px; background: rgba(46,139,114,0.04); flex-wrap: wrap; }
+.and-more-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; margin-bottom: 0.4rem; color: var(--white); }
+.and-more-list { font-size: 0.75rem; color: rgba(200,184,154,0.5); line-height: 1.7; }
+.and-more-cta { flex-shrink: 0; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--white); text-decoration: none; background: var(--cta); padding: 0.6rem 1.2rem; white-space: nowrap; transition: background 0.2s; }
+.and-more-cta:hover { background: var(--cta-hover); }
 
 .activities-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(200,184,154,0.12); }
 .activity { background: var(--black); position: relative; overflow: hidden; transition: background 0.3s; cursor: pointer; }
@@ -443,8 +443,8 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
   .and-more-tile { flex-direction: column; align-items: flex-start; gap: 1rem; padding: 1.2rem; }
   .and-more-title { font-size: 0.95rem; }
   .and-more-list { font-size: 0.72rem; }
-  .activity.expanded { grid-column: span 2; }
-  .activity.expanded .activity-img { height: 200px; }
+  .activity.expanded .activity-img { height: 110px; }
+  .activity-panel { grid-column: span 2; }
   .activity-article ul { grid-template-columns: 1fr; }
   .activity-panel-content { padding: 1.5rem 1.2rem; }
   .activity-panel-content ul { grid-template-columns: 1fr; }
@@ -1316,54 +1316,50 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
 
 function toggleActivity(el) {
   // Close any open panel
-  document.querySelectorAll('.activity-panel.open').forEach(p => {
+  document.querySelectorAll('.activity-panel').forEach(function(p) {
     p.classList.remove('open');
-    setTimeout(() => p.remove(), 300);
+    if (p.parentElement) p.parentElement.removeChild(p);
   });
-  document.querySelectorAll('.activity.expanded').forEach(a => a.classList.remove('expanded'));
+  document.querySelectorAll('.activity.expanded').forEach(function(a) { a.classList.remove('expanded'); });
 
-  if (el.classList.contains('_wasOpen')) {
-    el.classList.remove('_wasOpen');
-    return;
-  }
+  if (el._wasOpen) { el._wasOpen = false; return; }
+  el._wasOpen = true;
+  setTimeout(function() { el._wasOpen = false; }, 400);
 
-  el.classList.add('expanded', '_wasOpen');
-  setTimeout(() => el.classList.remove('_wasOpen'), 400);
+  el.classList.add('expanded');
 
-  // Get data from card
   var name = el.querySelector('.activity-name').textContent;
   var desc = el.querySelector('.activity-desc') ? el.querySelector('.activity-desc').textContent : '';
-  var imgSrc = el.querySelector('.activity-img img') ? el.querySelector('.activity-img img').src : '';
   var articleHTML = el.querySelector('.activity-article') ? el.querySelector('.activity-article').innerHTML : '';
 
-  // Build panel
   var panel = document.createElement('div');
   panel.className = 'activity-panel';
   panel.innerHTML =
-    '<div class="activity-panel-img">' +
-      (imgSrc ? '<img src="' + imgSrc + '" alt="' + name + '">' : '') +
-    '</div>' +
     '<div class="activity-panel-content">' +
+      '<button class="activity-panel-close" onclick="closePanel(this)">&#x2715;</button>' +
       '<div class="activity-panel-title">' + name + '</div>' +
       '<div class="activity-panel-desc">' + desc + '</div>' +
       articleHTML +
-      '<button class="activity-panel-close" onclick="closePanel(this.parentElement.parentElement)">&#x2715;</button>' +
     '</div>';
 
-  // Insert after the row containing this card
-  var grid = el.closest('.activities-grid');
-  var cards = Array.from(grid.children).filter(c => c.classList.contains('activity'));
+  // Determine columns per row based on screen width
+  var cols = window.innerWidth <= 480 ? 1 : (window.innerWidth <= 768 ? 2 : 3);
+  var grid = el.parentElement;
+  var cards = Array.from(grid.children).filter(function(c) { return c.classList.contains('activity'); });
   var idx = cards.indexOf(el);
-  var rowEnd = Math.ceil((idx + 1) / 3) * 3;
+  var rowEnd = Math.ceil((idx + 1) / cols) * cols;
   var afterCard = cards[Math.min(rowEnd, cards.length) - 1];
   afterCard.after(panel);
-  requestAnimationFrame(() => panel.classList.add('open'));
+  requestAnimationFrame(function() { panel.classList.add('open'); });
 }
 
-function closePanel(panel) {
+function closePanel(el) {
+  var panel = el;
+  while (panel && !panel.classList.contains('activity-panel')) panel = panel.parentElement;
+  if (!panel) return;
   panel.classList.remove('open');
   document.querySelectorAll('.activity.expanded').forEach(a => a.classList.remove('expanded'));
-  setTimeout(() => panel.remove(), 300);
+  setTimeout(function() { if (panel.parentElement) panel.parentElement.removeChild(panel); }, 350);
 }
 
 document.getElementById('tripForm').addEventListener('submit', function(e) {
