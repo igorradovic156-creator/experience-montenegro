@@ -24,7 +24,8 @@
 html { scroll-behavior: smooth; }
 body { background: var(--black); color: var(--white); font-family: 'DM Sans', sans-serif; font-weight: 300; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
-/* NAV */
+/* SCROLL OFFSET FOR FIXED NAV */
+section[id], div[id] { scroll-margin-top: 70px; }
 nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 2rem; display: flex; justify-content: space-between; align-items: center; background: rgba(10,10,10,0.88); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid rgba(200,184,154,0.1); }
 .nav-logo { font-family: 'Playfair Display', serif; font-size: 1rem; letter-spacing: 0.05em; color: var(--white); }
 .nav-logo span { color: var(--mne-red); font-style: italic; }
@@ -586,9 +587,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
 
     <div class="activity" onclick="toggleActivity(this)">
       <div class="activity-img">
-        <!-- IMAGE: <img src="rafting.jpg" style="width:100%;height:100%;object-fit:cover"> -->
-        <span class="activity-img-placeholder">Photo — Tara rafting</span>
-        <span class="activity-img-icon">🌊</span>
+        <img src="images/Rafting.webp" alt="Tara Rafting" style="width:100%;height:100%;object-fit:cover;display:block;">
       </div>
       <div class="activity-body">
         <div class="activity-header">
@@ -613,9 +612,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
 
     <div class="activity" onclick="toggleActivity(this)">
       <div class="activity-img">
-        <!-- IMAGE: <img src="canyoning.jpg" style="width:100%;height:100%;object-fit:cover"> -->
-        <span class="activity-img-placeholder">Photo — Nevidio canyon</span>
-        <span class="activity-img-icon">🧗</span>
+        <img src="images/canyoning.webp" alt="Canyoning" style="width:100%;height:100%;object-fit:cover;display:block;">
       </div>
       <div class="activity-body">
         <div class="activity-header">
@@ -640,9 +637,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
 
     <div class="activity" onclick="toggleActivity(this)">
       <div class="activity-img">
-        <!-- IMAGE: <img src="jeep.jpg" style="width:100%;height:100%;object-fit:cover"> -->
-        <span class="activity-img-placeholder">Photo — Durmitor jeep</span>
-        <span class="activity-img-icon">🚙</span>
+        <img src="images/Jeep.webp" alt="Jeep Safari" style="width:100%;height:100%;object-fit:cover;display:block;">
       </div>
       <div class="activity-body">
         <div class="activity-header">
@@ -667,9 +662,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
 
     <div class="activity" onclick="toggleActivity(this)">
       <div class="activity-img">
-        <!-- IMAGE: <img src="kayak.jpg" style="width:100%;height:100%;object-fit:cover"> -->
-        <span class="activity-img-placeholder">Photo — Bay of Kotor kayak</span>
-        <span class="activity-img-icon">🚣</span>
+        <img src="images/kayak.webp" alt="Kayak and Boat" style="width:100%;height:100%;object-fit:cover;display:block;">
       </div>
       <div class="activity-body">
         <div class="activity-header">
@@ -694,9 +687,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
 
     <div class="activity" onclick="toggleActivity(this)">
       <div class="activity-img">
-        <!-- IMAGE: <img src="hiking.jpg" style="width:100%;height:100%;object-fit:cover"> -->
-        <span class="activity-img-placeholder">Photo — Prokletije trail</span>
-        <span class="activity-img-icon">⛰️</span>
+        <img src="images/hiking.webp" alt="Hiking" style="width:100%;height:100%;object-fit:cover;display:block;">
       </div>
       <div class="activity-body">
         <div class="activity-header">
@@ -721,9 +712,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
 
     <div class="activity" onclick="toggleActivity(this)">
       <div class="activity-img">
-        <!-- IMAGE: <img src="wine.jpg" style="width:100%;height:100%;object-fit:cover"> -->
-        <span class="activity-img-placeholder">Photo — Plantaže winery</span>
-        <span class="activity-img-icon">🍷</span>
+        <img src="images/wine.webp" alt="Wine and Food" style="width:100%;height:100%;object-fit:cover;display:block;">
       </div>
       <div class="activity-body">
         <div class="activity-header">
@@ -748,9 +737,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
 
     <div class="activity" onclick="toggleActivity(this)">
       <div class="activity-img">
-        <!-- IMAGE: <img src="horseback.jpg" style="width:100%;height:100%;object-fit:cover"> -->
-        <span class="activity-img-placeholder">Photo — Horseback riding</span>
-        <span class="activity-img-icon">🐎</span>
+        <img src="images/horseback.webp" alt="Horseback Riding" style="width:100%;height:100%;object-fit:cover;display:block;">
       </div>
       <div class="activity-body">
         <div class="activity-header">
@@ -775,9 +762,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
 
     <div class="activity" onclick="toggleActivity(this)">
       <div class="activity-img">
-        <!-- IMAGE: <img src="mtb.jpg" style="width:100%;height:100%;object-fit:cover"> -->
-        <span class="activity-img-placeholder">Photo — Mountain biking</span>
-        <span class="activity-img-icon">🚵</span>
+        <img src="images/biking.webp" alt="Mountain Biking" style="width:100%;height:100%;object-fit:cover;display:block;">
       </div>
       <div class="activity-body">
         <div class="activity-header">
@@ -802,9 +787,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
 
     <div class="activity" onclick="toggleActivity(this)">
       <div class="activity-img">
-        <!-- IMAGE: <img src="paragliding.jpg" style="width:100%;height:100%;object-fit:cover"> -->
-        <span class="activity-img-placeholder">Photo — Paragliding</span>
-        <span class="activity-img-icon">🪂</span>
+        <img src="images/paragliding.webp" alt="Paragliding" style="width:100%;height:100%;object-fit:cover;display:block;">
       </div>
       <div class="activity-body">
         <div class="activity-header">
@@ -1116,43 +1099,34 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
           <input type="text" id="fname" placeholder="Alex" required>
         </div>
         <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" id="email" placeholder="alex@email.com" required>
+          <label for="lname">Last name</label>
+          <input type="text" id="lname" placeholder="Smith" required>
         </div>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="alex@email.com" required>
       </div>
       <div class="form-row">
         <div class="form-group">
-          <label for="arrival">Arrival date</label>
-          <input type="date" id="arrival" required>
+          <label for="arrival">Arrival date <span style="color:rgba(245,242,238,0.3);font-size:0.6rem;letter-spacing:0;">(optional)</span></label>
+          <input type="date" id="arrival">
         </div>
         <div class="form-group">
-          <label for="departure">Departure date</label>
-          <input type="date" id="departure" required>
+          <label for="departure">Departure date <span style="color:rgba(245,242,238,0.3);font-size:0.6rem;letter-spacing:0;">(optional)</span></label>
+          <input type="date" id="departure">
         </div>
       </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label for="group">Group size</label>
-          <select id="group">
-            <option value="">Select...</option>
-            <option>Solo</option>
-            <option>2 people</option>
-            <option>3–5 people</option>
-            <option>6–10 people</option>
-            <option>10+ people</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="budget">Budget per person</label>
-          <select id="budget">
-            <option value="">Select...</option>
-            <option>Under €200</option>
-            <option>€200–500</option>
-            <option>€500–1000</option>
-            <option>€1000+</option>
-            <option>Flexible</option>
-          </select>
-        </div>
+      <div class="form-group">
+        <label for="group">Group size</label>
+        <select id="group">
+          <option value="">Select...</option>
+          <option>Solo</option>
+          <option>2 people</option>
+          <option>3–5 people</option>
+          <option>6–10 people</option>
+          <option>10+ people</option>
+        </select>
       </div>
       <div class="form-group">
         <label for="interests">What excites you most?</label>
