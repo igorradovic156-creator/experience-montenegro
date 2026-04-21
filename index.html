@@ -24,9 +24,8 @@
 html { scroll-behavior: smooth; }
 body { background: var(--black); color: var(--white); font-family: 'DM Sans', sans-serif; font-weight: 300; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
-/* SCROLL OFFSET FOR FIXED NAV */
-section[id], div[id] { scroll-margin-top: 70px; }
-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 2rem; display: flex; justify-content: space-between; align-items: center; background: rgba(10,10,10,0.97); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(200,184,154,0.1); }
+/* NAV */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 2rem; display: flex; justify-content: space-between; align-items: center; background: rgba(10,10,10,0.88); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid rgba(200,184,154,0.1); }
 .nav-logo { font-family: 'Playfair Display', serif; font-size: 1rem; letter-spacing: 0.05em; color: var(--white); }
 .nav-logo span { color: var(--mne-red); font-style: italic; }
 .nav-links { display: flex; align-items: center; gap: 1.5rem; }
@@ -101,49 +100,12 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 
 .slider-dot.active { background: var(--stone); width: 32px; }
 
 
-
-/* GRAIN TEXTURE */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.55' numOctaves='6' seed='8' stitchTiles='stitch' result='noise'/%3E%3CfeColorMatrix type='saturate' values='0' in='noise'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)' opacity='1'/%3E%3C/svg%3E");
-  opacity: 0.035;
-  pointer-events: none;
-  z-index: 9998;
-  mix-blend-mode: overlay;
-}
-
-/* GREEN THREAD removed */
-
-
 /* STEP SCROLL ANIMATION */
 .step { opacity: 0; transform: translateY(24px); transition: opacity 0.55s ease, transform 0.55s ease, border-color 0.3s, background 0.3s; }
 .step.visible { opacity: 1; transform: translateY(0); }
 .step:nth-child(1) { transition-delay: 0s; }
-.step:nth-child(2) { transition-delay: 0.18s; }
-.step:nth-child(3) { transition-delay: 0.36s; }
-
-/* SHIMMER */
-.step-shimmer::after {
-  content: '';
-  position: absolute;
-  top: 0; left: -120%; bottom: 0;
-  width: 55%;
-  background: linear-gradient(105deg,
-    transparent 35%,
-    rgba(46,139,114,0.13) 50%,
-    rgba(200,184,154,0.07) 55%,
-    transparent 65%
-  );
-  transform: skewX(-12deg);
-  pointer-events: none;
-  animation: shimmerSlide 0.85s ease forwards;
-}
-@keyframes shimmerSlide {
-  from { left: -120%; }
-  to   { left: 150%; }
-}
+.step:nth-child(2) { transition-delay: 0.15s; }
+.step:nth-child(3) { transition-delay: 0.3s; }
 /* HOW IT WORKS */
 .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
 .step { padding: 2rem 1.75rem; border: 1px solid rgba(200,184,154,0.1); background: rgba(200,184,154,0.02); position: relative; overflow: hidden; transition: border-color 0.3s, background 0.3s; }
@@ -167,6 +129,8 @@ body::before {
 .activity { background: var(--black); position: relative; overflow: hidden; transition: background 0.3s; cursor: pointer; }
 .activity.expanded { grid-column: span 3; background: rgba(12,12,12,1); cursor: default; }
 .activity-img { width: 100%; height: 160px; background: rgba(200,184,154,0.04); border-bottom: 1px solid rgba(200,184,154,0.08); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; transition: height 0.4s ease; }
+.activity-img::after { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.45); pointer-events: none; }
+.activity.expanded .activity-img::after { background: rgba(0,0,0,0.35); }
 .activity.expanded .activity-img { height: 280px; }
 .activity-img-placeholder { font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(200,184,154,0.18); }
 .activity-img-icon { font-size: 2rem; position: absolute; bottom: 1rem; right: 1rem; opacity: 0.12; transition: opacity 0.3s; }
@@ -308,7 +272,6 @@ body::before {
 .lead-magnet-row input::placeholder { color: rgba(245,242,238,0.2); }
 .lead-magnet-row button { background: var(--stone); color: var(--black); border: none; padding: 0.7rem 1rem; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; white-space: nowrap; transition: background 0.2s; }
 .lead-magnet-row button:hover { background: var(--sand); }
-.form-wrap-header { display: none; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(46,139,114,0.9); margin-bottom: 1.5rem; padding-bottom: 0.9rem; border-bottom: 1px solid rgba(46,139,114,0.2); }
 .form-group { margin-bottom: 1.2rem; }
 label { display: block; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--stone); margin-bottom: 0.45rem; }
 input[type=text], input[type=email], input[type=date], select, textarea { width: 100%; background: rgba(200,184,154,0.06); border: 1px solid rgba(200,184,154,0.18); color: var(--white); padding: 0.8rem 0.9rem; font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 300; outline: none; transition: border-color 0.2s; -webkit-appearance: none; border-radius: 0; }
@@ -433,10 +396,6 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
   .price-amount { font-size: 1.9rem; }
   .pricing-scroll-hint { display: block; text-align: center; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(200,184,154,0.22); padding-top: 0.75rem; }
   .form-section { grid-template-columns: 1fr; gap: 2rem; padding: 3rem 1.2rem; }
-  #formWrap { background: rgba(46,139,114,0.09); border: 1px solid rgba(46,139,114,0.22); padding: 1.75rem 1.25rem; position: relative; box-shadow: 0 12px 40px rgba(0,0,0,0.25); }
-  #formWrap::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--cta), rgba(46,139,114,0.3), transparent); }
-  .form-wrap-header { display: block; }
-
   .form-row { grid-template-columns: 1fr; gap: 0; }
   .form-tagline { font-size: 0.82rem; }
   .fd-text { font-size: 0.78rem; }
@@ -498,7 +457,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
   <img
     src="https://image2url.com/r2/default/images/1774185498923-4749e033-3b97-47bb-a4bb-a50465cb3fcb.jpg"
     alt="Montenegro"
-    style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"
+    style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;filter:blur(0.6px);transform:scale(1.04);transform-origin:center;"
   >
   <div class="hero-overlay"></div>
   <div class="hero-content">
@@ -584,206 +543,6 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
   <div class="section-label">What's possible</div>
   <h2 class="section-title">Montenegro, in full</h2>
   <div class="activities-grid">
-
-    <div class="activity" onclick="toggleActivity(this)">
-      <div class="activity-img">
-        <img src="rafting.webp" alt="Tara Rafting" style="width:100%;height:100%;object-fit:cover;display:block;">
-      </div>
-      <div class="activity-body">
-        <div class="activity-header">
-          <div><div class="activity-name">Tara Rafting</div></div>
-          <span class="activity-toggle">+</span>
-        </div>
-        <div class="activity-desc">Europe's deepest canyon. Grade 3–4 rapids. A full day on one of the world's most spectacular rivers.</div>
-        <div class="activity-article">
-          <p>The Tara River Canyon is the deepest canyon in Europe at over 1,300 metres. The river runs cold and fast from April through October, with the best rapids in spring when snowmelt brings the water to its peak. No experience is needed — guides are fully certified and equipment is provided.</p>
-          <p>A full-day rafting trip covers around 18km of river, passing through emerald gorges, under ancient bridges, and past waterfalls that drop directly into the canyon.</p>
-          <ul>
-            <li>Duration: Full day (4 hours on water)</li>
-            <li>Difficulty: Grade 3–4 (moderate to challenging)</li>
-            <li>Best season: April – October</li>
-            <li>Includes: Guide, equipment, lunch on the river</li>
-            <li>Starting point: Šćepan Polje, ~2.5h from Podgorica</li>
-          </ul>
-          <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience →</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="activity" onclick="toggleActivity(this)">
-      <div class="activity-img">
-        <img src="canyoning.webp" alt="Canyoning" style="width:100%;height:100%;object-fit:cover;display:block;">
-      </div>
-      <div class="activity-body">
-        <div class="activity-header">
-          <div><div class="activity-name">Canyoning</div></div>
-          <span class="activity-toggle">+</span>
-        </div>
-        <div class="activity-desc">Rappel through limestone gorges, swim through crystal pools, jump into plunge basins few ever discover.</div>
-        <div class="activity-article">
-          <p>Nevidio Canyon — "the unseen" — was only first explored in 1965. A narrow limestone gorge carved by the Komarnica river, with walls rising over 300 metres. Canyoning here means abseiling down waterfalls, swimming through ice-cold pools, and squeezing through passages just wide enough for one person.</p>
-          <p>It's challenging, exhilarating, and unlike anything you'll find elsewhere in Europe.</p>
-          <ul>
-            <li>Duration: 5–6 hours</li>
-            <li>Difficulty: Challenging (good fitness required)</li>
-            <li>Best season: May – September</li>
-            <li>Includes: Guide, wetsuit, helmet, harness, rich meal after</li>
-            <li>Starting point: Šavnik area, ~2h from Podgorica</li>
-          </ul>
-          <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience →</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="activity" onclick="toggleActivity(this)">
-      <div class="activity-img">
-        <img src="jeep.webp" alt="Jeep Safari" style="width:100%;height:100%;object-fit:cover;display:block;">
-      </div>
-      <div class="activity-body">
-        <div class="activity-header">
-          <div><div class="activity-name">Jeep Safari</div></div>
-          <span class="activity-toggle">+</span>
-        </div>
-        <div class="activity-desc">Off-road into Montenegro's wild interior. Mountain plateaus, shepherd villages, panoramas that take your breath away.</div>
-        <div class="activity-article">
-          <p>Montenegro's mountain interior is largely inaccessible by ordinary car. Durmitor National Park has over 40 glacial lakes, high-altitude meadows, and centuries-old shepherd villages that sit above the clouds.</p>
-          <p>In summer, the Black Lake plateau and Sedlo Pass offer sweeping panoramas across three mountain ranges. In autumn, the colours are extraordinary and the tracks are quiet.</p>
-          <ul>
-            <li>Duration: Full day or half day</li>
-            <li>Difficulty: Easy (you're in the jeep)</li>
-            <li>Best season: May – October</li>
-            <li>Includes: Private 4x4, guide, picnic lunch</li>
-            <li>Departures from: Žabljak or Kolašin</li>
-          </ul>
-          <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience →</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="activity" onclick="toggleActivity(this)">
-      <div class="activity-img">
-        <img src="kayak.webp" alt="Kayak and Boat" style="width:100%;height:100%;object-fit:cover;display:block;">
-      </div>
-      <div class="activity-body">
-        <div class="activity-header">
-          <div><div class="activity-name">Kayak & Boat</div></div>
-          <span class="activity-toggle">+</span>
-        </div>
-        <div class="activity-desc">Paddle through Europe's southernmost fjord, or glide across the Balkans' largest lake at sunrise.</div>
-        <div class="activity-article">
-          <p>The Bay of Kotor — dramatic limestone cliffs dropping into dark blue water, with medieval towns clinging to the shoreline. Kayaking it at sunrise, before the tourist boats arrive, is one of the great quiet experiences of the Adriatic.</p>
-          <p>Skadar Lake is a vast freshwater lake on the Montenegro-Albania border, home to pelicans, cormorants, and some of the best fishing in the region.</p>
-          <ul>
-            <li>Duration: 2–4 hours (kayak) or half day (boat)</li>
-            <li>Difficulty: Easy to moderate</li>
-            <li>Best season: April – October</li>
-            <li>Includes: Equipment, guide, safety briefing</li>
-            <li>Departures from: Kotor, Perast, or Virpazar</li>
-          </ul>
-          <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience →</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="activity" onclick="toggleActivity(this)">
-      <div class="activity-img">
-        <img src="hiking.webp" alt="Hiking" style="width:100%;height:100%;object-fit:cover;display:block;">
-      </div>
-      <div class="activity-body">
-        <div class="activity-header">
-          <div><div class="activity-name">Hiking</div></div>
-          <span class="activity-toggle">+</span>
-        </div>
-        <div class="activity-desc">From gentle lakeside trails to summit ascents through Southern Europe's finest national parks.</div>
-        <div class="activity-article">
-          <p>Montenegro has more than 1,000km of marked trails across two UNESCO-listed national parks — from easy lakeside walks to serious multi-day mountain routes. Whatever your pace and fitness level, there is a trail that fits.</p>
-          <p>We work with experienced local guides who know the terrain in every season. Routes are selected based on your group, your fitness, and what you want to experience — not a fixed itinerary pulled from a brochure.</p>
-          <ul>
-            <li>Duration: Half day to multi-day</li>
-            <li>Difficulty: Easy to very challenging</li>
-            <li>Best season: June – October</li>
-            <li>Includes: Local guide, route planning, safety equipment</li>
-            <li></li>
-          </ul>
-          <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience →</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="activity" onclick="toggleActivity(this)">
-      <div class="activity-img">
-        <img src="wine.webp" alt="Wine and Food" style="width:100%;height:100%;object-fit:cover;display:block;">
-      </div>
-      <div class="activity-body">
-        <div class="activity-header">
-          <div><div class="activity-name">Wine & Food</div></div>
-          <span class="activity-toggle">+</span>
-        </div>
-        <div class="activity-desc">Private tastings at Montenegro's finest wineries, market visits, and meals that reveal local culinary identity.</div>
-        <div class="activity-article">
-          <p>Montenegro has some of the most scenic wine country in the Balkans — rolling vineyards, family-run cellars, and local konobas with views that make every glass taste better. Our partners are carefully selected local producers and hosts who offer something you won't find in any guidebook.</p>
-          <p>Whether it's a private tasting at a family winery, a market visit followed by a home-cooked meal, or a full food and wine day through the countryside — we arrange it around your group and your pace.</p>
-          <ul>
-            <li>Duration: Half day to full day</li>
-            <li>Difficulty: Easy</li>
-            <li>Best season: Year-round (harvest: September–October)</li>
-            <li>Includes: Private tasting, food pairing, transport</li>
-            <li></li>
-          </ul>
-          <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience →</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="activity" onclick="toggleActivity(this)">
-      <div class="activity-img">
-        <img src="horseback.webp" alt="Horseback Riding" style="width:100%;height:100%;object-fit:cover;display:block;">
-      </div>
-      <div class="activity-body">
-        <div class="activity-header">
-          <div><div class="activity-name">Horseback Riding</div></div>
-          <span class="activity-toggle">+</span>
-        </div>
-        <div class="activity-desc">Ride through alpine meadows and beech forests above Kolašin — one of the most peaceful ways to experience Montenegro's mountain interior.</div>
-        <div class="activity-article">
-          <p>Montenegro's mountain pastures have been grazed by horses for centuries. Riding through Bjelasica's high meadows in summer — with views across three mountain ranges — is something no road can replicate.</p>
-          <p>Routes range from gentle valley trails suitable for beginners to full-day mountain crossings for experienced riders. All horses are calm, well-handled, and selected to match rider experience.</p>
-          <ul>
-            <li>Duration: 2 hours to full day</li>
-            <li>Difficulty: Beginner to advanced</li>
-            <li>Best season: May – October</li>
-            <li>Includes: Horse, guide, equipment</li>
-            <li>Departures from: Žabljak or Kolašin</li>
-          </ul>
-          <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience →</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="activity" onclick="toggleActivity(this)">
-      <div class="activity-img">
-        <img src="biking.webp" alt="Mountain Biking" style="width:100%;height:100%;object-fit:cover;display:block;">
-      </div>
-      <div class="activity-body">
-        <div class="activity-header">
-          <div><div class="activity-name">Mountain Biking</div></div>
-          <span class="activity-toggle">+</span>
-        </div>
-        <div class="activity-desc">Singletrack trails through national park terrain — from flowing forest paths to technical descents above the treeline.</div>
-        <div class="activity-article">
-          <p>Durmitor National Park has some of the most varied mountain biking terrain in the Balkans. The Sinjajevina plateau — the largest mountain pasture in the western Balkans — offers endless trail options with almost no traffic and views that stretch to the Adriatic on clear days.</p>
-          <p>Trails are graded from easy family-friendly routes around Žabljak to demanding technical singletrack for experienced riders. Bike hire and guided tours available.</p>
-          <ul>
-            <li>Duration: Half day to full day</li>
-            <li>Difficulty: Easy to advanced</li>
-            <li>Best season: June – October</li>
-            <li>Includes: Bike, helmet, guide, route planning</li>
-            <li>Departures from: Žabljak</li>
-          </ul>
-          <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience →</a>
-        </div>
-      </div>
-    </div>
 
     <div class="activity" onclick="toggleActivity(this)">
       <div class="activity-img">
@@ -1090,8 +849,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
       </div>
     </div>
   </div>
-  <div class="form-wrap" id="formWrap">
-    <div class="form-wrap-header">Send your request</div>
+  <div class="form-wrap">
     <form id="tripForm">
       <div class="form-row">
         <div class="form-group">
@@ -1099,34 +857,43 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
           <input type="text" id="fname" placeholder="Alex" required>
         </div>
         <div class="form-group">
-          <label for="lname">Last name</label>
-          <input type="text" id="lname" placeholder="Smith" required>
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="alex@email.com" required>
         </div>
-      </div>
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" placeholder="alex@email.com" required>
       </div>
       <div class="form-row">
         <div class="form-group">
-          <label for="arrival">Arrival date <span style="color:rgba(245,242,238,0.3);font-size:0.6rem;letter-spacing:0;">(optional)</span></label>
-          <input type="date" id="arrival">
+          <label for="arrival">Arrival date</label>
+          <input type="date" id="arrival" required>
         </div>
         <div class="form-group">
-          <label for="departure">Departure date <span style="color:rgba(245,242,238,0.3);font-size:0.6rem;letter-spacing:0;">(optional)</span></label>
-          <input type="date" id="departure">
+          <label for="departure">Departure date</label>
+          <input type="date" id="departure" required>
         </div>
       </div>
-      <div class="form-group">
-        <label for="group">Group size</label>
-        <select id="group">
-          <option value="">Select...</option>
-          <option>Solo</option>
-          <option>2 people</option>
-          <option>3–5 people</option>
-          <option>6–10 people</option>
-          <option>10+ people</option>
-        </select>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="group">Group size</label>
+          <select id="group">
+            <option value="">Select...</option>
+            <option>Solo</option>
+            <option>2 people</option>
+            <option>3–5 people</option>
+            <option>6–10 people</option>
+            <option>10+ people</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="budget">Budget per person</label>
+          <select id="budget">
+            <option value="">Select...</option>
+            <option>Under €200</option>
+            <option>€200–500</option>
+            <option>€500–1000</option>
+            <option>€1000+</option>
+            <option>Flexible</option>
+          </select>
+        </div>
       </div>
       <div class="form-group">
         <label for="interests">What excites you most?</label>
@@ -1366,24 +1133,18 @@ function quizBack(s){['qStep1','qStep2','qStep3','qResult'].forEach(function(id)
 function quizReset(){Object.keys(_qa).forEach(function(k){delete _qa[k];});['interests','group'].forEach(function(id){var e=document.getElementById(id);if(e){e.style.borderColor='';e.style.background='';e.selectedIndex=0;}});var n=document.getElementById('notes');if(n){n.value='';n.style.borderColor='';}var b=document.getElementById('_qb');if(b)b.remove();quizBack(1);}
 
 
-// STEP SCROLL ANIMATION + SHIMMER
+// STEP SCROLL ANIMATION
 (function() {
   var steps = document.querySelectorAll('.step');
   if (!steps.length) return;
   var observer = new IntersectionObserver(function(entries) {
     entries.forEach(function(entry) {
       if (entry.isIntersecting) {
-        var step = entry.target;
-        step.classList.add('visible');
-        var td = parseFloat(getComputedStyle(step).transitionDelay) * 1000 || 0;
-        setTimeout(function() {
-          step.classList.add('step-shimmer');
-          setTimeout(function() { step.classList.remove('step-shimmer'); }, 900);
-        }, td + 420);
-        observer.unobserve(step);
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.2 });
+  }, { threshold: 0.15 });
   steps.forEach(function(step) { observer.observe(step); });
 })();
 
