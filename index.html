@@ -157,10 +157,11 @@ body::before {
 
 /* ACTIVITIES */
 /* AND MORE */
-.and-more-tile { display: flex; align-items: center; justify-content: space-between; gap: 2rem; padding: 1.8rem 2rem; border-top: 1px solid rgba(46,139,114,0.12); border-bottom: 1px solid rgba(46,139,114,0.12); margin-top: 1px; background: rgba(46,139,114,0.04); flex-wrap: wrap; }
-.and-more-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; margin-bottom: 0.4rem; color: var(--white); }
-.and-more-list { font-size: 0.75rem; color: rgba(200,184,154,0.5); line-height: 1.7; }
-.and-more-cta { flex-shrink: 0; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--white); text-decoration: none; background: var(--cta); padding: 0.6rem 1.2rem; white-space: nowrap; transition: background 0.2s; }
+.and-more-strip { padding: 1.8rem 2rem; background: #080f0c; border-top: 1px solid rgba(46,139,114,0.1); border-bottom: 1px solid rgba(46,139,114,0.1); }
+.and-more-strip-inner { display: flex; align-items: center; justify-content: space-between; gap: 2rem; max-width: 1100px; margin: 0 auto; flex-wrap: wrap; }
+.and-more-title { font-family: 'Playfair Display', serif; font-size: clamp(1.4rem,3vw,2rem); margin-bottom: 1rem; color: var(--white); font-weight: 400; }
+.and-more-list { font-size: 0.78rem; color: rgba(200,184,154,0.5); line-height: 2; max-width: 640px; margin: 0 auto 1.8rem; letter-spacing: 0.02em; }
+.and-more-cta { display: inline-block; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--white); text-decoration: none; background: var(--cta); padding: 0.8rem 2rem; transition: background 0.2s; }
 .and-more-cta:hover { background: var(--cta-hover); }
 
 .activities-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(200,184,154,0.12); }
@@ -180,7 +181,7 @@ body::before {
 .activity.expanded .activity-desc { display: none; }
 
 /* DETAIL PANEL — appears below the full row */
-.activity-panel { display: none; grid-column: span 3; background: #0a0f0d; border-top: 1px solid rgba(46,139,114,0.15); }
+.activity-panel { display: none; grid-column: span 3; background: #0a0f0d; border-top: 1px solid rgba(46,139,114,0.15); position: relative; }
 .activity-panel.open { display: block; animation: panelFade 0.35s ease; }
 @keyframes panelFade { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
 .activity-panel-img { display: none; }
@@ -198,8 +199,8 @@ body::before {
 .activity-panel-list { list-style: none; margin-bottom: 1.5rem; border-top: 1px solid rgba(200,184,154,0.1); padding-top: 1rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
 .activity-panel-list li { font-size: 0.8rem; color: rgba(245,242,238,0.65); padding: 0.4rem 0; border-bottom: 1px solid rgba(200,184,154,0.08); display: flex; gap: 0.5rem; }
 .activity-panel-list li::before { content: '—'; color: var(--cta); opacity: 0.6; flex-shrink: 0; }
-.activity-panel-close { position: absolute; top: 1.5rem; right: 2rem; background: none; border: none; color: rgba(200,184,154,0.35); font-size: 1.2rem; cursor: pointer; font-weight: 300; transition: color 0.2s; line-height: 1; padding: 0; font-family: inherit; letter-spacing: 0.05em; }
-.activity-panel-close:hover { color: var(--white); }
+.activity-panel-close { position: absolute; top: 1.2rem; right: 1.5rem; background: rgba(200,184,154,0.08); border: 1px solid rgba(200,184,154,0.2); color: rgba(200,184,154,0.7); font-size: 1rem; cursor: pointer; font-weight: 400; transition: all 0.2s; line-height: 1; padding: 0.4rem 0.7rem; font-family: inherit; border-radius: 2px; }
+.activity-panel-close:hover { color: var(--white); background: rgba(200,184,154,0.15); border-color: rgba(200,184,154,0.4); }
 .activity-panel-inner { position: relative; display: contents; }
 
 /* COLLAPSED */
@@ -294,30 +295,77 @@ body::before {
 .diff-vs-line:last-child { background: linear-gradient(to bottom, rgba(200,184,154,0.2), transparent); }
 .diff-vs-word { font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(200,184,154,0.28); padding: 1rem 0; white-space: nowrap; }
 
+
+/* QUIZ MOOD GRID */
+.quiz-mood-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-top: 0.5rem; }
+.quiz-mood-opt { position: relative; cursor: pointer; border: 1px solid rgba(200,184,154,0.1); background: rgba(255,255,255,0.02); transition: all 0.22s; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.6rem; padding: 1.2rem 1rem; -webkit-tap-highlight-color: transparent; height: 110px; }
+.quiz-mood-opt:hover { border-color: rgba(46,139,114,0.45); background: rgba(46,139,114,0.07); transform: translateY(-2px); }
+.quiz-mood-icon { font-size: 1.6rem; line-height: 1; }
+.quiz-mood-label { color: var(--white); font-size: 0.82rem; font-weight: 500; text-align: center; line-height: 1.3; }
+.quiz-mood-sub { font-size: 0.65rem; color: rgba(245,242,238,0.35); text-align: center; }
+
+/* SLIDER */
+.quiz-slider-wrap { margin: 1.5rem 0 1.2rem; }
+.quiz-slider-labels { display: flex; justify-content: space-between; font-size: 0.68rem; color: rgba(200,184,154,0.45); margin-bottom: 0.75rem; letter-spacing: 0.05em; }
+.quiz-slider { width: 100%; -webkit-appearance: none; appearance: none; height: 2px; background: rgba(200,184,154,0.2); outline: none; border-radius: 1px; }
+.quiz-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; background: var(--cta); border-radius: 50%; cursor: pointer; box-shadow: 0 0 0 4px rgba(46,139,114,0.15); transition: box-shadow 0.2s; }
+.quiz-slider::-webkit-slider-thumb:hover { box-shadow: 0 0 0 8px rgba(46,139,114,0.2); }
+.quiz-slider-value { text-align: center; font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--cta); margin-top: 0.75rem; }
+.quiz-next-btn { display: inline-block; background: var(--cta); color: var(--white); border: none; padding: 0.85rem 2rem; font-family: 'DM Sans', sans-serif; font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; margin-top: 1.2rem; }
+.quiz-next-btn:hover:not(:disabled) { background: var(--cta-hover); }
+
+/* DUAL SELECT */
+.quiz-dual-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 0.5rem; }
+.quiz-dual-label { font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--stone); margin-bottom: 0.75rem; }
+.quiz-options-sm .quiz-opt { padding: 0.75rem 1rem; }
+.quiz-dual-opt.selected { border-color: var(--cta); background: rgba(46,139,114,0.1); }
+.quiz-dual-opt.selected .quiz-opt-title { color: var(--cta); }
 /* QUIZ */
-.quiz-section { padding: 5rem 2rem; background: rgba(46,139,114,0.03); border-top: 1px solid rgba(46,139,114,0.1); }
-.quiz-section > * { max-width: 1100px; margin-left: auto; margin-right: auto; }
-.quiz-wrap { max-width: 560px; margin-top: 2.5rem; min-height: 260px; }
-.quiz-step { display: none; }
-.quiz-step.active { display: block; animation: qFade 0.4s ease; }
+.quiz-section { padding: 6rem 2rem; background: linear-gradient(135deg, #060f0a 0%, #0a1a12 50%, #060f0a 100%); position: relative; overflow: hidden; }
+.quiz-section::before { content: ''; position: absolute; top: -40%; left: 50%; transform: translateX(-50%); width: 600px; height: 600px; background: radial-gradient(ellipse, rgba(46,139,114,0.12) 0%, transparent 70%); pointer-events: none; }
+.quiz-section > * { max-width: 1100px; margin-left: auto; margin-right: auto; position: relative; }
+.quiz-eyebrow { font-size: 0.62rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--cta); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem; }
+.quiz-eyebrow::before { content: ''; display: block; width: 24px; height: 1px; background: var(--cta); }
+.quiz-headline { font-family: 'Playfair Display', serif; font-size: clamp(2rem,5vw,3.5rem); font-weight: 400; line-height: 1.1; margin-bottom: 0.5rem; color: var(--white); }
+.quiz-headline em { color: var(--stone); font-style: italic; }
+.quiz-sub { font-size: 0.9rem; color: rgba(245,242,238,0.45); margin-bottom: 3rem; }
+.quiz-wrap { max-width: 640px; }
+.quiz-step { min-height: 360px; display: none; flex-direction: column; }
+.quiz-step.active { display: flex; animation: qFade 0.4s ease; }
+
 @keyframes qFade { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
-.quiz-q { font-family: 'Playfair Display', serif; font-size: clamp(1.2rem,3vw,1.55rem); font-weight: 400; line-height: 1.25; margin-bottom: 0.75rem; color: var(--white); }
-.quiz-progress { display: flex; gap: 0.4rem; margin-bottom: 2rem; }
-.quiz-dot { width: 18px; height: 2px; background: rgba(200,184,154,0.18); transition: background 0.3s; }
-.quiz-dot.active { background: var(--cta); }
-.quiz-options { display: flex; flex-direction: column; gap: 0.6rem; }
-.quiz-opt { padding: 1rem 1.25rem; border: 1px solid rgba(200,184,154,0.12); cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; gap: 0.2rem; -webkit-tap-highlight-color: transparent; }
-.quiz-opt:hover { border-color: rgba(46,139,114,0.4); background: rgba(46,139,114,0.06); }
-.quiz-opt-title { font-size: 0.9rem; font-weight: 500; color: var(--white); }
-.quiz-opt-sub { font-size: 0.75rem; color: rgba(245,242,238,0.38); }
-.quiz-back { margin-top: 1.2rem; background: none; border: none; color: rgba(200,184,154,0.35); font-size: 0.72rem; letter-spacing: 0.08em; cursor: pointer; padding: 0; font-family: 'DM Sans', sans-serif; transition: color 0.2s; }
+.quiz-q { font-family: 'Playfair Display', serif; font-size: clamp(1.15rem,2.5vw,1.45rem); font-weight: 400; line-height: 1.3; margin-bottom: 0.5rem; color: var(--white); }
+.quiz-progress { display: flex; gap: 0.5rem; margin-bottom: 1.8rem; align-items: center; }
+.quiz-dot { width: 32px; height: 2px; background: rgba(200,184,154,0.15); transition: all 0.4s; border-radius: 1px; }
+.quiz-dot.active { background: var(--cta); width: 44px; }
+.quiz-step-label { font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(200,184,154,0.3); margin-left: 0.5rem; }
+.quiz-options { display: flex; flex-direction: column; gap: 0.5rem; }
+.quiz-opt { padding: 1.1rem 1.4rem; border: 1px solid rgba(200,184,154,0.1); background: rgba(255,255,255,0.02); cursor: pointer; transition: all 0.22s; display: flex; justify-content: space-between; align-items: center; -webkit-tap-highlight-color: transparent; }
+.quiz-opt:hover { border-color: rgba(46,139,114,0.45); background: rgba(46,139,114,0.07); transform: translateX(4px); }
+.quiz-opt-left { display: flex; flex-direction: column; gap: 0.15rem; }
+.quiz-opt-title { font-size: 0.92rem; font-weight: 500; color: var(--white); }
+.quiz-opt-sub { font-size: 0.73rem; color: rgba(245,242,238,0.35); }
+.quiz-opt-arrow { color: var(--cta); font-size: 0.9rem; opacity: 0; transition: opacity 0.2s; }
+.quiz-opt:hover .quiz-opt-arrow { opacity: 1; }
+.quiz-back { margin-top: 1.5rem; background: none; border: none; color: rgba(200,184,154,0.3); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; padding: 0; font-family: 'DM Sans', sans-serif; transition: color 0.2s; display: flex; align-items: center; gap: 0.4rem; }
 .quiz-back:hover { color: rgba(200,184,154,0.65); }
-.quiz-result-icon { font-size: 1.5rem; color: var(--cta); margin-bottom: 1rem; }
-.quiz-result-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 0.75rem; color: var(--white); }
-.quiz-result-desc { font-size: 0.85rem; line-height: 1.8; color: rgba(245,242,238,0.5); margin-bottom: 1rem; max-width: 440px; }
-.quiz-prefill-note { font-size: 0.72rem; color: rgba(46,139,114,0.75); margin-bottom: 1.5rem; }
-.quiz-result-cta { display: inline-block; background: var(--cta); color: var(--white); padding: 0.85rem 2rem; font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; transition: background 0.2s; }
-.quiz-result-cta:hover { background: var(--cta-hover); }
+
+/* RESULT */
+.quiz-result-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+.quiz-result-icon { font-size: 1rem; color: var(--cta); letter-spacing: 0.3em; margin-bottom: 1rem; }
+.quiz-result-tag { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cta); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+.quiz-result-tag::before { content: ''; width: 20px; height: 1px; background: var(--cta); display: block; }
+.quiz-result-title { font-family: 'Playfair Display', serif; font-size: clamp(1.5rem,3vw,2.2rem); margin-bottom: 1rem; color: var(--white); line-height: 1.2; }
+.quiz-result-desc { font-size: 0.88rem; line-height: 1.85; color: rgba(245,242,238,0.58); margin-bottom: 1.5rem; }
+.quiz-prefill-note { font-size: 0.68rem; color: rgba(46,139,114,0.7); margin-bottom: 1.8rem; display: flex; align-items: center; gap: 0.5rem; }
+.quiz-prefill-note::before { content: '✓'; color: var(--cta); }
+.quiz-result-cta { display: inline-block; background: var(--cta); color: var(--white); padding: 1rem 2.5rem; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; transition: all 0.2s; }
+.quiz-result-cta:hover { background: var(--cta-hover); transform: translateY(-2px); }
+.quiz-result-card { background: rgba(46,139,114,0.06); border: 1px solid rgba(46,139,114,0.18); padding: 2rem; }
+.quiz-result-card-label { font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cta); margin-bottom: 1rem; }
+.quiz-result-card-item { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.7rem 0; border-bottom: 1px solid rgba(46,139,114,0.1); font-size: 0.82rem; color: rgba(245,242,238,0.7); }
+.quiz-result-card-item:last-child { border-bottom: none; }
+.quiz-result-card-item span:first-child { color: var(--cta); flex-shrink: 0; font-size: 0.7rem; margin-top: 2px; }
 
 /* FORM */
 .form-section { padding: 5rem 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
@@ -344,7 +392,9 @@ input[type=text], input[type=email], input[type=date], select, textarea { width:
 input:focus, select:focus, textarea:focus { border-color: var(--cta); background: rgba(46,139,114,0.05); }
 input::placeholder, textarea::placeholder { color: rgba(245,242,238,0.2); }
 select option { background: #1a1a1a; color: var(--white); }
-textarea { resize: vertical; min-height: 90px; }
+textarea { resize: vertical; min-height: 160px; font-size: 0.88rem; line-height: 1.75; padding: 1rem 1.1rem; }
+.notes-textarea { min-height: 180px; font-size: 0.88rem; line-height: 1.85; letter-spacing: 0.01em; }
+.notes-textarea:focus { min-height: 200px; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
 .fee-note { font-size: 0.76rem; color: rgba(245,242,238,0.36); line-height: 1.6; margin-bottom: 1.2rem; padding: 0.9rem 1rem; border-left: 2px solid var(--cta); background: rgba(46,139,114,0.04); }
 .fee-note strong { color: var(--cta-hover); }
@@ -431,8 +481,23 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
   .diff-col-hdr { margin-bottom: 1rem; }
   .diff-row { font-size: 0.7rem; padding: 1.1rem 0; gap: 0.45rem; line-height: 1.3; }
   .diff-icon { font-size: 0.6rem; }
-  .quiz-section { padding: 3rem 1.2rem; }
+  .quiz-section { padding: 3.5rem 1.2rem; }
   .quiz-wrap { max-width: 100%; }
+  .quiz-headline { font-size: clamp(1.5rem,6vw,2rem); }
+  .quiz-sub { font-size: 0.82rem; margin-bottom: 2rem; }
+  .quiz-step { min-height: 0; }
+  .quiz-mood-grid { grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+  .quiz-mood-opt { height: 90px; padding: 0.9rem 0.75rem; gap: 0.4rem; }
+  .quiz-mood-icon { font-size: 1.3rem; }
+  .quiz-mood-label { font-size: 0.75rem; }
+  .quiz-mood-sub { display: none; }
+  .quiz-options { gap: 0.4rem; }
+  .quiz-opt { padding: 0.85rem 1rem; }
+  .quiz-opt-title { font-size: 0.82rem; }
+  .quiz-dual-wrap { grid-template-columns: 1fr; gap: 1rem; }
+  .quiz-result-wrap { grid-template-columns: 1fr; gap: 1.5rem; }
+  .quiz-result-card { display: none; }
+  .quiz-next-btn { padding: 0.75rem 1.5rem; font-size: 0.72rem; }
   .quiz-q { font-size: 1.2rem; }
   .quiz-opt { padding: 0.85rem 1rem; }
   .quiz-opt-title { font-size: 0.85rem; }
@@ -440,7 +505,8 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
   .quiz-result-title { font-size: 1.2rem; }
   .quiz-result-desc { font-size: 0.8rem; }
   .activities-grid { grid-template-columns: 1fr 1fr; }
-  .and-more-tile { flex-direction: column; align-items: flex-start; gap: 1rem; padding: 1.2rem; }
+  .and-more-strip { padding: 1.5rem 1.2rem; }
+  .and-more-strip-inner { flex-direction: column; align-items: flex-start; gap: 1rem; }
   .and-more-title { font-size: 0.95rem; }
   .and-more-list { font-size: 0.72rem; }
   .activity.expanded .activity-img { height: 110px; }
@@ -470,6 +536,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
   .form-wrap-header { display: block; }
 
   .form-row { grid-template-columns: 1fr; gap: 0; }
+  .notes-textarea { min-height: 140px; font-size: 0.85rem; }
   .form-tagline { font-size: 0.82rem; }
   .fd-text { font-size: 0.78rem; }
   .lead-magnet { padding: 1rem 1.2rem; }
@@ -841,18 +908,22 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
       </div>
     </div>
 
-  
-  <div class="and-more-tile">
-    <div class="and-more-left">
+
+</section>
+
+<!-- AND MORE -->
+<div class="and-more-strip">
+  <div class="and-more-strip-inner">
+    <div>
       <div class="and-more-title">And much more.</div>
-      <div class="and-more-list">Skydiving &middot; Special events &middot; Photography &amp; drone tours &middot; Water sports &middot; Helicopter tours &middot; Fishing on Skadar Lake &middot; Cultural walks &middot; Ski &amp; Snow &middot; And anything in between.</div>
+      <div class="and-more-list">Skydiving &middot; Special events &middot; Photography &amp; drone tours &middot; Water sports &middot; Helicopter tours &middot; Fishing on Skadar Lake &middot; Cultural walks &middot; Ski &amp; Snow</div>
     </div>
     <a href="#plan" class="and-more-cta">Tell me what you want &rarr;</a>
   </div>
-</section>
+</div>
 
 <!-- THE DIFFERENCE -->
-<section class="diff-section" id="difference">
+<section class="diff-section" id="difference" style="display:none">
   <div class="diff-inner">
     <div class="section-label">The difference</div>
     <h2 class="section-title">What changes when you<br><em>plan it properly.</em></h2>
@@ -885,57 +956,155 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
 <!-- QUIZ -->
 <section class="quiz-section" id="quiz">
   <div class="quiz-inner">
-    <div class="section-label">Find your trip</div>
-    <h2 class="section-title">Let's figure out<br><em>what you're looking for.</em></h2>
+    <div class="quiz-eyebrow">Find your trip</div>
+    <h2 class="quiz-headline">Your Montenegro trip<br><em>starts here.</em></h2>
+    <p class="quiz-sub">Five questions. A personalised plan waiting at the end.</p>
     <div class="quiz-wrap" id="quizWrap">
 
-    <div class="quiz-step active" id="qStep1">
-      <div class="quiz-q">What matters most to you on a trip?</div>
-      <div class="quiz-progress"><span class="quiz-dot active"></span><span class="quiz-dot"></span><span class="quiz-dot"></span></div>
-      <div class="quiz-options">
-        <div class="quiz-opt" onclick="quizAnswer(1,'Adventure &amp; adrenaline','adventure')"><span class="quiz-opt-title">Adrenaline &amp; action</span><span class="quiz-opt-sub">Rafting, canyoning, jeep offroad, cliff jumps</span></div>
-        <div class="quiz-opt" onclick="quizAnswer(1,'Nature &amp; hiking','nature')"><span class="quiz-opt-title">Nature &amp; stillness</span><span class="quiz-opt-sub">Mountains, lakes, trails almost nobody walks</span></div>
-        <div class="quiz-opt" onclick="quizAnswer(1,'Culture &amp; food','culture')"><span class="quiz-opt-title">Culture &amp; food</span><span class="quiz-opt-sub">Old towns, wine cellars, family dinners</span></div>
-        <div class="quiz-opt" onclick="quizAnswer(1,'A mix of everything','mix')"><span class="quiz-opt-title">A bit of everything</span><span class="quiz-opt-sub">Coast, mountains, canyons — the full contrast</span></div>
+      <!-- STEP 1 — Visual mood -->
+      <div class="quiz-step active" id="qStep1">
+        <div class="quiz-q">Which of these pulls you in?</div>
+        <div class="quiz-progress"><span class="quiz-dot active"></span><span class="quiz-dot"></span><span class="quiz-dot"></span><span class="quiz-dot"></span><span class="quiz-dot"></span><span class="quiz-step-label">Step 1 of 5</span></div>
+        <div class="quiz-mood-grid">
+          <div class="quiz-mood-opt" onclick="quizAnswer(1,'Adventure &amp; adrenaline','adventure')">
+            <div class="quiz-mood-icon">🏄</div>
+            <div class="quiz-mood-label">Adrenaline &amp; action</div>
+            <div class="quiz-mood-sub">Rafting, canyoning, jeep offroad</div>
+          </div>
+          <div class="quiz-mood-opt" onclick="quizAnswer(1,'Nature &amp; hiking','nature')">
+            <div class="quiz-mood-icon">⛰️</div>
+            <div class="quiz-mood-label">Nature &amp; stillness</div>
+            <div class="quiz-mood-sub">Mountains, lakes, quiet trails</div>
+          </div>
+          <div class="quiz-mood-opt" onclick="quizAnswer(1,'Culture &amp; food','culture')">
+            <div class="quiz-mood-icon">🍷</div>
+            <div class="quiz-mood-label">Culture &amp; food</div>
+            <div class="quiz-mood-sub">Wine, old towns, local dinners</div>
+          </div>
+          <div class="quiz-mood-opt" onclick="quizAnswer(1,'A mix of everything','mix')">
+            <div class="quiz-mood-icon">🗺️</div>
+            <div class="quiz-mood-label">A bit of everything</div>
+            <div class="quiz-mood-sub">Coast, canyons, mountains</div>
+          </div>
+        </div>
       </div>
-    </div>
 
-    <div class="quiz-step" id="qStep2">
-      <div class="quiz-q">How long are you thinking?</div>
-      <div class="quiz-progress"><span class="quiz-dot active"></span><span class="quiz-dot active"></span><span class="quiz-dot"></span></div>
-      <div class="quiz-options">
-        <div class="quiz-opt" onclick="quizAnswer(2,'2-3 days','short')"><span class="quiz-opt-title">A long weekend</span><span class="quiz-opt-sub">2–3 days · Quick but intense</span></div>
-        <div class="quiz-opt" onclick="quizAnswer(2,'4-7 days','week')"><span class="quiz-opt-title">A full week</span><span class="quiz-opt-sub">4–7 days · The most popular choice</span></div>
-        <div class="quiz-opt" onclick="quizAnswer(2,'8+ days','long')"><span class="quiz-opt-title">More than a week</span><span class="quiz-opt-sub">8+ days · Deep exploration</span></div>
+      <!-- STEP 2 — Slider -->
+      <div class="quiz-step" id="qStep2">
+        <div class="quiz-q">How adventurous are you feeling on this trip?</div>
+        <div class="quiz-progress"><span class="quiz-dot active"></span><span class="quiz-dot active"></span><span class="quiz-dot"></span><span class="quiz-dot"></span><span class="quiz-dot"></span><span class="quiz-step-label">Step 2 of 5</span></div>
+        <div class="quiz-slider-wrap">
+          <div class="quiz-slider-labels"><span>Wine &amp; slow mornings</span><span>Cliff jumps &amp; cold rivers</span></div>
+          <input type="range" min="1" max="10" value="5" class="quiz-slider" id="adventureSlider">
+          <div class="quiz-slider-value" id="sliderDisplay">5 / 10</div>
+        </div>
+        <button class="quiz-next-btn" onclick="quizSliderNext()">Continue &rarr;</button>
+        <button class="quiz-back" onclick="quizBack(1)">&larr; Back</button>
       </div>
-      <button class="quiz-back" onclick="quizBack(1)">← Back</button>
-    </div>
 
-    <div class="quiz-step" id="qStep3">
-      <div class="quiz-q">Who's coming with you?</div>
-      <div class="quiz-progress"><span class="quiz-dot active"></span><span class="quiz-dot active"></span><span class="quiz-dot active"></span></div>
-      <div class="quiz-options">
-        <div class="quiz-opt" onclick="quizAnswer(3,'Solo','solo')"><span class="quiz-opt-title">Just me</span><span class="quiz-opt-sub">Solo travel, my own pace</span></div>
-        <div class="quiz-opt" onclick="quizAnswer(3,'2 people','couple')"><span class="quiz-opt-title">Partner or friend</span><span class="quiz-opt-sub">Two people</span></div>
-        <div class="quiz-opt" onclick="quizAnswer(3,'3-5 people','small')"><span class="quiz-opt-title">Small group</span><span class="quiz-opt-sub">3–5 people</span></div>
-        <div class="quiz-opt" onclick="quizAnswer(3,'6+ people','group')"><span class="quiz-opt-title">Larger group</span><span class="quiz-opt-sub">6+ people</span></div>
+      <!-- STEP 3 — Identity -->
+      <div class="quiz-step" id="qStep3">
+        <div class="quiz-q">Which sentence sounds most like you?</div>
+        <div class="quiz-progress"><span class="quiz-dot active"></span><span class="quiz-dot active"></span><span class="quiz-dot active"></span><span class="quiz-dot"></span><span class="quiz-dot"></span><span class="quiz-step-label">Step 3 of 5</span></div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="quizAnswer(3,'explorer','explorer')">
+            <div class="quiz-opt-left"><span class="quiz-opt-title">I always find places nobody else knows about</span></div>
+            <span class="quiz-opt-arrow">&rarr;</span>
+          </div>
+          <div class="quiz-opt" onclick="quizAnswer(3,'balanced','balanced')">
+            <div class="quiz-opt-left"><span class="quiz-opt-title">I like a mix — some classics, some hidden gems</span></div>
+            <span class="quiz-opt-arrow">&rarr;</span>
+          </div>
+          <div class="quiz-opt" onclick="quizAnswer(3,'trusting','trusting')">
+            <div class="quiz-opt-left"><span class="quiz-opt-title">I follow recommendations from people I trust</span></div>
+            <span class="quiz-opt-arrow">&rarr;</span>
+          </div>
+          <div class="quiz-opt" onclick="quizAnswer(3,'best','best')">
+            <div class="quiz-opt-left"><span class="quiz-opt-title">I want the best version — not the most visited</span></div>
+            <span class="quiz-opt-arrow">&rarr;</span>
+          </div>
+        </div>
+        <button class="quiz-back" onclick="quizBack(2)">&larr; Back</button>
       </div>
-      <button class="quiz-back" onclick="quizBack(2)">← Back</button>
-    </div>
 
-    <div class="quiz-step" id="qResult">
-      <div class="quiz-result-icon">✶</div>
-      <div class="quiz-result-title">Your trip is ready to be planned.</div>
-      <div class="quiz-result-desc" id="qResultDesc"></div>
-      <div class="quiz-prefill-note">✓ Form pre-filled with your answers — scroll down to complete and send.</div>
-      <a href="#plan" class="quiz-result-cta">Plan my trip →</a>
-      <br><button class="quiz-back" onclick="quizReset()" style="margin-top:1rem;">Start over</button>
-    </div>
+      <!-- STEP 4 — Fear/concern -->
+      <div class="quiz-step" id="qStep4">
+        <div class="quiz-q">Honestly — what worries you most about this trip?</div>
+        <div class="quiz-progress"><span class="quiz-dot active"></span><span class="quiz-dot active"></span><span class="quiz-dot active"></span><span class="quiz-dot active"></span><span class="quiz-dot"></span><span class="quiz-step-label">Step 4 of 5</span></div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="quizAnswer(4,'missing','missing')">
+            <div class="quiz-opt-left"><span class="quiz-opt-title">Missing the experiences that actually matter</span></div>
+            <span class="quiz-opt-arrow">&rarr;</span>
+          </div>
+          <div class="quiz-opt" onclick="quizAnswer(4,'planning','planning')">
+            <div class="quiz-opt-left"><span class="quiz-opt-title">Poor planning ruining the vibe</span></div>
+            <span class="quiz-opt-arrow">&rarr;</span>
+          </div>
+          <div class="quiz-opt" onclick="quizAnswer(4,'start','start')">
+            <div class="quiz-opt-left"><span class="quiz-opt-title">Not knowing where to even start</span></div>
+            <span class="quiz-opt-arrow">&rarr;</span>
+          </div>
+          <div class="quiz-opt" onclick="quizAnswer(4,'none','none')">
+            <div class="quiz-opt-left"><span class="quiz-opt-title">Nothing — I just need someone local to guide me</span></div>
+            <span class="quiz-opt-arrow">&rarr;</span>
+          </div>
+        </div>
+        <button class="quiz-back" onclick="quizBack(3)">&larr; Back</button>
+      </div>
 
-  </div>
+      <!-- STEP 5 — Group + Duration -->
+      <div class="quiz-step" id="qStep5">
+        <div class="quiz-q">Last one — who's joining you, and for how long?</div>
+        <div class="quiz-progress"><span class="quiz-dot active"></span><span class="quiz-dot active"></span><span class="quiz-dot active"></span><span class="quiz-dot active"></span><span class="quiz-dot active"></span><span class="quiz-step-label">Step 5 of 5</span></div>
+        <div class="quiz-dual-wrap">
+          <div class="quiz-dual-col">
+            <div class="quiz-dual-label">Who&rsquo;s coming?</div>
+            <div class="quiz-options quiz-options-sm">
+              <div class="quiz-opt quiz-dual-opt" data-group="Solo" data-gkey="solo" onclick="quizDualSelect(this,'group')"><span class="quiz-opt-title">Just me</span></div>
+              <div class="quiz-opt quiz-dual-opt" data-group="2 people" data-gkey="couple" onclick="quizDualSelect(this,'group')"><span class="quiz-opt-title">Partner or friend</span></div>
+              <div class="quiz-opt quiz-dual-opt" data-group="3–5 people" data-gkey="small" onclick="quizDualSelect(this,'group')"><span class="quiz-opt-title">Small group</span></div>
+              <div class="quiz-opt quiz-dual-opt" data-group="6–10 people" data-gkey="group" onclick="quizDualSelect(this,'group')"><span class="quiz-opt-title">Larger group</span></div>
+            </div>
+          </div>
+          <div class="quiz-dual-col">
+            <div class="quiz-dual-label">How long?</div>
+            <div class="quiz-options quiz-options-sm">
+              <div class="quiz-opt quiz-dual-opt" data-dur="2-3 days" data-dkey="short" onclick="quizDualSelect(this,'duration')"><span class="quiz-opt-title">A long weekend</span><span class="quiz-opt-sub">2&ndash;3 days</span></div>
+              <div class="quiz-opt quiz-dual-opt" data-dur="4-7 days" data-dkey="week" onclick="quizDualSelect(this,'duration')"><span class="quiz-opt-title">A full week</span><span class="quiz-opt-sub">4&ndash;7 days</span></div>
+              <div class="quiz-opt quiz-dual-opt" data-dur="8+ days" data-dkey="long" onclick="quizDualSelect(this,'duration')"><span class="quiz-opt-title">More than a week</span><span class="quiz-opt-sub">8+ days</span></div>
+            </div>
+          </div>
+        </div>
+        <button class="quiz-next-btn" id="quizFinalBtn" onclick="quizFinish()" disabled style="opacity:0.4;cursor:not-allowed;">See my profile &rarr;</button>
+        <button class="quiz-back" onclick="quizBack(4)">&larr; Back</button>
+      </div>
+
+      <!-- RESULT -->
+      <div class="quiz-step" id="qResult">
+        <div class="quiz-result-wrap">
+          <div>
+            <div class="quiz-result-tag">Your Montenegro Profile</div>
+            <div class="quiz-result-title" id="qResultTitle">The Explorer</div>
+            <div class="quiz-result-desc" id="qResultDesc"></div>
+            <div class="quiz-prefill-note">Form pre-filled with your answers &mdash; complete and send below.</div>
+            <a href="#plan" class="quiz-result-cta" id="qResultCta">Plan my trip &rarr;</a>
+            <br><button class="quiz-back" onclick="quizReset()" style="margin-top:1.2rem;">&larr; Start over</button>
+          </div>
+          <div class="quiz-result-card">
+            <div class="quiz-result-card-label">Your Trip Profile</div>
+            <div class="quiz-result-card-item" id="rc-style"><span>&#9679;</span><span></span></div>
+            <div class="quiz-result-card-item" id="rc-adventure"><span>&#9679;</span><span></span></div>
+            <div class="quiz-result-card-item" id="rc-duration"><span>&#9679;</span><span></span></div>
+            <div class="quiz-result-card-item" id="rc-group"><span>&#9679;</span><span></span></div>
+            <div class="quiz-result-card-item" id="rc-worry"><span>&#9679;</span><span></span></div>
+            <div style="margin-top:1.2rem;padding-top:1rem;border-top:1px solid rgba(46,139,114,0.15);font-size:0.72rem;color:rgba(245,242,238,0.38);font-style:italic;" id="rc-igor">"This is exactly the kind of trip I love planning." &mdash; Igor</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
 </section>
-
 <!-- PRICING -->
 <section class="pricing-section" id="pricing">
   <div class="pricing-inner">
@@ -1171,7 +1340,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
       </div>
       <div class="form-group">
         <label for="notes">Anything specific you want or want to avoid?</label>
-        <textarea id="notes" placeholder="Tell me anything — dietary needs, mobility considerations, dream experiences, places you've already seen..."></textarea>
+        <textarea id="notes" class="notes-textarea" placeholder="Tell me anything — dietary needs, mobility considerations, dream experiences, places you've already seen..."></textarea>
       </div>
       <div class="fee-note">
         <strong>Planning fee</strong> — paid only after you approve the itinerary draft. No upfront commitment, no risk.
@@ -1315,16 +1484,20 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
 })();
 
 function toggleActivity(el) {
-  // Close any open panel
+  // If clicking an already expanded card — close it
+  if (el.classList.contains('expanded')) {
+    var existingPanel = el.parentElement.querySelector('.activity-panel');
+    if (existingPanel) closePanel(existingPanel.querySelector('.activity-panel-close') || existingPanel);
+    el.classList.remove('expanded');
+    return;
+  }
+
+  // Close any open panel and expanded card
   document.querySelectorAll('.activity-panel').forEach(function(p) {
-    p.classList.remove('open');
-    if (p.parentElement) p.parentElement.removeChild(p);
+    p.style.opacity = '0';
+    setTimeout(function() { if (p.parentElement) p.parentElement.removeChild(p); }, 250);
   });
   document.querySelectorAll('.activity.expanded').forEach(function(a) { a.classList.remove('expanded'); });
-
-  if (el._wasOpen) { el._wasOpen = false; return; }
-  el._wasOpen = true;
-  setTimeout(function() { el._wasOpen = false; }, 400);
 
   el.classList.add('expanded');
 
@@ -1336,13 +1509,11 @@ function toggleActivity(el) {
   panel.className = 'activity-panel';
   panel.innerHTML =
     '<div class="activity-panel-content">' +
-      '<button class="activity-panel-close" onclick="closePanel(this)">&#x2715;</button>' +
       '<div class="activity-panel-title">' + name + '</div>' +
       '<div class="activity-panel-desc">' + desc + '</div>' +
       articleHTML +
     '</div>';
 
-  // Determine columns per row based on screen width
   var cols = window.innerWidth <= 480 ? 1 : (window.innerWidth <= 768 ? 2 : 3);
   var grid = el.parentElement;
   var cards = Array.from(grid.children).filter(function(c) { return c.classList.contains('activity'); });
@@ -1355,11 +1526,17 @@ function toggleActivity(el) {
 
 function closePanel(el) {
   var panel = el;
-  while (panel && !panel.classList.contains('activity-panel')) panel = panel.parentElement;
+  for (var i = 0; i < 10; i++) {
+    if (!panel) break;
+    if (panel.classList && panel.classList.contains('activity-panel')) break;
+    panel = panel.parentElement;
+  }
   if (!panel) return;
-  panel.classList.remove('open');
-  document.querySelectorAll('.activity.expanded').forEach(a => a.classList.remove('expanded'));
-  setTimeout(function() { if (panel.parentElement) panel.parentElement.removeChild(panel); }, 350);
+  panel.style.opacity = '0';
+  panel.style.transform = 'translateY(-6px)';
+  panel.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+  document.querySelectorAll('.activity.expanded').forEach(function(a) { a.classList.remove('expanded'); });
+  setTimeout(function() { if (panel && panel.parentElement) panel.parentElement.removeChild(panel); }, 280);
 }
 
 document.getElementById('tripForm').addEventListener('submit', function(e) {
@@ -1393,46 +1570,169 @@ window.addEventListener('scroll', () => {
   waBtn.style.pointerEvents = show ? 'auto' : 'none';
 });
 
-// QUIZ
-var _qa={}, _im={adventure:'Adventure & adrenaline',nature:'Nature & hiking',culture:'Culture & food',mix:'A mix of everything'}, _gm={solo:'Solo',couple:'2 people',small:'3–5 people',group:'6–10 people'}, _dn={short:'a long weekend (2–3 days)',week:'a full week (4–7 days)',long:'more than a week (8+ days)'};
-var _qd={adventure:'A {d} trip built around adrenaline — rafting, canyoning, jeep offroad. Planned for {g}.',nature:'{d} in Montenegro\'s most untouched landscapes — mountains, lakes, trails almost nobody walks. Planned for {g}.',culture:'{d} of old towns, wine cellars, hidden local experiences. The Montenegro most tourists never find. Planned for {g}.',mix:'{d} across coast, canyons, and mountains. The full contrast — planned for {g}.'};
+// TRIP BUILDER QUIZ
+var _tb = {};
 
-function quizAnswer(step,value,key){
-  _qa['s'+step]={value:value,key:key};
-  var cur=document.getElementById('qStep'+step);
-  cur.style.opacity='0'; cur.style.transform='translateY(-8px)'; cur.style.transition='all 0.3s';
-  setTimeout(function(){
-    cur.classList.remove('active'); cur.style.opacity=''; cur.style.transform=''; cur.style.transition='';
-    if(step<3){ document.getElementById('qStep'+(step+1)).classList.add('active'); return; }
-    var sk=(_qa.s1||{key:'mix'}).key, dk=(_qa.s2||{key:'week'}).key, gk=(_qa.s3||{key:'couple'}).key;
-    var d=_dn[dk], g=_gm[gk];
-    document.getElementById('qResultDesc').textContent=_qd[sk].replace('{d}',d.charAt(0).toUpperCase()+d.slice(1)).replace('{g}',g.toLowerCase());
-    var iEl=document.getElementById('interests');
-    if(iEl){for(var i=0;i<iEl.options.length;i++){if(iEl.options[i].text===_im[sk]){iEl.selectedIndex=i;iEl.style.borderColor='var(--cta)';iEl.style.background='rgba(46,139,114,0.07)';break;}}}
-    var gEl=document.getElementById('group');
-    if(gEl){for(var i=0;i<gEl.options.length;i++){if(gEl.options[i].text===g){gEl.selectedIndex=i;gEl.style.borderColor='var(--cta)';gEl.style.background='rgba(46,139,114,0.07)';break;}}}
-    var nEl=document.getElementById('notes');
-    if(nEl&&!nEl.value){nEl.value='Style: '+_im[sk]+'\nDuration: '+d+'\nGroup: '+g;nEl.style.borderColor='rgba(46,139,114,0.35)';}
-    var tf=document.getElementById('tripForm');
-    if(tf&&!document.getElementById('_qb')){var b=document.createElement('div');b.id='_qb';b.style.cssText='font-size:0.7rem;color:var(--cta);border:1px solid rgba(46,139,114,0.2);padding:0.5rem 0.9rem;margin-bottom:1.2rem;background:rgba(46,139,114,0.05);';b.textContent='\u2713 Pre-filled from your quiz — review and send below';tf.insertBefore(b,tf.firstChild);}
-    document.getElementById('qResult').classList.add('active');
-    // Scroll happens only on "Plan my trip" button click — see quiz-result-cta handler below
-  },300);
+// Traveller type mapping
+var _types = {
+  adventure: { explorer: 'The Adventurer', balanced: 'The Bold Explorer', trusting: 'The Thrill-Seeker', best: 'The Connoisseur' },
+  nature:    { explorer: 'The Wanderer',   balanced: 'The Nature Seeker', trusting: 'The Escapist',    best: 'The Purist' },
+  culture:   { explorer: 'The Discoverer', balanced: 'The Culturalist',   trusting: 'The Insider',     best: 'The Connoisseur' },
+  mix:       { explorer: 'The Explorer',   balanced: 'The All-Rounder',   trusting: 'The Open Traveller', best: 'The Experience Seeker' }
+};
+
+var _worryResponse = {
+  missing:  'People like you come to Montenegro once and start planning the return before the first trip ends.',
+  planning:'The right plan makes all the difference. This is exactly what I build.',
+  start:    'Most people feel the same. That\'s why I exist.',
+  none:     'Perfect. You just need someone who knows the terrain — I\'ll handle everything.'
+};
+
+var _im = { adventure: 'Adventure & adrenaline', nature: 'Nature & hiking', culture: 'Culture & food', mix: 'A mix of everything' };
+var _gm = { solo: 'Solo', couple: '2 people', small: '3\u20135 people', group: '6\u201310 people' };
+var _dn = { short: 'a long weekend (2-3 days)', week: 'a full week (4-7 days)', long: 'more than a week (8+ days)' };
+
+// Slider
+(function(){
+  var sl = document.getElementById('adventureSlider');
+  var disp = document.getElementById('sliderDisplay');
+  if (!sl) return;
+  sl.addEventListener('input', function() {
+    disp.textContent = sl.value + ' / 10';
+    var pct = (sl.value - 1) / 9 * 100;
+    sl.style.background = 'linear-gradient(to right, var(--cta) ' + pct + '%, rgba(200,184,154,0.2) ' + pct + '%)';
+  });
+  sl.dispatchEvent(new Event('input'));
+})();
+
+function quizAnswer(step, value, key) {
+  _tb['s' + step] = { value: value, key: key };
+  quizTransition('qStep' + step, 'qStep' + (step + 1));
 }
+
+function quizSliderNext() {
+  var val = document.getElementById('adventureSlider').value;
+  _tb.s2 = { value: val, key: val };
+  quizTransition('qStep2', 'qStep3');
+}
+
+// Dual select (step 5)
+var _dualSelected = { group: null, duration: null };
+function quizDualSelect(el, type) {
+  var col = el.closest('.quiz-dual-col');
+  col.querySelectorAll('.quiz-dual-opt').forEach(function(o) { o.classList.remove('selected'); });
+  el.classList.add('selected');
+  if (type === 'group') {
+    _dualSelected.group = { value: el.dataset.group, key: el.dataset.gkey };
+  } else {
+    _dualSelected.duration = { value: el.dataset.dur, key: el.dataset.dkey };
+  }
+  var btn = document.getElementById('quizFinalBtn');
+  if (_dualSelected.group && _dualSelected.duration) {
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    btn.style.cursor = 'pointer';
+  }
+}
+
+function quizFinish() {
+  if (!_dualSelected.group || !_dualSelected.duration) return;
+  _tb.s5g = _dualSelected.group;
+  _tb.s5d = _dualSelected.duration;
+
+  var moodKey = (_tb.s1 || { key: 'mix' }).key;
+  var identKey = (_tb.s3 || { key: 'balanced' }).key;
+  var worryKey = (_tb.s4 || { key: 'none' }).key;
+  var gKey = _tb.s5g.key;
+  var dKey = _tb.s5d.key;
+  var sliderVal = _tb.s2 ? parseInt(_tb.s2.value) : 5;
+
+  var typeName = (_types[moodKey] && _types[moodKey][identKey]) || 'The Explorer';
+  var worryText = _worryResponse[worryKey] || '';
+  var g = _gm[gKey] || _tb.s5g.value;
+  var d = _dn[dKey] || _tb.s5d.value;
+  var adventureLabel = sliderVal <= 3 ? 'Relaxed & scenic' : sliderVal <= 6 ? 'Balanced adventure' : sliderVal <= 8 ? 'Highly active' : 'Maximum adrenaline';
+
+  // Update result card
+  document.getElementById('qResultTitle').textContent = typeName;
+  document.getElementById('qResultDesc').textContent = worryText;
+  document.getElementById('rc-style').children[1].textContent = 'Style: ' + _im[moodKey];
+  document.getElementById('rc-adventure').children[1].textContent = 'Energy level: ' + adventureLabel + ' (' + sliderVal + '/10)';
+  document.getElementById('rc-duration').children[1].textContent = 'Duration: ' + d;
+  document.getElementById('rc-group').children[1].textContent = 'Group: ' + g;
+  document.getElementById('rc-worry').children[1].textContent = 'Priority: ' + (worryKey === 'missing' ? 'Authentic experiences' : worryKey === 'planning' ? 'Seamless logistics' : worryKey === 'start' ? 'Clear direction' : 'Local expertise');
+
+  // Prefill form
+  var iEl = document.getElementById('interests');
+  if (iEl) { for (var i = 0; i < iEl.options.length; i++) { if (iEl.options[i].text === _im[moodKey]) { iEl.selectedIndex = i; iEl.style.borderColor = 'var(--cta)'; iEl.style.background = 'rgba(46,139,114,0.07)'; break; } } }
+  var gEl = document.getElementById('group');
+  if (gEl) { for (var i = 0; i < gEl.options.length; i++) { if (gEl.options[i].text === g || gEl.options[i].text.indexOf(_tb.s5g.value) >= 0) { gEl.selectedIndex = i; gEl.style.borderColor = 'var(--cta)'; gEl.style.background = 'rgba(46,139,114,0.07)'; break; } } }
+  var nEl = document.getElementById('notes');
+  if (nEl && !nEl.value) {
+    nEl.value = 'Hi Igor,\n\nI\'m ' + g.toLowerCase() + ' planning ' + d + ' in Montenegro.\n\nI\'m drawn to ' + _im[moodKey].toLowerCase() + ', with an energy level of ' + adventureLabel.toLowerCase() + ' (' + sliderVal + '/10).\n\nMy biggest concern: ' + (worryKey === 'missing' ? 'missing the experiences that actually matter.' : worryKey === 'planning' ? 'poor planning ruining the vibe.' : worryKey === 'start' ? 'not knowing where to start.' : 'nothing — I just need someone local to guide me.') + '\n\nFeel free to add anything else below — the more you share, the better the plan. \u2193\n';
+    nEl.style.borderColor = 'rgba(46,139,114,0.35)';
+  }
+  var tf = document.getElementById('tripForm');
+  if (tf && !document.getElementById('_qb')) {
+    var b = document.createElement('div');
+    b.id = '_qb';
+    b.style.cssText = 'font-size:0.7rem;color:var(--cta);border:1px solid rgba(46,139,114,0.2);padding:0.5rem 0.9rem;margin-bottom:1.2rem;background:rgba(46,139,114,0.05);';
+    b.textContent = '✓ Trip profile pre-filled — review and send below';
+    tf.insertBefore(b, tf.firstChild);
+  }
+
+  quizTransition('qStep5', 'qResult');
+}
+
+function quizTransition(fromId, toId) {
+  var cur = document.getElementById(fromId);
+  if (!cur) return;
+  cur.style.opacity = '0';
+  cur.style.transform = 'translateY(-8px)';
+  cur.style.transition = 'all 0.3s';
+  setTimeout(function() {
+    cur.classList.remove('active');
+    cur.style.opacity = '';
+    cur.style.transform = '';
+    cur.style.transition = '';
+    var next = document.getElementById(toId);
+    if (next) next.classList.add('active');
+  }, 300);
+}
+
+function quizBack(s) {
+  ['qStep1','qStep2','qStep3','qStep4','qStep5','qResult'].forEach(function(id) {
+    var e = document.getElementById(id); if (e) e.classList.remove('active');
+  });
+  document.getElementById('qStep' + s).classList.add('active');
+}
+
+function quizReset() {
+  _tb = {};
+  _dualSelected = { group: null, duration: null };
+  ['interests','group'].forEach(function(id) {
+    var e = document.getElementById(id);
+    if (e) { e.style.borderColor = ''; e.style.background = ''; e.selectedIndex = 0; }
+  });
+  document.querySelectorAll('.quiz-dual-opt').forEach(function(o) { o.classList.remove('selected'); });
+  var btn = document.getElementById('quizFinalBtn');
+  if (btn) { btn.disabled = true; btn.style.opacity = '0.4'; btn.style.cursor = 'not-allowed'; }
+  var n = document.getElementById('notes'); if (n) { n.value = ''; n.style.borderColor = ''; }
+  var b = document.getElementById('_qb'); if (b) b.remove();
+  quizBack(1);
+}
+
 document.addEventListener('click', function(e) {
   if (e.target && e.target.id === 'qResultCta') {
     e.preventDefault();
     var el = document.getElementById('plan'); if (!el) return;
     var t = el.getBoundingClientRect().top + window.scrollY - 80;
     var s = window.scrollY, dist = t - s, dur = 1400, t0 = null;
-    function ease(x){ return x<0.5?2*x*x:-1+(4-2*x)*x; }
-    function tick(ts){ if(!t0)t0=ts; var p=Math.min((ts-t0)/dur,1); window.scrollTo(0,s+dist*ease(p)); if(p<1)requestAnimationFrame(tick); }
+    function ease(x) { return x < 0.5 ? 2*x*x : -1+(4-2*x)*x; }
+    function tick(ts) { if (!t0) t0 = ts; var p = Math.min((ts-t0)/dur,1); window.scrollTo(0,s+dist*ease(p)); if (p<1) requestAnimationFrame(tick); }
     requestAnimationFrame(tick);
   }
 });
-
-function quizBack(s){['qStep1','qStep2','qStep3','qResult'].forEach(function(id){var e=document.getElementById(id);if(e)e.classList.remove('active');});document.getElementById('qStep'+s).classList.add('active');}
-function quizReset(){Object.keys(_qa).forEach(function(k){delete _qa[k];});['interests','group'].forEach(function(id){var e=document.getElementById(id);if(e){e.style.borderColor='';e.style.background='';e.selectedIndex=0;}});var n=document.getElementById('notes');if(n){n.value='';n.style.borderColor='';}var b=document.getElementById('_qb');if(b)b.remove();quizBack(1);}
 
 
 // STEP SCROLL ANIMATION + SHIMMER
