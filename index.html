@@ -151,7 +151,7 @@ body::before {
 .how-section::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 120px; background: linear-gradient(to bottom, transparent, var(--black)); pointer-events: none; z-index: 1; }
 .step { padding: 2.5rem 2rem; border: 1px solid rgba(46,139,114,0.1); background: rgba(46,139,114,0.03); position: relative; overflow: hidden; transition: border-color 0.3s, background 0.3s; }
 .step::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--cta), transparent); opacity: 0; transition: opacity 0.3s; }
-.step::after { content: attr(data-num); position: absolute; bottom: -0.5rem; right: 1rem; font-family: 'Playfair Display', serif; font-size: 8rem; font-weight: 700; color: rgba(46,139,114,0.07); line-height: 1; pointer-events: none; transition: color 0.3s; }
+.step::after { content: attr(data-num); position: absolute; bottom: -0.5rem; right: 1rem; font-family: 'Playfair Display', serif; font-size: 8rem; font-weight: 700; color: rgba(46,139,114,0.13); line-height: 1; pointer-events: none; transition: color 0.3s; }
 .step:hover { background: rgba(46,139,114,0.06); border-color: rgba(46,139,114,0.25); }
 .step:hover::before { opacity: 1; }
 .step:hover::after { color: rgba(46,139,114,0.12); }
@@ -169,7 +169,7 @@ body::before {
 .and-more-eyebrow { font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--stone); margin-bottom: 1.2rem; opacity: 0.5; }
 .and-more-headline { font-family: 'Playfair Display', serif; font-size: clamp(1.5rem,3.5vw,2.4rem); font-weight: 400; color: var(--white); line-height: 1.2; margin-bottom: 1.4rem; }
 .and-more-headline em { color: var(--stone); font-style: italic; }
-.and-more-items { font-size: 0.65rem; color: rgba(200,184,154,0.28); line-height: 2.6; letter-spacing: 0.1em; text-transform: uppercase; max-width: 500px; margin: 0 auto 2rem; }
+.and-more-items { font-size: 0.68rem; color: rgba(200,184,154,0.62); line-height: 2.6; letter-spacing: 0.08em; text-transform: uppercase; max-width: 500px; margin: 0 auto 2rem; }
 .and-more-cta { display: inline-block; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cta); text-decoration: none; border-bottom: 1px solid rgba(46,139,114,0.3); padding-bottom: 3px; transition: all 0.2s; }
 .and-more-cta:hover { color: var(--cta-hover); border-color: var(--cta-hover); }
 @media (max-width: 768px) { .and-more-section { padding: 3rem 1.2rem; } }
@@ -178,11 +178,12 @@ body::before {
 
 .activity { background: var(--black); position: relative; cursor: pointer; transition: background 0.3s; }
 .activity:hover { background: rgba(14,20,15,1); }
-.activity.expanded { background: rgba(8,16,10,1); cursor: default; }
+.activity.expanded { background: rgba(8,16,10,1); cursor: default; box-shadow: inset 0 0 0 1px rgba(46,139,114,0.4); }
 
 /* green bottom line on hover/expanded */
 .activity::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: var(--cta); transform: scaleX(0); transition: transform 0.3s ease; transform-origin: left; }
-.activity:hover::after, .activity.expanded::after { transform: scaleX(1); }
+.activity:hover::after { transform: scaleX(1); }
+.activity.expanded::after { transform: scaleX(1); background: rgba(46,139,114,0.6); }
 
 .activity-img { display: none; }
 .activity-img::after { display: none; }
@@ -192,7 +193,8 @@ body::before {
 .activity-header { display: flex; justify-content: space-between; align-items: flex-start; }
 .activity-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 400; color: var(--white); margin-bottom: 0.4rem; line-height: 1.2; }
 .activity-desc { font-size: 0.78rem; line-height: 1.6; color: rgba(245,242,238,0.4); margin-top: 0.4rem; transition: opacity 0.3s; }
-.activity.expanded .activity-desc { opacity: 0.6; }
+.activity.expanded .activity-desc { display: none; }
+.activity.expanded .activity-body { padding: 1rem 1.5rem 0; }
 .activity-toggle { font-size: 1.1rem; color: rgba(193,127,59,0.6); font-weight: 300; flex-shrink: 0; margin-left: 1rem; transition: transform 0.35s, color 0.2s; line-height: 1; padding-top: 2px; }
 .activity.expanded .activity-toggle { transform: rotate(45deg); color: var(--accent); }
 
@@ -505,7 +507,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
   .section-label { margin-bottom: 1.2rem; }
   .steps { grid-template-columns: 1fr; gap: 0.75rem; }
   .step { padding: 1.75rem 1.5rem; }
-  .step::after { font-size: 5rem; }
+  .step::after { font-size: 5rem; color: rgba(46,139,114,0.18) !important; }
   .step-num { font-size: 2.5rem; margin-bottom: 1rem; }
   .step-title { font-size: 0.9rem; }
   .step-desc { font-size: 0.8rem; }
@@ -562,7 +564,9 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
   .activity-desc { display: none; }
   .activity.expanded .activity-desc { display: block; font-size: 0.8rem; }
   .activity-body { padding: 1rem; }
-  .activity.expanded .activity-body { padding: 1.2rem; }
+  .activity.expanded .activity-body { display: none; }
+  .activity-article-text .mobile-close { display: none !important; }
+  .activity-article-text .mobile-close { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cta); cursor: pointer; margin-bottom: 1rem; }
   .pricing-section { padding: 3rem 0 3rem; }
   .pricing-section > div:first-child { padding: 0 1.2rem; margin-bottom: 2rem; }
   .pricing-grid { grid-template-columns: repeat(3, 78vw); gap: 0; max-width: none; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; padding: 0 1.2rem 1rem; scrollbar-width: none; border: none; }
@@ -718,10 +722,12 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
 </section>
 
 <!-- ACTIVITIES -->
-<section class="section activities-blend" style="padding-top:0;" id="activities">
-  <div class="section-label">What's possible</div>
-  <h2 class="section-title">Montenegro, in full</h2>
-  <div class="activities-grid">
+<section class="section activities-blend" style="padding-top:0;padding-left:0;padding-right:0;" id="activities">
+  <div style="padding: 0 2rem 2rem;">
+    <div class="section-label">What's possible</div>
+    <h2 class="section-title">Montenegro, in full</h2>
+  </div>
+  <div class="activities-grid" id="activitiesGrid">
 
     <div class="activity" onclick="toggleActivity(this)">
       <div class="activity-img">
@@ -729,22 +735,19 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
       </div>
       <div class="activity-body">
         <div class="activity-header">
-          <div><div class="activity-name">Tara Rafting</div></div>
+          <div class="activity-name">Tara Rafting</div>
           <span class="activity-toggle">+</span>
         </div>
         <div class="activity-desc">Europe's deepest canyon. Grade 3–4 rapids. A full day on one of the world's most spectacular rivers.</div>
-        <div class="activity-article"><div class="activity-article-inner"><div class="activity-article-img"><img src="rafting.webp" alt="Tara Rafting"></div><div class="activity-article-text">
-          <p>The Tara River Canyon is the deepest canyon in Europe at over 1,300 metres. The river runs cold and fast from April through October, with the best rapids in spring when snowmelt brings the water to its peak. No experience is needed — guides are fully certified and equipment is provided.</p>
-          <p>A full-day rafting trip covers around 18km of river, passing through emerald gorges, under ancient bridges, and past waterfalls that drop directly into the canyon.</p>
-          <ul>
-            <li>Duration: Full day (4 hours on water)</li>
-            <li>Difficulty: Grade 3–4 (moderate to challenging)</li>
-            <li>Best season: April – October</li>
-            <li>Includes: Guide, equipment, lunch on the river</li>
-            <li>Starting point: Šćepan Polje, ~2.5h from Podgorica</li>
-          </ul>
-          <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience →</a>
-        </div></div></div>
+      </div>
+      <div class="activity-article">
+        <div class="activity-article-inner">
+          <div class="activity-article-img"><img src="rafting.webp" alt="Tara Rafting"></div>
+          <div class="activity-article-text">
+            <p>The Tara River Canyon is the deepest canyon in Europe at over 1,300 metres. The river runs cold and fast from April through October, with the best rapids in spring when snowmelt brings the water to its peak. No experience is needed — guides are fully certified and equipment is provided.</p><p>A full-day rafting trip covers around 18km of river, passing through emerald gorges, under ancient bridges, and past waterfalls that drop directly into the canyon.</p><ul><li>Duration: Full day (4 hours on water)</li><li>Difficulty: Grade 3–4 (moderate to challenging)</li><li>Best season: April – October</li><li>Includes: Guide, equipment, lunch on the river</li><li>Starting point: Šćepan Polje, ~2.5h from Podgorica</li></ul>
+            <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience &rarr;</a>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -754,22 +757,19 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
       </div>
       <div class="activity-body">
         <div class="activity-header">
-          <div><div class="activity-name">Canyoning</div></div>
+          <div class="activity-name">Canyoning</div>
           <span class="activity-toggle">+</span>
         </div>
         <div class="activity-desc">Rappel through limestone gorges, swim through crystal pools, jump into plunge basins few ever discover.</div>
-        <div class="activity-article"><div class="activity-article-inner"><div class="activity-article-img"><img src="canyoning.webp" alt="Canyoning"></div><div class="activity-article-text">
-          <p>Nevidio Canyon — "the unseen" — was only first explored in 1965. A narrow limestone gorge carved by the Komarnica river, with walls rising over 300 metres. Canyoning here means abseiling down waterfalls, swimming through ice-cold pools, and squeezing through passages just wide enough for one person.</p>
-          <p>It's challenging, exhilarating, and unlike anything you'll find elsewhere in Europe.</p>
-          <ul>
-            <li>Duration: 5–6 hours</li>
-            <li>Difficulty: Challenging (good fitness required)</li>
-            <li>Best season: May – September</li>
-            <li>Includes: Guide, wetsuit, helmet, harness, rich meal after</li>
-            <li>Starting point: Šavnik area, ~2h from Podgorica</li>
-          </ul>
-          <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience →</a>
-        </div></div></div>
+      </div>
+      <div class="activity-article">
+        <div class="activity-article-inner">
+          <div class="activity-article-img"><img src="canyoning.webp" alt="Canyoning"></div>
+          <div class="activity-article-text">
+            <p>Nevidio Canyon — "the unseen" — was only first explored in 1965. A narrow limestone gorge carved by the Komarnica river, with walls rising over 300 metres. Canyoning here means abseiling down waterfalls, swimming through ice-cold pools, and squeezing through passages just wide enough for one person.</p><p>It's challenging, exhilarating, and unlike anything you'll find elsewhere in Europe.</p><ul><li>Duration: 5–6 hours</li><li>Difficulty: Challenging (good fitness required)</li><li>Best season: May – September</li><li>Includes: Guide, wetsuit, helmet, harness, rich meal after</li></ul>
+            <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience &rarr;</a>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -779,47 +779,41 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
       </div>
       <div class="activity-body">
         <div class="activity-header">
-          <div><div class="activity-name">Jeep Safari</div></div>
+          <div class="activity-name">Jeep Safari</div>
           <span class="activity-toggle">+</span>
         </div>
         <div class="activity-desc">Off-road into Montenegro's wild interior. Mountain plateaus, shepherd villages, panoramas that take your breath away.</div>
-        <div class="activity-article"><div class="activity-article-inner"><div class="activity-article-img"><img src="jeep.webp" alt="Jeep Safari"></div><div class="activity-article-text">
-          <p>Montenegro's mountain interior is largely inaccessible by ordinary car. Durmitor National Park has over 40 glacial lakes, high-altitude meadows, and centuries-old shepherd villages that sit above the clouds.</p>
-          <p>In summer, the Black Lake plateau and Sedlo Pass offer sweeping panoramas across three mountain ranges. In autumn, the colours are extraordinary and the tracks are quiet.</p>
-          <ul>
-            <li>Duration: Full day or half day</li>
-            <li>Difficulty: Easy (you're in the jeep)</li>
-            <li>Best season: May – October</li>
-            <li>Includes: Private 4x4, guide, picnic lunch</li>
-            <li>Departures from: Žabljak or Kolašin</li>
-          </ul>
-          <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience →</a>
-        </div></div></div>
+      </div>
+      <div class="activity-article">
+        <div class="activity-article-inner">
+          <div class="activity-article-img"><img src="jeep.webp" alt="Jeep Safari"></div>
+          <div class="activity-article-text">
+            <p>Montenegro's mountain interior is largely inaccessible by ordinary car. Durmitor National Park has over 40 glacial lakes, high-altitude meadows, and centuries-old shepherd villages that sit above the clouds.</p><ul><li>Duration: Full day or half day</li><li>Difficulty: Easy (you're in the jeep)</li><li>Best season: May – October</li><li>Includes: Private 4x4, guide, picnic lunch</li><li>Departures from: Žabljak or Kolašin</li></ul>
+            <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience &rarr;</a>
+          </div>
+        </div>
       </div>
     </div>
 
     <div class="activity" onclick="toggleActivity(this)">
       <div class="activity-img">
-        <img src="kayak.webp" alt="Kayak and Boat" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <img src="kayak.webp" alt="Kayak &amp; Boat" style="width:100%;height:100%;object-fit:cover;display:block;">
       </div>
       <div class="activity-body">
         <div class="activity-header">
-          <div><div class="activity-name">Kayak &amp; Boat</div></div>
+          <div class="activity-name">Kayak &amp; Boat</div>
           <span class="activity-toggle">+</span>
         </div>
         <div class="activity-desc">Paddle through Europe's southernmost fjord, or glide across the Balkans' largest lake at sunrise.</div>
-        <div class="activity-article"><div class="activity-article-inner"><div class="activity-article-img"><img src="kayak.webp" alt="Kayak &amp; Boat"></div><div class="activity-article-text">
-          <p>The Bay of Kotor — dramatic limestone cliffs dropping into dark blue water, with medieval towns clinging to the shoreline. Kayaking it at sunrise, before the tourist boats arrive, is one of the great quiet experiences of the Adriatic.</p>
-          <p>Skadar Lake is a vast freshwater lake on the Montenegro-Albania border, home to pelicans, cormorants, and some of the best fishing in the region.</p>
-          <ul>
-            <li>Duration: 2–4 hours (kayak) or half day (boat)</li>
-            <li>Difficulty: Easy to moderate</li>
-            <li>Best season: April – October</li>
-            <li>Includes: Equipment, guide, safety briefing</li>
-            <li>Departures from: Kotor, Perast, or Virpazar</li>
-          </ul>
-          <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience →</a>
-        </div></div></div>
+      </div>
+      <div class="activity-article">
+        <div class="activity-article-inner">
+          <div class="activity-article-img"><img src="kayak.webp" alt="Kayak &amp; Boat"></div>
+          <div class="activity-article-text">
+            <p>The Bay of Kotor — dramatic limestone cliffs dropping into dark blue water, with medieval towns clinging to the shoreline. Kayaking it at sunrise, before the tourist boats arrive, is one of the great quiet experiences of the Adriatic.</p><ul><li>Duration: 2–4 hours (kayak) or half day (boat)</li><li>Difficulty: Easy to moderate</li><li>Best season: April – October</li><li>Includes: Equipment, guide, safety briefing</li><li>Departures from: Kotor, Perast, or Virpazar</li></ul>
+            <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience &rarr;</a>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -829,47 +823,41 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
       </div>
       <div class="activity-body">
         <div class="activity-header">
-          <div><div class="activity-name">Hiking</div></div>
+          <div class="activity-name">Hiking</div>
           <span class="activity-toggle">+</span>
         </div>
         <div class="activity-desc">From gentle lakeside trails to summit ascents through Southern Europe's finest national parks.</div>
-        <div class="activity-article"><div class="activity-article-inner"><div class="activity-article-img"><img src="hiking.webp" alt="Hiking"></div><div class="activity-article-text">
-          <p>Montenegro has more than 1,000km of marked trails across two UNESCO-listed national parks — from easy lakeside walks to serious multi-day mountain routes. Whatever your pace and fitness level, there is a trail that fits.</p>
-          <p>We work with experienced local guides who know the terrain in every season. Routes are selected based on your group, your fitness, and what you want to experience — not a fixed itinerary pulled from a brochure.</p>
-          <ul>
-            <li>Duration: Half day to multi-day</li>
-            <li>Difficulty: Easy to very challenging</li>
-            <li>Best season: June – October</li>
-            <li>Includes: Local guide, route planning, safety equipment</li>
-            <li>Routes: Many options available based on your preferences</li>
-          </ul>
-          <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience →</a>
-        </div></div></div>
+      </div>
+      <div class="activity-article">
+        <div class="activity-article-inner">
+          <div class="activity-article-img"><img src="hiking.webp" alt="Hiking"></div>
+          <div class="activity-article-text">
+            <p>Montenegro has more than 1,000km of marked trails across two UNESCO-listed national parks. Whatever your pace and fitness level, there is a trail that fits.</p><ul><li>Duration: Half day to multi-day</li><li>Difficulty: Easy to very challenging</li><li>Best season: June – October</li><li>Includes: Local guide, route planning, safety equipment</li></ul>
+            <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience &rarr;</a>
+          </div>
+        </div>
       </div>
     </div>
 
     <div class="activity" onclick="toggleActivity(this)">
       <div class="activity-img">
-        <img src="wine.webp" alt="Wine and Food" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <img src="wine.webp" alt="Wine &amp; Food" style="width:100%;height:100%;object-fit:cover;display:block;">
       </div>
       <div class="activity-body">
         <div class="activity-header">
-          <div><div class="activity-name">Wine &amp; Food</div></div>
+          <div class="activity-name">Wine &amp; Food</div>
           <span class="activity-toggle">+</span>
         </div>
         <div class="activity-desc">Private tastings at Montenegro's finest wineries, market visits, and meals that reveal local culinary identity.</div>
-        <div class="activity-article"><div class="activity-article-inner"><div class="activity-article-img"><img src="wine.webp" alt="Wine &amp; Food"></div><div class="activity-article-text">
-          <p>Montenegro has some of the most scenic wine country in the Balkans — rolling vineyards, family-run cellars, and local konobas with views that make every glass taste better. Our partners are carefully selected local producers and hosts who offer something you won't find in any guidebook.</p>
-          <p>Whether it's a private tasting at a family winery, a market visit followed by a home-cooked meal, or a full food and wine day through the countryside — we arrange it around your group and your pace.</p>
-          <ul>
-            <li>Duration: Half day to full day</li>
-            <li>Difficulty: Easy</li>
-            <li>Best season: Year-round (harvest: September–October)</li>
-            <li>Includes: Private tasting, food pairing, transport</li>
-            <li>Area: Around Podgorica</li>
-          </ul>
-          <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience →</a>
-        </div></div></div>
+      </div>
+      <div class="activity-article">
+        <div class="activity-article-inner">
+          <div class="activity-article-img"><img src="wine.webp" alt="Wine &amp; Food"></div>
+          <div class="activity-article-text">
+            <p>Montenegro has some of the most scenic wine country in the Balkans — rolling vineyards, family-run cellars, and local konobas with views that make every glass taste better.</p><ul><li>Duration: Half day to full day</li><li>Difficulty: Easy</li><li>Best season: Year-round (harvest: September–October)</li><li>Includes: Private tasting, food pairing, transport</li></ul>
+            <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience &rarr;</a>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -879,22 +867,19 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
       </div>
       <div class="activity-body">
         <div class="activity-header">
-          <div><div class="activity-name">Horseback Riding</div></div>
+          <div class="activity-name">Horseback Riding</div>
           <span class="activity-toggle">+</span>
         </div>
         <div class="activity-desc">Ride through alpine meadows and beech forests — one of the most peaceful ways to experience Montenegro's mountain interior.</div>
-        <div class="activity-article"><div class="activity-article-inner"><div class="activity-article-img"><img src="horseback.webp" alt="Horseback Riding"></div><div class="activity-article-text">
-          <p>Montenegro's mountain pastures have been grazed by horses for centuries. Riding through Bjelasica's high meadows in summer — with views across three mountain ranges — is something no road can replicate.</p>
-          <p>Routes range from gentle valley trails suitable for beginners to full-day mountain crossings for experienced riders. All horses are calm, well-handled, and selected to match rider experience.</p>
-          <ul>
-            <li>Duration: 2 hours to full day</li>
-            <li>Difficulty: Beginner to advanced</li>
-            <li>Best season: May – October</li>
-            <li>Includes: Horse, guide, equipment</li>
-            <li>Departures from: Žabljak or Kolašin</li>
-          </ul>
-          <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience →</a>
-        </div></div></div>
+      </div>
+      <div class="activity-article">
+        <div class="activity-article-inner">
+          <div class="activity-article-img"><img src="horseback.webp" alt="Horseback Riding"></div>
+          <div class="activity-article-text">
+            <p>Montenegro's mountain pastures have been grazed by horses for centuries. Riding through Bjelasica's high meadows in summer — with views across three mountain ranges — is something no road can replicate.</p><ul><li>Duration: 2 hours to full day</li><li>Difficulty: Beginner to advanced</li><li>Best season: May – October</li><li>Includes: Horse, guide, equipment</li></ul>
+            <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience &rarr;</a>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -904,22 +889,19 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
       </div>
       <div class="activity-body">
         <div class="activity-header">
-          <div><div class="activity-name">Mountain Biking</div></div>
+          <div class="activity-name">Mountain Biking</div>
           <span class="activity-toggle">+</span>
         </div>
         <div class="activity-desc">Singletrack trails through national park terrain — from flowing forest paths to technical descents above the treeline.</div>
-        <div class="activity-article"><div class="activity-article-inner"><div class="activity-article-img"><img src="biking.webp" alt="Mountain Biking"></div><div class="activity-article-text">
-          <p>Durmitor National Park has some of the most varied mountain biking terrain in the Balkans. The Sinjajevina plateau — the largest mountain pasture in the western Balkans — offers endless trail options with almost no traffic and views that stretch to the Adriatic on clear days.</p>
-          <p>Trails are graded from easy family-friendly routes around Žabljak to demanding technical singletrack for experienced riders. Bike hire and guided tours available.</p>
-          <ul>
-            <li>Duration: Half day to full day</li>
-            <li>Difficulty: Easy to advanced</li>
-            <li>Best season: June – October</li>
-            <li>Includes: Bike, helmet, guide, route planning</li>
-            <li>Departures from: Žabljak</li>
-          </ul>
-          <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience →</a>
-        </div></div></div>
+      </div>
+      <div class="activity-article">
+        <div class="activity-article-inner">
+          <div class="activity-article-img"><img src="biking.webp" alt="Mountain Biking"></div>
+          <div class="activity-article-text">
+            <p>Durmitor National Park has some of the most varied mountain biking terrain in the Balkans. Trails are graded from easy family-friendly routes to demanding technical singletrack for experienced riders.</p><ul><li>Duration: Half day to full day</li><li>Difficulty: Easy to advanced</li><li>Best season: June – October</li><li>Includes: Bike, helmet, guide, route planning</li><li>Departures from: Žabljak</li></ul>
+            <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience &rarr;</a>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -929,29 +911,23 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
       </div>
       <div class="activity-body">
         <div class="activity-header">
-          <div><div class="activity-name">Paragliding</div></div>
+          <div class="activity-name">Paragliding</div>
           <span class="activity-toggle">+</span>
         </div>
         <div class="activity-desc">Tandem paragliding above the Bay of Kotor or the mountain ranges above Kolašin — Montenegro from a perspective most visitors never see.</div>
-        <div class="activity-article"><div class="activity-article-inner"><div class="activity-article-img"><img src="paragliding.webp" alt="Paragliding"></div><div class="activity-article-text">
-          <p>Launching from the hills above Budva gives you a bird's-eye view of the entire Adriatic coastline — islands, bays, and the walled city of Kotor stretching into the distance. Flights last 15–30 minutes depending on thermals.</p>
-          <p>Mountain launches above Kolašin offer a completely different experience — forested ridges, plateau views, and the silence of high altitude. All flights are tandem with certified instructors. No experience required.</p>
-          <ul>
-            <li>Duration: 20–40 minutes in the air</li>
-            <li>Difficulty: Easy (tandem — no experience needed)</li>
-            <li>Best season: April – October</li>
-            <li>Includes: Tandem flight, instructor, photos/video</li>
-          </ul>
-          <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience →</a>
-        </div></div></div>
+      </div>
+      <div class="activity-article">
+        <div class="activity-article-inner">
+          <div class="activity-article-img"><img src="paragliding.webp" alt="Paragliding"></div>
+          <div class="activity-article-text">
+            <p>Launching from the hills above Budva gives you a bird's-eye view of the entire Adriatic coastline. Flights last 15–30 minutes depending on thermals. All flights are tandem with certified instructors. No experience required.</p><ul><li>Duration: 20–40 minutes in the air</li><li>Difficulty: Easy (tandem — no experience needed)</li><li>Best season: April – October</li><li>Includes: Tandem flight, instructor, photos/video</li></ul>
+            <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience &rarr;</a>
+          </div>
+        </div>
       </div>
     </div>
 
-
-</section>
-
-
-
+  </div>
 <!-- AND MORE -->
 <section class="and-more-section">
   <p class="and-more-eyebrow">And much more</p>
@@ -1589,14 +1565,14 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
 })();
 
 function toggleActivity(el) {
-  var isExpanded = el.classList.contains('expanded');
-  // Close all
-  document.querySelectorAll('.activity.expanded').forEach(function(a) { a.classList.remove('expanded'); });
-  // Toggle
-  if (!isExpanded) el.classList.add('expanded');
+  var isOpen = el.classList.contains('expanded');
+  document.querySelectorAll('.activity.expanded').forEach(function(a) {
+    a.classList.remove('expanded');
+  });
+  if (!isOpen) {
+    el.classList.add('expanded');
+  }
 }
-
-function closePanel() {}
 
 document.getElementById('tripForm').addEventListener('submit', function(e) {
   e.preventDefault();
