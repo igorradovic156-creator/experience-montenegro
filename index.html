@@ -44,9 +44,9 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1.2rem
 .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(2.6rem, 9vw, 7rem); line-height: 1.0; font-weight: 400; margin-bottom: 1.5rem; }
 .hero-title em { font-style: italic; color: var(--stone); }
 .hero-sub { max-width: 480px; font-size: clamp(0.88rem, 2.5vw, 1rem); line-height: 1.7; color: rgba(245,242,238,0.82); margin-bottom: 0.75rem; }
-.hero-urgency { font-size: 0.72rem; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 2rem; display: flex; align-items: center; gap: 0.5rem; }
-.hero-urgency::before { content: '●'; font-size: 0.5rem; animation: pulse 2s infinite; }
-@keyframes pulse { 0%,100%{ opacity:1; } 50%{ opacity:0.35; } }
+.hero-urgency { font-size: 0.72rem; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 2rem; display: inline-flex; align-items: center; gap: 0.6rem; background: rgba(0,0,0,0.45); padding: 0.45rem 0.9rem; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+.hero-urgency::before { content: '●'; font-size: 0.55rem; color: var(--accent); animation: pulse 1.6s infinite; flex-shrink: 0; }
+@keyframes pulse { 0%,100%{ opacity:1; transform:scale(1); } 50%{ opacity:0.2; transform:scale(0.7); } }
 .hero-actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; margin-bottom: 2.5rem; }
 .hero-trust { display: flex; align-items: center; gap: 1rem; padding-top: 2rem; border-top: 1px solid rgba(200,184,154,0.12); flex-wrap: wrap; }
 .hero-trust-text { font-size: 0.7rem; color: rgba(245,242,238,0.38); letter-spacing: 0.05em; white-space: nowrap; }
@@ -62,7 +62,8 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1.2rem
 .btn-ghost::after { content: '↓'; }
 
 /* MARQUEE */
-.marquee-wrap { overflow: hidden; border-top: 1px solid rgba(200,184,154,0.18); border-bottom: 1px solid rgba(200,184,154,0.18); padding: 0.8rem 0; background: rgba(200,184,154,0.03); }
+.marquee-wrap { overflow: hidden; border-top: 1px solid rgba(200,184,154,0.18); border-bottom: 1px solid rgba(200,184,154,0.18); padding: 0.8rem 0; background: rgba(200,184,154,0.03); cursor: default; }
+.marquee-wrap:hover .marquee { animation-play-state: paused; }
 .marquee { display: flex; gap: 3rem; animation: marquee 22s linear infinite; width: max-content; }
 .marquee-item { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--stone); white-space: nowrap; display: flex; align-items: center; gap: 3rem; }
 .marquee-item::after { content: '✦'; font-size: 0.45rem; }
@@ -164,6 +165,7 @@ body::before {
 /* ACTIVITIES */
 /* AND MORE */
 .and-more-section { padding: 4rem 2rem 90px; background: var(--black); text-align: center; position: relative; overflow: hidden; }
+.and-more-section::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 80px; background: linear-gradient(to bottom, rgba(46,139,114,0.03), transparent); pointer-events: none; }
 
 /* seamless top fade from activities grid */
 
@@ -243,7 +245,7 @@ body::before {
 .pricing-section { padding: 5rem 2rem; background: #0a1a12; position: relative; overflow: hidden; }
 .pricing-section > div { max-width: 1100px; margin-left: auto; margin-right: auto; }
 .pricing-section::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 70% 50%, rgba(46,139,114,0.09) 0%, transparent 65%); }
-.pricing-note { font-size: 0.88rem; color: rgba(245,242,238,0.55); line-height: 1.8; margin-top: 0; margin-bottom: 0; max-width: 520px; }
+.pricing-note { font-size: 0.88rem; color: rgba(245,242,238,0.55); line-height: 1.9; margin-top: 0; margin-bottom: 0; max-width: 520px; }
 .pricing-note strong { color: rgba(245,242,238,0.72); font-weight: 400; }
 .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 3rem; max-width: 900px; margin-left: auto; margin-right: auto; border: 1px solid rgba(46,139,114,0.15); }
 .price-card { background: rgba(8,18,12,0.95); padding: 2.5rem 2rem; position: relative; transition: background 0.3s; border-right: 1px solid rgba(46,139,114,0.12); }
@@ -352,6 +354,7 @@ body::before {
 /* QUIZ */
 .quiz-section { padding: 6rem 2rem; background: linear-gradient(135deg, #060f0a 0%, #0a1a12 50%, #060f0a 100%); position: relative; overflow: hidden; }
 .quiz-section::before { content: ''; position: absolute; top: -40%; left: 50%; transform: translateX(-50%); width: 600px; height: 600px; background: radial-gradient(ellipse, rgba(46,139,114,0.12) 0%, transparent 70%); pointer-events: none; }
+.quiz-section::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 100px; background: linear-gradient(to bottom, var(--black), transparent); pointer-events: none; z-index: 0; }
 .quiz-section > * { max-width: 1100px; margin-left: auto; margin-right: auto; position: relative; }
 .quiz-eyebrow { font-size: 0.62rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--cta); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem; }
 .quiz-eyebrow::before { content: ''; display: block; width: 24px; height: 1px; background: var(--cta); }
@@ -580,7 +583,11 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
   .price-card:last-child { border-right: 1px solid rgba(46,139,114,0.15); }
   .price-amount { font-size: 2.4rem; }
   .price-name { font-size: 1.4rem; }
-  .pricing-scroll-hint { display: block; text-align: center; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(200,184,154,0.22); padding-top: 0.75rem; }
+  .pricing-scroll-hint { display: flex; align-items: center; justify-content: center; gap: 0.6rem; text-align: center; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(200,184,154,0.7); padding: 1rem 1.2rem 0; animation: swipeHint 2s ease-in-out infinite; }
+  .pricing-scroll-hint::before { content: '←'; font-size: 0.9rem; animation: swipeArrow 2s ease-in-out infinite; }
+  .pricing-scroll-hint::after { content: '→'; font-size: 0.9rem; animation: swipeArrow 2s ease-in-out infinite; }
+  @keyframes swipeArrow { 0%,100% { opacity: 0.4; transform: translateX(0); } 50% { opacity: 1; transform: translateX(3px); } }
+  @keyframes swipeHint { 0%,100% { opacity: 0.6; } 50% { opacity: 1; } }
   .form-section { grid-template-columns: 1fr; gap: 2rem; padding: 3rem 1.2rem; }
   #formWrap { background: rgba(46,139,114,0.09); border: 1px solid rgba(46,139,114,0.22); padding: 1.75rem 1.25rem; position: relative; box-shadow: 0 12px 40px rgba(0,0,0,0.25); }
   #formWrap::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--cta), rgba(46,139,114,0.3), transparent); }
@@ -617,6 +624,15 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
   .activity.expanded { grid-column: span 1; }
   .hero-title { font-size: 2.4rem; }
 }
+
+/* FADE-UP ANIMATIONS */
+.fade-up { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+.fade-up:nth-child(1) { transition-delay: 0s; }
+.fade-up:nth-child(2) { transition-delay: 0.1s; }
+.fade-up:nth-child(3) { transition-delay: 0.2s; }
+.fade-up:nth-child(4) { transition-delay: 0.3s; }
+.fade-up:nth-child(5) { transition-delay: 0.4s; }
 </style>
 </head>
 <body>
@@ -750,7 +766,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
           <div class="activity-article-img"><img src="rafting.webp" alt="Tara Rafting"></div>
           <div class="activity-article-text">
             <p>The Tara River Canyon is the deepest canyon in Europe at over 1,300 metres. The river runs cold and fast from April through October, with the best rapids in spring when snowmelt brings the water to its peak. No experience is needed — guides are fully certified and equipment is provided.</p><p>A full-day rafting trip covers around 18km of river, passing through emerald gorges, under ancient bridges, and past waterfalls that drop directly into the canyon.</p><ul><li>Duration: Full day (4 hours on water)</li><li>Difficulty: Grade 3–4 (moderate to challenging)</li><li>Best season: April – October</li><li>Includes: Guide, equipment, lunch on the river</li><li>Starting point: Šćepan Polje, ~2.5h from Podgorica</li></ul>
-            <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience &rarr;</a>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;"><a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience &rarr;</a><button onclick="event.stopPropagation();toggleActivity(this.closest('.activity'))" style="background:none;border:none;color:rgba(200,184,154,0.25);cursor:pointer;font-size:0.7rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;font-family:inherit;flex-shrink:0;padding:0;" onmouseover="this.style.color='rgba(200,184,154,0.6)'" onmouseout="this.style.color='rgba(200,184,154,0.25)'">close</button></div>
           </div>
         </div>
       </div>
@@ -772,7 +788,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
           <div class="activity-article-img"><img src="canyoning.webp" alt="Canyoning"></div>
           <div class="activity-article-text">
             <p>Nevidio Canyon — "the unseen" — was only first explored in 1965. A narrow limestone gorge carved by the Komarnica river, with walls rising over 300 metres. Canyoning here means abseiling down waterfalls, swimming through ice-cold pools, and squeezing through passages just wide enough for one person.</p><p>It's challenging, exhilarating, and unlike anything you'll find elsewhere in Europe.</p><ul><li>Duration: 5–6 hours</li><li>Difficulty: Challenging (good fitness required)</li><li>Best season: May – September</li><li>Includes: Guide, wetsuit, helmet, harness, rich meal after</li></ul>
-            <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience &rarr;</a>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;"><a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience &rarr;</a><button onclick="event.stopPropagation();toggleActivity(this.closest('.activity'))" style="background:none;border:none;color:rgba(200,184,154,0.25);cursor:pointer;font-size:0.7rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;font-family:inherit;flex-shrink:0;padding:0;" onmouseover="this.style.color='rgba(200,184,154,0.6)'" onmouseout="this.style.color='rgba(200,184,154,0.25)'">close</button></div>
           </div>
         </div>
       </div>
@@ -794,7 +810,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
           <div class="activity-article-img"><img src="jeep.webp" alt="Jeep Safari"></div>
           <div class="activity-article-text">
             <p>Montenegro's mountain interior is largely inaccessible by ordinary car. Durmitor National Park has over 40 glacial lakes, high-altitude meadows, and centuries-old shepherd villages that sit above the clouds.</p><ul><li>Duration: Full day or half day</li><li>Difficulty: Easy (you're in the jeep)</li><li>Best season: May – October</li><li>Includes: Private 4x4, guide, picnic lunch</li><li>Departures from: Žabljak or Kolašin</li></ul>
-            <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience &rarr;</a>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;"><a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience &rarr;</a><button onclick="event.stopPropagation();toggleActivity(this.closest('.activity'))" style="background:none;border:none;color:rgba(200,184,154,0.25);cursor:pointer;font-size:0.7rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;font-family:inherit;flex-shrink:0;padding:0;" onmouseover="this.style.color='rgba(200,184,154,0.6)'" onmouseout="this.style.color='rgba(200,184,154,0.25)'">close</button></div>
           </div>
         </div>
       </div>
@@ -816,7 +832,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
           <div class="activity-article-img"><img src="kayak.webp" alt="Kayak &amp; Boat"></div>
           <div class="activity-article-text">
             <p>The Bay of Kotor — dramatic limestone cliffs dropping into dark blue water, with medieval towns clinging to the shoreline. Kayaking it at sunrise, before the tourist boats arrive, is one of the great quiet experiences of the Adriatic.</p><ul><li>Duration: 2–4 hours (kayak) or half day (boat)</li><li>Difficulty: Easy to moderate</li><li>Best season: April – October</li><li>Includes: Equipment, guide, safety briefing</li><li>Departures from: Kotor, Perast, or Virpazar</li></ul>
-            <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience &rarr;</a>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;"><a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience &rarr;</a><button onclick="event.stopPropagation();toggleActivity(this.closest('.activity'))" style="background:none;border:none;color:rgba(200,184,154,0.25);cursor:pointer;font-size:0.7rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;font-family:inherit;flex-shrink:0;padding:0;" onmouseover="this.style.color='rgba(200,184,154,0.6)'" onmouseout="this.style.color='rgba(200,184,154,0.25)'">close</button></div>
           </div>
         </div>
       </div>
@@ -838,7 +854,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
           <div class="activity-article-img"><img src="hiking.webp" alt="Hiking"></div>
           <div class="activity-article-text">
             <p>Montenegro has more than 1,000km of marked trails across two UNESCO-listed national parks. Whatever your pace and fitness level, there is a trail that fits.</p><ul><li>Duration: Half day to multi-day</li><li>Difficulty: Easy to very challenging</li><li>Best season: June – October</li><li>Includes: Local guide, route planning, safety equipment</li></ul>
-            <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience &rarr;</a>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;"><a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience &rarr;</a><button onclick="event.stopPropagation();toggleActivity(this.closest('.activity'))" style="background:none;border:none;color:rgba(200,184,154,0.25);cursor:pointer;font-size:0.7rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;font-family:inherit;flex-shrink:0;padding:0;" onmouseover="this.style.color='rgba(200,184,154,0.6)'" onmouseout="this.style.color='rgba(200,184,154,0.25)'">close</button></div>
           </div>
         </div>
       </div>
@@ -860,7 +876,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
           <div class="activity-article-img"><img src="wine.webp" alt="Wine &amp; Food"></div>
           <div class="activity-article-text">
             <p>Montenegro has some of the most scenic wine country in the Balkans — rolling vineyards, family-run cellars, and local konobas with views that make every glass taste better.</p><ul><li>Duration: Half day to full day</li><li>Difficulty: Easy</li><li>Best season: Year-round (harvest: September–October)</li><li>Includes: Private tasting, food pairing, transport</li></ul>
-            <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience &rarr;</a>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;"><a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience &rarr;</a><button onclick="event.stopPropagation();toggleActivity(this.closest('.activity'))" style="background:none;border:none;color:rgba(200,184,154,0.25);cursor:pointer;font-size:0.7rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;font-family:inherit;flex-shrink:0;padding:0;" onmouseover="this.style.color='rgba(200,184,154,0.6)'" onmouseout="this.style.color='rgba(200,184,154,0.25)'">close</button></div>
           </div>
         </div>
       </div>
@@ -882,7 +898,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
           <div class="activity-article-img"><img src="horseback.webp" alt="Horseback Riding"></div>
           <div class="activity-article-text">
             <p>Montenegro's mountain pastures have been grazed by horses for centuries. Riding through Bjelasica's high meadows in summer — with views across three mountain ranges — is something no road can replicate.</p><ul><li>Duration: 2 hours to full day</li><li>Difficulty: Beginner to advanced</li><li>Best season: May – October</li><li>Includes: Horse, guide, equipment</li></ul>
-            <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience &rarr;</a>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;"><a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience &rarr;</a><button onclick="event.stopPropagation();toggleActivity(this.closest('.activity'))" style="background:none;border:none;color:rgba(200,184,154,0.25);cursor:pointer;font-size:0.7rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;font-family:inherit;flex-shrink:0;padding:0;" onmouseover="this.style.color='rgba(200,184,154,0.6)'" onmouseout="this.style.color='rgba(200,184,154,0.25)'">close</button></div>
           </div>
         </div>
       </div>
@@ -904,7 +920,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
           <div class="activity-article-img"><img src="biking.webp" alt="Mountain Biking"></div>
           <div class="activity-article-text">
             <p>Durmitor National Park has some of the most varied mountain biking terrain in the Balkans. Trails are graded from easy family-friendly routes to demanding technical singletrack for experienced riders.</p><ul><li>Duration: Half day to full day</li><li>Difficulty: Easy to advanced</li><li>Best season: June – October</li><li>Includes: Bike, helmet, guide, route planning</li><li>Departures from: Žabljak</li></ul>
-            <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience &rarr;</a>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;"><a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience &rarr;</a><button onclick="event.stopPropagation();toggleActivity(this.closest('.activity'))" style="background:none;border:none;color:rgba(200,184,154,0.25);cursor:pointer;font-size:0.7rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;font-family:inherit;flex-shrink:0;padding:0;" onmouseover="this.style.color='rgba(200,184,154,0.6)'" onmouseout="this.style.color='rgba(200,184,154,0.25)'">close</button></div>
           </div>
         </div>
       </div>
@@ -926,7 +942,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
           <div class="activity-article-img"><img src="paragliding.webp" alt="Paragliding"></div>
           <div class="activity-article-text">
             <p>Launching from the hills above Budva gives you a bird's-eye view of the entire Adriatic coastline. Flights last 15–30 minutes depending on thermals. All flights are tandem with certified instructors. No experience required.</p><ul><li>Duration: 20–40 minutes in the air</li><li>Difficulty: Easy (tandem — no experience needed)</li><li>Best season: April – October</li><li>Includes: Tandem flight, instructor, photos/video</li></ul>
-            <a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience &rarr;</a>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;"><a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience &rarr;</a><button onclick="event.stopPropagation();toggleActivity(this.closest('.activity'))" style="background:none;border:none;color:rgba(200,184,154,0.25);cursor:pointer;font-size:0.7rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;font-family:inherit;flex-shrink:0;padding:0;" onmouseover="this.style.color='rgba(200,184,154,0.6)'" onmouseout="this.style.color='rgba(200,184,154,0.25)'">close</button></div>
           </div>
         </div>
       </div>
@@ -1188,7 +1204,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
   <div class="pricing-inner">
     <div class="section-label" style="color:rgba(245,242,238,0.38);">Investment</div>
     <h2 class="section-title">One fee. Everything handled.<br><em style="color:var(--stone);">Yours to approve.</em></h2>
-    <p class="pricing-note">Most travel planning costs you time, energy, and missed experiences. This costs less than a dinner out — and gives you a trip worth remembering.</p>
+    <p class="pricing-note" style="margin-top:1.5rem;">Most travel planning costs you time, energy, and missed experiences. This costs less than a dinner out — and gives you a trip worth remembering.</p>
     <p class="pricing-note" style="margin-top:0.9rem;">You pay only for the plan itself. Every activity, transfer, and accommodation is paid directly to the operator — fully transparent, no markup, nothing added on top. You see exactly what you're getting before you commit to anything.</p>
     <div class="pricing-grid">
 
@@ -1775,26 +1791,81 @@ document.addEventListener('click', function(e) {
 });
 
 
-// STEP SCROLL ANIMATION + SHIMMER
+// SCROLL ANIMATIONS
 (function() {
+  // Step shimmer
   var steps = document.querySelectorAll('.step');
-  if (!steps.length) return;
-  var observer = new IntersectionObserver(function(entries) {
+  if (steps.length) {
+    var stepObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          var step = entry.target;
+          step.classList.add('visible');
+          var td = parseFloat(getComputedStyle(step).transitionDelay) * 1000 || 0;
+          setTimeout(function() {
+            step.classList.add('step-shimmer');
+            setTimeout(function() { step.classList.remove('step-shimmer'); }, 900);
+          }, td + 420);
+          stepObs.unobserve(step);
+        }
+      });
+    }, { threshold: 0.2 });
+    steps.forEach(function(step) { stepObs.observe(step); });
+  }
+
+  // Fade-up on scroll
+  var fadeEls = document.querySelectorAll('.section-label, .section-title, .form-detail, .faq-item, .price-card, .about-grid, .about-quote-block');
+  if (fadeEls.length) {
+    var fadeObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('fade-up', 'visible');
+          fadeObs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    fadeEls.forEach(function(el) {
+      el.classList.add('fade-up');
+      fadeObs.observe(el);
+    });
+  }
+
+  // Animated counters
+  function animateCounter(el, target, suffix, duration) {
+    var start = 0;
+    var startTime = null;
+    var isFloat = target % 1 !== 0;
+    function step(timestamp) {
+      if (!startTime) startTime = timestamp;
+      var progress = Math.min((timestamp - startTime) / duration, 1);
+      var ease = 1 - Math.pow(1 - progress, 3);
+      var current = Math.floor(ease * target);
+      el.textContent = current + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+      else el.textContent = target + suffix;
+    }
+    requestAnimationFrame(step);
+  }
+
+  var statsObserver = new IntersectionObserver(function(entries) {
     entries.forEach(function(entry) {
       if (entry.isIntersecting) {
-        var step = entry.target;
-        step.classList.add('visible');
-        var td = parseFloat(getComputedStyle(step).transitionDelay) * 1000 || 0;
-        setTimeout(function() {
-          step.classList.add('step-shimmer');
-          setTimeout(function() { step.classList.remove('step-shimmer'); }, 900);
-        }, td + 420);
-        observer.unobserve(step);
+        var nums = entry.target.querySelectorAll('.stat-num');
+        nums.forEach(function(num) {
+          var text = num.textContent.trim();
+          if (text === '2h') { num.textContent = '0h'; animateCounter(num, 2, 'h', 1200); }
+          else if (text === '100%') { num.textContent = '0%'; animateCounter(num, 100, '%', 1400); }
+          else if (text === '16+') { num.textContent = '0+'; animateCounter(num, 16, '+', 1000); }
+        });
+        statsObserver.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.2 });
-  steps.forEach(function(step) { observer.observe(step); });
+  }, { threshold: 0.5 });
+
+  var statsSection = document.querySelector('.about-stats');
+  if (statsSection) statsObserver.observe(statsSection);
 })();
+
 
 </script>
 </body>
