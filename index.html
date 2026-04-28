@@ -44,7 +44,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1.2rem
 .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(2.6rem, 9vw, 7rem); line-height: 1.0; font-weight: 400; margin-bottom: 1.5rem; }
 .hero-title em { font-style: italic; color: var(--stone); }
 .hero-sub { max-width: 480px; font-size: clamp(0.88rem, 2.5vw, 1rem); line-height: 1.7; color: rgba(245,242,238,0.82); margin-bottom: 0.75rem; }
-.hero-urgency { font-size: 0.72rem; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 2rem; display: inline-flex; align-items: center; gap: 0.6rem; background: rgba(0,0,0,0.45); padding: 0.45rem 0.9rem; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+.hero-urgency { font-size: 0.72rem; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 2rem; display: flex; align-items: center; gap: 0.5rem; }
 .hero-urgency::before { content: '●'; font-size: 0.55rem; color: var(--accent); animation: pulse 1.6s infinite; flex-shrink: 0; }
 @keyframes pulse { 0%,100%{ opacity:1; transform:scale(1); } 50%{ opacity:0.2; transform:scale(0.7); } }
 .hero-actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; margin-bottom: 2.5rem; }
