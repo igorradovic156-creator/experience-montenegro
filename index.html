@@ -639,13 +639,19 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
 
 /* ── LOADER ─────────────────────────────────────────────── */
 #loader {
-  position: fixed; inset: 0; z-index: 99999;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  width: 100vw; height: 100vh; height: 100dvh;
+  z-index: 99999;
   background: #060e09;
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
+  text-align: center;
   transition: opacity 0.6s ease, visibility 0.6s ease;
-  width: 100%; height: 100%;
-  min-height: 100vh; min-height: 100dvh;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 #loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
 
@@ -659,12 +665,12 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
 
 @media (max-width: 768px) {
   #lottie-kayak {
-    width: 85vw !important;
-    height: 85vw !important;
+    width: clamp(150px, 55vw, 260px) !important;
+    height: clamp(150px, 55vw, 260px) !important;
   }
-  .loader-logo { font-size: 1.2rem; }
-  .loader-coords { font-size: 0.58rem; }
-  .loader-bar-wrap { width: 160px; }
+  .loader-logo { font-size: 1rem; }
+  .loader-coords { font-size: 0.52rem; }
+  .loader-bar-wrap { width: 130px; }
 }
 
 .loader-mountains {
@@ -727,7 +733,8 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
 
 #loader-canvas {
   position: absolute;
-  inset: 0;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
   pointer-events: none;
   z-index: 0;
 }
@@ -740,7 +747,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
 <body>
 <!-- LOADER -->
 <div id="loader"><canvas id="loader-canvas"></canvas>
-  <div id="lottie-kayak" style="width:min(480px,85vw);height:min(480px,85vw);margin-bottom:0.5rem;"></div>
+  <div id="lottie-kayak" style="width:clamp(180px,40vw,320px);height:clamp(180px,40vw,320px);margin:0 auto 1.5rem;flex-shrink:0;"></div>
 
   <div class="loader-logo">Experience <span>Montenegro</span></div>
   <div class="loader-coords">42°26′N · 19°16′E </div>
@@ -2037,18 +2044,15 @@ document.addEventListener('click', function(e) {
         hideOnTransparent: true
       }
     });
-    // Remove any white background from generated SVG
     anim.addEventListener('DOMLoaded', function() {
-      var svg = document.querySelector('#lottie-kayak svg');
+      var container = document.getElementById('lottie-kayak');
+      var svg = container ? container.querySelector('svg') : null;
       if (svg) {
-        svg.style.background = 'transparent';
-        svg.removeAttribute('style');
-        svg.style.background = 'transparent';
-        var rects = svg.querySelectorAll('rect');
-        rects.forEach(function(r) {
+        svg.style.cssText = 'background:transparent!important;width:100%!important;height:100%!important;';
+        svg.querySelectorAll('rect').forEach(function(r) {
           var fill = r.getAttribute('fill');
-          if (fill && (fill === '#ffffff' || fill === 'white' || fill === '#fff')) {
-            r.setAttribute('fill', 'transparent');
+          if (fill && (fill.toLowerCase() === '#ffffff' || fill.toLowerCase() === 'white' || fill.toLowerCase() === '#fff')) {
+            r.setAttribute('fill', 'none');
           }
         });
       }
