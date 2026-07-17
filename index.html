@@ -741,6 +741,101 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
   position: relative;
   z-index: 3;
 }
+
+/* ── ADMIN ── */
+
+:root { --black:#0a0a0a; --white:#f5f2ee; --stone:#c8b89a; --cta:#2e8b72; --accent:#c17f3b; --red:#c0392b; --muted:rgba(245,242,238,0.45); }
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#0a0a0a;color:var(--white);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh;}
+
+/* LOGIN */
+#loginScreen{position:fixed;inset:0;background:#060e09;display:flex;align-items:center;justify-content:center;z-index:9999;}
+.login-box{width:360px;padding:3rem 2.5rem;border:1px solid rgba(200,184,154,0.12);}
+.login-logo{font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:0.3rem;}
+.login-logo span{color:var(--red);font-style:italic;}
+.login-sub{font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(200,184,154,0.35);margin-bottom:2rem;}
+.login-label{font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--stone);margin-bottom:0.4rem;display:block;}
+.login-input{width:100%;background:rgba(200,184,154,0.05);border:1px solid rgba(200,184,154,0.15);color:var(--white);padding:0.75rem 1rem;font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none;margin-bottom:1rem;}
+.login-input:focus{border-color:var(--cta);}
+.login-btn{width:100%;background:var(--cta);color:#fff;border:none;padding:0.85rem;font-family:'DM Sans',sans-serif;font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;}
+.login-btn:hover{background:#3aab8a;}
+.login-error{font-size:0.72rem;color:var(--red);margin-top:0.5rem;display:none;}
+
+/* HEADER */
+.header{background:#0f0f0f;border-bottom:1px solid rgba(200,184,154,0.08);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;}
+.header-logo{font-family:'Playfair Display',serif;font-size:1rem;}
+.header-logo span{color:var(--red);font-style:italic;}
+.header-right{display:flex;align-items:center;gap:1rem;}
+.logout-btn{font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(200,184,154,0.4);cursor:pointer;border:none;background:none;font-family:'DM Sans',sans-serif;}
+.logout-btn:hover{color:var(--stone);}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(200,184,154,0.08);border-bottom:1px solid rgba(200,184,154,0.08);}
+.stat{background:#0a0a0a;padding:1.5rem 2rem;}
+.stat-label{font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(200,184,154,0.4);margin-bottom:0.4rem;}
+.stat-val{font-family:'Playfair Display',serif;font-size:2rem;color:var(--white);}
+.stat-sub{font-size:0.68rem;color:rgba(200,184,154,0.35);margin-top:0.2rem;}
+
+/* FILTERS */
+.filters{padding:1rem 2rem;display:flex;gap:0.75rem;align-items:center;border-bottom:1px solid rgba(200,184,154,0.06);flex-wrap:wrap;}
+.filter-btn{font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.4rem 0.9rem;border:1px solid rgba(200,184,154,0.15);background:transparent;color:rgba(200,184,154,0.5);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;}
+.filter-btn:hover,.filter-btn.active{border-color:var(--cta);color:var(--white);background:rgba(46,139,114,0.08);}
+.filter-search{margin-left:auto;background:rgba(200,184,154,0.05);border:1px solid rgba(200,184,154,0.12);color:var(--white);padding:0.4rem 0.85rem;font-family:'DM Sans',sans-serif;font-size:0.8rem;outline:none;width:220px;}
+.filter-search::placeholder{color:rgba(200,184,154,0.2);}
+.filter-search:focus{border-color:var(--cta);}
+
+/* TABLE */
+.table-wrap{padding:1.5rem 2rem;overflow-x:auto;}
+table{width:100%;border-collapse:collapse;}
+th{font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(200,184,154,0.35);padding:0.6rem 1rem;text-align:left;border-bottom:1px solid rgba(200,184,154,0.08);}
+td{padding:0.85rem 1rem;font-size:0.82rem;border-bottom:1px solid rgba(200,184,154,0.05);vertical-align:top;}
+tr:hover td{background:rgba(200,184,154,0.02);}
+.td-name{font-family:'Playfair Display',serif;font-size:0.92rem;}
+.td-email{color:rgba(200,184,154,0.55);font-size:0.76rem;}
+.td-date{color:rgba(200,184,154,0.35);font-size:0.72rem;white-space:nowrap;}
+.td-msg{color:rgba(245,242,238,0.5);font-size:0.76rem;max-width:280px;line-height:1.5;}
+
+/* STATUS BADGE */
+.badge{font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.2rem 0.6rem;border-radius:2px;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:all 0.2s;}
+.badge-new{background:rgba(46,139,114,0.15);color:#2e8b72;border:1px solid rgba(46,139,114,0.3);}
+.badge-contacted{background:rgba(193,127,59,0.15);color:#c17f3b;border:1px solid rgba(193,127,59,0.3);}
+.badge-booked{background:rgba(46,100,200,0.15);color:#6699ff;border:1px solid rgba(46,100,200,0.3);}
+.badge-done{background:rgba(100,100,100,0.15);color:rgba(200,184,154,0.5);border:1px solid rgba(200,184,154,0.15);}
+
+/* PLAN BADGE */
+.plan-badge{font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--cta);background:rgba(46,139,114,0.08);border:1px solid rgba(46,139,114,0.15);padding:0.15rem 0.5rem;}
+
+/* EMPTY / LOADING */
+.loading{text-align:center;padding:4rem;color:rgba(200,184,154,0.3);font-size:0.8rem;letter-spacing:0.1em;}
+.empty{text-align:center;padding:4rem;color:rgba(200,184,154,0.2);}
+.empty-icon{font-size:2.5rem;margin-bottom:1rem;opacity:0.3;}
+
+/* DETAIL MODAL */
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:999;overflow-y:auto;padding:2rem;}
+.modal.open{display:flex;align-items:flex-start;justify-content:center;}
+.modal-box{background:#111;border:1px solid rgba(200,184,154,0.12);padding:2.5rem;width:100%;max-width:580px;position:relative;margin-top:2rem;}
+.modal-close{position:absolute;top:1rem;right:1rem;background:none;border:none;color:rgba(200,184,154,0.3);font-size:1.2rem;cursor:pointer;}
+.modal-close:hover{color:var(--stone);}
+.modal-title{font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:0.3rem;}
+.modal-sub{font-size:0.68rem;color:rgba(200,184,154,0.35);margin-bottom:2rem;}
+.modal-field{margin-bottom:1.2rem;}
+.modal-field-label{font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(200,184,154,0.4);margin-bottom:0.3rem;}
+.modal-field-val{font-size:0.88rem;color:var(--white);line-height:1.6;}
+.modal-notes{width:100%;background:rgba(200,184,154,0.05);border:1px solid rgba(200,184,154,0.12);color:var(--white);padding:0.75rem;font-family:'DM Sans',sans-serif;font-size:0.82rem;resize:vertical;min-height:80px;outline:none;margin-top:0.3rem;}
+.modal-notes:focus{border-color:var(--cta);}
+.modal-save{background:var(--cta);color:#fff;border:none;padding:0.7rem 1.5rem;font-family:'DM Sans',sans-serif;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;margin-top:0.5rem;}
+.modal-save:hover{background:#3aab8a;}
+.modal-status-row{display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.5rem;}
+
+@media(max-width:768px){
+  .stats{grid-template-columns:1fr 1fr;}
+  .filters{padding:0.75rem 1rem;}
+  .table-wrap{padding:0.75rem 0.5rem;}
+  th,td{padding:0.6rem 0.5rem;}
+  .td-msg{display:none;}
+  .filter-search{width:100%;}
+}
+
 </style>
 </head>
 <body>
@@ -2097,6 +2192,291 @@ document.addEventListener('click', function(e) {
   }, 2500);
 })();
 
+
+
+var SUPABASE_URL = "https://twkiwlshuyjnzabazhmv.supabase.co";
+var SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3a2l3bHNodXlqbnphYmF6aG12Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyNjg5NjEsImV4cCI6MjA5OTg0NDk2MX0.DMkOrnr4bggWsFYZt5RNuQ47VuvPkVqkWIccZIZIiso";
+var ADMIN_PASS = "em2025admin";
+var allLeads = [];
+var currentFilter = 'all';
+var currentLead = null;
+
+// ── LOGIN ──────────────────────────────────────────────────
+function doLogin() {
+  var pass = document.getElementById('loginPass').value;
+  if (pass === ADMIN_PASS) {
+    document.getElementById('loginScreen').style.display = 'none';
+    sessionStorage.setItem('em_admin', '1');
+    loadLeads();
+  } else {
+    document.getElementById('loginError').style.display = 'block';
+  }
+}
+function logout() {
+  sessionStorage.removeItem('em_admin');
+  document.getElementById('loginScreen').style.display = 'flex';
+}
+if (sessionStorage.getItem('em_admin')) {
+  document.getElementById('loginScreen').style.display = 'none';
+  loadLeads();
+}
+
+// ── FETCH ──────────────────────────────────────────────────
+async function loadLeads() {
+  try {
+    var res = await fetch(SUPABASE_URL + '/rest/v1/leads?select=*&order=created_at.desc', {
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
+    });
+    allLeads = await res.json();
+    document.getElementById('loadingMsg').style.display = 'none';
+    updateStats();
+    renderTable();
+    document.getElementById('lastUpdated').textContent = 'Updated ' + new Date().toLocaleTimeString();
+  } catch(e) {
+    document.getElementById('loadingMsg').textContent = 'Error loading leads.';
+  }
+}
+
+// ── STATS ──────────────────────────────────────────────────
+function updateStats() {
+  var total = allLeads.length;
+  var newL = allLeads.filter(function(l){return l.status==='new';}).length;
+  var booked = allLeads.filter(function(l){return l.status==='booked';}).length;
+  var conv = total > 0 ? Math.round(booked/total*100) : 0;
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statNew').textContent = newL;
+  document.getElementById('statBooked').textContent = booked;
+  document.getElementById('statConv').textContent = conv + '%';
+}
+
+// ── FILTER & RENDER ────────────────────────────────────────
+function setFilter(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  renderTable();
+}
+
+function renderTable() {
+  var search = document.getElementById('searchBox').value.toLowerCase();
+  var filtered = allLeads.filter(function(l) {
+    var matchFilter = currentFilter === 'all' || l.status === currentFilter || 
+      (l.plan && l.plan.toLowerCase().includes(currentFilter));
+    var matchSearch = !search || 
+      (l.name && l.name.toLowerCase().includes(search)) || 
+      (l.email && l.email.toLowerCase().includes(search));
+    return matchFilter && matchSearch;
+  });
+
+  var tbody = document.getElementById('leadsBody');
+  tbody.innerHTML = '';
+
+  if (filtered.length === 0) {
+    document.getElementById('leadsTable').style.display = 'none';
+    document.getElementById('emptyMsg').style.display = 'block';
+    return;
+  }
+
+  document.getElementById('leadsTable').style.display = 'table';
+  document.getElementById('emptyMsg').style.display = 'none';
+
+  filtered.forEach(function(l) {
+    var date = new Date(l.created_at);
+    var dateStr = date.toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'});
+    var tr = document.createElement('tr');
+    tr.style.cursor = 'pointer';
+    tr.onclick = function(){openModal(l);};
+    tr.innerHTML = 
+      '<td><div class="td-name">' + (l.name||'—') + '</div><div class="td-email">' + (l.email||'') + '</div></td>' +
+      '<td>' + (l.plan ? '<span class="plan-badge">' + l.plan + '</span>' : '—') + '</td>' +
+      '<td style="color:rgba(200,184,154,0.5);font-size:0.78rem;">' + (l.country||'—') + '</td>' +
+      '<td class="td-msg">' + (l.message ? l.message.substring(0,80) + (l.message.length>80?'…':'') : '—') + '</td>' +
+      '<td class="td-date">' + dateStr + '</td>' +
+      '<td><button class="badge badge-' + (l.status||'new') + '" onclick="event.stopPropagation()">' + (l.status||'new') + '</button></td>';
+    tbody.appendChild(tr);
+  });
+}
+
+// ── MODAL ──────────────────────────────────────────────────
+function openModal(l) {
+  currentLead = l;
+  var date = new Date(l.created_at).toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'});
+  document.getElementById('mName').textContent = l.name || '—';
+  document.getElementById('mSub').textContent = date + (l.country ? ' · ' + l.country : '');
+  document.getElementById('mEmail').textContent = l.email || '—';
+  document.getElementById('mCountry').textContent = l.country || '—';
+  document.getElementById('mPlan').textContent = l.plan || '—';
+  document.getElementById('mDate').textContent = date;
+  document.getElementById('mMsg').textContent = l.message || 'No message';
+  document.getElementById('mNotes').value = l.notes || '';
+  document.getElementById('mWhatsapp').href = 'https://wa.me/?text=Hi ' + encodeURIComponent(l.name||'') + '!';
+  document.getElementById('mEmailLink').href = 'mailto:' + (l.email||'');
+  document.getElementById('detailModal').classList.add('open');
+}
+function closeModal() {
+  document.getElementById('detailModal').classList.remove('open');
+  currentLead = null;
+}
+document.getElementById('detailModal').addEventListener('click', function(e){
+  if(e.target===this) closeModal();
+});
+
+// ── UPDATE STATUS ──────────────────────────────────────────
+async function updateStatus(status) {
+  if (!currentLead) return;
+  await fetch(SUPABASE_URL + '/rest/v1/leads?id=eq.' + currentLead.id, {
+    method: 'PATCH',
+    headers: {
+      'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({status: status})
+  });
+  currentLead.status = status;
+  var idx = allLeads.findIndex(function(l){return l.id===currentLead.id;});
+  if (idx >= 0) allLeads[idx].status = status;
+  updateStats(); renderTable();
+  closeModal();
+}
+
+// ── SAVE NOTES ─────────────────────────────────────────────
+async function saveNotes() {
+  if (!currentLead) return;
+  var notes = document.getElementById('mNotes').value;
+  await fetch(SUPABASE_URL + '/rest/v1/leads?id=eq.' + currentLead.id, {
+    method: 'PATCH',
+    headers: {
+      'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({notes: notes})
+  });
+  currentLead.notes = notes;
+  var btn = document.querySelector('.modal-save');
+  btn.textContent = 'Saved ✓';
+  setTimeout(function(){btn.textContent='Save notes';}, 2000);
+}
+
+// Auto-refresh every 60s
+setInterval(function(){
+  if (sessionStorage.getItem('em_admin')) loadLeads();
+}, 60000);
+
 </script>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">Experience <span>Montenegro</span></div>
+    <div class="login-sub">Admin Panel</div>
+    <label class="login-label">Password</label>
+    <input type="password" class="login-input" id="loginPass" placeholder="Enter password" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" onclick="doLogin()">Enter</button>
+    <div class="login-error" id="loginError">Wrong password</div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-logo">Experience <span>Montenegro</span> <span style="font-size:0.6rem;letter-spacing:0.15em;color:rgba(200,184,154,0.3);font-family:'DM Sans',sans-serif;text-transform:uppercase;margin-left:0.5rem;">Admin</span></div>
+  <div class="header-right">
+    <span style="font-size:0.65rem;color:rgba(200,184,154,0.3);" id="lastUpdated"></span>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat">
+    <div class="stat-label">Total leads</div>
+    <div class="stat-val" id="statTotal">—</div>
+    <div class="stat-sub">All time</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">New</div>
+    <div class="stat-val" id="statNew" style="color:var(--cta);">—</div>
+    <div class="stat-sub">Awaiting reply</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">Booked</div>
+    <div class="stat-val" id="statBooked" style="color:#6699ff;">—</div>
+    <div class="stat-sub">Confirmed trips</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">Conversion</div>
+    <div class="stat-val" id="statConv">—</div>
+    <div class="stat-sub">Leads → bookings</div>
+  </div>
+</div>
+
+<!-- FILTERS -->
+<div class="filters">
+  <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+  <button class="filter-btn" onclick="setFilter('new',this)">New</button>
+  <button class="filter-btn" onclick="setFilter('contacted',this)">Contacted</button>
+  <button class="filter-btn" onclick="setFilter('booked',this)">Booked</button>
+  <button class="filter-btn" onclick="setFilter('done',this)">Done</button>
+  <button class="filter-btn" onclick="setFilter('escape',this)">Escape</button>
+  <button class="filter-btn" onclick="setFilter('explorer',this)">Explorer</button>
+  <input type="text" class="filter-search" id="searchBox" placeholder="Search name or email..." oninput="renderTable()">
+</div>
+
+<!-- TABLE -->
+<div class="table-wrap">
+  <div class="loading" id="loadingMsg">Loading leads...</div>
+  <table id="leadsTable" style="display:none;">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Plan</th>
+        <th>Country</th>
+        <th>Message</th>
+        <th>Date</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody id="leadsBody"></tbody>
+  </table>
+  <div class="empty" id="emptyMsg" style="display:none;">
+    <div class="empty-icon">✉</div>
+    <div>No leads yet</div>
+  </div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="modal" id="detailModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title" id="mName"></div>
+    <div class="modal-sub" id="mSub"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;">
+      <div class="modal-field"><div class="modal-field-label">Email</div><div class="modal-field-val" id="mEmail"></div></div>
+      <div class="modal-field"><div class="modal-field-label">Country</div><div class="modal-field-val" id="mCountry"></div></div>
+      <div class="modal-field"><div class="modal-field-label">Plan</div><div class="modal-field-val" id="mPlan"></div></div>
+      <div class="modal-field"><div class="modal-field-label">Date</div><div class="modal-field-val" id="mDate"></div></div>
+    </div>
+    <div class="modal-field"><div class="modal-field-label">Message</div><div class="modal-field-val" id="mMsg" style="background:rgba(200,184,154,0.04);padding:0.75rem;border-left:2px solid rgba(46,139,114,0.3);"></div></div>
+    <div class="modal-field" style="margin-top:1.2rem;">
+      <div class="modal-field-label">Status</div>
+      <div class="modal-status-row">
+        <button class="badge badge-new" onclick="updateStatus('new')">New</button>
+        <button class="badge badge-contacted" onclick="updateStatus('contacted')">Contacted</button>
+        <button class="badge badge-booked" onclick="updateStatus('booked')">Booked</button>
+        <button class="badge badge-done" onclick="updateStatus('done')">Done</button>
+      </div>
+    </div>
+    <div class="modal-field" style="margin-top:1.2rem;">
+      <div class="modal-field-label">Your notes</div>
+      <textarea class="modal-notes" id="mNotes" placeholder="Add notes about this lead..."></textarea>
+      <button class="modal-save" onclick="saveNotes()">Save notes</button>
+    </div>
+    <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid rgba(200,184,154,0.08);display:flex;gap:0.75rem;">
+      <a id="mWhatsapp" href="#" target="_blank" style="font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:#25D366;text-decoration:none;border:1px solid rgba(37,211,102,0.25);padding:0.5rem 1rem;">WhatsApp →</a>
+      <a id="mEmailLink" href="#" style="font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--stone);text-decoration:none;border:1px solid rgba(200,184,154,0.2);padding:0.5rem 1rem;">Email →</a>
+    </div>
+  </div>
+</div>
+
+
 </body>
 </html>
