@@ -2396,7 +2396,10 @@ async function admSaveNotes() {
 
 // Init on load and hash change
 window.addEventListener('hashchange', initAdmin);
-if (window.location.hash === '#admin') initAdmin();
+window.addEventListener('DOMContentLoaded', function() {
+  if (window.location.hash === '#admin') initAdmin();
+});
+if (document.readyState !== 'loading' && window.location.hash === '#admin') initAdmin();
 
 // Auto-refresh
 setInterval(function(){
