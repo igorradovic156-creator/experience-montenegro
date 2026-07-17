@@ -2207,6 +2207,7 @@ function doLogin() {
   if (pass === ADMIN_PASS) {
     document.getElementById('loginScreen').style.display = 'none';
     sessionStorage.setItem('em_admin', '1');
+    document.getElementById('adminPanel').style.display = 'block';
     loadLeads();
   } else {
     document.getElementById('loginError').style.display = 'block';
@@ -2214,12 +2215,23 @@ function doLogin() {
 }
 function logout() {
   sessionStorage.removeItem('em_admin');
-  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('adminPanel').style.display = 'none';
+  window.location.hash = '';
 }
-if (sessionStorage.getItem('em_admin')) {
-  document.getElementById('loginScreen').style.display = 'none';
-  loadLeads();
+// Only activate admin if #admin in URL
+function checkAdminAccess() {
+  if (window.location.hash === '#admin') {
+    if (sessionStorage.getItem('em_admin')) {
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('adminPanel').style.display = 'block';
+      loadLeads();
+    } else {
+      document.getElementById('loginScreen').style.display = 'flex';
+    }
+  }
 }
+checkAdminAccess();
+window.addEventListener('hashchange', checkAdminAccess);
 
 // ── FETCH ──────────────────────────────────────────────────
 async function loadLeads() {
@@ -2364,8 +2376,9 @@ setInterval(function(){
 
 </script>
 
+<div id="adminPanel" style="display:none;">
 <!-- LOGIN -->
-<div id="loginScreen">
+<div id="loginScreen" style="display:none;">
   <div class="login-box">
     <div class="login-logo">Experience <span>Montenegro</span></div>
     <div class="login-sub">Admin Panel</div>
@@ -2478,5 +2491,6 @@ setInterval(function(){
 </div>
 
 
+</div><!-- /adminPanel -->
 </body>
 </html>
