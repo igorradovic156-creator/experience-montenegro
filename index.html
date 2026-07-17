@@ -742,100 +742,6 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
   z-index: 3;
 }
 
-/* ── ADMIN ── */
-
-:root { --black:#0a0a0a; --white:#f5f2ee; --stone:#c8b89a; --cta:#2e8b72; --accent:#c17f3b; --red:#c0392b; --muted:rgba(245,242,238,0.45); }
-*{margin:0;padding:0;box-sizing:border-box;}
-body{background:#0a0a0a;color:var(--white);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh;}
-
-/* LOGIN */
-#loginScreen{position:fixed;inset:0;background:#060e09;display:flex;align-items:center;justify-content:center;z-index:9999;}
-.login-box{width:360px;padding:3rem 2.5rem;border:1px solid rgba(200,184,154,0.12);}
-.login-logo{font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:0.3rem;}
-.login-logo span{color:var(--red);font-style:italic;}
-.login-sub{font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(200,184,154,0.35);margin-bottom:2rem;}
-.login-label{font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--stone);margin-bottom:0.4rem;display:block;}
-.login-input{width:100%;background:rgba(200,184,154,0.05);border:1px solid rgba(200,184,154,0.15);color:var(--white);padding:0.75rem 1rem;font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none;margin-bottom:1rem;}
-.login-input:focus{border-color:var(--cta);}
-.login-btn{width:100%;background:var(--cta);color:#fff;border:none;padding:0.85rem;font-family:'DM Sans',sans-serif;font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;}
-.login-btn:hover{background:#3aab8a;}
-.login-error{font-size:0.72rem;color:var(--red);margin-top:0.5rem;display:none;}
-
-/* HEADER */
-.header{background:#0f0f0f;border-bottom:1px solid rgba(200,184,154,0.08);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;}
-.header-logo{font-family:'Playfair Display',serif;font-size:1rem;}
-.header-logo span{color:var(--red);font-style:italic;}
-.header-right{display:flex;align-items:center;gap:1rem;}
-.logout-btn{font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(200,184,154,0.4);cursor:pointer;border:none;background:none;font-family:'DM Sans',sans-serif;}
-.logout-btn:hover{color:var(--stone);}
-
-/* STATS */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(200,184,154,0.08);border-bottom:1px solid rgba(200,184,154,0.08);}
-.stat{background:#0a0a0a;padding:1.5rem 2rem;}
-.stat-label{font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(200,184,154,0.4);margin-bottom:0.4rem;}
-.stat-val{font-family:'Playfair Display',serif;font-size:2rem;color:var(--white);}
-.stat-sub{font-size:0.68rem;color:rgba(200,184,154,0.35);margin-top:0.2rem;}
-
-/* FILTERS */
-.filters{padding:1rem 2rem;display:flex;gap:0.75rem;align-items:center;border-bottom:1px solid rgba(200,184,154,0.06);flex-wrap:wrap;}
-.filter-btn{font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.4rem 0.9rem;border:1px solid rgba(200,184,154,0.15);background:transparent;color:rgba(200,184,154,0.5);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;}
-.filter-btn:hover,.filter-btn.active{border-color:var(--cta);color:var(--white);background:rgba(46,139,114,0.08);}
-.filter-search{margin-left:auto;background:rgba(200,184,154,0.05);border:1px solid rgba(200,184,154,0.12);color:var(--white);padding:0.4rem 0.85rem;font-family:'DM Sans',sans-serif;font-size:0.8rem;outline:none;width:220px;}
-.filter-search::placeholder{color:rgba(200,184,154,0.2);}
-.filter-search:focus{border-color:var(--cta);}
-
-/* TABLE */
-.table-wrap{padding:1.5rem 2rem;overflow-x:auto;}
-table{width:100%;border-collapse:collapse;}
-th{font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(200,184,154,0.35);padding:0.6rem 1rem;text-align:left;border-bottom:1px solid rgba(200,184,154,0.08);}
-td{padding:0.85rem 1rem;font-size:0.82rem;border-bottom:1px solid rgba(200,184,154,0.05);vertical-align:top;}
-tr:hover td{background:rgba(200,184,154,0.02);}
-.td-name{font-family:'Playfair Display',serif;font-size:0.92rem;}
-.td-email{color:rgba(200,184,154,0.55);font-size:0.76rem;}
-.td-date{color:rgba(200,184,154,0.35);font-size:0.72rem;white-space:nowrap;}
-.td-msg{color:rgba(245,242,238,0.5);font-size:0.76rem;max-width:280px;line-height:1.5;}
-
-/* STATUS BADGE */
-.badge{font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.2rem 0.6rem;border-radius:2px;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:all 0.2s;}
-.badge-new{background:rgba(46,139,114,0.15);color:#2e8b72;border:1px solid rgba(46,139,114,0.3);}
-.badge-contacted{background:rgba(193,127,59,0.15);color:#c17f3b;border:1px solid rgba(193,127,59,0.3);}
-.badge-booked{background:rgba(46,100,200,0.15);color:#6699ff;border:1px solid rgba(46,100,200,0.3);}
-.badge-done{background:rgba(100,100,100,0.15);color:rgba(200,184,154,0.5);border:1px solid rgba(200,184,154,0.15);}
-
-/* PLAN BADGE */
-.plan-badge{font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--cta);background:rgba(46,139,114,0.08);border:1px solid rgba(46,139,114,0.15);padding:0.15rem 0.5rem;}
-
-/* EMPTY / LOADING */
-.loading{text-align:center;padding:4rem;color:rgba(200,184,154,0.3);font-size:0.8rem;letter-spacing:0.1em;}
-.empty{text-align:center;padding:4rem;color:rgba(200,184,154,0.2);}
-.empty-icon{font-size:2.5rem;margin-bottom:1rem;opacity:0.3;}
-
-/* DETAIL MODAL */
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:999;overflow-y:auto;padding:2rem;}
-.modal.open{display:flex;align-items:flex-start;justify-content:center;}
-.modal-box{background:#111;border:1px solid rgba(200,184,154,0.12);padding:2.5rem;width:100%;max-width:580px;position:relative;margin-top:2rem;}
-.modal-close{position:absolute;top:1rem;right:1rem;background:none;border:none;color:rgba(200,184,154,0.3);font-size:1.2rem;cursor:pointer;}
-.modal-close:hover{color:var(--stone);}
-.modal-title{font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:0.3rem;}
-.modal-sub{font-size:0.68rem;color:rgba(200,184,154,0.35);margin-bottom:2rem;}
-.modal-field{margin-bottom:1.2rem;}
-.modal-field-label{font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(200,184,154,0.4);margin-bottom:0.3rem;}
-.modal-field-val{font-size:0.88rem;color:var(--white);line-height:1.6;}
-.modal-notes{width:100%;background:rgba(200,184,154,0.05);border:1px solid rgba(200,184,154,0.12);color:var(--white);padding:0.75rem;font-family:'DM Sans',sans-serif;font-size:0.82rem;resize:vertical;min-height:80px;outline:none;margin-top:0.3rem;}
-.modal-notes:focus{border-color:var(--cta);}
-.modal-save{background:var(--cta);color:#fff;border:none;padding:0.7rem 1.5rem;font-family:'DM Sans',sans-serif;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;margin-top:0.5rem;}
-.modal-save:hover{background:#3aab8a;}
-.modal-status-row{display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.5rem;}
-
-@media(max-width:768px){
-  .stats{grid-template-columns:1fr 1fr;}
-  .filters{padding:0.75rem 1rem;}
-  .table-wrap{padding:0.75rem 0.5rem;}
-  th,td{padding:0.6rem 0.5rem;}
-  .td-msg{display:none;}
-  .filter-search{width:100%;}
-}
-
 </style>
 </head>
 <body>
@@ -2218,279 +2124,287 @@ function logout() {
   document.getElementById('adminPanel').style.display = 'none';
   window.location.hash = '';
 }
-// Only activate admin if #admin in URL
-function checkAdminAccess() {
-  if (window.location.hash === '#admin') {
-    if (sessionStorage.getItem('em_admin')) {
-      document.getElementById('loginScreen').style.display = 'none';
-      document.getElementById('adminPanel').style.display = 'block';
-      loadLeads();
-    } else {
-      document.getElementById('loginScreen').style.display = 'flex';
-    }
+
+
+// ── ADMIN PANEL ───────────────────────────────────────────
+var SUPABASE_URL_ADMIN = "https://twkiwlshuyjnzabazhmv.supabase.co";
+var SUPABASE_KEY_ADMIN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3a2l3bHNodXlqbnphYmF6aG12Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyNjg5NjEsImV4cCI6MjA5OTg0NDk2MX0.DMkOrnr4bggWsFYZt5RNuQ47VuvPkVqkWIccZIZIiso";
+var ADMIN_PASS = "em2025admin";
+var allLeads = [];
+var currentFilter = 'all';
+var currentLead = null;
+
+function initAdmin() {
+  if (window.location.hash !== '#admin') return;
+  
+  // Inject admin CSS
+  if (!document.getElementById('adminCSS')) {
+    var style = document.createElement('style');
+    style.id = 'adminCSS';
+    style.textContent = `
+      #adminOverlay { position:fixed;inset:0;z-index:99998;background:#0a0a0a;overflow-y:auto;font-family:'DM Sans',sans-serif; }
+      #loginBox { position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#060e09;z-index:99999; }
+      .lb { width:340px;padding:2.5rem;border:1px solid rgba(200,184,154,0.12); }
+      .lb-logo { font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:0.2rem; }
+      .lb-logo span { color:#c0392b;font-style:italic; }
+      .lb-sub { font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(200,184,154,0.3);margin-bottom:1.8rem; }
+      .lb input { width:100%;background:rgba(200,184,154,0.05);border:1px solid rgba(200,184,154,0.15);color:#f5f2ee;padding:0.7rem 0.9rem;font-family:'DM Sans',sans-serif;font-size:0.88rem;outline:none;margin-bottom:0.75rem; }
+      .lb input:focus { border-color:#2e8b72; }
+      .lb button { width:100%;background:#2e8b72;color:#fff;border:none;padding:0.8rem;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif; }
+      .lb-err { font-size:0.7rem;color:#c0392b;margin-top:0.4rem;display:none; }
+      .adm-header { background:#0f0f0f;border-bottom:1px solid rgba(200,184,154,0.08);padding:0.85rem 1.5rem;display:flex;align-items:center;justify-content:space-between; }
+      .adm-logo { font-family:'Playfair Display',serif;font-size:0.95rem;color:#f5f2ee; }
+      .adm-logo span { color:#c0392b;font-style:italic; }
+      .adm-stats { display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(200,184,154,0.08);border-bottom:1px solid rgba(200,184,154,0.06); }
+      .adm-stat { background:#0a0a0a;padding:1.2rem 1.5rem; }
+      .adm-stat-lbl { font-size:0.55rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(200,184,154,0.35);margin-bottom:0.3rem; }
+      .adm-stat-val { font-family:'Playfair Display',serif;font-size:1.8rem;color:#f5f2ee; }
+      .adm-filters { padding:0.85rem 1.5rem;display:flex;gap:0.5rem;flex-wrap:wrap;border-bottom:1px solid rgba(200,184,154,0.06); }
+      .adm-fbtn { font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.35rem 0.8rem;border:1px solid rgba(200,184,154,0.15);background:transparent;color:rgba(200,184,154,0.45);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s; }
+      .adm-fbtn:hover,.adm-fbtn.active { border-color:#2e8b72;color:#f5f2ee;background:rgba(46,139,114,0.08); }
+      .adm-search { margin-left:auto;background:rgba(200,184,154,0.05);border:1px solid rgba(200,184,154,0.12);color:#f5f2ee;padding:0.35rem 0.75rem;font-family:'DM Sans',sans-serif;font-size:0.78rem;outline:none;width:200px; }
+      .adm-search::placeholder { color:rgba(200,184,154,0.2); }
+      .adm-table-wrap { padding:1rem 1.5rem; }
+      .adm-table { width:100%;border-collapse:collapse; }
+      .adm-table th { font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(200,184,154,0.3);padding:0.5rem 0.75rem;text-align:left;border-bottom:1px solid rgba(200,184,154,0.08); }
+      .adm-table td { padding:0.75rem;font-size:0.8rem;border-bottom:1px solid rgba(200,184,154,0.05);color:#f5f2ee;vertical-align:top; }
+      .adm-table tr:hover td { background:rgba(200,184,154,0.02);cursor:pointer; }
+      .adm-name { font-family:'Playfair Display',serif;font-size:0.88rem; }
+      .adm-email { font-size:0.72rem;color:rgba(200,184,154,0.45); }
+      .adm-date { font-size:0.7rem;color:rgba(200,184,154,0.3);white-space:nowrap; }
+      .badge { font-size:0.56rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.18rem 0.55rem;border:none;cursor:pointer;font-family:'DM Sans',sans-serif; }
+      .badge-new { background:rgba(46,139,114,0.15);color:#2e8b72;border:1px solid rgba(46,139,114,0.3); }
+      .badge-contacted { background:rgba(193,127,59,0.15);color:#c17f3b;border:1px solid rgba(193,127,59,0.3); }
+      .badge-booked { background:rgba(100,130,220,0.15);color:#7799ff;border:1px solid rgba(100,130,220,0.3); }
+      .badge-done { background:rgba(100,100,100,0.1);color:rgba(200,184,154,0.4);border:1px solid rgba(200,184,154,0.12); }
+      .plan-badge { font-size:0.58rem;letter-spacing:0.08em;text-transform:uppercase;color:#2e8b72;background:rgba(46,139,114,0.08);border:1px solid rgba(46,139,114,0.15);padding:0.12rem 0.45rem; }
+      .adm-modal { display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:99999;overflow-y:auto;padding:2rem;align-items:flex-start;justify-content:center; }
+      .adm-modal.open { display:flex; }
+      .adm-modal-box { background:#111;border:1px solid rgba(200,184,154,0.12);padding:2rem;width:100%;max-width:540px;position:relative;margin-top:2rem; }
+      .adm-field-lbl { font-size:0.56rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(200,184,154,0.35);margin-bottom:0.25rem; }
+      .adm-field-val { font-size:0.85rem;color:#f5f2ee;line-height:1.6;margin-bottom:1rem; }
+      .adm-notes { width:100%;background:rgba(200,184,154,0.05);border:1px solid rgba(200,184,154,0.12);color:#f5f2ee;padding:0.65rem;font-family:'DM Sans',sans-serif;font-size:0.8rem;resize:vertical;min-height:70px;outline:none; }
+      .adm-notes:focus { border-color:#2e8b72; }
+      .adm-save { background:#2e8b72;color:#fff;border:none;padding:0.6rem 1.2rem;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:0.4rem; }
+      .adm-status-row { display:flex;gap:0.4rem;flex-wrap:wrap;margin-top:0.4rem; }
+      .adm-close { position:absolute;top:0.85rem;right:0.85rem;background:none;border:none;color:rgba(200,184,154,0.3);font-size:1.1rem;cursor:pointer; }
+      .adm-empty { text-align:center;padding:3rem;color:rgba(200,184,154,0.2);font-size:0.78rem; }
+      @media(max-width:600px) { .adm-stats{grid-template-columns:1fr 1fr;} .adm-search{width:100%;} }
+    `;
+    document.head.appendChild(style);
+  }
+
+  // Inject admin HTML
+  var mount = document.getElementById('adminMount');
+  if (!mount) return;
+  mount.innerHTML = `
+    <div id="adminOverlay" style="display:none;">
+      <div class="adm-header">
+        <div class="adm-logo">Experience <span>Montenegro</span> <span style="font-size:0.55rem;letter-spacing:0.15em;color:rgba(200,184,154,0.3);font-family:'DM Sans',sans-serif;margin-left:0.4rem;">ADMIN</span></div>
+        <div style="display:flex;align-items:center;gap:1rem;">
+          <span style="font-size:0.62rem;color:rgba(200,184,154,0.25);" id="admLastUpdate"></span>
+          <button onclick="admLogout()" style="background:none;border:none;color:rgba(200,184,154,0.35);cursor:pointer;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;font-family:'DM Sans',sans-serif;">Logout</button>
+        </div>
+      </div>
+      <div class="adm-stats">
+        <div class="adm-stat"><div class="adm-stat-lbl">Total</div><div class="adm-stat-val" id="admTotal">—</div></div>
+        <div class="adm-stat"><div class="adm-stat-lbl">New</div><div class="adm-stat-val" id="admNew" style="color:#2e8b72;">—</div></div>
+        <div class="adm-stat"><div class="adm-stat-lbl">Booked</div><div class="adm-stat-val" id="admBooked" style="color:#7799ff;">—</div></div>
+        <div class="adm-stat"><div class="adm-stat-lbl">Conversion</div><div class="adm-stat-val" id="admConv">—</div></div>
+      </div>
+      <div class="adm-filters">
+        <button class="adm-fbtn active" onclick="admFilter('all',this)">All</button>
+        <button class="adm-fbtn" onclick="admFilter('new',this)">New</button>
+        <button class="adm-fbtn" onclick="admFilter('contacted',this)">Contacted</button>
+        <button class="adm-fbtn" onclick="admFilter('booked',this)">Booked</button>
+        <button class="adm-fbtn" onclick="admFilter('done',this)">Done</button>
+        <input type="text" class="adm-search" id="admSearch" placeholder="Search..." oninput="admRender()">
+      </div>
+      <div class="adm-table-wrap">
+        <table class="adm-table" id="admTable"><thead><tr><th>Name</th><th>Plan</th><th>Country</th><th>Date</th><th>Status</th></tr></thead><tbody id="admBody"></tbody></table>
+        <div class="adm-empty" id="admEmpty" style="display:none;">No leads found</div>
+      </div>
+    </div>
+
+    <div id="loginBox">
+      <div class="lb">
+        <div class="lb-logo">Experience <span>Montenegro</span></div>
+        <div class="lb-sub">Admin Panel</div>
+        <input type="password" id="admPass" placeholder="Password" onkeydown="if(event.key==='Enter')admLogin()">
+        <button onclick="admLogin()">Enter</button>
+        <div class="lb-err" id="admErr">Wrong password</div>
+      </div>
+    </div>
+
+    <div class="adm-modal" id="admModal">
+      <div class="adm-modal-box">
+        <button class="adm-close" onclick="admCloseModal()">✕</button>
+        <div style="font-family:'Playfair Display',serif;font-size:1.3rem;margin-bottom:0.2rem;" id="admMName"></div>
+        <div style="font-size:0.65rem;color:rgba(200,184,154,0.3);margin-bottom:1.5rem;" id="admMSub"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.85rem;margin-bottom:1.2rem;">
+          <div><div class="adm-field-lbl">Email</div><div class="adm-field-val" id="admMEmail"></div></div>
+          <div><div class="adm-field-lbl">Country</div><div class="adm-field-val" id="admMCountry"></div></div>
+          <div><div class="adm-field-lbl">Plan</div><div class="adm-field-val" id="admMPlan"></div></div>
+          <div><div class="adm-field-lbl">Date</div><div class="adm-field-val" id="admMDate"></div></div>
+        </div>
+        <div class="adm-field-lbl">Message</div>
+        <div class="adm-field-val" id="admMMsg" style="background:rgba(200,184,154,0.03);padding:0.65rem;border-left:2px solid rgba(46,139,114,0.25);margin-bottom:1rem;"></div>
+        <div class="adm-field-lbl">Status</div>
+        <div class="adm-status-row">
+          <button class="badge badge-new" onclick="admUpdateStatus('new')">New</button>
+          <button class="badge badge-contacted" onclick="admUpdateStatus('contacted')">Contacted</button>
+          <button class="badge badge-booked" onclick="admUpdateStatus('booked')">Booked</button>
+          <button class="badge badge-done" onclick="admUpdateStatus('done')">Done</button>
+        </div>
+        <div class="adm-field-lbl" style="margin-top:1rem;">Notes</div>
+        <textarea class="adm-notes" id="admMNotes" placeholder="Add notes..."></textarea>
+        <button class="adm-save" onclick="admSaveNotes()">Save notes</button>
+        <div style="margin-top:1.2rem;padding-top:0.85rem;border-top:1px solid rgba(200,184,154,0.07);display:flex;gap:0.5rem;">
+          <a id="admWa" href="#" target="_blank" style="font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:#25D366;text-decoration:none;border:1px solid rgba(37,211,102,0.2);padding:0.45rem 0.85rem;">WhatsApp →</a>
+          <a id="admEmail" href="#" style="font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:#c8b89a;text-decoration:none;border:1px solid rgba(200,184,154,0.18);padding:0.45rem 0.85rem;">Email →</a>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Check session
+  if (sessionStorage.getItem('em_admin')) {
+    document.getElementById('loginBox').style.display = 'none';
+    document.getElementById('adminOverlay').style.display = 'block';
+    loadLeads();
   }
 }
-checkAdminAccess();
-window.addEventListener('hashchange', checkAdminAccess);
 
-// ── FETCH ──────────────────────────────────────────────────
+function admLogin() {
+  var pass = document.getElementById('admPass').value;
+  if (pass === ADMIN_PASS) {
+    sessionStorage.setItem('em_admin', '1');
+    document.getElementById('loginBox').style.display = 'none';
+    document.getElementById('adminOverlay').style.display = 'block';
+    loadLeads();
+  } else {
+    document.getElementById('admErr').style.display = 'block';
+  }
+}
+
+function admLogout() {
+  sessionStorage.removeItem('em_admin');
+  document.getElementById('adminMount').innerHTML = '';
+  window.location.hash = '';
+}
+
 async function loadLeads() {
-  try {
-    var res = await fetch(SUPABASE_URL + '/rest/v1/leads?select=*&order=created_at.desc', {
-      headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
-    });
-    allLeads = await res.json();
-    document.getElementById('loadingMsg').style.display = 'none';
-    updateStats();
-    renderTable();
-    document.getElementById('lastUpdated').textContent = 'Updated ' + new Date().toLocaleTimeString();
-  } catch(e) {
-    document.getElementById('loadingMsg').textContent = 'Error loading leads.';
-  }
-}
-
-// ── STATS ──────────────────────────────────────────────────
-function updateStats() {
-  var total = allLeads.length;
-  var newL = allLeads.filter(function(l){return l.status==='new';}).length;
-  var booked = allLeads.filter(function(l){return l.status==='booked';}).length;
-  var conv = total > 0 ? Math.round(booked/total*100) : 0;
-  document.getElementById('statTotal').textContent = total;
-  document.getElementById('statNew').textContent = newL;
-  document.getElementById('statBooked').textContent = booked;
-  document.getElementById('statConv').textContent = conv + '%';
-}
-
-// ── FILTER & RENDER ────────────────────────────────────────
-function setFilter(f, btn) {
-  currentFilter = f;
-  document.querySelectorAll('.filter-btn').forEach(function(b){b.classList.remove('active');});
-  btn.classList.add('active');
-  renderTable();
-}
-
-function renderTable() {
-  var search = document.getElementById('searchBox').value.toLowerCase();
-  var filtered = allLeads.filter(function(l) {
-    var matchFilter = currentFilter === 'all' || l.status === currentFilter || 
-      (l.plan && l.plan.toLowerCase().includes(currentFilter));
-    var matchSearch = !search || 
-      (l.name && l.name.toLowerCase().includes(search)) || 
-      (l.email && l.email.toLowerCase().includes(search));
-    return matchFilter && matchSearch;
+  var res = await fetch(SUPABASE_URL_ADMIN + '/rest/v1/leads?select=*&order=created_at.desc', {
+    headers: { 'apikey': SUPABASE_KEY_ADMIN, 'Authorization': 'Bearer ' + SUPABASE_KEY_ADMIN }
   });
+  allLeads = await res.json();
+  admUpdateStats();
+  admRender();
+  var el = document.getElementById('admLastUpdate');
+  if (el) el.textContent = 'Updated ' + new Date().toLocaleTimeString();
+}
 
-  var tbody = document.getElementById('leadsBody');
+function admUpdateStats() {
+  var t = allLeads.length;
+  var n = allLeads.filter(function(l){return l.status==='new';}).length;
+  var b = allLeads.filter(function(l){return l.status==='booked';}).length;
+  document.getElementById('admTotal').textContent = t;
+  document.getElementById('admNew').textContent = n;
+  document.getElementById('admBooked').textContent = b;
+  document.getElementById('admConv').textContent = t>0 ? Math.round(b/t*100)+'%' : '0%';
+}
+
+function admFilter(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.adm-fbtn').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  admRender();
+}
+
+function admRender() {
+  var search = (document.getElementById('admSearch')||{}).value||'';
+  search = search.toLowerCase();
+  var filtered = allLeads.filter(function(l) {
+    var mf = currentFilter==='all'||l.status===currentFilter||(l.plan&&l.plan.toLowerCase().includes(currentFilter));
+    var ms = !search||(l.name&&l.name.toLowerCase().includes(search))||(l.email&&l.email.toLowerCase().includes(search));
+    return mf && ms;
+  });
+  var tbody = document.getElementById('admBody');
   tbody.innerHTML = '';
-
-  if (filtered.length === 0) {
-    document.getElementById('leadsTable').style.display = 'none';
-    document.getElementById('emptyMsg').style.display = 'block';
-    return;
-  }
-
-  document.getElementById('leadsTable').style.display = 'table';
-  document.getElementById('emptyMsg').style.display = 'none';
-
+  var empty = document.getElementById('admEmpty');
+  if (filtered.length===0) { empty.style.display='block'; return; }
+  empty.style.display='none';
   filtered.forEach(function(l) {
-    var date = new Date(l.created_at);
-    var dateStr = date.toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'});
+    var d = new Date(l.created_at).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
     var tr = document.createElement('tr');
-    tr.style.cursor = 'pointer';
-    tr.onclick = function(){openModal(l);};
-    tr.innerHTML = 
-      '<td><div class="td-name">' + (l.name||'—') + '</div><div class="td-email">' + (l.email||'') + '</div></td>' +
-      '<td>' + (l.plan ? '<span class="plan-badge">' + l.plan + '</span>' : '—') + '</td>' +
-      '<td style="color:rgba(200,184,154,0.5);font-size:0.78rem;">' + (l.country||'—') + '</td>' +
-      '<td class="td-msg">' + (l.message ? l.message.substring(0,80) + (l.message.length>80?'…':'') : '—') + '</td>' +
-      '<td class="td-date">' + dateStr + '</td>' +
-      '<td><button class="badge badge-' + (l.status||'new') + '" onclick="event.stopPropagation()">' + (l.status||'new') + '</button></td>';
+    tr.onclick = function(){admOpenModal(l);};
+    tr.innerHTML = '<td><div class="adm-name">'+(l.name||'—')+'</div><div class="adm-email">'+(l.email||'')+'</div></td>'+
+      '<td>'+(l.plan?'<span class="plan-badge">'+l.plan+'</span>':'—')+'</td>'+
+      '<td style="color:rgba(200,184,154,0.45);font-size:0.76rem;">'+(l.country||'—')+'</td>'+
+      '<td class="adm-date">'+d+'</td>'+
+      '<td><span class="badge badge-'+(l.status||'new')+'">'+(l.status||'new')+'</span></td>';
     tbody.appendChild(tr);
   });
 }
 
-// ── MODAL ──────────────────────────────────────────────────
-function openModal(l) {
+function admOpenModal(l) {
   currentLead = l;
-  var date = new Date(l.created_at).toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'});
-  document.getElementById('mName').textContent = l.name || '—';
-  document.getElementById('mSub').textContent = date + (l.country ? ' · ' + l.country : '');
-  document.getElementById('mEmail').textContent = l.email || '—';
-  document.getElementById('mCountry').textContent = l.country || '—';
-  document.getElementById('mPlan').textContent = l.plan || '—';
-  document.getElementById('mDate').textContent = date;
-  document.getElementById('mMsg').textContent = l.message || 'No message';
-  document.getElementById('mNotes').value = l.notes || '';
-  document.getElementById('mWhatsapp').href = 'https://wa.me/?text=Hi ' + encodeURIComponent(l.name||'') + '!';
-  document.getElementById('mEmailLink').href = 'mailto:' + (l.email||'');
-  document.getElementById('detailModal').classList.add('open');
+  var d = new Date(l.created_at).toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'});
+  document.getElementById('admMName').textContent = l.name||'—';
+  document.getElementById('admMSub').textContent = d+(l.country?' · '+l.country:'');
+  document.getElementById('admMEmail').textContent = l.email||'—';
+  document.getElementById('admMCountry').textContent = l.country||'—';
+  document.getElementById('admMPlan').textContent = l.plan||'—';
+  document.getElementById('admMDate').textContent = d;
+  document.getElementById('admMMsg').textContent = l.message||'No message';
+  document.getElementById('admMNotes').value = l.notes||'';
+  document.getElementById('admWa').href = 'https://wa.me/?text=Hi '+encodeURIComponent(l.name||'')+'!';
+  document.getElementById('admEmail').href = 'mailto:'+(l.email||'');
+  document.getElementById('admModal').classList.add('open');
 }
-function closeModal() {
-  document.getElementById('detailModal').classList.remove('open');
+
+function admCloseModal() {
+  document.getElementById('admModal').classList.remove('open');
   currentLead = null;
 }
-document.getElementById('detailModal').addEventListener('click', function(e){
-  if(e.target===this) closeModal();
-});
 
-// ── UPDATE STATUS ──────────────────────────────────────────
-async function updateStatus(status) {
+async function admUpdateStatus(status) {
   if (!currentLead) return;
-  await fetch(SUPABASE_URL + '/rest/v1/leads?id=eq.' + currentLead.id, {
-    method: 'PATCH',
-    headers: {
-      'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({status: status})
+  await fetch(SUPABASE_URL_ADMIN+'/rest/v1/leads?id=eq.'+currentLead.id, {
+    method:'PATCH',
+    headers:{'apikey':SUPABASE_KEY_ADMIN,'Authorization':'Bearer '+SUPABASE_KEY_ADMIN,'Content-Type':'application/json'},
+    body:JSON.stringify({status:status})
   });
-  currentLead.status = status;
-  var idx = allLeads.findIndex(function(l){return l.id===currentLead.id;});
-  if (idx >= 0) allLeads[idx].status = status;
-  updateStats(); renderTable();
-  closeModal();
+  currentLead.status=status;
+  allLeads.forEach(function(l){if(l.id===currentLead.id)l.status=status;});
+  admUpdateStats(); admRender(); admCloseModal();
 }
 
-// ── SAVE NOTES ─────────────────────────────────────────────
-async function saveNotes() {
+async function admSaveNotes() {
   if (!currentLead) return;
-  var notes = document.getElementById('mNotes').value;
-  await fetch(SUPABASE_URL + '/rest/v1/leads?id=eq.' + currentLead.id, {
-    method: 'PATCH',
-    headers: {
-      'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({notes: notes})
+  var notes = document.getElementById('admMNotes').value;
+  await fetch(SUPABASE_URL_ADMIN+'/rest/v1/leads?id=eq.'+currentLead.id, {
+    method:'PATCH',
+    headers:{'apikey':SUPABASE_KEY_ADMIN,'Authorization':'Bearer '+SUPABASE_KEY_ADMIN,'Content-Type':'application/json'},
+    body:JSON.stringify({notes:notes})
   });
-  currentLead.notes = notes;
-  var btn = document.querySelector('.modal-save');
-  btn.textContent = 'Saved ✓';
-  setTimeout(function(){btn.textContent='Save notes';}, 2000);
+  currentLead.notes=notes;
+  var btn = document.querySelector('.adm-save');
+  btn.textContent='Saved ✓';
+  setTimeout(function(){btn.textContent='Save notes';},2000);
 }
 
-// Auto-refresh every 60s
+// Init on load and hash change
+window.addEventListener('hashchange', initAdmin);
+if (window.location.hash === '#admin') initAdmin();
+
+// Auto-refresh
 setInterval(function(){
-  if (sessionStorage.getItem('em_admin')) loadLeads();
+  if (sessionStorage.getItem('em_admin') && window.location.hash==='#admin') loadLeads();
 }, 60000);
 
 </script>
 
-<div id="adminPanel" style="display:none;">
-<!-- LOGIN -->
-<div id="loginScreen" style="display:none;">
-  <div class="login-box">
-    <div class="login-logo">Experience <span>Montenegro</span></div>
-    <div class="login-sub">Admin Panel</div>
-    <label class="login-label">Password</label>
-    <input type="password" class="login-input" id="loginPass" placeholder="Enter password" onkeydown="if(event.key==='Enter')doLogin()">
-    <button class="login-btn" onclick="doLogin()">Enter</button>
-    <div class="login-error" id="loginError">Wrong password</div>
-  </div>
-</div>
-
-<!-- HEADER -->
-<div class="header">
-  <div class="header-logo">Experience <span>Montenegro</span> <span style="font-size:0.6rem;letter-spacing:0.15em;color:rgba(200,184,154,0.3);font-family:'DM Sans',sans-serif;text-transform:uppercase;margin-left:0.5rem;">Admin</span></div>
-  <div class="header-right">
-    <span style="font-size:0.65rem;color:rgba(200,184,154,0.3);" id="lastUpdated"></span>
-    <button class="logout-btn" onclick="logout()">Logout</button>
-  </div>
-</div>
-
-<!-- STATS -->
-<div class="stats">
-  <div class="stat">
-    <div class="stat-label">Total leads</div>
-    <div class="stat-val" id="statTotal">—</div>
-    <div class="stat-sub">All time</div>
-  </div>
-  <div class="stat">
-    <div class="stat-label">New</div>
-    <div class="stat-val" id="statNew" style="color:var(--cta);">—</div>
-    <div class="stat-sub">Awaiting reply</div>
-  </div>
-  <div class="stat">
-    <div class="stat-label">Booked</div>
-    <div class="stat-val" id="statBooked" style="color:#6699ff;">—</div>
-    <div class="stat-sub">Confirmed trips</div>
-  </div>
-  <div class="stat">
-    <div class="stat-label">Conversion</div>
-    <div class="stat-val" id="statConv">—</div>
-    <div class="stat-sub">Leads → bookings</div>
-  </div>
-</div>
-
-<!-- FILTERS -->
-<div class="filters">
-  <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
-  <button class="filter-btn" onclick="setFilter('new',this)">New</button>
-  <button class="filter-btn" onclick="setFilter('contacted',this)">Contacted</button>
-  <button class="filter-btn" onclick="setFilter('booked',this)">Booked</button>
-  <button class="filter-btn" onclick="setFilter('done',this)">Done</button>
-  <button class="filter-btn" onclick="setFilter('escape',this)">Escape</button>
-  <button class="filter-btn" onclick="setFilter('explorer',this)">Explorer</button>
-  <input type="text" class="filter-search" id="searchBox" placeholder="Search name or email..." oninput="renderTable()">
-</div>
-
-<!-- TABLE -->
-<div class="table-wrap">
-  <div class="loading" id="loadingMsg">Loading leads...</div>
-  <table id="leadsTable" style="display:none;">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Plan</th>
-        <th>Country</th>
-        <th>Message</th>
-        <th>Date</th>
-        <th>Status</th>
-      </tr>
-    </thead>
-    <tbody id="leadsBody"></tbody>
-  </table>
-  <div class="empty" id="emptyMsg" style="display:none;">
-    <div class="empty-icon">✉</div>
-    <div>No leads yet</div>
-  </div>
-</div>
-
-<!-- DETAIL MODAL -->
-<div class="modal" id="detailModal">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeModal()">✕</button>
-    <div class="modal-title" id="mName"></div>
-    <div class="modal-sub" id="mSub"></div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;">
-      <div class="modal-field"><div class="modal-field-label">Email</div><div class="modal-field-val" id="mEmail"></div></div>
-      <div class="modal-field"><div class="modal-field-label">Country</div><div class="modal-field-val" id="mCountry"></div></div>
-      <div class="modal-field"><div class="modal-field-label">Plan</div><div class="modal-field-val" id="mPlan"></div></div>
-      <div class="modal-field"><div class="modal-field-label">Date</div><div class="modal-field-val" id="mDate"></div></div>
-    </div>
-    <div class="modal-field"><div class="modal-field-label">Message</div><div class="modal-field-val" id="mMsg" style="background:rgba(200,184,154,0.04);padding:0.75rem;border-left:2px solid rgba(46,139,114,0.3);"></div></div>
-    <div class="modal-field" style="margin-top:1.2rem;">
-      <div class="modal-field-label">Status</div>
-      <div class="modal-status-row">
-        <button class="badge badge-new" onclick="updateStatus('new')">New</button>
-        <button class="badge badge-contacted" onclick="updateStatus('contacted')">Contacted</button>
-        <button class="badge badge-booked" onclick="updateStatus('booked')">Booked</button>
-        <button class="badge badge-done" onclick="updateStatus('done')">Done</button>
-      </div>
-    </div>
-    <div class="modal-field" style="margin-top:1.2rem;">
-      <div class="modal-field-label">Your notes</div>
-      <textarea class="modal-notes" id="mNotes" placeholder="Add notes about this lead..."></textarea>
-      <button class="modal-save" onclick="saveNotes()">Save notes</button>
-    </div>
-    <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid rgba(200,184,154,0.08);display:flex;gap:0.75rem;">
-      <a id="mWhatsapp" href="#" target="_blank" style="font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:#25D366;text-decoration:none;border:1px solid rgba(37,211,102,0.25);padding:0.5rem 1rem;">WhatsApp →</a>
-      <a id="mEmailLink" href="#" style="font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--stone);text-decoration:none;border:1px solid rgba(200,184,154,0.2);padding:0.5rem 1rem;">Email →</a>
-    </div>
-  </div>
-</div>
-
-
-</div><!-- /adminPanel -->
+<div id="adminMount"></div>
 </body>
 </html>
