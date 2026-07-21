@@ -33,7 +33,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --black: #12130f;
+  --black: #171814;
   --white: #f5f2ee;
   --stone: #c8b89a;
   --forest: #2d4a3e;
@@ -51,7 +51,7 @@ body { background: var(--black); color: var(--white); font-family: 'DM Sans', sa
 
 /* SCROLL OFFSET FOR FIXED NAV */
 section[id], div[id] { scroll-margin-top: 70px; }
-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1.2rem 2rem; display: flex; justify-content: space-between; align-items: center; background: #12130f; border-bottom: 1px solid rgba(200,184,154,0.1); isolation: isolate; }
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1.2rem 2rem; display: flex; justify-content: space-between; align-items: center; background: #171814; border-bottom: 1px solid rgba(200,184,154,0.1); isolation: isolate; }
 .nav-logo { font-family: 'Playfair Display', serif; font-size: 1rem; letter-spacing: 0.05em; color: var(--white); }
 .nav-logo span { color: var(--mne-red); font-style: italic; }
 .nav-links { display: flex; align-items: center; gap: 1.5rem; }
@@ -189,7 +189,7 @@ body::before {
 
 /* ACTIVITIES */
 /* AND MORE */
-.and-more-section { padding: 4rem 2rem 90px; background: var(--black); text-align: center; position: relative; overflow: hidden; }
+.and-more-section { padding: 4rem 2rem 110px; background: var(--black); text-align: center; position: relative; overflow: hidden; }
 .and-more-section::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 80px; background: linear-gradient(to bottom, rgba(46,139,114,0.03), transparent); pointer-events: none; }
 
 /* seamless top fade from activities grid */
@@ -368,10 +368,13 @@ body::before {
 
 
 /* QUIZ MOOD GRID */
-.quiz-mood-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-top: 0.5rem; }
-.quiz-mood-opt { position: relative; cursor: pointer; border: 1px solid rgba(200,184,154,0.1); background: rgba(255,255,255,0.02); transition: all 0.22s; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.6rem; padding: 1.2rem 1rem; -webkit-tap-highlight-color: transparent; height: 110px; }
-.quiz-mood-opt:hover { border-color: rgba(46,139,114,0.45); background: rgba(46,139,114,0.07); transform: translateY(-2px); }
-.quiz-mood-icon { font-size: 1.6rem; line-height: 1; }
+.quiz-mood-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-top: 0.5rem; }
+.quiz-mood-opt { position: relative; cursor: pointer; border: 1px solid rgba(200,184,154,0.12); background: linear-gradient(160deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%); border-radius: 6px; transition: all 0.28s cubic-bezier(0.4,0,0.2,1); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.6rem; padding: 1.4rem 1rem; -webkit-tap-highlight-color: transparent; height: 120px; overflow: hidden; text-align: center; }
+.quiz-mood-opt::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--cta), var(--accent)); transform: scaleX(0); transform-origin: left; transition: transform 0.35s ease; }
+.quiz-mood-opt:hover { border-color: rgba(46,139,114,0.5); background: linear-gradient(160deg, rgba(46,139,114,0.1) 0%, rgba(46,139,114,0.03) 100%); transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+.quiz-mood-opt:hover::before { transform: scaleX(1); }
+.quiz-mood-icon { font-size: 1.9rem; line-height: 1; transition: transform 0.28s; }
+.quiz-mood-opt:hover .quiz-mood-icon { transform: scale(1.15); }
 .quiz-mood-label { color: var(--white); font-size: 0.82rem; font-weight: 500; text-align: center; line-height: 1.3; }
 .quiz-mood-sub { font-size: 0.65rem; color: rgba(245,242,238,0.35); text-align: center; }
 
@@ -408,8 +411,8 @@ body::before {
 @keyframes qFade { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
 .quiz-q { font-family: 'Playfair Display', serif; font-size: clamp(1.15rem,2.5vw,1.45rem); font-weight: 400; line-height: 1.3; margin-bottom: 0.5rem; color: var(--white); }
 .quiz-progress { display: flex; gap: 0.5rem; margin-bottom: 1.8rem; align-items: center; }
-.quiz-dot { width: 32px; height: 2px; background: rgba(200,184,154,0.15); transition: all 0.4s; border-radius: 1px; }
-.quiz-dot.active { background: var(--cta); width: 44px; }
+.quiz-dot { width: 28px; height: 3px; background: rgba(200,184,154,0.15); transition: all 0.4s cubic-bezier(0.4,0,0.2,1); border-radius: 2px; }
+.quiz-dot.active { background: linear-gradient(90deg, var(--cta), var(--accent)); width: 44px; }
 .quiz-step-label { font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(200,184,154,0.3); margin-left: 0.5rem; }
 .quiz-options { display: flex; flex-direction: column; gap: 0.5rem; }
 .quiz-opt { padding: 1.1rem 1.4rem; border: 1px solid rgba(200,184,154,0.1); background: rgba(255,255,255,0.02); cursor: pointer; transition: all 0.22s; display: flex; justify-content: space-between; align-items: center; -webkit-tap-highlight-color: transparent; }
@@ -526,7 +529,8 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
 
 /* WHATSAPP */
 .whatsapp-btn {
-  display: flex; align-items: center; gap: 0.75rem;
+  display: flex; align-items: center; gap: 0.7rem;
+  width: 200px; box-sizing: border-box;
   background: rgba(10,10,10,0.92);
   border: 1px solid rgba(37,211,102,0.3);
   border-radius: 50px;
@@ -554,7 +558,8 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
 .whatsapp-btn.confirm { border-color: rgba(37,211,102,0.6); background: rgba(15,26,16,0.96); }
 .whatsapp-btn.confirm .wa-label { color: #fff; }
 .guide-float-btn { 
-  display: flex; align-items: center; gap: 0.75rem; 
+  display: flex; align-items: center; gap: 0.7rem; 
+  width: 200px; box-sizing: border-box;
   background: rgba(10,10,10,0.92);
   border: 1px solid rgba(200,184,154,0.25);
   border-radius: 50px; 
@@ -728,10 +733,10 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
   .footer-links { gap: 1rem; flex-wrap: wrap; }
   #floatingBtns { bottom: 1rem; right: 1rem; flex-direction: column; gap: 0.5rem; }
   .guide-float-btn .guide-text-wrap { display: none; }
-  .guide-float-btn { padding: 0.35rem; border-radius: 50%; }
+  .guide-float-btn { padding: 0.35rem; border-radius: 50%; width: auto; }
   .guide-float-btn .guide-logo-img { width: 44px; height: 44px; }
   .whatsapp-btn .wa-text-wrap { display: none; }
-  .whatsapp-btn { padding: 0.35rem; border-radius: 50%; }
+  .whatsapp-btn { padding: 0.35rem; border-radius: 50%; width: auto; }
   .whatsapp-btn .wa-icon-circle { width: 44px; height: 44px; }
   .whatsapp-btn .wa-icon-circle svg { width: 26px; height: 26px; }
   .scarcity-strip { font-size: 0.62rem; padding: 0.65rem 1.2rem; }
@@ -906,7 +911,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
 .nav-hamburger.open span:nth-child(2) { opacity: 0; }
 .nav-hamburger.open span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
 
-.mobile-menu { position: fixed; top: 0; right: -100%; width: 82%; max-width: 340px; height: 100vh; height: 100dvh; background: linear-gradient(160deg, #0d1410 0%, #12130f 100%); border-left: 1px solid rgba(200,184,154,0.12); z-index: 1001; display: flex; flex-direction: column; padding: 1.5rem 1.8rem 2rem; transition: right 0.4s cubic-bezier(0.4,0,0.2,1); overflow-y: auto; }
+.mobile-menu { position: fixed; top: 0; right: -100%; width: 82%; max-width: 340px; height: 100vh; height: 100dvh; background: linear-gradient(160deg, #0d1410 0%, #171814 100%); border-left: 1px solid rgba(200,184,154,0.12); z-index: 1001; display: flex; flex-direction: column; padding: 1.5rem 1.8rem 2rem; transition: right 0.4s cubic-bezier(0.4,0,0.2,1); overflow-y: auto; }
 .mobile-menu.open { right: 0; }
 .mobile-menu-header { display: flex; align-items: flex-start; justify-content: space-between; padding-bottom: 1.6rem; margin-bottom: 1.2rem; border-bottom: 1px solid rgba(200,184,154,0.08); }
 .mobile-menu-brand { display: flex; align-items: center; gap: 0.75rem; }
@@ -1306,63 +1311,11 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
   <h2 class="and-more-headline">If you can dream it,<br><em>we can plan it.</em></h2>
   <p class="and-more-items">Skydiving &middot; Special events &middot; Photography &amp; drone tours &middot; Water sports &middot; Helicopter tours &middot; Fishing on Skadar Lake &middot; Cultural walks &middot; Ski &amp; Snow</p>
 
-  <div style="position:absolute;bottom:0;left:0;right:0;height:90px;overflow:hidden;line-height:0;">
-    <svg viewBox="0 0 1200 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;">
-      <!-- ground fill -->
-      <rect x="0" y="75" width="1200" height="15" fill="#060f0a"/>
-      <!-- trees -->
-      <polygon points="60,90 80,32 100,90" fill="#060f0a"/>
-      <polygon points="55,68 80,20 105,68" fill="#060f0a"/>
-      <polygon points="50,54 80,7 110,54" fill="#060f0a"/>
-      <rect x="76" y="75" width="8" height="9" fill="#060f0a"/>
-      <polygon points="155,90 170,40 185,90" fill="#060f0a"/>
-      <polygon points="150,68 170,28 190,68" fill="#060f0a"/>
-      <polygon points="147,56 170,14 193,56" fill="#060f0a"/>
-      <rect x="166" y="75" width="7" height="9" fill="#060f0a"/>
-      <polygon points="230,90 242,54 254,90" fill="#060f0a"/>
-      <polygon points="226,72 242,42 258,72" fill="#060f0a"/>
-      <rect x="238" y="76" width="6" height="8" fill="#060f0a"/>
-      <polygon points="310,90 330,24 350,90" fill="#060f0a"/>
-      <polygon points="305,66 330,13 355,66" fill="#060f0a"/>
-      <polygon points="300,52 330,2 360,52" fill="#060f0a"/>
-      <rect x="326" y="75" width="8" height="9" fill="#060f0a"/>
-      <polygon points="400,90 416,44 432,90" fill="#060f0a"/>
-      <polygon points="396,68 416,32 436,68" fill="#060f0a"/>
-      <polygon points="393,55 416,18 439,55" fill="#060f0a"/>
-      <rect x="412" y="75" width="7" height="9" fill="#060f0a"/>
-      <polygon points="475,90 485,58 495,90" fill="#060f0a"/>
-      <polygon points="472,72 485,46 498,72" fill="#060f0a"/>
-      <rect x="481" y="76" width="6" height="8" fill="#060f0a"/>
-      <polygon points="555,90 580,18 605,90" fill="#060f0a"/>
-      <polygon points="549,64 580,6 611,64" fill="#060f0a"/>
-      <polygon points="545,50 580,0 615,50" fill="#060f0a"/>
-      <rect x="576" y="75" width="9" height="9" fill="#060f0a"/>
-      <polygon points="660,90 676,42 692,90" fill="#060f0a"/>
-      <polygon points="655,67 676,30 697,67" fill="#060f0a"/>
-      <polygon points="652,54 676,16 700,54" fill="#060f0a"/>
-      <rect x="672" y="75" width="7" height="9" fill="#060f0a"/>
-      <polygon points="730,90 742,56 754,90" fill="#060f0a"/>
-      <polygon points="727,72 742,44 757,72" fill="#060f0a"/>
-      <rect x="738" y="76" width="6" height="8" fill="#060f0a"/>
-      <polygon points="805,90 822,36 839,90" fill="#060f0a"/>
-      <polygon points="800,65 822,24 844,65" fill="#060f0a"/>
-      <polygon points="796,52 822,12 848,52" fill="#060f0a"/>
-      <rect x="818" y="75" width="8" height="9" fill="#060f0a"/>
-      <polygon points="890,90 904,46 918,90" fill="#060f0a"/>
-      <polygon points="886,68 904,34 922,68" fill="#060f0a"/>
-      <polygon points="883,55 904,22 925,55" fill="#060f0a"/>
-      <rect x="900" y="75" width="7" height="9" fill="#060f0a"/>
-      <polygon points="960,90 970,58 980,90" fill="#060f0a"/>
-      <polygon points="957,72 970,46 983,72" fill="#060f0a"/>
-      <rect x="966" y="76" width="6" height="8" fill="#060f0a"/>
-      <polygon points="1030,90 1048,34 1066,90" fill="#060f0a"/>
-      <polygon points="1025,64 1048,22 1071,64" fill="#060f0a"/>
-      <polygon points="1021,50 1048,8 1075,50" fill="#060f0a"/>
-      <rect x="1044" y="75" width="8" height="9" fill="#060f0a"/>
-      <polygon points="1110,90 1124,46 1138,90" fill="#060f0a"/>
-      <polygon points="1106,68 1124,34 1142,68" fill="#060f0a"/>
-      <polygon points="1103,55 1124,20 1145,55" fill="#060f0a"/>
-      <rect x="1120" y="75" width="7" height="9" fill="#060f0a"/>
+  <div style="position:absolute;bottom:0;left:0;right:0;height:100px;overflow:hidden;line-height:0;pointer-events:none;">
+    <svg viewBox="0 0 1200 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;">
+    <g opacity="0.5"><rect x="27.0" y="74.9" width="5.9" height="7.1" fill="#0a1712"/><polygon points="8.9,76.9 30.0,64.7 51.1,76.9" fill="#0a1712"/><polygon points="13.5,67.6 30.0,54.4 46.5,67.6" fill="#0a1712"/><polygon points="19.0,58.1 30.0,43.5 41.0,58.1" fill="#0a1712"/><rect x="112.9" y="75.4" width="6.7" height="6.6" fill="#0a1712"/><polygon points="92.3,77.4 116.3,66.1 140.3,77.4" fill="#0a1712"/><polygon points="97.5,68.8 116.3,56.9 135.0,68.8" fill="#0a1712"/><polygon points="103.8,60.2 116.3,47.0 128.8,60.2" fill="#0a1712"/><rect x="192.1" y="75.4" width="6.7" height="6.6" fill="#0a1712"/><polygon points="171.6,77.4 195.4,66.2 219.2,77.4" fill="#0a1712"/><polygon points="176.8,68.8 195.4,57.0 214.0,68.8" fill="#0a1712"/><polygon points="183.0,60.3 195.4,47.2 207.8,60.3" fill="#0a1712"/><rect x="263.5" y="74.7" width="5.7" height="7.3" fill="#0a1712"/><polygon points="245.8,76.7 266.4,64.0 286.9,76.7" fill="#0a1712"/><polygon points="250.3,67.1 266.4,53.4 282.4,67.1" fill="#0a1712"/><polygon points="255.7,57.2 266.4,41.9 277.0,57.2" fill="#0a1712"/><rect x="335.0" y="74.7" width="7.3" height="7.3" fill="#0a1712"/><polygon points="312.4,76.7 338.6,64.1 364.8,76.7" fill="#0a1712"/><polygon points="318.2,67.1 338.6,53.4 359.1,67.1" fill="#0a1712"/><polygon points="325.0,57.2 338.6,42.1 352.2,57.2" fill="#0a1712"/><rect x="408.3" y="75.1" width="6.9" height="6.9" fill="#0a1712"/><polygon points="387.0,77.1 411.7,65.2 436.4,77.1" fill="#0a1712"/><polygon points="392.4,68.1 411.7,55.4 431.0,68.1" fill="#0a1712"/><polygon points="398.9,58.9 411.7,44.9 424.6,58.9" fill="#0a1712"/><rect x="502.2" y="74.4" width="6.4" height="7.6" fill="#0a1712"/><polygon points="482.4,76.4 505.4,63.2 528.4,76.4" fill="#0a1712"/><polygon points="487.5,66.4 505.4,51.9 523.3,66.4" fill="#0a1712"/><polygon points="493.5,56.0 505.4,39.9 517.4,56.0" fill="#0a1712"/><rect x="596.1" y="75.4" width="7.4" height="6.6" fill="#0a1712"/><polygon points="573.4,77.4 599.8,66.3 626.3,77.4" fill="#0a1712"/><polygon points="579.2,68.9 599.8,57.1 620.4,68.9" fill="#0a1712"/><polygon points="586.1,60.4 599.8,47.3 613.6,60.4" fill="#0a1712"/><rect x="674.1" y="75.2" width="5.8" height="6.8" fill="#0a1712"/><polygon points="656.2,77.2 677.1,65.7 697.9,77.2" fill="#0a1712"/><polygon points="660.8,68.4 677.1,56.2 693.3,68.4" fill="#0a1712"/><polygon points="666.2,59.6 677.1,46.0 687.9,59.6" fill="#0a1712"/><rect x="751.8" y="73.9" width="6.0" height="8.1" fill="#0a1712"/><polygon points="733.4,75.9 754.8,61.8 776.1,75.9" fill="#0a1712"/><polygon points="738.1,65.2 754.8,49.6 771.4,65.2" fill="#0a1712"/><polygon points="743.7,53.9 754.8,36.6 765.9,53.9" fill="#0a1712"/><rect x="836.1" y="74.3" width="6.4" height="7.7" fill="#0a1712"/><polygon points="816.5,76.3 839.3,62.8 862.1,76.3" fill="#0a1712"/><polygon points="821.5,66.1 839.3,51.3 857.1,66.1" fill="#0a1712"/><polygon points="827.5,55.4 839.3,39.1 851.2,55.4" fill="#0a1712"/><rect x="920.1" y="75.4" width="5.7" height="6.6" fill="#0a1712"/><polygon points="902.6,77.4 923.0,66.2 943.4,77.4" fill="#0a1712"/><polygon points="907.1,68.8 923.0,57.0 938.9,68.8" fill="#0a1712"/><polygon points="912.4,60.3 923.0,47.1 933.6,60.3" fill="#0a1712"/><rect x="994.9" y="74.2" width="6.5" height="7.8" fill="#0a1712"/><polygon points="974.9,76.2 998.1,62.6 1021.4,76.2" fill="#0a1712"/><polygon points="980.0,65.9 998.1,50.9 1016.3,65.9" fill="#0a1712"/><polygon points="986.1,55.1 998.1,38.5 1010.2,55.1" fill="#0a1712"/><rect x="1072.7" y="74.4" width="6.6" height="7.6" fill="#0a1712"/><polygon points="1052.6,76.4 1076.0,63.1 1099.4,76.4" fill="#0a1712"/><polygon points="1057.8,66.3 1076.0,51.9 1094.3,66.3" fill="#0a1712"/><polygon points="1063.8,55.9 1076.0,39.8 1088.2,55.9" fill="#0a1712"/><rect x="1150.0" y="74.0" width="7.1" height="8.0" fill="#0a1712"/><polygon points="1128.3,76.0 1153.5,61.9 1178.7,76.0" fill="#0a1712"/><polygon points="1133.8,65.3 1153.5,49.8 1173.2,65.3" fill="#0a1712"/><polygon points="1140.4,54.1 1153.5,36.9 1166.6,54.1" fill="#0a1712"/></g>
+    <rect x="0" y="74" width="1200" height="26" fill="#060f0a"/>
+    <g><rect x="0.2" y="77.3" width="9.5" height="10.7" fill="#060f0a"/><polygon points="-29.1,79.3 5.0,60.0 39.1,79.3" fill="#060f0a"/><polygon points="-21.6,65.0 5.0,42.7 31.6,65.0" fill="#060f0a"/><polygon points="-12.7,48.9 5.0,24.2 22.7,48.9" fill="#060f0a"/><rect x="106.9" y="76.8" width="8.7" height="11.2" fill="#060f0a"/><polygon points="80.2,78.8 111.3,58.5 142.4,78.8" fill="#060f0a"/><polygon points="87.0,63.7 111.3,40.1 135.5,63.7" fill="#060f0a"/><polygon points="95.1,46.7 111.3,20.5 127.4,46.7" fill="#060f0a"/><rect x="216.1" y="78.9" width="9.2" height="9.1" fill="#060f0a"/><polygon points="187.9,80.9 220.7,64.6 253.4,80.9" fill="#060f0a"/><polygon points="195.1,68.7 220.7,50.4 246.2,68.7" fill="#060f0a"/><polygon points="203.6,55.5 220.7,35.2 237.7,55.5" fill="#060f0a"/><rect x="318.7" y="78.8" width="9.4" height="9.2" fill="#060f0a"/><polygon points="289.8,80.8 323.4,64.3 357.0,80.8" fill="#060f0a"/><polygon points="297.2,68.4 323.4,49.8 349.6,68.4" fill="#060f0a"/><polygon points="305.9,55.0 323.4,34.4 340.9,55.0" fill="#060f0a"/><rect x="399.4" y="77.0" width="10.4" height="11.0" fill="#060f0a"/><polygon points="367.5,79.0 404.5,59.1 441.6,79.0" fill="#060f0a"/><polygon points="375.6,64.2 404.5,41.2 433.5,64.2" fill="#060f0a"/><polygon points="385.3,47.6 404.5,22.0 423.8,47.6" fill="#060f0a"/><rect x="497.3" y="76.3" width="8.8" height="11.7" fill="#060f0a"/><polygon points="470.3,78.3 501.7,57.0 533.2,78.3" fill="#060f0a"/><polygon points="477.2,62.5 501.7,37.7 526.2,62.5" fill="#060f0a"/><polygon points="485.4,44.6 501.7,17.0 518.1,44.6" fill="#060f0a"/><rect x="597.7" y="77.3" width="9.7" height="10.7" fill="#060f0a"/><polygon points="567.9,79.3 602.6,59.8 637.3,79.3" fill="#060f0a"/><polygon points="575.5,64.8 602.6,42.4 629.7,64.8" fill="#060f0a"/><polygon points="584.5,48.6 602.6,23.7 620.7,48.6" fill="#060f0a"/><rect x="690.8" y="76.5" width="11.0" height="11.5" fill="#060f0a"/><polygon points="657.0,78.5 696.3,57.4 735.6,78.5" fill="#060f0a"/><polygon points="665.6,62.8 696.3,38.3 726.9,62.8" fill="#060f0a"/><polygon points="675.8,45.1 696.3,17.8 716.7,45.1" fill="#060f0a"/><rect x="786.6" y="77.0" width="7.9" height="11.0" fill="#060f0a"/><polygon points="762.3,79.0 790.5,59.1 818.8,79.0" fill="#060f0a"/><polygon points="768.5,64.3 790.5,41.2 812.6,64.3" fill="#060f0a"/><polygon points="775.8,47.6 790.5,22.1 805.2,47.6" fill="#060f0a"/><rect x="886.0" y="77.1" width="11.2" height="10.9" fill="#060f0a"/><polygon points="851.6,79.1 891.6,59.3 931.5,79.1" fill="#060f0a"/><polygon points="860.4,64.4 891.6,41.5 922.7,64.4" fill="#060f0a"/><polygon points="870.8,47.9 891.6,22.5 912.3,47.9" fill="#060f0a"/><rect x="991.7" y="78.3" width="9.1" height="9.7" fill="#060f0a"/><polygon points="963.9,80.3 996.2,63.0 1028.5,80.3" fill="#060f0a"/><polygon points="971.0,67.4 996.2,47.6 1021.4,67.4" fill="#060f0a"/><polygon points="979.4,53.1 996.2,31.2 1013.0,53.1" fill="#060f0a"/><rect x="1091.6" y="79.2" width="9.3" height="8.8" fill="#060f0a"/><polygon points="1063.0,81.2 1096.3,65.6 1129.5,81.2" fill="#060f0a"/><polygon points="1070.3,69.5 1096.3,52.0 1122.2,69.5" fill="#060f0a"/><polygon points="1079.0,56.9 1096.3,37.5 1113.6,56.9" fill="#060f0a"/><rect x="1177.4" y="78.9" width="7.9" height="9.1" fill="#060f0a"/><polygon points="1153.1,80.9 1181.3,64.7 1209.5,80.9" fill="#060f0a"/><polygon points="1159.3,68.7 1181.3,50.4 1203.3,68.7" fill="#060f0a"/><polygon points="1166.6,55.5 1181.3,35.2 1196.0,55.5" fill="#060f0a"/></g>
     </svg>
   </div>
 </section>
@@ -1419,51 +1372,59 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
         <button class="quiz-back" onclick="quizBack(1)">&larr; Back</button>
       </div>
 
-      <!-- STEP 3 — Identity -->
+      <!-- STEP 3 — Perfect morning -->
       <div class="quiz-step" id="qStep3">
-        <div class="quiz-q">Which sentence sounds most like you?</div>
+        <div class="quiz-q">Your perfect morning in Montenegro?</div>
         <div class="quiz-progress"><span class="quiz-dot active"></span><span class="quiz-dot active"></span><span class="quiz-dot active"></span><span class="quiz-dot"></span><span class="quiz-dot"></span><span class="quiz-step-label">Step 3 of 5</span></div>
-        <div class="quiz-options">
-          <div class="quiz-opt" onclick="quizAnswer(3,'explorer','explorer')">
-            <div class="quiz-opt-left"><span class="quiz-opt-title">I always find places nobody else knows about</span></div>
-            <span class="quiz-opt-arrow">&rarr;</span>
+        <div class="quiz-mood-grid">
+          <div class="quiz-mood-opt" onclick="quizAnswer(3,'Slow coffee with a view','slow')">
+            <div class="quiz-mood-icon">☕</div>
+            <div class="quiz-mood-label">Slow coffee with a view</div>
+            <div class="quiz-mood-sub">No alarm, just the bay</div>
           </div>
-          <div class="quiz-opt" onclick="quizAnswer(3,'balanced','balanced')">
-            <div class="quiz-opt-left"><span class="quiz-opt-title">I like a mix of classics and hidden gems</span></div>
-            <span class="quiz-opt-arrow">&rarr;</span>
+          <div class="quiz-mood-opt" onclick="quizAnswer(3,'Early start, out exploring','early')">
+            <div class="quiz-mood-icon">🥾</div>
+            <div class="quiz-mood-label">Up early, out exploring</div>
+            <div class="quiz-mood-sub">Beat the crowds, catch the light</div>
           </div>
-          <div class="quiz-opt" onclick="quizAnswer(3,'trusting','trusting')">
-            <div class="quiz-opt-left"><span class="quiz-opt-title">I follow recommendations from people I trust</span></div>
-            <span class="quiz-opt-arrow">&rarr;</span>
+          <div class="quiz-mood-opt" onclick="quizAnswer(3,'On the water first thing','water')">
+            <div class="quiz-mood-icon">🚣</div>
+            <div class="quiz-mood-label">On the water first thing</div>
+            <div class="quiz-mood-sub">Swim or paddle before breakfast</div>
           </div>
-          <div class="quiz-opt" onclick="quizAnswer(3,'best','best')">
-            <div class="quiz-opt-left"><span class="quiz-opt-title">I want the best version, not the most visited</span></div>
-            <span class="quiz-opt-arrow">&rarr;</span>
+          <div class="quiz-mood-opt" onclick="quizAnswer(3,'Lazy start, then wander','lazy')">
+            <div class="quiz-mood-icon">🥐</div>
+            <div class="quiz-mood-label">Lazy start, then wander</div>
+            <div class="quiz-mood-sub">Long breakfast, no rush</div>
           </div>
         </div>
         <button class="quiz-back" onclick="quizBack(2)">&larr; Back</button>
       </div>
 
-      <!-- STEP 4 — Fear/concern -->
+      <!-- STEP 4 — Perfect evening -->
       <div class="quiz-step" id="qStep4">
-        <div class="quiz-q">Honestly, what worries you most about this trip?</div>
+        <div class="quiz-q">And your ideal evening?</div>
         <div class="quiz-progress"><span class="quiz-dot active"></span><span class="quiz-dot active"></span><span class="quiz-dot active"></span><span class="quiz-dot active"></span><span class="quiz-dot"></span><span class="quiz-step-label">Step 4 of 5</span></div>
-        <div class="quiz-options">
-          <div class="quiz-opt" onclick="quizAnswer(4,'missing','missing')">
-            <div class="quiz-opt-left"><span class="quiz-opt-title">Missing the experiences that actually matter</span></div>
-            <span class="quiz-opt-arrow">&rarr;</span>
+        <div class="quiz-mood-grid">
+          <div class="quiz-mood-opt" onclick="quizAnswer(4,'Dinner by the sea','sea')">
+            <div class="quiz-mood-icon">🌊</div>
+            <div class="quiz-mood-label">Dinner by the sea</div>
+            <div class="quiz-mood-sub">Fresh fish, waterfront table</div>
           </div>
-          <div class="quiz-opt" onclick="quizAnswer(4,'planning','planning')">
-            <div class="quiz-opt-left"><span class="quiz-opt-title">Poor planning ruining the vibe</span></div>
-            <span class="quiz-opt-arrow">&rarr;</span>
+          <div class="quiz-mood-opt" onclick="quizAnswer(4,'A local mountain konoba','konoba')">
+            <div class="quiz-mood-icon">🔥</div>
+            <div class="quiz-mood-label">A local mountain konoba</div>
+            <div class="quiz-mood-sub">Home cooking, warm and simple</div>
           </div>
-          <div class="quiz-opt" onclick="quizAnswer(4,'start','start')">
-            <div class="quiz-opt-left"><span class="quiz-opt-title">Not knowing where to even start</span></div>
-            <span class="quiz-opt-arrow">&rarr;</span>
+          <div class="quiz-mood-opt" onclick="quizAnswer(4,'Sunset with a glass of wine','sunset')">
+            <div class="quiz-mood-icon">🍷</div>
+            <div class="quiz-mood-label">Sunset with a glass of wine</div>
+            <div class="quiz-mood-sub">A view worth staying for</div>
           </div>
-          <div class="quiz-opt" onclick="quizAnswer(4,'none','none')">
-            <div class="quiz-opt-left"><span class="quiz-opt-title">Nothing, I just need someone local to guide me</span></div>
-            <span class="quiz-opt-arrow">&rarr;</span>
+          <div class="quiz-mood-opt" onclick="quizAnswer(4,'Surprise me','surprise')">
+            <div class="quiz-mood-icon">✨</div>
+            <div class="quiz-mood-label">Surprise me</div>
+            <div class="quiz-mood-sub">You know the good spots</div>
           </div>
         </div>
         <button class="quiz-back" onclick="quizBack(3)">&larr; Back</button>
@@ -1503,7 +1464,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
             <div class="quiz-result-tag">Your Montenegro Profile</div>
             <div class="quiz-result-title" id="qResultTitle">The Explorer</div>
             <div class="quiz-result-desc" id="qResultDesc"></div>
-            <div class="quiz-prefill-note">Form pre-filled with your answers &mdash; complete and send below.</div>
+            <div class="quiz-prefill-note">Your form is now filled with your answers &mdash; go ahead and complete it, then send it below.</div>
             <a href="#plan" class="quiz-result-cta" id="qResultCta">Plan my trip &rarr;</a>
             <br><button class="quiz-back" onclick="quizReset()" style="margin-top:1.2rem;">&larr; Start over</button>
           </div>
@@ -1872,8 +1833,8 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
       </svg>
     </div>
     <div class="wa-text-wrap">
-      <span class="wa-tap">Questions?</span>
-      <span class="wa-label">Chat with us</span>
+      <span class="wa-tap">Have a question?</span>
+      <span class="wa-label">Get in touch now</span>
     </div>
   </div>
 </div>
@@ -1980,18 +1941,24 @@ var _tb = {};
 
 // Traveller type mapping
 var _types = {
-  adventure: { explorer: 'The Adventurer', balanced: 'The Bold Explorer', trusting: 'The Thrill-Seeker', best: 'The Connoisseur' },
-  nature:    { explorer: 'The Wanderer',   balanced: 'The Nature Seeker', trusting: 'The Escapist',    best: 'The Purist' },
-  culture:   { explorer: 'The Discoverer', balanced: 'The Culturalist',   trusting: 'The Insider',     best: 'The Connoisseur' },
-  mix:       { explorer: 'The Explorer',   balanced: 'The All-Rounder',   trusting: 'The Open Traveller', best: 'The Experience Seeker' }
+  adventure: { slow: 'The Bold Explorer', early: 'The Adventurer', water: 'The Thrill-Seeker', lazy: 'The Easy Adventurer' },
+  nature:    { slow: 'The Nature Seeker', early: 'The Wanderer',    water: 'The Escapist',      lazy: 'The Slow Traveller' },
+  culture:   { slow: 'The Culturalist',   early: 'The Discoverer',  water: 'The Insider',       lazy: 'The Connoisseur' },
+  mix:       { slow: 'The All-Rounder',   early: 'The Explorer',    water: 'The Open Traveller', lazy: 'The Experience Seeker' }
 };
 
 var _worryResponse = {
-  missing:  'People like you come to Montenegro once and start planning the return before the first trip ends.',
-  planning:'The right plan makes all the difference. This is exactly what I build.',
-  start:    'Most people feel the same. That\'s why I exist.',
-  none:     'Perfect. You just need someone who knows the terrain — I\'ll handle everything.'
+  sea:      'A waterfront table at the right hour is one of Montenegro\u2019s simple luxuries. I know exactly where to send you.',
+  konoba:   'The best meals here happen in places you\u2019d never find alone. That\u2019s where I come in.',
+  sunset:   'The right view at the right moment changes the whole evening. I\u2019ll build your days around them.',
+  surprise: 'Perfect. You just need someone who knows the terrain — I\u2019ll handle the rest.'
 };
+
+// Priority label per evening choice
+var _priorityMap = { sea: 'Coastal dining', konoba: 'Authentic local food', sunset: 'Scenic moments', surprise: 'Local expertise' };
+// Morning descriptor for the notes prefill
+var _morningMap = { slow: 'slow mornings with a view', early: 'early starts and exploring', water: 'mornings on the water', lazy: 'lazy starts and wandering' };
+var _eveningMap = { sea: 'dinners by the sea', konoba: 'local mountain konobas', sunset: 'sunsets with a glass of wine', surprise: 'being surprised by local spots' };
 
 var _im = { adventure: 'Adventure & adrenaline', nature: 'Nature & hiking', culture: 'Culture & food', mix: 'A mix of everything' };
 var _gm = { solo: 'Solo', couple: '2 people', small: '3\u20135 people', group: '6\u201310 people' };
@@ -2046,14 +2013,14 @@ function quizFinish() {
   _tb.s5d = _dualSelected.duration;
 
   var moodKey = (_tb.s1 || { key: 'mix' }).key;
-  var identKey = (_tb.s3 || { key: 'balanced' }).key;
-  var worryKey = (_tb.s4 || { key: 'none' }).key;
+  var morningKey = (_tb.s3 || { key: 'slow' }).key;
+  var eveningKey = (_tb.s4 || { key: 'surprise' }).key;
   var gKey = _tb.s5g.key;
   var dKey = _tb.s5d.key;
   var sliderVal = _tb.s2 ? parseInt(_tb.s2.value) : 5;
 
-  var typeName = (_types[moodKey] && _types[moodKey][identKey]) || 'The Explorer';
-  var worryText = _worryResponse[worryKey] || '';
+  var typeName = (_types[moodKey] && _types[moodKey][morningKey]) || 'The Explorer';
+  var worryText = _worryResponse[eveningKey] || '';
   var g = _gm[gKey] || _tb.s5g.value;
   var d = _dn[dKey] || _tb.s5d.value;
   var adventureLabel = sliderVal <= 3 ? 'Relaxed & scenic' : sliderVal <= 6 ? 'Balanced adventure' : sliderVal <= 8 ? 'Highly active' : 'Maximum adrenaline';
@@ -2065,7 +2032,7 @@ function quizFinish() {
   document.getElementById('rc-adventure').children[1].textContent = 'Energy level: ' + adventureLabel + ' (' + sliderVal + '/10)';
   document.getElementById('rc-duration').children[1].textContent = 'Duration: ' + d;
   document.getElementById('rc-group').children[1].textContent = 'Group: ' + g;
-  document.getElementById('rc-worry').children[1].textContent = 'Priority: ' + (worryKey === 'missing' ? 'Authentic experiences' : worryKey === 'planning' ? 'Seamless logistics' : worryKey === 'start' ? 'Clear direction' : 'Local expertise');
+  document.getElementById('rc-worry').children[1].textContent = 'Priority: ' + (_priorityMap[eveningKey] || 'Local expertise');
 
   // Prefill form
   var iEl = document.getElementById('interests');
@@ -2074,7 +2041,7 @@ function quizFinish() {
   if (gEl) { for (var i = 0; i < gEl.options.length; i++) { if (gEl.options[i].text === g || gEl.options[i].text.indexOf(_tb.s5g.value) >= 0) { gEl.selectedIndex = i; gEl.style.borderColor = 'var(--cta)'; gEl.style.background = 'rgba(46,139,114,0.07)'; break; } } }
   var nEl = document.getElementById('notes');
   if (nEl && !nEl.value) {
-    nEl.value = 'Hi Igor,\n\nI\'m ' + g.toLowerCase() + ' planning ' + d + ' in Montenegro.\n\nI\'m drawn to ' + _im[moodKey].toLowerCase() + ', with an energy level of ' + adventureLabel.toLowerCase() + ' (' + sliderVal + '/10).\n\nMy biggest concern: ' + (worryKey === 'missing' ? 'missing the experiences that actually matter.' : worryKey === 'planning' ? 'poor planning ruining the vibe.' : worryKey === 'start' ? 'not knowing where to start.' : 'nothing — I just need someone local to guide me.') + '\n\nFeel free to add anything else below — the more you share, the better the plan. \u2193\n';
+    nEl.value = 'Hi Igor,\n\nI\'m ' + g.toLowerCase() + ' planning ' + d + ' in Montenegro.\n\nI\'m drawn to ' + _im[moodKey].toLowerCase() + ', with an energy level of ' + adventureLabel.toLowerCase() + ' (' + sliderVal + '/10).\n\nI love ' + (_morningMap[morningKey] || 'exploring') + ' and ' + (_eveningMap[eveningKey] || 'good local food') + '.\n\nFeel free to add anything else below — the more you share, the better the plan. \u2193\n';
     nEl.style.borderColor = 'rgba(46,139,114,0.35)';
   }
   var tf = document.getElementById('tripForm');
@@ -2087,6 +2054,14 @@ function quizFinish() {
   }
 
   quizTransition('qStep5', 'qResult');
+
+  // Scroll back up to the quiz section so the profile is in view
+  setTimeout(function() {
+    var quizSection = document.getElementById('quiz');
+    if (quizSection) {
+      quizSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, 350);
 }
 
 function quizTransition(fromId, toId) {
@@ -2368,7 +2343,7 @@ function initAdmin() {
     var style = document.createElement('style');
     style.id = 'adminCSS';
     style.textContent = `
-      #adminOverlay { position:fixed;inset:0;z-index:99998;background:#12130f;overflow-y:auto;font-family:'DM Sans',sans-serif; }
+      #adminOverlay { position:fixed;inset:0;z-index:99998;background:#171814;overflow-y:auto;font-family:'DM Sans',sans-serif; }
       #loginBox { position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#060e09;z-index:99999; }
       .lb { width:340px;padding:2.5rem;border:1px solid rgba(200,184,154,0.12); }
       .lb-logo { font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:0.2rem; }
@@ -2382,7 +2357,7 @@ function initAdmin() {
       .adm-logo { font-family:'Playfair Display',serif;font-size:0.95rem;color:#f5f2ee; }
       .adm-logo span { color:#c0392b;font-style:italic; }
       .adm-stats { display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(200,184,154,0.08);border-bottom:1px solid rgba(200,184,154,0.06); }
-      .adm-stat { background:#12130f;padding:1.2rem 1.5rem; }
+      .adm-stat { background:#171814;padding:1.2rem 1.5rem; }
       .adm-stat-lbl { font-size:0.55rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(200,184,154,0.35);margin-bottom:0.3rem; }
       .adm-stat-val { font-family:'Playfair Display',serif;font-size:1.8rem;color:#f5f2ee; }
       .adm-filters { padding:0.85rem 1.5rem;display:flex;gap:0.5rem;flex-wrap:wrap;border-bottom:1px solid rgba(200,184,154,0.06); }
