@@ -143,6 +143,80 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:#0a0a0a;border-b
   .note-card{padding:1.8rem 1.5rem 1.5rem;}
   .note-modal-inner{padding:2rem 1.3rem;margin:1rem auto;}
 }
+
+/* FILTER COUNTS */
+.nf-count{font-size:0.55rem;opacity:0.6;margin-left:0.1rem;}
+.nf-btn.active .nf-count{opacity:0.85;}
+
+/* FEATURED CARD */
+.notes-featured{margin-bottom:2.5rem;}
+.featured-card{display:grid;grid-template-columns:1.2fr 1fr;gap:0;background:linear-gradient(160deg,rgba(20,28,22,0.95) 0%,rgba(10,12,10,0.95) 100%);border:1px solid rgba(200,184,154,0.12);border-radius:6px;overflow:hidden;text-decoration:none;color:inherit;position:relative;transition:border-color 0.35s,box-shadow 0.35s;cursor:pointer;}
+.featured-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--cta),var(--accent));transform:scaleX(0);transform-origin:left;transition:transform 0.4s ease;z-index:2;}
+.featured-card:hover{border-color:rgba(46,139,114,0.35);box-shadow:0 16px 50px rgba(0,0,0,0.45);}
+.featured-card:hover::before{transform:scaleX(1);}
+.featured-left{padding:2.8rem 2.5rem;display:flex;flex-direction:column;justify-content:center;}
+.featured-badge{display:inline-flex;align-items:center;gap:0.4rem;font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:1.2rem;}
+.featured-badge::before{content:'★';font-size:0.7rem;}
+.featured-tag{font-size:0.56rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--cta);margin-bottom:0.85rem;display:inline-flex;align-items:center;gap:0.4rem;}
+.featured-tag::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--cta);}
+.featured-title{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:400;color:var(--white);line-height:1.25;margin-bottom:1rem;}
+.featured-excerpt{font-size:0.85rem;color:rgba(245,242,238,0.5);line-height:1.75;margin-bottom:1.5rem;}
+.featured-meta{display:flex;align-items:center;gap:1rem;font-size:0.65rem;color:rgba(200,184,154,0.35);}
+.featured-read{color:var(--cta);display:inline-flex;align-items:center;gap:0.4rem;transition:gap 0.25s;}
+.featured-card:hover .featured-read{gap:0.7rem;}
+.featured-read::after{content:'→';}
+.featured-right{background:linear-gradient(135deg,rgba(46,139,114,0.10) 0%,rgba(193,127,59,0.06) 100%);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;min-height:100%;}
+.featured-right-mark{font-family:'Playfair Display',serif;font-size:5rem;color:rgba(200,184,154,0.10);font-style:italic;line-height:1;}
+.featured-right::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(46,139,114,0.08) 0%,transparent 70%);}
+
+/* RELATED NOTES */
+.note-related{margin-top:2.5rem;padding-top:2rem;border-top:1px solid rgba(200,184,154,0.08);}
+.note-related-label{font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(200,184,154,0.4);margin-bottom:1.2rem;}
+.note-related-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.85rem;}
+.note-related-item{padding:1.1rem 1.2rem;background:rgba(200,184,154,0.03);border:1px solid rgba(200,184,154,0.08);border-radius:4px;cursor:pointer;transition:all 0.25s;text-decoration:none;color:inherit;display:block;}
+.note-related-item:hover{background:rgba(46,139,114,0.06);border-color:rgba(46,139,114,0.2);}
+.note-related-tag{font-size:0.5rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--cta);margin-bottom:0.4rem;}
+.note-related-title{font-family:'Playfair Display',serif;font-size:0.92rem;color:var(--white);line-height:1.3;}
+
+@media(max-width:768px){
+  .featured-card{grid-template-columns:1fr;}
+  .featured-right{min-height:120px;order:-1;}
+  .featured-right-mark{font-size:3.5rem;}
+  .featured-left{padding:2rem 1.5rem;}
+  .featured-title{font-size:1.4rem;}
+  .note-related-grid{grid-template-columns:1fr;}
+}
+
+/* NEWSLETTER */
+.newsletter-section{border-top:1px solid rgba(200,184,154,0.08);border-bottom:1px solid rgba(200,184,154,0.08);background:linear-gradient(160deg,rgba(20,28,22,0.5) 0%,rgba(10,12,10,0.5) 100%);padding:4rem 2rem;margin-top:2rem;}
+.newsletter-inner{max-width:600px;margin:0 auto;text-align:center;}
+.newsletter-label{font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--cta);margin-bottom:1rem;}
+.newsletter-title{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,4vw,2.3rem);font-weight:400;color:var(--white);line-height:1.2;margin-bottom:1rem;}
+.newsletter-title em{color:var(--stone);font-style:italic;}
+.newsletter-sub{font-size:0.85rem;color:rgba(245,242,238,0.45);line-height:1.7;margin-bottom:2rem;max-width:440px;margin-left:auto;margin-right:auto;}
+.newsletter-form{display:flex;gap:0.6rem;max-width:420px;margin:0 auto;}
+.newsletter-form input{flex:1;background:rgba(200,184,154,0.06);border:1px solid rgba(200,184,154,0.18);color:var(--white);padding:0.85rem 1.1rem;font-family:'DM Sans',sans-serif;font-size:0.85rem;outline:none;transition:border-color 0.2s;}
+.newsletter-form input:focus{border-color:var(--cta);}
+.newsletter-form input::placeholder{color:rgba(200,184,154,0.3);}
+.newsletter-form button{background:var(--cta);color:#fff;border:none;padding:0.85rem 1.6rem;font-family:'DM Sans',sans-serif;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;transition:background 0.2s;white-space:nowrap;}
+.newsletter-form button:hover{background:var(--cta-hover);}
+.newsletter-success{display:none;font-size:0.9rem;color:var(--cta);padding:1rem;letter-spacing:0.05em;}
+
+/* SHARE */
+.note-share{margin-top:2rem;padding-top:1.5rem;border-top:1px solid rgba(200,184,154,0.08);display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
+.note-share-label{font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(200,184,154,0.4);}
+.note-share-btns{display:flex;gap:0.6rem;}
+.note-share-btn{display:inline-flex;align-items:center;gap:0.45rem;background:rgba(200,184,154,0.05);border:1px solid rgba(200,184,154,0.15);color:rgba(245,242,238,0.7);padding:0.5rem 0.95rem;font-family:'DM Sans',sans-serif;font-size:0.68rem;letter-spacing:0.05em;cursor:pointer;transition:all 0.2s;border-radius:3px;}
+.note-share-btn:hover{border-color:rgba(200,184,154,0.35);color:var(--white);}
+.note-share-btn.share-wa:hover{border-color:rgba(37,211,102,0.5);color:#25D366;}
+.note-share-btn.share-copy.copied{border-color:rgba(46,139,114,0.5);color:var(--cta);}
+
+@media(max-width:768px){
+  .newsletter-section{padding:3rem 1.3rem;}
+  .newsletter-form{flex-direction:column;}
+  .newsletter-form button{width:100%;}
+  .note-share{flex-direction:column;align-items:flex-start;gap:0.75rem;}
+}
 </style>
 </head>
 <body>
@@ -163,15 +237,30 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:#0a0a0a;border-b
 </div>
 
 <div class="notes-filters" id="filtersWrap">
-  <button class="nf-btn active" onclick="filterNotes('all',this)">All</button>
-  <button class="nf-btn" onclick="filterNotes('Seasonal',this)">Seasonal</button>
-  <button class="nf-btn" onclick="filterNotes('Activity Guide',this)">Activities</button>
-  <button class="nf-btn" onclick="filterNotes('Local Insight',this)">Local Insight</button>
-  <button class="nf-btn" onclick="filterNotes('Itinerary',this)">Itineraries</button>
+  <button class="nf-btn active" onclick="filterNotes('all',this)">All <span class="nf-count" data-count="all"></span></button>
+  <button class="nf-btn" onclick="filterNotes('Seasonal',this)">Seasonal <span class="nf-count" data-count="Seasonal"></span></button>
+  <button class="nf-btn" onclick="filterNotes('Activity Guide',this)">Activities <span class="nf-count" data-count="Activity Guide"></span></button>
+  <button class="nf-btn" onclick="filterNotes('Local Insight',this)">Local Insight <span class="nf-count" data-count="Local Insight"></span></button>
+  <button class="nf-btn" onclick="filterNotes('Itinerary',this)">Itineraries <span class="nf-count" data-count="Itinerary"></span></button>
 </div>
 
 <div class="notes-wrap">
+  <div class="notes-featured" id="notesFeatured"></div>
   <div class="notes-grid" id="notesGrid"></div>
+</div>
+
+<!-- NEWSLETTER -->
+<div class="newsletter-section">
+  <div class="newsletter-inner">
+    <div class="newsletter-label">Stay in the loop</div>
+    <h2 class="newsletter-title">New notes, <em>straight to your inbox.</em></h2>
+    <p class="newsletter-sub">Seasonal tips, hidden spots and honest local advice. No spam, just the good stuff, a few times a month.</p>
+    <div class="newsletter-form" id="newsletterForm">
+      <input type="email" id="newsletterEmail" placeholder="Your email address" onkeydown="if(event.key==='Enter')subscribeNewsletter()">
+      <button onclick="subscribeNewsletter()">Subscribe</button>
+    </div>
+    <div class="newsletter-success" id="newsletterSuccess">✓ You're in. Talk soon.</div>
+  </div>
 </div>
 
 <!-- MODAL -->
@@ -186,6 +275,20 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:#0a0a0a;border-b
       <div class="note-modal-cta-text">Want a trip built around this?</div>
       <a href="index.html#plan" class="note-modal-cta-btn">Plan my trip →</a>
     </div>
+    <div class="note-share">
+      <span class="note-share-label">Share this note</span>
+      <div class="note-share-btns">
+        <button class="note-share-btn share-wa" onclick="shareNote('whatsapp')" aria-label="Share on WhatsApp">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884"/></svg>
+          WhatsApp
+        </button>
+        <button class="note-share-btn share-copy" onclick="shareNote('copy')" id="copyBtn" aria-label="Copy link">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+          <span id="copyLabel">Copy link</span>
+        </button>
+      </div>
+    </div>
+    <div class="note-related" id="noteRelated"></div>
   </div>
 </div>
 
@@ -313,17 +416,102 @@ var travelNotes = [
 
 var currentFilter = 'all';
 
+function updateFilterCounts() {
+  document.querySelectorAll('.nf-count').forEach(function(el) {
+    var cat = el.getAttribute('data-count');
+    var count = cat === 'all' ? travelNotes.length : travelNotes.filter(function(n){return n.tag===cat;}).length;
+    el.textContent = '(' + count + ')';
+  });
+}
+
+
+// ── SHARE ─────────────────────────────────────────────────
+var currentNoteForShare = null;
+
+function shareNote(method) {
+  if (!currentNoteForShare) return;
+  var url = 'https://experiencemontenegro.com/notes.html#' + currentNoteForShare.slug;
+  var title = currentNoteForShare.title;
+  if (method === 'whatsapp') {
+    window.open('https://wa.me/?text=' + encodeURIComponent(title + ' — ' + url), '_blank');
+  } else if (method === 'copy') {
+    var copyLabel = document.getElementById('copyLabel');
+    var copyBtn = document.getElementById('copyBtn');
+    function done() {
+      copyLabel.textContent = 'Copied!';
+      copyBtn.classList.add('copied');
+      setTimeout(function(){ copyLabel.textContent = 'Copy link'; copyBtn.classList.remove('copied'); }, 2000);
+    }
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(url).then(done).catch(function(){ fallbackCopy(url); done(); });
+    } else { fallbackCopy(url); done(); }
+  }
+}
+
+function fallbackCopy(text) {
+  var ta = document.createElement('textarea');
+  ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand('copy'); } catch(e) {}
+  document.body.removeChild(ta);
+}
+
+// ── NEWSLETTER ────────────────────────────────────────────
+var NL_SUPABASE_URL = "https://twkiwlshuyjnzabazhmv.supabase.co";
+var NL_SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3a2l3bHNodXlqbnphYmF6aG12Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyNjg5NjEsImV4cCI6MjA5OTg0NDk2MX0.DMkOrnr4bggWsFYZt5RNuQ47VuvPkVqkWIccZIZIiso";
+
+async function subscribeNewsletter() {
+  var input = document.getElementById('newsletterEmail');
+  var email = input.value.trim();
+  if (!email || email.indexOf('@') < 0) { input.focus(); return; }
+  // Store as a lead with a newsletter marker
+  try {
+    await fetch(NL_SUPABASE_URL + '/rest/v1/leads', {
+      method: 'POST',
+      headers: {
+        'apikey': NL_SUPABASE_KEY,
+        'Authorization': 'Bearer ' + NL_SUPABASE_KEY,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email: email, name: 'Newsletter subscriber', message: 'Subscribed via Travel Notes newsletter', status: 'newsletter' })
+    });
+  } catch(e) { /* fail silently, still show success */ }
+  document.getElementById('newsletterForm').style.display = 'none';
+  document.getElementById('newsletterSuccess').style.display = 'block';
+}
+
 function renderNotes() {
   var grid = document.getElementById('notesGrid');
+  var featured = document.getElementById('notesFeatured');
   var filtered = currentFilter === 'all' ? travelNotes : travelNotes.filter(function(n){return n.tag===currentFilter;});
-  
+
   if (filtered.length === 0) {
-    grid.innerHTML = '<div class="notes-empty"><div class="notes-empty-title">Notes coming soon.</div><div class="notes-empty-sub">Insider guides, hidden spots, seasonal tips — written from Podgorica.</div></div>';
+    featured.innerHTML = '';
+    grid.innerHTML = '<div class="notes-empty"><div class="notes-empty-title">Notes coming soon.</div><div class="notes-empty-sub">Insider guides, hidden spots, seasonal tips, written from Podgorica.</div></div>';
     return;
   }
-  
+
+  // Featured = first article of the filtered set
+  var featuredNote = filtered[0];
+  var featuredIdx = travelNotes.indexOf(featuredNote);
+  featured.innerHTML =
+    '<a class="featured-card" href="#" onclick="event.preventDefault();openNote(' + featuredIdx + ')">' +
+      '<div class="featured-left">' +
+        '<div class="featured-badge">Featured</div>' +
+        '<div class="featured-tag">' + featuredNote.tag + '</div>' +
+        '<div class="featured-title">' + featuredNote.title + '</div>' +
+        '<div class="featured-excerpt">' + featuredNote.excerpt + '</div>' +
+        '<div class="featured-meta"><span>' + featuredNote.date + '</span><span>·</span><span>' + (featuredNote.readTime||'') + '</span><span class="featured-read">Read note</span></div>' +
+      '</div>' +
+      '<div class="featured-right"><div class="featured-right-mark">EM</div></div>' +
+    '</a>';
+
+  // Rest go in grid
+  var rest = filtered.slice(1);
   grid.innerHTML = '';
-  filtered.forEach(function(note, i) {
+  if (rest.length === 0) { grid.style.display = 'none'; return; }
+  grid.style.display = 'grid';
+  rest.forEach(function(note) {
     var idx = travelNotes.indexOf(note);
     var card = document.createElement('a');
     card.className = 'note-card';
@@ -351,11 +539,37 @@ function filterNotes(f, btn) {
 
 function openNote(i) {
   var n = travelNotes[i];
+  currentNoteForShare = n;
   document.getElementById('nTag').textContent = n.tag;
   document.getElementById('nTitle').textContent = n.title;
   document.getElementById('nMeta').textContent = n.date + (n.readTime ? ' · ' + n.readTime : '');
   document.getElementById('nBody').innerHTML = n.body;
+
+  // Related notes — same tag first, then fill with others
+  var related = travelNotes.filter(function(x, xi){ return xi !== i && x.tag === n.tag; });
+  if (related.length < 2) {
+    travelNotes.forEach(function(x, xi){
+      if (xi !== i && x.tag !== n.tag && related.length < 2) related.push(x);
+    });
+  }
+  related = related.slice(0, 2);
+  var relEl = document.getElementById('noteRelated');
+  if (related.length > 0) {
+    var html = '<div class="note-related-label">Related notes</div><div class="note-related-grid">';
+    related.forEach(function(r) {
+      var ri = travelNotes.indexOf(r);
+      html += '<a class="note-related-item" href="#" onclick="event.preventDefault();openNote(' + ri + ')">' +
+        '<div class="note-related-tag">' + r.tag + '</div>' +
+        '<div class="note-related-title">' + r.title + '</div></a>';
+    });
+    html += '</div>';
+    relEl.innerHTML = html;
+  } else {
+    relEl.innerHTML = '';
+  }
+
   document.getElementById('noteModal').classList.add('open');
+  document.getElementById('noteModal').scrollTop = 0;
   document.body.style.overflow = 'hidden';
   if (n.slug) history.replaceState(null, '', '#' + n.slug);
   document.title = n.title + ' | Experience Montenegro';
@@ -385,6 +599,7 @@ document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeNote();
 });
 
+updateFilterCounts();
 renderNotes();
 </script>
 </body>
