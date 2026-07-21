@@ -33,7 +33,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --black: #0a0a0a;
+  --black: #12130f;
   --white: #f5f2ee;
   --stone: #c8b89a;
   --forest: #2d4a3e;
@@ -51,7 +51,7 @@ body { background: var(--black); color: var(--white); font-family: 'DM Sans', sa
 
 /* SCROLL OFFSET FOR FIXED NAV */
 section[id], div[id] { scroll-margin-top: 70px; }
-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1.2rem 2rem; display: flex; justify-content: space-between; align-items: center; background: #0a0a0a; border-bottom: 1px solid rgba(200,184,154,0.1); isolation: isolate; }
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1.2rem 2rem; display: flex; justify-content: space-between; align-items: center; background: #12130f; border-bottom: 1px solid rgba(200,184,154,0.1); isolation: isolate; }
 .nav-logo { font-family: 'Playfair Display', serif; font-size: 1rem; letter-spacing: 0.05em; color: var(--white); }
 .nav-logo span { color: var(--mne-red); font-style: italic; }
 .nav-links { display: flex; align-items: center; gap: 1.5rem; }
@@ -906,7 +906,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
 .nav-hamburger.open span:nth-child(2) { opacity: 0; }
 .nav-hamburger.open span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
 
-.mobile-menu { position: fixed; top: 0; right: -100%; width: 82%; max-width: 340px; height: 100vh; height: 100dvh; background: linear-gradient(160deg, #0d1410 0%, #0a0a0a 100%); border-left: 1px solid rgba(200,184,154,0.12); z-index: 1001; display: flex; flex-direction: column; padding: 1.5rem 1.8rem 2rem; transition: right 0.4s cubic-bezier(0.4,0,0.2,1); overflow-y: auto; }
+.mobile-menu { position: fixed; top: 0; right: -100%; width: 82%; max-width: 340px; height: 100vh; height: 100dvh; background: linear-gradient(160deg, #0d1410 0%, #12130f 100%); border-left: 1px solid rgba(200,184,154,0.12); z-index: 1001; display: flex; flex-direction: column; padding: 1.5rem 1.8rem 2rem; transition: right 0.4s cubic-bezier(0.4,0,0.2,1); overflow-y: auto; }
 .mobile-menu.open { right: 0; }
 .mobile-menu-header { display: flex; align-items: flex-start; justify-content: space-between; padding-bottom: 1.6rem; margin-bottom: 1.2rem; border-bottom: 1px solid rgba(200,184,154,0.08); }
 .mobile-menu-brand { display: flex; align-items: center; gap: 0.75rem; }
@@ -2368,7 +2368,7 @@ function initAdmin() {
     var style = document.createElement('style');
     style.id = 'adminCSS';
     style.textContent = `
-      #adminOverlay { position:fixed;inset:0;z-index:99998;background:#0a0a0a;overflow-y:auto;font-family:'DM Sans',sans-serif; }
+      #adminOverlay { position:fixed;inset:0;z-index:99998;background:#12130f;overflow-y:auto;font-family:'DM Sans',sans-serif; }
       #loginBox { position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#060e09;z-index:99999; }
       .lb { width:340px;padding:2.5rem;border:1px solid rgba(200,184,154,0.12); }
       .lb-logo { font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:0.2rem; }
@@ -2382,7 +2382,7 @@ function initAdmin() {
       .adm-logo { font-family:'Playfair Display',serif;font-size:0.95rem;color:#f5f2ee; }
       .adm-logo span { color:#c0392b;font-style:italic; }
       .adm-stats { display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(200,184,154,0.08);border-bottom:1px solid rgba(200,184,154,0.06); }
-      .adm-stat { background:#0a0a0a;padding:1.2rem 1.5rem; }
+      .adm-stat { background:#12130f;padding:1.2rem 1.5rem; }
       .adm-stat-lbl { font-size:0.55rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(200,184,154,0.35);margin-bottom:0.3rem; }
       .adm-stat-val { font-family:'Playfair Display',serif;font-size:1.8rem;color:#f5f2ee; }
       .adm-filters { padding:0.85rem 1.5rem;display:flex;gap:0.5rem;flex-wrap:wrap;border-bottom:1px solid rgba(200,184,154,0.06); }
