@@ -2426,6 +2426,14 @@ function initAdmin() {
       .adm-filters { padding:0.85rem 1.5rem;display:flex;gap:0.5rem;flex-wrap:wrap;border-bottom:1px solid rgba(200,184,154,0.06); }
       .adm-fbtn { font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.35rem 0.8rem;border:1px solid rgba(200,184,154,0.15);background:transparent;color:rgba(200,184,154,0.45);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s; }
       .adm-fbtn:hover,.adm-fbtn.active { border-color:#2e8b72;color:#f5f2ee;background:rgba(46,139,114,0.08); }
+      .adm-export-btn { font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.35rem 0.9rem;border:1px solid rgba(193,127,59,0.35);background:rgba(193,127,59,0.08);color:#c17f3b;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s; }
+      .adm-export-btn:hover { background:rgba(193,127,59,0.15);border-color:rgba(193,127,59,0.5); }
+      .adm-type-badge { font-size:0.5rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.12rem 0.45rem;border-radius:2px; }
+      .adm-type-planning { background:rgba(46,139,114,0.15);color:#2e8b72; }
+      .adm-type-newsletter { background:rgba(193,127,59,0.15);color:#c17f3b; }
+      .adm-type-guide { background:rgba(100,130,220,0.15);color:#7799ff; }
+      .adm-copy-email { cursor:pointer;color:rgba(200,184,154,0.5);font-size:0.68rem;transition:color 0.2s; }
+      .adm-copy-email:hover { color:#2e8b72; }
       .adm-search { margin-left:auto;background:rgba(200,184,154,0.05);border:1px solid rgba(200,184,154,0.12);color:#f5f2ee;padding:0.35rem 0.75rem;font-family:'DM Sans',sans-serif;font-size:0.78rem;outline:none;width:200px; }
       .adm-search::placeholder { color:rgba(200,184,154,0.2); }
       .adm-table-wrap { padding:1rem 1.5rem; }
@@ -2472,11 +2480,20 @@ function initAdmin() {
       </div>
       <div class="adm-stats">
         <div class="adm-stat"><div class="adm-stat-lbl">Total</div><div class="adm-stat-val" id="admTotal">—</div></div>
-        <div class="adm-stat"><div class="adm-stat-lbl">New</div><div class="adm-stat-val" id="admNew" style="color:#2e8b72;">—</div></div>
-        <div class="adm-stat"><div class="adm-stat-lbl">Booked</div><div class="adm-stat-val" id="admBooked" style="color:#7799ff;">—</div></div>
-        <div class="adm-stat"><div class="adm-stat-lbl">Conversion</div><div class="adm-stat-val" id="admConv">—</div></div>
+        <div class="adm-stat"><div class="adm-stat-lbl">Planning</div><div class="adm-stat-val" id="admPlanning" style="color:#2e8b72;">—</div></div>
+        <div class="adm-stat"><div class="adm-stat-lbl">Newsletter</div><div class="adm-stat-val" id="admNewsletter" style="color:#c17f3b;">—</div></div>
+        <div class="adm-stat"><div class="adm-stat-lbl">Guide</div><div class="adm-stat-val" id="admGuide" style="color:#7799ff;">—</div></div>
+      </div>
+      <div class="adm-filters" style="border-bottom:none;padding-bottom:0.3rem;">
+        <span style="font-size:0.52rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(200,184,154,0.3);align-self:center;margin-right:0.3rem;">Type:</span>
+        <button class="adm-fbtn adm-type active" onclick="admTypeFilter('all',this)">All types</button>
+        <button class="adm-fbtn adm-type" onclick="admTypeFilter('planning',this)">Planning</button>
+        <button class="adm-fbtn adm-type" onclick="admTypeFilter('newsletter',this)">Newsletter</button>
+        <button class="adm-fbtn adm-type" onclick="admTypeFilter('guide',this)">Guide</button>
+        <button class="adm-export-btn" onclick="admExportCSV()" style="margin-left:auto;">↓ Export CSV</button>
       </div>
       <div class="adm-filters">
+        <span style="font-size:0.52rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(200,184,154,0.3);align-self:center;margin-right:0.3rem;">Status:</span>
         <button class="adm-fbtn active" onclick="admFilter('all',this)">All</button>
         <button class="adm-fbtn" onclick="admFilter('new',this)">New</button>
         <button class="adm-fbtn" onclick="admFilter('contacted',this)">Contacted</button>
@@ -2485,7 +2502,7 @@ function initAdmin() {
         <input type="text" class="adm-search" id="admSearch" placeholder="Search..." oninput="admRender()">
       </div>
       <div class="adm-table-wrap">
-        <table class="adm-table" id="admTable"><thead><tr><th>Name</th><th>Plan</th><th>Country</th><th>Date</th><th>Status</th></tr></thead><tbody id="admBody"></tbody></table>
+        <table class="adm-table" id="admTable"><thead><tr><th>Name</th><th>Type</th><th>Email</th><th>Date</th><th>Status</th></tr></thead><tbody id="admBody"></tbody></table>
         <div class="adm-empty" id="admEmpty" style="display:none;">No leads found</div>
       </div>
     </div>
@@ -2568,19 +2585,38 @@ async function loadLeads() {
   if (el) el.textContent = 'Updated ' + new Date().toLocaleTimeString();
 }
 
+var currentTypeFilter = 'all';
+
+// Determine lead type from status/message
+function leadType(l) {
+  var s = (l.status||'').toLowerCase();
+  if (s === 'newsletter') return 'newsletter';
+  if (s === 'guide') return 'guide';
+  return 'planning';
+}
+
 function admUpdateStats() {
   var t = allLeads.length;
-  var n = allLeads.filter(function(l){return l.status==='new';}).length;
-  var b = allLeads.filter(function(l){return l.status==='booked';}).length;
+  var planning = allLeads.filter(function(l){return leadType(l)==='planning';}).length;
+  var news = allLeads.filter(function(l){return leadType(l)==='newsletter';}).length;
+  var guide = allLeads.filter(function(l){return leadType(l)==='guide';}).length;
   document.getElementById('admTotal').textContent = t;
-  document.getElementById('admNew').textContent = n;
-  document.getElementById('admBooked').textContent = b;
-  document.getElementById('admConv').textContent = t>0 ? Math.round(b/t*100)+'%' : '0%';
+  document.getElementById('admPlanning').textContent = planning;
+  document.getElementById('admNewsletter').textContent = news;
+  document.getElementById('admGuide').textContent = guide;
 }
 
 function admFilter(f, btn) {
   currentFilter = f;
-  document.querySelectorAll('.adm-fbtn').forEach(function(b){b.classList.remove('active');});
+  // only toggle status-row buttons (not type buttons)
+  btn.parentNode.querySelectorAll('.adm-fbtn:not(.adm-type)').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  admRender();
+}
+
+function admTypeFilter(f, btn) {
+  currentTypeFilter = f;
+  document.querySelectorAll('.adm-type').forEach(function(b){b.classList.remove('active');});
   btn.classList.add('active');
   admRender();
 }
@@ -2589,9 +2625,11 @@ function admRender() {
   var search = (document.getElementById('admSearch')||{}).value||'';
   search = search.toLowerCase();
   var filtered = allLeads.filter(function(l) {
-    var mf = currentFilter==='all'||l.status===currentFilter||(l.plan&&l.plan.toLowerCase().includes(currentFilter));
+    var mType = currentTypeFilter==='all' || leadType(l)===currentTypeFilter;
+    // For newsletter/guide, status filter doesn't really apply — only apply status filter to planning
+    var mf = currentFilter==='all' || l.status===currentFilter;
     var ms = !search||(l.name&&l.name.toLowerCase().includes(search))||(l.email&&l.email.toLowerCase().includes(search));
-    return mf && ms;
+    return mType && mf && ms;
   });
   var tbody = document.getElementById('admBody');
   tbody.innerHTML = '';
@@ -2600,15 +2638,60 @@ function admRender() {
   empty.style.display='none';
   filtered.forEach(function(l) {
     var d = new Date(l.created_at).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
+    var type = leadType(l);
     var tr = document.createElement('tr');
     tr.onclick = function(){admOpenModal(l);};
     tr.innerHTML = '<td><div class="adm-name">'+(l.name||'—')+'</div><div class="adm-email">'+(l.email||'')+'</div></td>'+
-      '<td>'+(l.plan?'<span class="plan-badge">'+l.plan+'</span>':'—')+'</td>'+
-      '<td style="color:rgba(200,184,154,0.45);font-size:0.76rem;">'+(l.country||'—')+'</td>'+
+      '<td><span class="adm-type-badge adm-type-'+type+'">'+type+'</span></td>'+
+      '<td><span class="adm-copy-email" data-email="'+(l.email||'')+'">'+(l.email||'—')+'</span></td>'+
       '<td class="adm-date">'+d+'</td>'+
-      '<td><span class="badge badge-'+(l.status||'new')+'">'+(l.status||'new')+'</span></td>';
+      '<td>'+(type==='planning'?'<span class="badge badge-'+(l.status||'new')+'">'+(l.status||'new')+'</span>':'<span style="color:rgba(200,184,154,0.3);font-size:0.7rem;">—</span>')+'</td>';
     tbody.appendChild(tr);
   });
+
+  // Attach copy-email handlers
+  tbody.querySelectorAll('.adm-copy-email').forEach(function(span) {
+    span.addEventListener('click', function(e) {
+      e.stopPropagation();
+      admCopyEmail(span.getAttribute('data-email'), span);
+    });
+  });
+}
+
+function admCopyEmail(email, el) {
+  if (!email) return;
+  function done(){ var orig=el.textContent; el.textContent='Copied ✓'; el.style.color='#2e8b72'; setTimeout(function(){el.textContent=orig;el.style.color='';},1500); }
+  if (navigator.clipboard) { navigator.clipboard.writeText(email).then(done).catch(done); }
+  else { var ta=document.createElement('textarea'); ta.value=email; document.body.appendChild(ta); ta.select(); try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta); done(); }
+}
+
+function admExportCSV() {
+  // Export currently filtered set
+  var search = (document.getElementById('admSearch')||{}).value.toLowerCase()||'';
+  var rows = allLeads.filter(function(l) {
+    var mType = currentTypeFilter==='all' || leadType(l)===currentTypeFilter;
+    var mf = currentFilter==='all' || l.status===currentFilter;
+    var ms = !search||(l.name&&l.name.toLowerCase().includes(search))||(l.email&&l.email.toLowerCase().includes(search));
+    return mType && mf && ms;
+  });
+  var headers = ['Date','Type','Name','Email','Country','Plan','Status','Message','Notes'];
+  function esc(v){ v=(v==null?'':String(v)); return '"'+v.replace(/"/g,'""')+'"'; }
+  var csv = headers.join(',') + '\\n';
+  rows.forEach(function(l){
+    csv += [
+      esc(new Date(l.created_at).toLocaleDateString('en-GB')),
+      esc(leadType(l)),
+      esc(l.name), esc(l.email), esc(l.country),
+      esc(l.plan), esc(l.status), esc(l.message), esc(l.notes)
+    ].join(',') + '\\n';
+  });
+  var blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'em-leads-' + new Date().toISOString().slice(0,10) + '.csv';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }
 
 function admOpenModal(l) {
