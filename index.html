@@ -247,7 +247,7 @@ body::before {
 
 .activity { background: var(--black); position: relative; cursor: pointer; transition: background 0.35s cubic-bezier(0.4,0,0.2,1); }
 .activity:hover { background: rgba(16,24,18,1); }
-.activity.expanded { background: rgba(8,16,10,1); cursor: default; box-shadow: inset 0 0 0 1px rgba(46,139,114,0.45); }
+.activity.expanded { background: linear-gradient(165deg, rgba(12,22,15,1) 0%, rgba(8,14,10,1) 100%); cursor: default; box-shadow: inset 0 0 0 1px rgba(46,139,114,0.4), 0 20px 50px rgba(0,0,0,0.35); z-index: 3; }
 
 /* top accent line — appears on hover */
 .activity::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--cta), var(--accent)); transform: scaleX(0); transition: transform 0.35s ease; transform-origin: left; z-index: 2; }
@@ -263,16 +263,17 @@ body::before {
 .activity-img::after { display: none; }
 .activity-img img { display: none; }
 
-.activity-body { padding: 1.9rem 1.6rem; }
-.activity-header { display: flex; justify-content: space-between; align-items: flex-start; }
-.activity-name { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 400; color: var(--white); margin-bottom: 0.4rem; line-height: 1.2; transition: color 0.25s; }
-.activity:hover .activity-name { color: #fff; }
-.activity-desc { font-size: 0.78rem; line-height: 1.65; color: rgba(245,242,238,0.42); margin-top: 0.45rem; transition: opacity 0.3s; }
+.activity-body { padding: 2rem 1.7rem; }
+.activity-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
+.activity-name { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 400; color: var(--white); margin-bottom: 0.4rem; line-height: 1.2; letter-spacing: -0.01em; transition: color 0.25s, transform 0.35s cubic-bezier(0.4,0,0.2,1); }
+.activity:hover .activity-name { color: #fff; transform: translateX(3px); }
+.activity-desc { font-size: 0.8rem; line-height: 1.7; color: rgba(245,242,238,0.45); margin-top: 0.5rem; transition: opacity 0.3s, transform 0.35s cubic-bezier(0.4,0,0.2,1); }
+.activity:hover .activity-desc { transform: translateX(3px); }
 .activity.expanded .activity-desc { display: none; }
-.activity.expanded .activity-body { padding: 1.1rem 1.6rem 0; }
-.activity-header-right { display: flex; align-items: center; gap: 0.85rem; flex-shrink: 0; }
-.activity-icon { color: rgba(46,139,114,0.5); display: flex; align-items: center; transition: color 0.25s, transform 0.3s; }
-.activity:hover .activity-icon { color: rgba(46,139,114,0.9); transform: scale(1.1); }
+.activity.expanded .activity-body { padding: 1.3rem 1.7rem 0; }
+.activity-header-right { display: flex; align-items: center; gap: 0.9rem; flex-shrink: 0; }
+.activity-icon { color: rgba(46,139,114,0.45); display: flex; align-items: center; transition: color 0.25s, transform 0.35s cubic-bezier(0.4,0,0.2,1); }
+.activity:hover .activity-icon { color: rgba(46,139,114,0.95); transform: scale(1.12) rotate(-4deg); }
 .activity.expanded .activity-icon { color: var(--cta); }
 
 /* Explore hint — appears on hover */
@@ -294,11 +295,14 @@ body::before {
 .activity-article-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(0.75); transition: transform 0.6s ease; }
 .activity.expanded .activity-article-img img { transform: scale(1.03); }
 .activity-article-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, transparent 60%, rgba(8,16,10,1) 100%); }
-.activity-article-text { padding: 2rem 2rem 2rem 1.8rem; }
-.activity-article p { font-size: 0.86rem; line-height: 1.82; color: rgba(245,242,238,0.68); margin-bottom: 0.9rem; }
-.activity-article ul { list-style: none; margin-bottom: 1.4rem; border-top: 1px solid rgba(200,184,154,0.1); padding-top: 0.9rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
-.activity-article ul li { font-size: 0.78rem; color: rgba(245,242,238,0.62); padding: 0.38rem 0; border-bottom: 1px solid rgba(200,184,154,0.07); display: flex; gap: 0.5rem; list-style: none; }
-.activity-article ul li::before { content: '—'; color: var(--cta); opacity: 0.6; flex-shrink: 0; }
+.activity-article-text { padding: 2.2rem 2.2rem 2.2rem 2rem; }
+.activity-article p { font-size: 0.88rem; line-height: 1.85; color: rgba(245,242,238,0.7); margin-bottom: 1rem; }
+.activity-article ul { list-style: none; margin: 1.4rem 0; border-top: 1px solid rgba(200,184,154,0.1); border-bottom: 1px solid rgba(200,184,154,0.1); padding: 1.1rem 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem 1.5rem; }
+.activity-article ul li { font-size: 0.76rem; color: rgba(245,242,238,0.75); padding: 0; display: flex; flex-direction: column; gap: 0.15rem; list-style: none; }
+.activity-article ul li::before { display: none; }
+/* Split "Label: value" into styled label + value */
+.activity-article ul li { position: relative; padding-left: 0.85rem; }
+.activity-article ul li::after { content: ''; position: absolute; left: 0; top: 0.15rem; width: 3px; height: 3px; border-radius: 50%; background: var(--cta); opacity: 0.7; }
 
 .activity-cta { display: inline-block; margin-top: 0.25rem; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cta); text-decoration: none; border-bottom: 1px solid rgba(46,139,114,0.4); padding-bottom: 2px; transition: color 0.2s, border-color 0.2s; }
 .activity-cta:hover { color: var(--cta-hover); border-color: var(--cta-hover); }
@@ -726,11 +730,12 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
   .activity-article p { font-size: 0.82rem; }
   .activity-article ul li { font-size: 0.75rem; }
   .activity-img { height: 110px; }
-  .activity-name { font-size: 0.95rem; }
-  .activity-desc { display: none; }
-  .activity.expanded .activity-desc { display: block; font-size: 0.8rem; }
-  .activity-body { padding: 1rem; }
-  .activity.expanded .activity-body { display: none; }
+  .activity-name { font-size: 1.1rem; }
+  .activity-desc { display: block; font-size: 0.8rem; }
+  .activity.expanded .activity-desc { display: none; }
+  .activity-body { padding: 1.4rem 1.3rem; }
+  .activity.expanded .activity-body { display: block; padding: 1.2rem 1.3rem 0; }
+  .activity-explore { display: flex !important; opacity: 1 !important; transform: none !important; }
   .activity-article-text .mobile-close { display: none !important; }
   .activity-article-text .mobile-close { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cta); cursor: pointer; margin-bottom: 1rem; }
   .pricing-section { padding: 3rem 0 3rem; }
@@ -981,6 +986,22 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
   50% { opacity: 1; transform: scale(1.03); }
 }
 
+
+/* ACCESSIBILITY */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+.activity:focus-visible, .activity-cta:focus-visible, .price-card:focus-visible,
+.nf-btn:focus-visible, .faq-q:focus-visible, .submit-btn:focus-visible,
+.quiz-mood-opt:focus-visible, button:focus-visible, a:focus-visible {
+  outline: 2px solid var(--cta);
+  outline-offset: 2px;
+}
 </style>
 </head>
 <body>
@@ -1137,13 +1158,14 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
 
 <!-- ACTIVITIES -->
 <section class="section activities-blend" style="padding-top:0;padding-left:0;padding-right:0;" id="activities">
-  <div style="padding: 0 2rem 2rem;">
+  <div style="padding: 0 2rem 2.5rem; max-width: 640px;">
     <div class="section-label">What's possible</div>
     <h2 class="section-title">Montenegro, in full</h2>
+    <p style="font-size:0.88rem;line-height:1.75;color:rgba(245,242,238,0.45);margin-top:1rem;">Nine ways to experience the country, from its wildest rivers to its quietest mountain tables. Tap any one to see what it involves.</p>
   </div>
   <div class="activities-grid" id="activitiesGrid">
 
-    <div class="activity" onclick="toggleActivity(this)">
+    <div class="activity" onclick="toggleActivity(this)" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleActivity(this);}">
       <div class="activity-img">
         <img src="rafting.webp" alt="Tara Rafting" style="width:100%;height:100%;object-fit:cover;display:block;">
       </div>
@@ -1160,13 +1182,13 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
           <div class="activity-article-img"><img src="rafting.webp" alt="Tara Rafting"></div>
           <div class="activity-article-text">
             <p>The Tara River Canyon is one of the deepest in Europe, reaching over 1,300 metres. The river typically runs cold and fast from spring through autumn, with the strongest rapids usually in spring when snowmelt raises the water. Beginners are welcome on most trips — operators provide guides, a safety briefing and equipment. Your suitability depends on the specific route and water level, which we'll match to your group.</p><p>A full-day rafting trip covers around 18km of river, passing through emerald gorges, under ancient bridges, and past waterfalls that drop directly into the canyon.</p><ul><li>Duration: Full day (4 hours on water)</li><li>Difficulty: Grade 3–4 (moderate to challenging)</li><li>Best season: April – October</li><li>Includes: Guide, equipment, lunch on the river</li><li>Starting point: Šćepan Polje, ~2.5h from Podgorica</li></ul>
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;"><a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience &rarr;</a><button onclick="event.stopPropagation();toggleActivity(this.closest('.activity'))" style="background:none;border:none;color:rgba(200,184,154,0.25);cursor:pointer;font-size:0.7rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;font-family:inherit;flex-shrink:0;padding:0;" onmouseover="this.style.color='rgba(200,184,154,0.6)'" onmouseout="this.style.color='rgba(200,184,154,0.25)'">close</button></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;"><a href="#plan" class="activity-cta" data-interest="Adventure & adrenaline" data-activity="Tara Rafting" onclick="event.stopPropagation();planExperience(this)">Plan this experience &rarr;</a><button onclick="event.stopPropagation();toggleActivity(this.closest('.activity'))" style="background:none;border:none;color:rgba(200,184,154,0.25);cursor:pointer;font-size:0.7rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;font-family:inherit;flex-shrink:0;padding:0;" onmouseover="this.style.color='rgba(200,184,154,0.6)'" onmouseout="this.style.color='rgba(200,184,154,0.25)'">close</button></div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="activity" onclick="toggleActivity(this)">
+    <div class="activity" onclick="toggleActivity(this)" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleActivity(this);}">
       <div class="activity-img">
         <img src="canyoning.webp" alt="Canyoning" style="width:100%;height:100%;object-fit:cover;display:block;">
       </div>
@@ -1183,13 +1205,13 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
           <div class="activity-article-img"><img src="canyoning.webp" alt="Canyoning"></div>
           <div class="activity-article-text">
             <p>Nevidio Canyon, "the unseen," was only first explored in 1965. A narrow limestone gorge carved by the Komarnica river, with walls rising over 300 metres. Canyoning here means abseiling down waterfalls, swimming through ice-cold pools, and squeezing through passages just wide enough for one person.</p><p>It's challenging, exhilarating, and unlike anything you'll find elsewhere in Europe.</p><ul><li>Duration: 5–6 hours</li><li>Difficulty: Challenging (good fitness required)</li><li>Best season: May – September</li><li>Includes: Guide, wetsuit, helmet, harness, rich meal after</li></ul>
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;"><a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience &rarr;</a><button onclick="event.stopPropagation();toggleActivity(this.closest('.activity'))" style="background:none;border:none;color:rgba(200,184,154,0.25);cursor:pointer;font-size:0.7rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;font-family:inherit;flex-shrink:0;padding:0;" onmouseover="this.style.color='rgba(200,184,154,0.6)'" onmouseout="this.style.color='rgba(200,184,154,0.25)'">close</button></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;"><a href="#plan" class="activity-cta" data-interest="Adventure & adrenaline" data-activity="Canyoning" onclick="event.stopPropagation();planExperience(this)">Plan this experience &rarr;</a><button onclick="event.stopPropagation();toggleActivity(this.closest('.activity'))" style="background:none;border:none;color:rgba(200,184,154,0.25);cursor:pointer;font-size:0.7rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;font-family:inherit;flex-shrink:0;padding:0;" onmouseover="this.style.color='rgba(200,184,154,0.6)'" onmouseout="this.style.color='rgba(200,184,154,0.25)'">close</button></div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="activity" onclick="toggleActivity(this)">
+    <div class="activity" onclick="toggleActivity(this)" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleActivity(this);}">
       <div class="activity-img">
         <img src="jeep.webp" alt="Jeep Safari" style="width:100%;height:100%;object-fit:cover;display:block;">
       </div>
@@ -1206,13 +1228,13 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
           <div class="activity-article-img"><img src="jeep.webp" alt="Jeep Safari"></div>
           <div class="activity-article-text">
             <p>Montenegro's mountain interior is largely inaccessible by ordinary car. Durmitor National Park has over 40 glacial lakes, high-altitude meadows, and centuries-old shepherd villages that sit above the clouds.</p><ul><li>Duration: Full day or half day</li><li>Difficulty: Easy (you're in the jeep)</li><li>Best season: May – October</li><li>Includes: Private 4x4, guide, picnic lunch</li><li>Departures from: Žabljak or Kolašin</li></ul>
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;"><a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience &rarr;</a><button onclick="event.stopPropagation();toggleActivity(this.closest('.activity'))" style="background:none;border:none;color:rgba(200,184,154,0.25);cursor:pointer;font-size:0.7rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;font-family:inherit;flex-shrink:0;padding:0;" onmouseover="this.style.color='rgba(200,184,154,0.6)'" onmouseout="this.style.color='rgba(200,184,154,0.25)'">close</button></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;"><a href="#plan" class="activity-cta" data-interest="Nature & hiking" data-activity="Jeep Safari" onclick="event.stopPropagation();planExperience(this)">Plan this experience &rarr;</a><button onclick="event.stopPropagation();toggleActivity(this.closest('.activity'))" style="background:none;border:none;color:rgba(200,184,154,0.25);cursor:pointer;font-size:0.7rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;font-family:inherit;flex-shrink:0;padding:0;" onmouseover="this.style.color='rgba(200,184,154,0.6)'" onmouseout="this.style.color='rgba(200,184,154,0.25)'">close</button></div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="activity" onclick="toggleActivity(this)">
+    <div class="activity" onclick="toggleActivity(this)" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleActivity(this);}">
       <div class="activity-img">
         <img src="kayak.webp" alt="Kayak &amp; Boat" style="width:100%;height:100%;object-fit:cover;display:block;">
       </div>
@@ -1229,13 +1251,13 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
           <div class="activity-article-img"><img src="kayak.webp" alt="Kayak &amp; Boat"></div>
           <div class="activity-article-text">
             <p>The Bay of Kotor: dramatic limestone cliffs dropping into dark blue water, with medieval towns clinging to the shoreline. Kayaking it at sunrise, before the tourist boats arrive, is one of the great quiet experiences of the Adriatic.</p><ul><li>Duration: 2–4 hours (kayak) or half day (boat)</li><li>Difficulty: Easy to moderate</li><li>Best season: April – October</li><li>Includes: Equipment, guide, safety briefing</li><li>Departures from: Kotor, Perast, or Virpazar</li></ul>
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;"><a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience &rarr;</a><button onclick="event.stopPropagation();toggleActivity(this.closest('.activity'))" style="background:none;border:none;color:rgba(200,184,154,0.25);cursor:pointer;font-size:0.7rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;font-family:inherit;flex-shrink:0;padding:0;" onmouseover="this.style.color='rgba(200,184,154,0.6)'" onmouseout="this.style.color='rgba(200,184,154,0.25)'">close</button></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;"><a href="#plan" class="activity-cta" data-interest="Adventure & adrenaline" data-activity="Kayak &amp; Boat" onclick="event.stopPropagation();planExperience(this)">Plan this experience &rarr;</a><button onclick="event.stopPropagation();toggleActivity(this.closest('.activity'))" style="background:none;border:none;color:rgba(200,184,154,0.25);cursor:pointer;font-size:0.7rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;font-family:inherit;flex-shrink:0;padding:0;" onmouseover="this.style.color='rgba(200,184,154,0.6)'" onmouseout="this.style.color='rgba(200,184,154,0.25)'">close</button></div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="activity" onclick="toggleActivity(this)">
+    <div class="activity" onclick="toggleActivity(this)" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleActivity(this);}">
       <div class="activity-img">
         <img src="hiking.webp" alt="Hiking" style="width:100%;height:100%;object-fit:cover;display:block;">
       </div>
@@ -1252,13 +1274,13 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
           <div class="activity-article-img"><img src="hiking.webp" alt="Hiking"></div>
           <div class="activity-article-text">
             <p>Montenegro has more than 1,000km of marked trails across two UNESCO-listed national parks. Whatever your pace and fitness level, there is a trail that fits.</p><ul><li>Duration: Half day to multi-day</li><li>Difficulty: Easy to very challenging</li><li>Best season: June – October</li><li>Includes: Local guide, route planning, safety equipment</li></ul>
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;"><a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience &rarr;</a><button onclick="event.stopPropagation();toggleActivity(this.closest('.activity'))" style="background:none;border:none;color:rgba(200,184,154,0.25);cursor:pointer;font-size:0.7rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;font-family:inherit;flex-shrink:0;padding:0;" onmouseover="this.style.color='rgba(200,184,154,0.6)'" onmouseout="this.style.color='rgba(200,184,154,0.25)'">close</button></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;"><a href="#plan" class="activity-cta" data-interest="Nature & hiking" data-activity="Hiking" onclick="event.stopPropagation();planExperience(this)">Plan this experience &rarr;</a><button onclick="event.stopPropagation();toggleActivity(this.closest('.activity'))" style="background:none;border:none;color:rgba(200,184,154,0.25);cursor:pointer;font-size:0.7rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;font-family:inherit;flex-shrink:0;padding:0;" onmouseover="this.style.color='rgba(200,184,154,0.6)'" onmouseout="this.style.color='rgba(200,184,154,0.25)'">close</button></div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="activity" onclick="toggleActivity(this)">
+    <div class="activity" onclick="toggleActivity(this)" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleActivity(this);}">
       <div class="activity-img">
         <img src="wine.webp" alt="Wine &amp; Food" style="width:100%;height:100%;object-fit:cover;display:block;">
       </div>
@@ -1275,13 +1297,13 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
           <div class="activity-article-img"><img src="wine.webp" alt="Wine &amp; Food"></div>
           <div class="activity-article-text">
             <p>Montenegro has some of the most scenic wine country in the Balkans: rolling vineyards, family-run cellars, and local konobas with views that make every glass taste better.</p><ul><li>Duration: Half day to full day</li><li>Difficulty: Easy</li><li>Best season: Year-round (harvest: September–October)</li><li>Includes: Private tasting, food pairing, transport</li></ul>
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;"><a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience &rarr;</a><button onclick="event.stopPropagation();toggleActivity(this.closest('.activity'))" style="background:none;border:none;color:rgba(200,184,154,0.25);cursor:pointer;font-size:0.7rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;font-family:inherit;flex-shrink:0;padding:0;" onmouseover="this.style.color='rgba(200,184,154,0.6)'" onmouseout="this.style.color='rgba(200,184,154,0.25)'">close</button></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;"><a href="#plan" class="activity-cta" data-interest="Culture & food" data-activity="Wine &amp; Food" onclick="event.stopPropagation();planExperience(this)">Plan this experience &rarr;</a><button onclick="event.stopPropagation();toggleActivity(this.closest('.activity'))" style="background:none;border:none;color:rgba(200,184,154,0.25);cursor:pointer;font-size:0.7rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;font-family:inherit;flex-shrink:0;padding:0;" onmouseover="this.style.color='rgba(200,184,154,0.6)'" onmouseout="this.style.color='rgba(200,184,154,0.25)'">close</button></div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="activity" onclick="toggleActivity(this)">
+    <div class="activity" onclick="toggleActivity(this)" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleActivity(this);}">
       <div class="activity-img">
         <img src="horseback.webp" alt="Horseback Riding" style="width:100%;height:100%;object-fit:cover;display:block;">
       </div>
@@ -1298,13 +1320,13 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
           <div class="activity-article-img"><img src="horseback.webp" alt="Horseback Riding"></div>
           <div class="activity-article-text">
             <p>Montenegro's mountain pastures have been grazed by horses for centuries. Riding through Bjelasica's high meadows in summer, with views across three mountain ranges, is something no road can replicate.</p><ul><li>Duration: 2 hours to full day</li><li>Difficulty: Beginner to advanced</li><li>Best season: May – October</li><li>Includes: Horse, guide, equipment</li></ul>
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;"><a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience &rarr;</a><button onclick="event.stopPropagation();toggleActivity(this.closest('.activity'))" style="background:none;border:none;color:rgba(200,184,154,0.25);cursor:pointer;font-size:0.7rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;font-family:inherit;flex-shrink:0;padding:0;" onmouseover="this.style.color='rgba(200,184,154,0.6)'" onmouseout="this.style.color='rgba(200,184,154,0.25)'">close</button></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;"><a href="#plan" class="activity-cta" data-interest="Nature & hiking" data-activity="Horseback Riding" onclick="event.stopPropagation();planExperience(this)">Plan this experience &rarr;</a><button onclick="event.stopPropagation();toggleActivity(this.closest('.activity'))" style="background:none;border:none;color:rgba(200,184,154,0.25);cursor:pointer;font-size:0.7rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;font-family:inherit;flex-shrink:0;padding:0;" onmouseover="this.style.color='rgba(200,184,154,0.6)'" onmouseout="this.style.color='rgba(200,184,154,0.25)'">close</button></div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="activity" onclick="toggleActivity(this)">
+    <div class="activity" onclick="toggleActivity(this)" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleActivity(this);}">
       <div class="activity-img">
         <img src="biking.webp" alt="Mountain Biking" style="width:100%;height:100%;object-fit:cover;display:block;">
       </div>
@@ -1321,13 +1343,13 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
           <div class="activity-article-img"><img src="biking.webp" alt="Mountain Biking"></div>
           <div class="activity-article-text">
             <p>Durmitor National Park has some of the most varied mountain biking terrain in the Balkans. Trails are graded from easy family-friendly routes to demanding technical singletrack for experienced riders.</p><ul><li>Duration: Half day to full day</li><li>Difficulty: Easy to advanced</li><li>Best season: June – October</li><li>Includes: Bike, helmet, guide, route planning</li><li>Departures from: Žabljak</li></ul>
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;"><a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience &rarr;</a><button onclick="event.stopPropagation();toggleActivity(this.closest('.activity'))" style="background:none;border:none;color:rgba(200,184,154,0.25);cursor:pointer;font-size:0.7rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;font-family:inherit;flex-shrink:0;padding:0;" onmouseover="this.style.color='rgba(200,184,154,0.6)'" onmouseout="this.style.color='rgba(200,184,154,0.25)'">close</button></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;"><a href="#plan" class="activity-cta" data-interest="Adventure & adrenaline" data-activity="Mountain Biking" onclick="event.stopPropagation();planExperience(this)">Plan this experience &rarr;</a><button onclick="event.stopPropagation();toggleActivity(this.closest('.activity'))" style="background:none;border:none;color:rgba(200,184,154,0.25);cursor:pointer;font-size:0.7rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;font-family:inherit;flex-shrink:0;padding:0;" onmouseover="this.style.color='rgba(200,184,154,0.6)'" onmouseout="this.style.color='rgba(200,184,154,0.25)'">close</button></div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="activity" onclick="toggleActivity(this)">
+    <div class="activity" onclick="toggleActivity(this)" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleActivity(this);}">
       <div class="activity-img">
         <img src="paragliding.webp" alt="Paragliding" style="width:100%;height:100%;object-fit:cover;display:block;">
       </div>
@@ -1344,7 +1366,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
           <div class="activity-article-img"><img src="paragliding.webp" alt="Paragliding"></div>
           <div class="activity-article-text">
             <p>Launching from the hills above Budva gives you a bird's-eye view of the entire Adriatic coastline. Flights last 15–30 minutes depending on thermals. All flights are tandem with certified instructors. No experience required.</p><ul><li>Duration: 20–40 minutes in the air</li><li>Difficulty: Easy (tandem, no experience needed)</li><li>Best season: April – October</li><li>Includes: Tandem flight, instructor, photos/video</li></ul>
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;"><a href="#plan" class="activity-cta" onclick="event.stopPropagation()">Plan this experience &rarr;</a><button onclick="event.stopPropagation();toggleActivity(this.closest('.activity'))" style="background:none;border:none;color:rgba(200,184,154,0.25);cursor:pointer;font-size:0.7rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;font-family:inherit;flex-shrink:0;padding:0;" onmouseover="this.style.color='rgba(200,184,154,0.6)'" onmouseout="this.style.color='rgba(200,184,154,0.25)'">close</button></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;"><a href="#plan" class="activity-cta" data-interest="Adventure & adrenaline" data-activity="Paragliding" onclick="event.stopPropagation();planExperience(this)">Plan this experience &rarr;</a><button onclick="event.stopPropagation();toggleActivity(this.closest('.activity'))" style="background:none;border:none;color:rgba(200,184,154,0.25);cursor:pointer;font-size:0.7rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;font-family:inherit;flex-shrink:0;padding:0;" onmouseover="this.style.color='rgba(200,184,154,0.6)'" onmouseout="this.style.color='rgba(200,184,154,0.25)'">close</button></div>
           </div>
         </div>
       </div>
@@ -1953,6 +1975,33 @@ function toggleActivity(el) {
   if (!isOpen) {
     el.classList.add('expanded');
   }
+}
+
+function planExperience(link) {
+  var interest = link.getAttribute('data-interest');
+  var activity = link.getAttribute('data-activity');
+  // Prefill interest dropdown
+  var sel = document.getElementById('interests');
+  if (sel && interest) {
+    for (var i = 0; i < sel.options.length; i++) {
+      if (sel.options[i].text === interest) { sel.selectedIndex = i; break; }
+    }
+  }
+  // Prefill notes with the chosen experience (only if empty / not already mentioning it)
+  var notes = document.getElementById('notes');
+  if (notes && activity) {
+    var line = "I'm especially interested in: " + activity + ".";
+    if (!notes.value.trim()) {
+      notes.value = line + "\\n\\n";
+    } else if (notes.value.indexOf(activity) < 0) {
+      notes.value = line + "\\n\\n" + notes.value;
+    }
+  }
+  // Smooth scroll to the form
+  setTimeout(function() {
+    var plan = document.getElementById('plan');
+    if (plan) plan.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 50);
 }
 
 document.getElementById('tripForm').addEventListener('submit', async function(e) {
