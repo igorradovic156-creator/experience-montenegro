@@ -1926,7 +1926,7 @@ async function submitToSupabase(data) {
         'apikey': SUPABASE_KEY,
         'Authorization': 'Bearer ' + SUPABASE_KEY,
         'Content-Type': 'application/json',
-        'Prefer': 'return=representation'
+        'Prefer': 'return=minimal'
       },
       body: JSON.stringify(data)
     });
@@ -2475,34 +2475,9 @@ document.addEventListener('click', function(e) {
 
 
 
-var ADMIN_PASS = "em2025admin";
-var allLeads = [];
-var currentFilter = 'all';
-var currentLead = null;
-
-// ── LOGIN ──────────────────────────────────────────────────
-function doLogin() {
-  var pass = document.getElementById('loginPass').value;
-  if (pass === ADMIN_PASS) {
-    document.getElementById('loginScreen').style.display = 'none';
-    sessionStorage.setItem('em_admin', '1');
-    document.getElementById('adminPanel').style.display = 'block';
-    loadLeads();
-  } else {
-    document.getElementById('loginError').style.display = 'block';
-  }
-}
-function logout() {
-  sessionStorage.removeItem('em_admin');
-  document.getElementById('adminPanel').style.display = 'none';
-  window.location.hash = '';
-}
-
-
 // ── ADMIN PANEL ───────────────────────────────────────────
 var SUPABASE_URL_ADMIN = "https://twkiwlshuyjnzabazhmv.supabase.co";
 var SUPABASE_KEY_ADMIN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3a2l3bHNodXlqbnphYmF6aG12Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyNjg5NjEsImV4cCI6MjA5OTg0NDk2MX0.DMkOrnr4bggWsFYZt5RNuQ47VuvPkVqkWIccZIZIiso";
-var ADMIN_PASS = "em2025admin";
 var allLeads = [];
 var currentFilter = 'all';
 var currentLead = null;
@@ -2637,9 +2612,10 @@ function initAdmin() {
       <div class="lb">
         <div class="lb-logo">Experience <span>Montenegro</span></div>
         <div class="lb-sub">Admin Panel</div>
-        <input type="password" id="admPass" placeholder="Password" onkeydown="if(event.key==='Enter')admLogin()">
-        <button onclick="admLogin()">Enter</button>
-        <div class="lb-err" id="admErr">Wrong password</div>
+        <input type="email" id="admEmailInput" placeholder="Email" autocomplete="username" style="margin-bottom:0.6rem;">
+        <input type="password" id="admPass" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter')admLogin()">
+        <button onclick="admLogin()">Sign in</button>
+        <div class="lb-err" id="admErr">Wrong email or password</div>
       </div>
     </div>
 
@@ -2675,41 +2651,100 @@ function initAdmin() {
     </div>
   `;
 
-  // Check session
-  if (sessionStorage.getItem('em_admin')) {
+  // Check existing session (stored access token)
+  var savedToken = sessionStorage.getItem('em_access_token');
+  if (savedToken) {
+    admAccessToken = savedToken;
     document.getElementById('loginBox').style.display = 'none';
     document.getElementById('adminOverlay').style.display = 'block';
     loadLeads();
   }
 }
 
-function admLogin() {
+// Holds the logged-in admin's access token (never a password in code)
+var admAccessToken = null;
+
+async function admLogin() {
+  var email = document.getElementById('admEmailInput').value.trim();
   var pass = document.getElementById('admPass').value;
-  if (pass === ADMIN_PASS) {
-    sessionStorage.setItem('em_admin', '1');
-    document.getElementById('loginBox').style.display = 'none';
-    document.getElementById('adminOverlay').style.display = 'block';
-    loadLeads();
-  } else {
-    document.getElementById('admErr').style.display = 'block';
+  var errEl = document.getElementById('admErr');
+  errEl.style.display = 'none';
+  if (!email || !pass) { errEl.textContent = 'Enter email and password'; errEl.style.display = 'block'; return; }
+
+  try {
+    var res = await fetch(SUPABASE_URL_ADMIN + '/auth/v1/token?grant_type=password', {
+      method: 'POST',
+      headers: { 'apikey': SUPABASE_KEY_ADMIN, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, password: pass })
+    });
+    var data = await res.json();
+    if (res.ok && data.access_token) {
+      admAccessToken = data.access_token;
+      sessionStorage.setItem('em_access_token', data.access_token);
+      if (data.refresh_token) sessionStorage.setItem('em_refresh_token', data.refresh_token);
+      document.getElementById('loginBox').style.display = 'none';
+      document.getElementById('adminOverlay').style.display = 'block';
+      loadLeads();
+    } else {
+      errEl.textContent = 'Wrong email or password';
+      errEl.style.display = 'block';
+    }
+  } catch (e) {
+    errEl.textContent = 'Login failed — check your connection';
+    errEl.style.display = 'block';
   }
 }
 
-function admLogout() {
-  sessionStorage.removeItem('em_admin');
+async function admLogout() {
+  // Revoke session on Supabase
+  try {
+    if (admAccessToken) {
+      await fetch(SUPABASE_URL_ADMIN + '/auth/v1/logout', {
+        method: 'POST',
+        headers: { 'apikey': SUPABASE_KEY_ADMIN, 'Authorization': 'Bearer ' + admAccessToken }
+      });
+    }
+  } catch (e) {}
+  admAccessToken = null;
+  sessionStorage.removeItem('em_access_token');
+  sessionStorage.removeItem('em_refresh_token');
   document.getElementById('adminMount').innerHTML = '';
   window.location.hash = '';
 }
 
+// Auth header helper — uses the logged-in token
+function admAuthHeaders(extra) {
+  var h = { 'apikey': SUPABASE_KEY_ADMIN, 'Authorization': 'Bearer ' + (admAccessToken || SUPABASE_KEY_ADMIN) };
+  if (extra) for (var k in extra) h[k] = extra[k];
+  return h;
+}
+
 async function loadLeads() {
   var res = await fetch(SUPABASE_URL_ADMIN + '/rest/v1/leads?select=*&order=created_at.desc', {
-    headers: { 'apikey': SUPABASE_KEY_ADMIN, 'Authorization': 'Bearer ' + SUPABASE_KEY_ADMIN }
+    headers: admAuthHeaders()
   });
+  if (res.status === 401) {
+    // Token expired or invalid — force re-login
+    admForceRelogin();
+    return;
+  }
   allLeads = await res.json();
   admUpdateStats();
   admRender();
   var el = document.getElementById('admLastUpdate');
   if (el) el.textContent = 'Updated ' + new Date().toLocaleTimeString();
+}
+
+function admForceRelogin() {
+  admAccessToken = null;
+  sessionStorage.removeItem('em_access_token');
+  sessionStorage.removeItem('em_refresh_token');
+  var lb = document.getElementById('loginBox');
+  var ov = document.getElementById('adminOverlay');
+  if (lb) lb.style.display = 'flex';
+  if (ov) ov.style.display = 'none';
+  var errEl = document.getElementById('admErr');
+  if (errEl) { errEl.textContent = 'Session expired — please sign in again'; errEl.style.display = 'block'; }
 }
 
 var currentTypeFilter = 'all';
@@ -2851,11 +2886,12 @@ function admCloseModal() {
 
 async function admUpdateStatus(status) {
   if (!currentLead) return;
-  await fetch(SUPABASE_URL_ADMIN+'/rest/v1/leads?id=eq.'+currentLead.id, {
+  var res = await fetch(SUPABASE_URL_ADMIN+'/rest/v1/leads?id=eq.'+currentLead.id, {
     method:'PATCH',
-    headers:{'apikey':SUPABASE_KEY_ADMIN,'Authorization':'Bearer '+SUPABASE_KEY_ADMIN,'Content-Type':'application/json'},
+    headers: admAuthHeaders({'Content-Type':'application/json'}),
     body:JSON.stringify({status:status})
   });
+  if (res.status === 401) { admForceRelogin(); return; }
   currentLead.status=status;
   allLeads.forEach(function(l){if(l.id===currentLead.id)l.status=status;});
   admUpdateStats(); admRender(); admCloseModal();
@@ -2864,13 +2900,14 @@ async function admUpdateStatus(status) {
 async function admSaveNotes() {
   if (!currentLead) return;
   var notes = document.getElementById('admMNotes').value;
-  await fetch(SUPABASE_URL_ADMIN+'/rest/v1/leads?id=eq.'+currentLead.id, {
+  var btn = document.querySelector('.adm-save');
+  var res = await fetch(SUPABASE_URL_ADMIN+'/rest/v1/leads?id=eq.'+currentLead.id, {
     method:'PATCH',
-    headers:{'apikey':SUPABASE_KEY_ADMIN,'Authorization':'Bearer '+SUPABASE_KEY_ADMIN,'Content-Type':'application/json'},
+    headers: admAuthHeaders({'Content-Type':'application/json'}),
     body:JSON.stringify({notes:notes})
   });
+  if (res.status === 401) { admForceRelogin(); return; }
   currentLead.notes=notes;
-  var btn = document.querySelector('.adm-save');
   btn.textContent='Saved ✓';
   setTimeout(function(){btn.textContent='Save notes';},2000);
 }
@@ -2884,7 +2921,7 @@ if (document.readyState !== 'loading' && window.location.hash === '#admin') init
 
 // Auto-refresh
 setInterval(function(){
-  if (sessionStorage.getItem('em_admin') && window.location.hash==='#admin') loadLeads();
+  if (admAccessToken && window.location.hash==='#admin') loadLeads();
 }, 60000);
 
 
