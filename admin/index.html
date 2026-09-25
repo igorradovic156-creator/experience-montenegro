@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Experience Montenegro</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,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">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root { --black:#171814; --white:#f5f2ee; --stone:#c8b89a; --cta:#2e8b72; --cta-hover:#3aab8a; --accent:#c17f3b; --mne-red:#c0392b; }
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#171814;color:#f5f2ee;font-family:'DM Sans',sans-serif;font-weight:300;-webkit-font-smoothing:antialiased;}
+</style>
+</head>
+<body>
+<div id="adminMount"></div>
+<script>
+// ── ADMIN PANEL ───────────────────────────────────────────
+var SUPABASE_URL_ADMIN = "https://twkiwlshuyjnzabazhmv.supabase.co";
+var SUPABASE_KEY_ADMIN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3a2l3bHNodXlqbnphYmF6aG12Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyNjg5NjEsImV4cCI6MjA5OTg0NDk2MX0.DMkOrnr4bggWsFYZt5RNuQ47VuvPkVqkWIccZIZIiso";
+var allLeads = [];
+var currentFilter = 'all';
+var currentLead = null;
+
+function initAdmin() {
+  
+  // Inject admin CSS
+  if (!document.getElementById('adminCSS')) {
+    var style = document.createElement('style');
+    style.id = 'adminCSS';
+    style.textContent = `
+      #adminOverlay { position:fixed;inset:0;z-index:99998;background:#171814;overflow-y:auto;font-family:'DM Sans',sans-serif; }
+      #loginBox { position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#060e09;z-index:99999; }
+      .lb { width:340px;padding:2.5rem;border:1px solid rgba(200,184,154,0.12); }
+      .lb-logo { font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:0.2rem; }
+      .lb-logo span { color:#c0392b;font-style:italic; }
+      .lb-sub { font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(200,184,154,0.3);margin-bottom:1.8rem; }
+      .lb input { width:100%;background:rgba(200,184,154,0.05);border:1px solid rgba(200,184,154,0.15);color:#f5f2ee;padding:0.7rem 0.9rem;font-family:'DM Sans',sans-serif;font-size:0.88rem;outline:none;margin-bottom:0.75rem; }
+      .lb input:focus { border-color:#2e8b72; }
+      .lb button { width:100%;background:#2e8b72;color:#fff;border:none;padding:0.8rem;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif; }
+      .lb-err { font-size:0.7rem;color:#c0392b;margin-top:0.4rem;display:none; }
+      .adm-header { background:#0f0f0f;border-bottom:1px solid rgba(200,184,154,0.08);padding:0.85rem 1.5rem;display:flex;align-items:center;justify-content:space-between; }
+      .adm-logo { font-family:'Playfair Display',serif;font-size:0.95rem;color:#f5f2ee; }
+      .adm-logo span { color:#c0392b;font-style:italic; }
+      .adm-stats { display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(200,184,154,0.08);border-bottom:1px solid rgba(200,184,154,0.06); }
+      .adm-stat { background:#171814;padding:1.2rem 1.5rem; }
+      .adm-stat-lbl { font-size:0.55rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(200,184,154,0.35);margin-bottom:0.3rem; }
+      .adm-stat-val { font-family:'Playfair Display',serif;font-size:1.8rem;color:#f5f2ee; }
+      .adm-filters { padding:0.85rem 1.5rem;display:flex;gap:0.5rem;flex-wrap:wrap;border-bottom:1px solid rgba(200,184,154,0.06); }
+      .adm-fbtn { font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.35rem 0.8rem;border:1px solid rgba(200,184,154,0.15);background:transparent;color:rgba(200,184,154,0.45);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s; }
+      .adm-fbtn:hover,.adm-fbtn.active { border-color:#2e8b72;color:#f5f2ee;background:rgba(46,139,114,0.08); }
+      .adm-export-btn { font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.35rem 0.9rem;border:1px solid rgba(193,127,59,0.35);background:rgba(193,127,59,0.08);color:#c17f3b;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s; }
+      .adm-export-btn:hover { background:rgba(193,127,59,0.15);border-color:rgba(193,127,59,0.5); }
+      .adm-type-badge { font-size:0.52rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.2rem 0.55rem;border-radius:3px;font-weight:500; }
+      .adm-type-planning { background:rgba(46,139,114,0.22);color:#4fd1aa;border:1px solid rgba(46,139,114,0.4); }
+      .adm-type-newsletter { background:rgba(193,127,59,0.22);color:#e0a05a;border:1px solid rgba(193,127,59,0.4); }
+      .adm-type-guide { background:rgba(100,130,220,0.22);color:#9db4ff;border:1px solid rgba(100,130,220,0.4); }
+      .adm-copy-email { cursor:pointer;color:rgba(200,184,154,0.5);font-size:0.68rem;transition:color 0.2s; }
+      .adm-copy-email:hover { color:#2e8b72; }
+      .adm-search { margin-left:auto;background:rgba(200,184,154,0.05);border:1px solid rgba(200,184,154,0.12);color:#f5f2ee;padding:0.35rem 0.75rem;font-family:'DM Sans',sans-serif;font-size:0.78rem;outline:none;width:200px; }
+      .adm-search::placeholder { color:rgba(200,184,154,0.2); }
+      .adm-sort { background:rgba(200,184,154,0.05);border:1px solid rgba(200,184,154,0.12);color:#f5f2ee;padding:0.35rem 0.6rem;font-family:'DM Sans',sans-serif;font-size:0.72rem;outline:none;cursor:pointer;border-radius:3px; }
+      .adm-sort:focus { border-color:#2e8b72; }
+      .adm-stats-2 { border-top:none !important; }
+      .adm-wait { font-size:0.68rem;color:rgba(200,184,154,0.4);white-space:nowrap; }
+      .adm-wait.urgent { color:#e0a05a;font-weight:500; }
+      .adm-wait.stale { color:#e07b6f;font-weight:500; }
+      .adm-table-wrap { padding:1rem 1.5rem; background:rgba(255,255,255,0.015); }
+      .adm-table { width:100%;border-collapse:collapse; }
+      .adm-table th { font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(200,184,154,0.45);padding:0.6rem 0.85rem;text-align:left;border-bottom:1px solid rgba(200,184,154,0.12); }
+      .adm-table td { padding:1.05rem 0.85rem;font-size:0.82rem;border-bottom:1px solid rgba(200,184,154,0.06);color:#f5f2ee;vertical-align:middle;transition:background 0.15s; }
+      .adm-table tr:hover td { background:rgba(46,139,114,0.06);cursor:pointer; }
+      .adm-table tr { position:relative; }
+      /* Left status bar */
+      .adm-row-status td:first-child { position:relative; }
+      .adm-row-status td:first-child::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background:rgba(200,184,154,0.15); }
+      .adm-rs-new td:first-child::before { background:#2e8b72; }
+      .adm-rs-contacted td:first-child::before { background:#c17f3b; }
+      .adm-rs-planning td:first-child::before { background:#9370c4; }
+      .adm-rs-booked td:first-child::before { background:#5078dc; }
+      .adm-rs-done td:first-child::before { background:rgba(160,160,160,0.5); }
+      .adm-rs-type-newsletter td:first-child::before { background:#c17f3b; }
+      .adm-rs-type-guide td:first-child::before { background:#7799ff; }
+      /* New rows subtly highlighted — they need your attention */
+      .adm-row-new td { background:rgba(46,139,114,0.05); }
+      .adm-row-new:hover td { background:rgba(46,139,114,0.09); }
+      .adm-row-new .adm-name::after { content:'●'; color:#2e8b72; font-size:0.5rem; margin-left:0.5rem; vertical-align:middle; }
+      .adm-name { font-family:'Playfair Display',serif;font-size:0.95rem;color:#fff; }
+      .adm-email { font-size:0.73rem;color:rgba(200,184,154,0.55); }
+      .adm-date { font-size:0.72rem;color:rgba(200,184,154,0.45);white-space:nowrap; }
+      .badge { font-size:0.56rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.25rem 0.65rem;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;border-radius:3px;font-weight:500; }
+      .badge-new { background:rgba(46,139,114,0.9);color:#fff;border:1px solid rgba(46,139,114,1); }
+      .badge-contacted { background:rgba(193,127,59,0.9);color:#fff;border:1px solid rgba(193,127,59,1); }
+      .badge-planning { background:rgba(147,112,196,0.9);color:#fff;border:1px solid rgba(147,112,196,1); }
+      .badge-booked { background:rgba(80,120,220,0.9);color:#fff;border:1px solid rgba(80,120,220,1); }
+      .badge-done { background:rgba(120,120,120,0.35);color:rgba(245,242,238,0.85);border:1px solid rgba(160,160,160,0.4); }
+      .plan-badge { font-size:0.58rem;letter-spacing:0.08em;text-transform:uppercase;color:#2e8b72;background:rgba(46,139,114,0.08);border:1px solid rgba(46,139,114,0.15);padding:0.12rem 0.45rem; }
+      .adm-modal { display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:99999;overflow-y:auto;padding:2rem;align-items:flex-start;justify-content:center; }
+      .adm-modal.open { display:flex; }
+      .adm-modal-box { background:#111;border:1px solid rgba(200,184,154,0.12);padding:2rem;width:100%;max-width:540px;position:relative;margin-top:2rem; }
+      .adm-field-lbl { font-size:0.56rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(200,184,154,0.35);margin-bottom:0.25rem; }
+      .adm-field-val { font-size:0.85rem;color:#f5f2ee;line-height:1.6;margin-bottom:1rem; }
+      .adm-notes { width:100%;background:rgba(200,184,154,0.05);border:1px solid rgba(200,184,154,0.12);color:#f5f2ee;padding:0.65rem;font-family:'DM Sans',sans-serif;font-size:0.8rem;resize:vertical;min-height:70px;outline:none; }
+      .adm-notes:focus { border-color:#2e8b72; }
+      .adm-save { background:#2e8b72;color:#fff;border:none;padding:0.6rem 1.2rem;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:0.4rem; }
+      .adm-status-row { display:flex;gap:0.4rem;flex-wrap:wrap;margin-top:0.4rem; }
+      .adm-close { position:absolute;top:0.85rem;right:0.85rem;background:none;border:none;color:rgba(200,184,154,0.3);font-size:1.1rem;cursor:pointer; }
+      .adm-empty { text-align:center;padding:3rem;color:rgba(200,184,154,0.2);font-size:0.78rem; }
+      @media(max-width:600px) { .adm-stats{grid-template-columns:1fr 1fr;} .adm-search{width:100%;} }
+    `;
+    document.head.appendChild(style);
+  }
+
+  // Inject admin HTML
+  var mount = document.getElementById('adminMount');
+  if (!mount) return;
+  mount.innerHTML = `
+    <div id="adminOverlay" style="display:none;">
+      <div class="adm-header">
+        <div class="adm-logo">Experience <span>Montenegro</span> <span style="font-size:0.55rem;letter-spacing:0.15em;color:rgba(200,184,154,0.3);font-family:'DM Sans',sans-serif;margin-left:0.4rem;">ADMIN</span></div>
+        <div style="display:flex;align-items:center;gap:1rem;">
+          <span style="font-size:0.62rem;color:rgba(200,184,154,0.25);" id="admLastUpdate"></span>
+          <button onclick="admLogout()" style="background:none;border:none;color:rgba(200,184,154,0.35);cursor:pointer;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;font-family:'DM Sans',sans-serif;">Logout</button>
+        </div>
+      </div>
+      <div class="adm-stats">
+        <div class="adm-stat"><div class="adm-stat-lbl">Total</div><div class="adm-stat-val" id="admTotal">—</div></div>
+        <div class="adm-stat"><div class="adm-stat-lbl">Planning</div><div class="adm-stat-val" id="admPlanning" style="color:#2e8b72;">—</div></div>
+        <div class="adm-stat"><div class="adm-stat-lbl">Newsletter</div><div class="adm-stat-val" id="admNewsletter" style="color:#c17f3b;">—</div></div>
+        <div class="adm-stat"><div class="adm-stat-lbl">Guide</div><div class="adm-stat-val" id="admGuide" style="color:#7799ff;">—</div></div>
+      </div>
+      <div class="adm-stats adm-stats-2">
+        <div class="adm-stat"><div class="adm-stat-lbl">This month</div><div class="adm-stat-val" id="admThisMonth">—</div></div>
+        <div class="adm-stat"><div class="adm-stat-lbl">Last month</div><div class="adm-stat-val" id="admLastMonth" style="color:rgba(200,184,154,0.6);">—</div></div>
+        <div class="adm-stat"><div class="adm-stat-lbl">New waiting</div><div class="adm-stat-val" id="admWaiting" style="color:#2e8b72;">—</div></div>
+        <div class="adm-stat"><div class="adm-stat-lbl">Conversion</div><div class="adm-stat-val" id="admConversion" style="color:#7799ff;">—</div></div>
+      </div>
+      <div class="adm-filters" style="border-bottom:none;padding-bottom:0.3rem;">
+        <span style="font-size:0.52rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(200,184,154,0.3);align-self:center;margin-right:0.3rem;">Type:</span>
+        <button class="adm-fbtn adm-type active" onclick="admTypeFilter('all',this)">All types</button>
+        <button class="adm-fbtn adm-type" onclick="admTypeFilter('planning',this)">Planning</button>
+        <button class="adm-fbtn adm-type" onclick="admTypeFilter('newsletter',this)">Newsletter</button>
+        <button class="adm-fbtn adm-type" onclick="admTypeFilter('guide',this)">Guide</button>
+        <button class="adm-export-btn" onclick="admExportCSV()" style="margin-left:auto;">↓ Export CSV</button>
+      </div>
+      <div class="adm-filters">
+        <span style="font-size:0.52rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(200,184,154,0.3);align-self:center;margin-right:0.3rem;">Status:</span>
+        <button class="adm-fbtn active" onclick="admFilter('all',this)">All</button>
+        <button class="adm-fbtn" onclick="admFilter('new',this)">New</button>
+        <button class="adm-fbtn" onclick="admFilter('contacted',this)">Contacted</button>
+        <button class="adm-fbtn" onclick="admFilter('planning',this)">Planning</button>
+        <button class="adm-fbtn" onclick="admFilter('booked',this)">Booked</button>
+        <button class="adm-fbtn" onclick="admFilter('done',this)">Done</button>
+        <select class="adm-sort" id="admSort" onchange="admRender()">
+          <option value="newest">Newest first</option>
+          <option value="oldest">Oldest first</option>
+          <option value="name">Name A–Z</option>
+        </select>
+        <input type="text" class="adm-search" id="admSearch" placeholder="Search..." oninput="admRender()">
+      </div>
+      <div class="adm-table-wrap">
+        <table class="adm-table" id="admTable"><thead><tr><th>Name</th><th>Type</th><th>Email</th><th>Date</th><th>Waiting</th><th>Status</th></tr></thead><tbody id="admBody"></tbody></table>
+        <div class="adm-empty" id="admEmpty" style="display:none;">No leads found</div>
+      </div>
+    </div>
+
+    <div id="loginBox">
+      <div class="lb">
+        <div class="lb-logo">Experience <span>Montenegro</span></div>
+        <div class="lb-sub">Admin Panel</div>
+        <input type="email" id="admEmailInput" placeholder="Email" autocomplete="username" style="margin-bottom:0.6rem;">
+        <input type="password" id="admPass" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter')admLogin()">
+        <button onclick="admLogin()">Sign in</button>
+        <div class="lb-err" id="admErr">Wrong email or password</div>
+      </div>
+    </div>
+
+    <div class="adm-modal" id="admModal">
+      <div class="adm-modal-box">
+        <button class="adm-close" onclick="admCloseModal()">✕</button>
+        <div style="font-family:'Playfair Display',serif;font-size:1.3rem;margin-bottom:0.2rem;" id="admMName"></div>
+        <div style="font-size:0.65rem;color:rgba(200,184,154,0.3);margin-bottom:1.5rem;" id="admMSub"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.85rem;margin-bottom:1.2rem;">
+          <div><div class="adm-field-lbl">Email</div><div class="adm-field-val" id="admMEmail"></div></div>
+          <div><div class="adm-field-lbl">Country</div><div class="adm-field-val" id="admMCountry"></div></div>
+          <div><div class="adm-field-lbl">Plan</div><div class="adm-field-val" id="admMPlan"></div></div>
+          <div><div class="adm-field-lbl">Date</div><div class="adm-field-val" id="admMDate"></div></div>
+        </div>
+        <div class="adm-field-lbl">Message</div>
+        <div class="adm-field-val" id="admMMsg" style="background:rgba(200,184,154,0.03);padding:0.65rem;border-left:2px solid rgba(46,139,114,0.25);margin-bottom:1rem;"></div>
+        <div class="adm-field-lbl">Status</div>
+        <div class="adm-status-row">
+          <button class="badge badge-new" onclick="admUpdateStatus('new')">New</button>
+          <button class="badge badge-contacted" onclick="admUpdateStatus('contacted')">Contacted</button>
+          <button class="badge badge-planning" onclick="admUpdateStatus('planning')">Planning</button>
+          <button class="badge badge-booked" onclick="admUpdateStatus('booked')">Booked</button>
+          <button class="badge badge-done" onclick="admUpdateStatus('done')">Done</button>
+        </div>
+        <div class="adm-field-lbl" style="margin-top:1rem;">Notes</div>
+        <textarea class="adm-notes" id="admMNotes" placeholder="Add notes..."></textarea>
+        <button class="adm-save" onclick="admSaveNotes()">Save notes</button>
+        <div style="margin-top:1.2rem;padding-top:0.85rem;border-top:1px solid rgba(200,184,154,0.07);display:flex;gap:0.5rem;">
+          <a id="admWa" href="#" target="_blank" style="font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:#25D366;text-decoration:none;border:1px solid rgba(37,211,102,0.2);padding:0.45rem 0.85rem;">WhatsApp →</a>
+          <a id="admEmail" href="#" style="font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:#c8b89a;text-decoration:none;border:1px solid rgba(200,184,154,0.18);padding:0.45rem 0.85rem;">Email →</a>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Check existing session (stored access token)
+  var savedToken = sessionStorage.getItem('em_access_token');
+  if (savedToken) {
+    admAccessToken = savedToken;
+    document.getElementById('loginBox').style.display = 'none';
+    document.getElementById('adminOverlay').style.display = 'block';
+    loadLeads();
+  }
+}
+
+// Holds the logged-in admin's access token (never a password in code)
+var admAccessToken = null;
+
+async function admLogin() {
+  var email = document.getElementById('admEmailInput').value.trim();
+  var pass = document.getElementById('admPass').value;
+  var errEl = document.getElementById('admErr');
+  errEl.style.display = 'none';
+  if (!email || !pass) { errEl.textContent = 'Enter email and password'; errEl.style.display = 'block'; return; }
+
+  try {
+    var res = await fetch(SUPABASE_URL_ADMIN + '/auth/v1/token?grant_type=password', {
+      method: 'POST',
+      headers: { 'apikey': SUPABASE_KEY_ADMIN, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, password: pass })
+    });
+    var data = await res.json();
+    if (res.ok && data.access_token) {
+      admAccessToken = data.access_token;
+      sessionStorage.setItem('em_access_token', data.access_token);
+      if (data.refresh_token) sessionStorage.setItem('em_refresh_token', data.refresh_token);
+      document.getElementById('loginBox').style.display = 'none';
+      document.getElementById('adminOverlay').style.display = 'block';
+      loadLeads();
+    } else {
+      errEl.textContent = 'Wrong email or password';
+      errEl.style.display = 'block';
+    }
+  } catch (e) {
+    errEl.textContent = 'Login failed — check your connection';
+    errEl.style.display = 'block';
+  }
+}
+
+async function admLogout() {
+  // Revoke session on Supabase
+  try {
+    if (admAccessToken) {
+      await fetch(SUPABASE_URL_ADMIN + '/auth/v1/logout', {
+        method: 'POST',
+        headers: { 'apikey': SUPABASE_KEY_ADMIN, 'Authorization': 'Bearer ' + admAccessToken }
+      });
+    }
+  } catch (e) {}
+  admAccessToken = null;
+  sessionStorage.removeItem('em_access_token');
+  sessionStorage.removeItem('em_refresh_token');
+  document.getElementById('adminMount').innerHTML = '';
+  location.reload();
+}
+
+// Auth header helper — uses the logged-in token
+function admAuthHeaders(extra) {
+  var h = { 'apikey': SUPABASE_KEY_ADMIN, 'Authorization': 'Bearer ' + (admAccessToken || SUPABASE_KEY_ADMIN) };
+  if (extra) for (var k in extra) h[k] = extra[k];
+  return h;
+}
+
+async function loadLeads() {
+  var res = await fetch(SUPABASE_URL_ADMIN + '/rest/v1/leads?select=*&order=created_at.desc', {
+    headers: admAuthHeaders()
+  });
+  if (res.status === 401) {
+    // Token expired or invalid — force re-login
+    admForceRelogin();
+    return;
+  }
+  allLeads = await res.json();
+  admUpdateStats();
+  admRender();
+  var el = document.getElementById('admLastUpdate');
+  if (el) el.textContent = 'Updated ' + new Date().toLocaleTimeString();
+}
+
+function admForceRelogin() {
+  admAccessToken = null;
+  sessionStorage.removeItem('em_access_token');
+  sessionStorage.removeItem('em_refresh_token');
+  var lb = document.getElementById('loginBox');
+  var ov = document.getElementById('adminOverlay');
+  if (lb) lb.style.display = 'flex';
+  if (ov) ov.style.display = 'none';
+  var errEl = document.getElementById('admErr');
+  if (errEl) { errEl.textContent = 'Session expired — please sign in again'; errEl.style.display = 'block'; }
+}
+
+var currentTypeFilter = 'all';
+
+// Determine lead type from status/message
+function leadType(l) {
+  var s = (l.status||'').toLowerCase();
+  if (s === 'newsletter') return 'newsletter';
+  if (s === 'guide') return 'guide';
+  return 'planning';
+}
+
+function admUpdateStats() {
+  var t = allLeads.length;
+  var planning = allLeads.filter(function(l){return leadType(l)==='planning';}).length;
+  var news = allLeads.filter(function(l){return leadType(l)==='newsletter';}).length;
+  var guide = allLeads.filter(function(l){return leadType(l)==='guide';}).length;
+  document.getElementById('admTotal').textContent = t;
+  document.getElementById('admPlanning').textContent = planning;
+  document.getElementById('admNewsletter').textContent = news;
+  document.getElementById('admGuide').textContent = guide;
+
+  // ── Second row: month comparison, waiting, conversion ──
+  var now = new Date();
+  var thisMonth = now.getMonth(), thisYear = now.getFullYear();
+  var lastMonthDate = new Date(thisYear, thisMonth - 1, 1);
+  var lastMonth = lastMonthDate.getMonth(), lastYear = lastMonthDate.getFullYear();
+
+  var thisMonthCount = 0, lastMonthCount = 0;
+  allLeads.forEach(function(l) {
+    var d = new Date(l.created_at);
+    if (d.getMonth() === thisMonth && d.getFullYear() === thisYear) thisMonthCount++;
+    else if (d.getMonth() === lastMonth && d.getFullYear() === lastYear) lastMonthCount++;
+  });
+
+  // Waiting = planning leads still "new"
+  var waiting = allLeads.filter(function(l){ return leadType(l)==='planning' && (l.status||'new')==='new'; }).length;
+
+  // Conversion = done / all planning
+  var doneCount = allLeads.filter(function(l){ return leadType(l)==='planning' && l.status==='done'; }).length;
+  var conv = planning > 0 ? Math.round(doneCount / planning * 100) : 0;
+
+  var tmEl = document.getElementById('admThisMonth');
+  if (tmEl) {
+    // show trend arrow vs last month
+    var trend = '';
+    if (lastMonthCount > 0) {
+      if (thisMonthCount > lastMonthCount) trend = ' <span style="color:#4fd1aa;font-size:0.7rem;">↑</span>';
+      else if (thisMonthCount < lastMonthCount) trend = ' <span style="color:#e07b6f;font-size:0.7rem;">↓</span>';
+    }
+    tmEl.innerHTML = thisMonthCount + trend;
+  }
+  var lmEl = document.getElementById('admLastMonth'); if (lmEl) lmEl.textContent = lastMonthCount;
+  var wEl = document.getElementById('admWaiting'); if (wEl) wEl.textContent = waiting;
+  var cEl = document.getElementById('admConversion'); if (cEl) cEl.textContent = conv + '%';
+}
+
+function admFilter(f, btn) {
+  currentFilter = f;
+  // only toggle status-row buttons (not type buttons)
+  btn.parentNode.querySelectorAll('.adm-fbtn:not(.adm-type)').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  admRender();
+}
+
+function admTypeFilter(f, btn) {
+  currentTypeFilter = f;
+  document.querySelectorAll('.adm-type').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  admRender();
+}
+
+function daysAgo(dateStr) {
+  var then = new Date(dateStr);
+  var now = new Date();
+  var diff = Math.floor((now - then) / (1000*60*60*24));
+  return diff;
+}
+
+function waitingLabel(days) {
+  if (days === 0) return 'Today';
+  if (days === 1) return '1 day';
+  return days + ' days';
+}
+
+function admRender() {
+  var search = (document.getElementById('admSearch')||{}).value||'';
+  search = search.toLowerCase();
+  var sortMode = (document.getElementById('admSort')||{}).value || 'newest';
+
+  var filtered = allLeads.filter(function(l) {
+    var mType = currentTypeFilter==='all' || leadType(l)===currentTypeFilter;
+    var mf = currentFilter==='all' || l.status===currentFilter;
+    var ms = !search||(l.name&&l.name.toLowerCase().includes(search))||(l.email&&l.email.toLowerCase().includes(search));
+    return mType && mf && ms;
+  });
+
+  // Sort
+  filtered.sort(function(a, b) {
+    if (sortMode === 'name') {
+      return (a.name||'').localeCompare(b.name||'');
+    } else if (sortMode === 'oldest') {
+      return new Date(a.created_at) - new Date(b.created_at);
+    }
+    return new Date(b.created_at) - new Date(a.created_at); // newest
+  });
+
+  var tbody = document.getElementById('admBody');
+  tbody.innerHTML = '';
+  var empty = document.getElementById('admEmpty');
+  if (filtered.length===0) { empty.style.display='block'; return; }
+  empty.style.display='none';
+  filtered.forEach(function(l) {
+    var d = new Date(l.created_at).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
+    var type = leadType(l);
+    var tr = document.createElement('tr');
+    if (type === 'planning') {
+      tr.className = 'adm-row-status adm-rs-' + (l.status||'new');
+      if ((l.status||'new') === 'new') tr.className += ' adm-row-new';
+    } else {
+      tr.className = 'adm-row-status adm-rs-type-' + type;
+    }
+    tr.onclick = function(){admOpenModal(l);};
+
+    // Waiting cell — only meaningful for New planning leads that haven't been actioned
+    var waitCell = '<span style="color:rgba(200,184,154,0.2);">—</span>';
+    if (type === 'planning' && (l.status||'new') === 'new') {
+      var days = daysAgo(l.created_at);
+      var cls = 'adm-wait';
+      if (days >= 5) cls += ' stale';
+      else if (days >= 2) cls += ' urgent';
+      waitCell = '<span class="'+cls+'">'+waitingLabel(days)+'</span>';
+    }
+
+    tr.innerHTML = '<td><div class="adm-name">'+(l.name||'—')+'</div><div class="adm-email">'+(l.email||'')+'</div></td>'+
+      '<td><span class="adm-type-badge adm-type-'+type+'">'+type+'</span></td>'+
+      '<td><span class="adm-copy-email" data-email="'+(l.email||'')+'">'+(l.email||'—')+'</span></td>'+
+      '<td class="adm-date">'+d+'</td>'+
+      '<td>'+waitCell+'</td>'+
+      '<td>'+(type==='planning'?'<span class="badge badge-'+(l.status||'new')+'">'+(l.status||'new')+'</span>':'<span style="color:rgba(200,184,154,0.3);font-size:0.7rem;">—</span>')+'</td>';
+    tbody.appendChild(tr);
+  });
+
+  // Attach copy-email handlers
+  tbody.querySelectorAll('.adm-copy-email').forEach(function(span) {
+    span.addEventListener('click', function(e) {
+      e.stopPropagation();
+      admCopyEmail(span.getAttribute('data-email'), span);
+    });
+  });
+}
+
+function admCopyEmail(email, el) {
+  if (!email) return;
+  function done(){ var orig=el.textContent; el.textContent='Copied ✓'; el.style.color='#2e8b72'; setTimeout(function(){el.textContent=orig;el.style.color='';},1500); }
+  if (navigator.clipboard) { navigator.clipboard.writeText(email).then(done).catch(done); }
+  else { var ta=document.createElement('textarea'); ta.value=email; document.body.appendChild(ta); ta.select(); try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta); done(); }
+}
+
+function admExportCSV() {
+  // Export currently filtered set
+  var search = (document.getElementById('admSearch')||{}).value.toLowerCase()||'';
+  var rows = allLeads.filter(function(l) {
+    var mType = currentTypeFilter==='all' || leadType(l)===currentTypeFilter;
+    var mf = currentFilter==='all' || l.status===currentFilter;
+    var ms = !search||(l.name&&l.name.toLowerCase().includes(search))||(l.email&&l.email.toLowerCase().includes(search));
+    return mType && mf && ms;
+  });
+  var headers = ['Date','Type','Name','Email','Country','Plan','Status','Message','Notes'];
+  function esc(v){ v=(v==null?'':String(v)); return '"'+v.replace(/"/g,'""')+'"'; }
+  var csv = headers.join(',') + '\\n';
+  rows.forEach(function(l){
+    csv += [
+      esc(new Date(l.created_at).toLocaleDateString('en-GB')),
+      esc(leadType(l)),
+      esc(l.name), esc(l.email), esc(l.country),
+      esc(l.plan), esc(l.status), esc(l.message), esc(l.notes)
+    ].join(',') + '\\n';
+  });
+  var blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'em-leads-' + new Date().toISOString().slice(0,10) + '.csv';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function admOpenModal(l) {
+  currentLead = l;
+  var d = new Date(l.created_at).toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'});
+  document.getElementById('admMName').textContent = l.name||'—';
+  document.getElementById('admMSub').textContent = d+(l.country?' · '+l.country:'');
+  document.getElementById('admMEmail').textContent = l.email||'—';
+  document.getElementById('admMCountry').textContent = l.country||'—';
+  document.getElementById('admMPlan').textContent = l.plan||'—';
+  document.getElementById('admMDate').textContent = d;
+  document.getElementById('admMMsg').textContent = l.message||'No message';
+  document.getElementById('admMNotes').value = l.notes||'';
+  document.getElementById('admWa').href = 'https://wa.me/?text=Hi '+encodeURIComponent(l.name||'')+'!';
+  document.getElementById('admEmail').href = 'mailto:'+(l.email||'');
+  document.getElementById('admModal').classList.add('open');
+}
+
+function admCloseModal() {
+  document.getElementById('admModal').classList.remove('open');
+  currentLead = null;
+}
+
+async function admUpdateStatus(status) {
+  if (!currentLead) return;
+  var res = await fetch(SUPABASE_URL_ADMIN+'/rest/v1/leads?id=eq.'+currentLead.id, {
+    method:'PATCH',
+    headers: admAuthHeaders({'Content-Type':'application/json'}),
+    body:JSON.stringify({status:status})
+  });
+  if (res.status === 401) { admForceRelogin(); return; }
+  currentLead.status=status;
+  allLeads.forEach(function(l){if(l.id===currentLead.id)l.status=status;});
+  admUpdateStats(); admRender(); admCloseModal();
+}
+
+async function admSaveNotes() {
+  if (!currentLead) return;
+  var notes = document.getElementById('admMNotes').value;
+  var btn = document.querySelector('.adm-save');
+  var res = await fetch(SUPABASE_URL_ADMIN+'/rest/v1/leads?id=eq.'+currentLead.id, {
+    method:'PATCH',
+    headers: admAuthHeaders({'Content-Type':'application/json'}),
+    body:JSON.stringify({notes:notes})
+  });
+  if (res.status === 401) { admForceRelogin(); return; }
+  currentLead.notes=notes;
+  btn.textContent='Saved ✓';
+  setTimeout(function(){btn.textContent='Save notes';},2000);
+}
+
+// Init on page load
+window.addEventListener('DOMContentLoaded', initAdmin);
+if (document.readyState !== 'loading') initAdmin();
+
+// Auto-refresh
+setInterval(function(){
+  if (admAccessToken) loadLeads();
+}, 60000);
+</script>
+</body>
+</html>
