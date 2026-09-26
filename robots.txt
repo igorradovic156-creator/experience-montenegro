@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /admin
+Disallow: /my
+Disallow: /trip-planner.html
 
 Sitemap: https://experiencemontenegro.com/sitemap.xml
