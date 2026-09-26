@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="robots" content="noindex, nofollow">
+<title>Your Montenegro Itinerary — Experience Montenegro</title>
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html{font-size:16px;}
+body{background:#080808;color:#e8e4de;font-family:'DM Sans',sans-serif;font-weight:300;-webkit-font-smoothing:antialiased;line-height:1.6;min-height:100vh;}
+.page{max-width:680px;margin:0 auto;padding:2rem 1.25rem 4rem;}
+.top{position:relative;padding:2.25rem 1.25rem 2rem;background:linear-gradient(150deg,#0d2018 0%,#0a1520 55%,#0f0a04 100%);border-bottom:1px solid rgba(200,184,154,0.15);overflow:hidden;}
+.top::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 85% 40%,rgba(46,139,114,0.14) 0%,transparent 55%);}
+.top-inner{position:relative;max-width:680px;margin:0 auto;}
+.brand{font-size:0.62rem;letter-spacing:0.22em;text-transform:uppercase;color:rgba(200,184,154,0.4);margin-bottom:1.25rem;display:flex;align-items:center;gap:0.6rem;}
+.brand::before{content:'';display:block;width:20px;height:1px;background:rgba(200,184,154,0.4);}
+.brand span{color:#c0392b;font-style:italic;font-family:'Playfair Display',serif;text-transform:none;letter-spacing:0;}
+.client-name{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,6vw,2.6rem);font-weight:400;line-height:1.05;margin-bottom:0.5rem;color:#f5f2ee;}
+.client-name em{font-style:italic;color:#c8b89a;}
+.trip-meta{font-size:0.78rem;color:rgba(245,242,238,0.5);margin-top:0.75rem;display:flex;flex-wrap:wrap;gap:0.4rem 1rem;}
+.trip-meta span{display:inline-flex;align-items:center;gap:0.35rem;}
+.welcome{margin-top:1.5rem;padding:1rem 1.15rem;border-left:2px solid #2e8b72;background:rgba(46,139,114,0.07);font-size:0.9rem;line-height:1.8;color:rgba(245,242,238,0.72);}
+.day{margin-bottom:1.5rem;border:1px solid rgba(200,184,154,0.1);background:rgba(200,184,154,0.02);border-radius:6px;overflow:hidden;}
+.day-hdr-out{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.1rem 1.25rem;background:rgba(200,184,154,0.03);border-bottom:1px solid rgba(200,184,154,0.08);flex-wrap:wrap;}
+.day-hdr-left{display:flex;align-items:center;gap:0.85rem;}
+.day-badge{font-size:0.56rem;letter-spacing:0.15em;text-transform:uppercase;color:#2e8b72;background:rgba(46,139,114,0.1);border:1px solid rgba(46,139,114,0.25);padding:0.3rem 0.6rem;border-radius:3px;white-space:nowrap;}
+.day-t{font-family:'Playfair Display',serif;font-size:1.15rem;color:#f5f2ee;}
+.day-d{font-size:0.68rem;color:rgba(200,184,154,0.45);margin-top:0.15rem;}
+.day-route{font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;color:#3aab8a;text-decoration:none;border:1px solid rgba(46,139,114,0.3);padding:0.45rem 0.75rem;border-radius:50px;white-space:nowrap;transition:all 0.2s;}
+.day-route:hover{background:rgba(46,139,114,0.1);border-color:rgba(46,139,114,0.5);}
+.day-entries{padding:1.25rem;}
+.stop{padding-bottom:1.25rem;margin-bottom:1.25rem;border-bottom:1px solid rgba(200,184,154,0.06);}
+.stop:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+.stop-hdr{display:flex;gap:0.85rem;align-items:flex-start;}
+.stop-num{width:24px;height:24px;border-radius:50%;background:rgba(46,139,114,0.12);border:1px solid rgba(46,139,114,0.3);color:#3aab8a;font-size:0.7rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:0.1rem;}
+.stop-name{font-size:0.98rem;color:#f5f2ee;font-weight:400;line-height:1.35;}
+.stop-name .t{color:#3aab8a;font-weight:500;}
+.stop-dur{font-size:0.72rem;color:rgba(200,184,154,0.5);margin-top:0.2rem;}
+.stop-notes{font-size:0.84rem;color:rgba(245,242,238,0.6);line-height:1.7;margin-top:0.6rem;padding-left:calc(24px + 0.85rem);}
+.maps-btn{display:flex;align-items:center;gap:0.65rem;margin-top:0.75rem;margin-left:calc(24px + 0.85rem);background:rgba(46,139,114,0.08);border:1px solid rgba(46,139,114,0.22);border-radius:6px;padding:0.6rem 0.85rem;text-decoration:none;transition:all 0.2s;}
+.maps-btn:hover{background:rgba(46,139,114,0.14);border-color:rgba(46,139,114,0.4);}
+.maps-btn-icon{flex-shrink:0;display:flex;}
+.maps-btn-text{flex:1;display:flex;flex-direction:column;}
+.maps-btn-label{font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;color:#3aab8a;}
+.maps-btn-sub{font-size:0.78rem;color:rgba(245,242,238,0.55);margin-top:0.1rem;}
+.maps-btn-arrow{color:#3aab8a;font-size:1rem;}
+.day-note{margin:0 1.25rem 1.25rem;padding:0.85rem 1rem;background:rgba(193,127,59,0.06);border-left:2px solid rgba(193,127,59,0.4);font-size:0.82rem;line-height:1.7;color:rgba(245,242,238,0.6);}
+.day-note-lbl{font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(193,127,59,0.7);margin-bottom:0.35rem;}
+.foot{margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid rgba(200,184,154,0.08);text-align:center;}
+.foot-logo{font-family:'Playfair Display',serif;font-size:0.9rem;color:rgba(200,184,154,0.4);}
+.foot-logo span{color:#c0392b;font-style:italic;}
+.foot-contact{margin-top:1rem;display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap;}
+.foot-contact a{font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;color:#3aab8a;text-decoration:none;border:1px solid rgba(46,139,114,0.3);padding:0.55rem 1.1rem;border-radius:50px;transition:all 0.2s;}
+.foot-contact a:hover{background:rgba(46,139,114,0.1);}
+.foot-note{font-size:0.62rem;color:rgba(200,184,154,0.25);margin-top:1.5rem;letter-spacing:0.05em;}
+.gate{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem 1.25rem;}
+.gate-box{width:100%;max-width:360px;text-align:center;}
+.gate-brand{font-size:0.62rem;letter-spacing:0.22em;text-transform:uppercase;color:rgba(200,184,154,0.4);margin-bottom:1.5rem;}
+.gate-brand span{color:#c0392b;font-style:italic;font-family:'Playfair Display',serif;text-transform:none;}
+.gate-title{font-family:'Playfair Display',serif;font-size:1.6rem;color:#f5f2ee;margin-bottom:0.5rem;}
+.gate-sub{font-size:0.82rem;color:rgba(245,242,238,0.45);margin-bottom:2rem;line-height:1.6;}
+.gate-input{width:100%;background:rgba(200,184,154,0.05);border:1px solid rgba(200,184,154,0.2);color:#f5f2ee;padding:0.9rem 1rem;font-family:'DM Sans',sans-serif;font-size:1rem;text-align:center;letter-spacing:0.15em;text-transform:uppercase;outline:none;margin-bottom:0.85rem;border-radius:4px;}
+.gate-input:focus{border-color:#2e8b72;}
+.gate-btn{width:100%;background:#2e8b72;color:#fff;border:none;padding:0.9rem;font-family:'DM Sans',sans-serif;font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;border-radius:4px;transition:background 0.2s;}
+.gate-btn:hover{background:#3aab8a;}
+.gate-err{font-size:0.75rem;color:#e07b6f;margin-top:0.85rem;display:none;}
+.state{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center;}
+.state-title{font-family:'Playfair Display',serif;font-size:1.5rem;color:#f5f2ee;margin-bottom:0.5rem;}
+.state-sub{font-size:0.85rem;color:rgba(245,242,238,0.45);max-width:340px;line-height:1.6;}
+.spinner{width:32px;height:32px;border:2px solid rgba(46,139,114,0.2);border-top-color:#2e8b72;border-radius:50%;animation:spin 0.8s linear infinite;margin-bottom:1.25rem;}
+@keyframes spin{to{transform:rotate(360deg);}}
+#content{display:none;}
+</style>
+</head>
+<body>
+<div class="state" id="loadingState"><div class="spinner"></div><div class="state-sub">Loading your itinerary…</div></div>
+<div class="gate" id="gateState" style="display:none;">
+  <div class="gate-box">
+    <div class="gate-brand">Experience <span>Montenegro</span></div>
+    <div class="gate-title">Your itinerary</div>
+    <div class="gate-sub">Enter the access code from your email to view your personalised Montenegro plan.</div>
+    <input type="text" class="gate-input" id="codeInput" placeholder="EM-XXXX-XXXX" onkeydown="if(event.key==='Enter')goToCode()">
+    <button class="gate-btn" onclick="goToCode()">View my itinerary</button>
+    <div class="gate-err" id="gateErr">Please enter a valid code.</div>
+  </div>
+</div>
+<div class="state" id="errorState" style="display:none;">
+  <div class="state-title">Itinerary not found</div>
+  <div class="state-sub">We couldn't find an itinerary for this code. Please check the link from your email, or contact us if you need help.</div>
+  <div class="foot-contact" style="margin-top:1.5rem;"><a href="#" id="errWa" target="_blank">WhatsApp us</a></div>
+</div>
+<div id="content">
+  <div class="top"><div class="top-inner">
+    <div class="brand">Experience <span>Montenegro</span></div>
+    <div class="client-name" id="clientName"></div>
+    <div class="trip-meta" id="tripMeta"></div>
+  </div></div>
+  <div class="page" style="padding-top:2rem;">
+    <div id="welcomeWrap"></div>
+    <div id="daysWrap"></div>
+    <div class="foot">
+      <div class="foot-logo">Experience <span>Montenegro</span></div>
+      <div class="foot-contact"><a href="#" id="footWa" target="_blank">Message us on WhatsApp</a></div>
+      <div class="foot-note">Your private itinerary · Keep this link safe</div>
+    </div>
+  </div>
+</div>
+<script>
+var SUPABASE_URL = "https://twkiwlshuyjnzabazhmv.supabase.co";
+var SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3a2l3bHNodXlqbnphYmF6aG12Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyNjg5NjEsImV4cCI6MjA5OTg0NDk2MX0.DMkOrnr4bggWsFYZt5RNuQ47VuvPkVqkWIccZIZIiso";
+var WHATSAPP = "https://wa.me/38268000000";
+function esc(s){ return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function getCoords(str){ if(!str) return null; var c=str.match(/(-?\d+\.?\d*)[,\s]+(-?\d+\.?\d*)/); if(c) return {lat:parseFloat(c[1]),lng:parseFloat(c[2])}; var ll=str.match(/[@/](-?\d+\.?\d*),(-?\d+\.?\d*)/); if(ll) return {lat:parseFloat(ll[1]),lng:parseFloat(ll[2])}; return null; }
+function getDirectLink(str){ if(!str) return ''; var c=str.match(/(-?\d+\.?\d*)[,\s]+(-?\d+\.?\d*)/); if(c) return 'https://www.google.com/maps?q='+c[1]+','+c[2]; return str; }
+function fmtFull(str){ if(!str) return ''; var d=new Date(str); if(isNaN(d)) return str; return d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'}); }
+function getCodeFromURL(){
+  var path = window.location.pathname.replace(/^\/+|\/+$/g,'');
+  var seg = path.split('/').pop();
+  if (seg && /^EM-/i.test(seg)) return seg.toUpperCase();
+  var params = new URLSearchParams(window.location.search);
+  var q = params.get('code'); if (q) return q.toUpperCase();
+  var hash = window.location.hash.replace('#',''); if (hash && /^EM-/i.test(hash)) return hash.toUpperCase();
+  return null;
+}
+function goToCode(){ var v=document.getElementById('codeInput').value.trim().toUpperCase(); if(!v||!/^EM-/i.test(v)){document.getElementById('gateErr').style.display='block';return;} window.location.href='/'+v; }
+function show(id){ ['loadingState','gateState','errorState','content'].forEach(function(x){ document.getElementById(x).style.display=(x===id)?(x==='content'?'block':'flex'):'none'; }); }
+async function loadItinerary(code){
+  try{
+    var res = await fetch(SUPABASE_URL+'/rest/v1/itineraries?code=eq.'+encodeURIComponent(code)+'&select=*', { headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY} });
+    var rows = await res.json();
+    if(!rows||rows.length===0){ show('errorState'); return; }
+    render(rows[0]); show('content');
+  }catch(e){ show('errorState'); }
+}
+function render(row){
+  var d = row.data || {};
+  var name = esc(d.name||'Traveller'); var last = esc(d.last||'');
+  document.getElementById('clientName').innerHTML = name + (last?' <em>'+last+'</em>':'');
+  document.title = (d.name||'Your')+"'s Montenegro Itinerary";
+  var meta = [];
+  if(d.arrival) meta.push('<span>📅 '+esc(fmtFull(d.arrival))+(d.departure?' → '+esc(fmtFull(d.departure)):'')+'</span>');
+  if(d.group) meta.push('<span>👥 '+esc(d.group)+'</span>');
+  if(d.country) meta.push('<span>📍 '+esc(d.country)+'</span>');
+  document.getElementById('tripMeta').innerHTML = meta.join('');
+  document.getElementById('welcomeWrap').innerHTML = d.welcome ? '<div class="welcome">'+esc(d.welcome)+'</div>' : '';
+  var days = d.days || [];
+  var daysHTML = days.map(function(day,i){
+    var entries = day.entries || [];
+    var dayCoords = [];
+    var entriesHTML = entries.map(function(entry,ei){
+      if(entry.type && entry.type!=='stop') return '';
+      var c=getCoords(entry.map); if(c) dayCoords.push(c.lat+','+c.lng);
+      var directLink=getDirectLink(entry.map);
+      return '<div class="stop"><div class="stop-hdr"><div class="stop-num">'+(ei+1)+'</div><div>'+
+        '<div class="stop-name">'+(entry.time?'<span class="t">'+esc(entry.time)+'</span> · ':'')+esc(entry.name)+'</div>'+
+        (entry.dur?'<div class="stop-dur">⏱ '+esc(entry.dur)+'</div>':'')+
+        (entry.persons?'<div class="stop-dur">👥 '+esc(entry.persons)+' person'+(entry.persons!=1?'s':'')+'</div>':'')+
+        '</div></div>'+
+        (entry.notes?'<div class="stop-notes">'+esc(entry.notes)+'</div>':'')+
+        (directLink?'<a class="maps-btn" href="'+esc(directLink)+'" target="_blank"><span class="maps-btn-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#3aab8a"/></svg></span><span class="maps-btn-text"><span class="maps-btn-label">Open in Google Maps</span><span class="maps-btn-sub">'+esc(entry.name)+'</span></span><span class="maps-btn-arrow">→</span></a>':'')+
+        '</div>';
+    }).join('');
+    var routeBtn='';
+    if(dayCoords.length>=2){ routeBtn='<a class="day-route" href="https://www.google.com/maps/dir/'+dayCoords.map(function(c){return encodeURIComponent(c);}).join('/')+'" target="_blank">🗺 Day '+(i+1)+' Route</a>'; }
+    else if(dayCoords.length===1){ routeBtn='<a class="day-route" href="https://www.google.com/maps?q='+encodeURIComponent(dayCoords[0])+'" target="_blank">📍 Day '+(i+1)+' Map</a>'; }
+    return '<div class="day"><div class="day-hdr-out"><div class="day-hdr-left"><div class="day-badge">Day '+(i+1)+'</div><div><div class="day-t">'+esc(day.title||('Day '+(i+1)))+'</div>'+(day.date?'<div class="day-d">'+esc(fmtFull(day.date))+'</div>':'')+'</div></div>'+routeBtn+'</div><div class="day-entries">'+(entriesHTML||'<p style="color:rgba(245,242,238,0.3);font-size:0.82rem;">No items for this day.</p>')+'</div>'+(day.notes?'<div class="day-note"><div class="day-note-lbl">Notes</div>'+esc(day.notes)+'</div>':'')+'</div>';
+  }).join('');
+  document.getElementById('daysWrap').innerHTML = daysHTML;
+  document.getElementById('footWa').href = WHATSAPP;
+}
+document.getElementById('errWa').href = WHATSAPP;
+var code = getCodeFromURL();
+if(code){ show('loadingState'); loadItinerary(code); } else { show('gateState'); }
+</script>
+</body>
+</html>
