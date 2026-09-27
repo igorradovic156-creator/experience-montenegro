@@ -200,9 +200,10 @@ function initAdmin() {
         <div class="adm-field-lbl" style="margin-top:1rem;">Notes</div>
         <textarea class="adm-notes" id="admMNotes" placeholder="Add notes..."></textarea>
         <button class="adm-save" onclick="admSaveNotes()">Save notes</button>
-        <div style="margin-top:1.2rem;padding-top:0.85rem;border-top:1px solid rgba(200,184,154,0.07);display:flex;gap:0.5rem;">
+        <div style="margin-top:1.2rem;padding-top:0.85rem;border-top:1px solid rgba(200,184,154,0.07);display:flex;gap:0.5rem;flex-wrap:wrap;">
           <a id="admWa" href="#" target="_blank" style="font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:#25D366;text-decoration:none;border:1px solid rgba(37,211,102,0.2);padding:0.45rem 0.85rem;">WhatsApp →</a>
           <a id="admEmail" href="#" style="font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:#c8b89a;text-decoration:none;border:1px solid rgba(200,184,154,0.18);padding:0.45rem 0.85rem;">Email →</a>
+          <button id="admCreatePlan" onclick="admCreatePlan()" style="font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:#fff;background:#2e8b72;border:none;padding:0.5rem 0.95rem;cursor:pointer;font-family:'DM Sans',sans-serif;border-radius:3px;margin-left:auto;">Create plan →</button>
         </div>
       </div>
     </div>
@@ -504,6 +505,32 @@ function admOpenModal(l) {
   document.getElementById('admWa').href = 'https://wa.me/?text=Hi '+encodeURIComponent(l.name||'')+'!';
   document.getElementById('admEmail').href = 'mailto:'+(l.email||'');
   document.getElementById('admModal').classList.add('open');
+}
+
+function admCreatePlan() {
+  if (!currentLead) return;
+  var l = currentLead;
+  // Split name into first/last
+  var full = (l.name||'').trim();
+  var parts = full.split(' ');
+  var first = parts.shift() || '';
+  var last = parts.join(' ');
+  var params = new URLSearchParams({
+    lead: '1',
+    leadId: l.id || '',
+    name: first,
+    last: last,
+    email: l.email || '',
+    country: l.country || '',
+    group: l.group_size || '',
+    arrival: (l.dates||'').split('→')[0].trim() || '',
+    departure: (l.dates||'').split('→')[1] ? (l.dates).split('→')[1].trim() : '',
+    notes: l.message || ''
+  });
+  // Open planner with lead data. Planner is local — we pass via URL hash so it works
+  // whether planner is opened from file:// or a hosted copy.
+  var plannerUrl = '/em-planner-i9r8001/#' + params.toString();
+  window.open(plannerUrl, '_blank');
 }
 
 function admCloseModal() {
