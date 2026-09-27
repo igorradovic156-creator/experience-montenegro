@@ -1,0 +1,1849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trip Planner — Experience Montenegro</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230a0a0a'/%3E%3Cpath d='M16 4C11.58 4 8 7.58 8 12c0 7 8 16 8 16s8-9 8-16c0-4.42-3.58-8-8-8zm0 11c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z' fill='%232e8b72'/%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black:#0a0a0a; --panel:#141414; --border:rgba(200,184,154,0.12);
+  --white:#f5f2ee; --stone:#c8b89a; --cta:#2e8b72; --cta-hover:#3aab8a;
+  --accent:#c17f3b; --mne-red:#c0392b; --note:#4a7c8e;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--black);color:var(--white);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh;}
+header{padding:1rem 2rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;background:rgba(10,10,10,0.95);position:sticky;top:0;z-index:100;backdrop-filter:blur(12px);}
+.logo{font-family:'Playfair Display',serif;font-size:1rem;}
+.logo span{color:var(--mne-red);font-style:italic;}
+.header-sub{font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--stone);}
+.app{display:grid;grid-template-columns:200px 220px 400px 1fr;height:calc(100vh - 56px);overflow:hidden;}
+
+/* BUILDER */
+.builder{background:var(--panel);border-right:1px solid var(--border);overflow-y:auto;height:100%;}
+.builder::-webkit-scrollbar{width:3px;}
+.builder::-webkit-scrollbar-thumb{background:var(--border);}
+
+/* PREVIEW */
+.preview-panel{overflow-y:auto;background:var(--black);display:flex;flex-direction:column;height:100%;}
+.sec{padding:1.2rem;border-bottom:1px solid var(--border);}
+.sec-title{font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--stone);margin-bottom:0.9rem;display:flex;align-items:center;gap:0.6rem;}
+.sec-title::before{content:'';display:block;width:20px;height:1px;background:var(--stone);}
+
+/* FIELDS */
+.f{margin-bottom:0.7rem;}
+.f label{font-size:0.6rem;letter-spacing:0.13em;text-transform:uppercase;color:rgba(200,184,154,0.55);display:block;margin-bottom:0.3rem;}
+.f input,.f select,.f textarea{width:100%;background:rgba(200,184,154,0.05);border:1px solid var(--border);color:var(--white);padding:0.55rem 0.8rem;font-family:'DM Sans',sans-serif;font-size:0.85rem;outline:none;transition:border-color 0.2s;border-radius:0;-webkit-appearance:none;}
+.f input:focus,.f select:focus,.f textarea:focus{border-color:var(--cta);background:rgba(46,139,114,0.04);}
+.f input::placeholder,.f textarea::placeholder{color:rgba(245,242,238,0.18);}
+.f select option{background:#1a1a1a;}
+.f textarea{resize:vertical;min-height:55px;}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;}
+
+/* DAYS */
+.day-block{background:rgba(200,184,154,0.03);border:1px solid var(--border);margin-bottom:0.5rem;}
+.day-hdr{display:flex;justify-content:space-between;align-items:center;padding:0.65rem 0.8rem;cursor:pointer;transition:background 0.2s;}
+.day-hdr:hover{background:rgba(200,184,154,0.05);}
+.day-block.open .day-hdr{border-bottom:1px solid var(--border);}
+.day-title{font-size:0.82rem;font-weight:500;}
+.day-meta{font-size:0.62rem;color:var(--stone);}
+.day-body{display:none;padding:0.8rem;}
+.day-block.open .day-body{display:block;}
+.day-actions{display:flex;gap:0.3rem;}
+.ibtn{background:none;border:1px solid var(--border);color:var(--stone);padding:0.2rem 0.5rem;cursor:pointer;font-size:0.65rem;transition:all 0.2s;font-family:'DM Sans',sans-serif;}
+.ibtn:hover{border-color:var(--stone);color:var(--white);}
+.ibtn.red{border-color:rgba(231,76,60,0.2);color:rgba(231,76,60,0.5);}
+.ibtn.red:hover{border-color:rgba(231,76,60,0.5);color:#e74c3c;}
+
+/* ENTRIES (stops + notes mixed) */
+.entries{display:flex;flex-direction:column;gap:0.4rem;margin-bottom:0.6rem;}
+
+/* STOP CARD */
+.stop-card{background:rgba(46,139,114,0.04);border:1px solid rgba(46,139,114,0.12);padding:0.6rem 0.7rem;position:relative;}
+.stop-card-name{font-size:0.8rem;font-weight:500;color:var(--cta-hover);margin-bottom:0.1rem;}
+.stop-card-time{font-size:0.62rem;color:var(--stone);}
+.stop-card-note{font-size:0.7rem;color:rgba(245,242,238,0.42);font-style:italic;margin-top:0.12rem;}
+.stop-card-coords{font-size:0.6rem;color:rgba(46,139,114,0.55);margin-top:0.12rem;}
+.stop-card-persons{display:flex;align-items:center;gap:0.35rem;margin-top:0.25rem;}
+.persons-btn{background:rgba(200,184,154,0.08);border:1px solid rgba(200,184,154,0.15);color:var(--white);width:20px;height:20px;font-size:0.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.15s;line-height:1;padding:0;}
+.persons-btn:hover{background:rgba(200,184,154,0.2);}
+.persons-val{font-size:0.78rem;font-weight:500;color:var(--white);min-width:16px;text-align:center;}
+
+/* NOTE CARD */
+.note-card{background:rgba(74,124,142,0.06);border:1px solid rgba(74,124,142,0.18);padding:0.6rem 0.7rem;position:relative;}
+.note-card-icon{font-size:0.72rem;color:rgba(74,124,142,0.7);margin-bottom:0.18rem;display:flex;align-items:center;gap:0.35rem;}
+.note-card-dur{font-size:0.65rem;color:rgba(74,124,142,0.8);font-weight:500;}
+.note-card-text{font-size:0.75rem;color:rgba(245,242,238,0.5);line-height:1.5;margin-top:0.15rem;}
+
+.entry-acts{position:absolute;top:0.4rem;right:0.4rem;display:flex;gap:0.2rem;}
+
+/* ADD BUTTONS ROW */
+.add-row{display:flex;gap:0.4rem;margin-top:0.4rem;}
+.add-btn{flex:1;padding:0.45rem 0.5rem;font-family:'DM Sans',sans-serif;font-size:0.62rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;border:1px dashed;}
+.add-btn-loc{background:transparent;color:var(--cta);border-color:rgba(46,139,114,0.25);}
+.add-btn-loc:hover{border-color:var(--cta);background:rgba(46,139,114,0.05);}
+.add-btn-note{background:transparent;color:var(--note);border-color:rgba(74,124,142,0.2);}
+.add-btn-note:hover{border-color:var(--note);background:rgba(74,124,142,0.05);}
+
+/* BUTTONS */
+.btn{padding:0.55rem 1.1rem;font-family:'DM Sans',sans-serif;font-size:0.72rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;border:none;cursor:pointer;transition:all 0.2s;}
+.btn-p{background:var(--cta);color:var(--white);}
+.btn-p:hover{background:var(--cta-hover);}
+.btn-o{background:transparent;color:var(--stone);border:1px solid var(--border);}
+.btn-o:hover{border-color:var(--stone);color:var(--white);}
+.btn-sm{padding:0.4rem 0.8rem;font-size:0.65rem;}
+.btn-full{width:100%;}
+.gen-btn{width:100%;padding:0.85rem;font-size:0.78rem;background:var(--cta);color:var(--white);border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;transition:all 0.3s;}
+.gen-btn:hover{background:var(--cta-hover);}
+
+/* PREVIEW */
+.preview-panel{overflow:hidden;background:var(--black);display:flex;flex-direction:column;height:100%;}
+.preview-panel::-webkit-scrollbar{width:3px;}
+.preview-panel::-webkit-scrollbar-thumb{background:var(--border);}
+.preview-ph{display:flex;align-items:center;justify-content:center;flex:1;flex-direction:column;gap:1rem;color:rgba(200,184,154,0.2);}
+.preview-ph p{font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;}
+#previewFrame{width:100%;flex:1;border:none;display:none;min-height:0;}
+.preview-acts{padding:0.9rem 1.5rem;border-bottom:1px solid var(--border);display:none;gap:0.75rem;background:var(--panel);}
+.preview-acts.show{display:flex;}
+
+/* MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:200;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+.modal-bg.open{display:flex;}
+.modal{background:var(--panel);border:1px solid var(--border);width:460px;max-width:95vw;max-height:90vh;overflow-y:auto;}
+.modal.note-modal{border-color:rgba(74,124,142,0.3);}
+.modal-hdr{padding:1rem 1.2rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+.modal-hdr.note-hdr{border-bottom-color:rgba(74,124,142,0.2);}
+.modal-t{font-family:'Playfair Display',serif;font-size:1rem;}
+.modal-t.note-t{color:var(--note);}
+.modal-x{background:none;border:none;color:var(--stone);font-size:1.2rem;cursor:pointer;}
+.modal-body{padding:1.2rem;}
+.modal-foot{padding:0.8rem 1.2rem;border-top:1px solid var(--border);display:flex;gap:0.5rem;justify-content:flex-end;}
+
+/* CLIENT LIST */
+.client-list{background:#0e0e0e;border-right:1px solid var(--border);display:flex;flex-direction:column;height:100%;overflow:hidden;}
+.client-list::-webkit-scrollbar{width:3px;}
+.client-list::-webkit-scrollbar-thumb{background:var(--border);}
+.cl-header{padding:0.9rem 1rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
+.cl-title{font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--stone);}
+.cl-new{background:var(--cta);color:#fff;border:none;padding:0.3rem 0.6rem;font-size:0.6rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:background 0.2s;}
+.cl-new:hover{background:var(--cta-hover);}
+.cl-items{flex:1;overflow-y:auto;padding:0.5rem;}
+.cl-item{padding:0.6rem 0.65rem;cursor:pointer;border:1px solid transparent;margin-bottom:0.3rem;transition:all 0.2s;position:relative;}
+.cl-item:hover{background:rgba(200,184,154,0.04);border-color:var(--border);}
+.cl-item.active{background:rgba(46,139,114,0.08);border-color:rgba(46,139,114,0.25);}
+.cl-item-name{font-size:0.78rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:0.15rem;}
+.cl-item-meta{font-size:0.6rem;color:rgba(200,184,154,0.4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cl-item-status{font-size:0.55rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.12rem 0.45rem;display:inline-block;margin-top:0.25rem;}
+.cl-item-del{position:absolute;top:0.35rem;right:0.35rem;background:none;border:none;color:rgba(231,76,60,0.3);cursor:pointer;font-size:0.75rem;opacity:0;transition:opacity 0.2s;}
+.cl-item:hover .cl-item-del{opacity:1;}
+.cl-item-del:hover{color:#e74c3c;}
+.s-inquiry{background:rgba(193,127,59,0.12);color:var(--accent);}
+.s-planning{background:rgba(46,139,114,0.12);color:var(--cta-hover);}
+.s-confirmed{background:rgba(74,124,142,0.12);color:#4a7c8e;}
+.s-completed{background:rgba(200,184,154,0.08);color:var(--stone);}
+.cl-search{padding:0.5rem;border-bottom:1px solid var(--border);flex-shrink:0;}
+.cl-search input{width:100%;background:rgba(200,184,154,0.05);border:1px solid var(--border);color:var(--white);padding:0.4rem 0.6rem;font-family:'DM Sans',sans-serif;font-size:0.75rem;outline:none;border-radius:0;}
+.cl-search input:focus{border-color:var(--cta);}
+.cl-search input::placeholder{color:rgba(245,242,238,0.2);}
+.cl-backup{padding:0.6rem 0.5rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:0.3rem;flex-shrink:0;}
+.cl-backup-btn{width:100%;background:transparent;border:1px solid var(--border);color:rgba(200,184,154,0.45);padding:0.35rem 0.6rem;font-family:'DM Sans',sans-serif;font-size:0.6rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;text-align:left;}
+.cl-backup-btn:hover{border-color:var(--stone);color:var(--white);background:rgba(200,184,154,0.04);}
+.cl-group-label{font-size:0.55rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(200,184,154,0.3);padding:0.6rem 0.65rem 0.3rem;display:flex;justify-content:space-between;align-items:center;}
+.cl-group-completed{cursor:pointer;margin-top:0.3rem;border-top:1px solid var(--border);padding-top:0.65rem;}
+.cl-group-completed:hover{color:rgba(200,184,154,0.55);}
+.cl-empty{padding:1rem;font-size:0.7rem;color:rgba(245,242,238,0.2);text-align:center;line-height:1.6;}
+
+/* EVENTS LIBRARY */
+.events-panel{background:#0c0c0c;border-right:1px solid var(--border);display:flex;flex-direction:column;height:100%;overflow:hidden;}
+.events-panel::-webkit-scrollbar{width:3px;}
+.ev-header{padding:0.9rem 1rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
+.ev-title{font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--stone);}
+.ev-new{background:transparent;color:var(--cta);border:1px solid rgba(46,139,114,0.3);padding:0.3rem 0.6rem;font-size:0.6rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;}
+.ev-new:hover{background:rgba(46,139,114,0.1);border-color:var(--cta);}
+.ev-list{flex:1;overflow-y:auto;padding:0.5rem;}
+.ev-list::-webkit-scrollbar{width:3px;}
+.ev-list::-webkit-scrollbar-thumb{background:var(--border);}
+.ev-item{background:rgba(46,139,114,0.04);border:1px solid rgba(46,139,114,0.12);padding:0.6rem 0.7rem;margin-bottom:0.4rem;cursor:grab;user-select:none;transition:all 0.2s;position:relative;}
+.ev-item:active{cursor:grabbing;opacity:0.7;transform:scale(0.98);}
+.ev-item.dragging{opacity:0.4;border-style:dashed;}
+.ev-item-name{font-size:0.78rem;font-weight:500;color:var(--cta-hover);margin-bottom:0.15rem;}
+.ev-item-loc{font-size:0.6rem;color:rgba(200,184,154,0.45);margin-bottom:0.1rem;}
+.ev-item-dur{font-size:0.6rem;color:rgba(245,242,238,0.3);}
+.ev-item-actions{position:absolute;top:0.35rem;right:0.35rem;display:flex;gap:0.2rem;opacity:0;transition:opacity 0.2s;}
+.ev-item:hover .ev-item-actions{opacity:1;}
+.ev-act-btn{background:none;border:1px solid var(--border);color:var(--stone);padding:0.15rem 0.4rem;cursor:pointer;font-size:0.6rem;transition:all 0.2s;}
+.ev-act-btn:hover{border-color:var(--stone);color:var(--white);}
+.ev-act-btn.del:hover{border-color:rgba(231,76,60,0.5);color:#e74c3c;}
+.ev-drag-hint{font-size:0.58rem;color:rgba(200,184,154,0.2);text-align:center;padding:0.5rem;letter-spacing:0.05em;}
+/* DROP ZONE in day */
+.drop-zone{border:1px dashed rgba(46,139,114,0.2);padding:0.4rem;text-align:center;font-size:0.62rem;color:rgba(46,139,114,0.35);margin-bottom:0.4rem;transition:all 0.2s;}
+.drop-zone.drag-over{border-color:var(--cta);background:rgba(46,139,114,0.06);color:var(--cta);}
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0;}
+input[type=number]{-moz-appearance:textfield;}
+@media(max-width:900px){.app{grid-template-columns:1fr;}.events-panel{border-right:none;border-bottom:1px solid var(--border);max-height:200px;}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN GATE (hides everything until authenticated when online) -->
+<div id="plannerGate" style="display:none;position:fixed;inset:0;z-index:100000;background:#0f1310;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;">
+  <div style="width:340px;max-width:90vw;text-align:center;padding:2.5rem 2rem;border:1px solid rgba(200,184,154,0.15);border-radius:8px;background:rgba(255,255,255,0.02);">
+    <div style="font-family:'Playfair Display',serif;font-size:1.3rem;color:#f5f2ee;margin-bottom:0.3rem;">Trip Planner</div>
+    <div style="font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(200,184,154,0.4);margin-bottom:1.8rem;">Staff only</div>
+    <input type="email" id="gateEmail" placeholder="Email" autocomplete="username" style="width:100%;background:rgba(200,184,154,0.05);border:1px solid rgba(200,184,154,0.2);color:#f5f2ee;padding:0.7rem 0.9rem;font-size:0.9rem;outline:none;margin-bottom:0.6rem;border-radius:4px;">
+    <input type="password" id="gatePass" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter')plannerGateLogin()" style="width:100%;background:rgba(200,184,154,0.05);border:1px solid rgba(200,184,154,0.2);color:#f5f2ee;padding:0.7rem 0.9rem;font-size:0.9rem;outline:none;margin-bottom:0.85rem;border-radius:4px;">
+    <button onclick="plannerGateLogin()" style="width:100%;background:#2e8b72;color:#fff;border:none;padding:0.8rem;font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;border-radius:4px;font-family:'DM Sans',sans-serif;">Sign in</button>
+    <div id="gateErr" style="font-size:0.72rem;color:#e07b6f;margin-top:0.75rem;display:none;">Wrong email or password</div>
+  </div>
+</div>
+
+<header>
+  <div class="logo"><svg style="height:20px;width:auto;display:inline-block;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1022.14 141" role="img" aria-labelledby="title desc"><title id="title">Experience Montenegro</title><desc id="desc">Bijeli serifni tekst Experience i crveni kurzivni tekst Montenegro. Transparentna pozadina.</desc><g fill="#F8F7F4"><path d="M597 169H569C521 63 476 38 333 37H306C202 40 201 41 201 80V327H355C439 325 452 313 465 231H488V463H465C453 382 439 370 355 368H201V590C202 620 206 624 234 624H369C485 622 505 608 521 519H546L543 662H12V643C85 638 97 625 99 553V109C97 37 84 23 12 19V0H552Z" transform="translate(12.000 111.000) scale(0.104000 -0.104000)"/><path d="M278 0H479V15C448 15 428 31 397 75L269 271L352 391C371 418 400 433 433 435V450H275V435C305 433 315 427 315 413C315 401 303 379 278 348C273 342 261 324 248 304L240 316C225 339 216 352 214 356C195 387 188 403 188 413C188 428 201 434 231 435V450H24V435H33C63 435 79 422 110 375L204 231L90 66C60 25 50 18 17 15V0H162V15C133 15 122 20 122 33C122 40 128 53 142 74L221 197L312 57C316 51 318 46 318 39C318 21 311 17 278 15Z" transform="translate(75.544 111.000) scale(0.104000 -0.104000)"/><path d="M5 -217H247V-199C172 -198 160 -188 159 -124V33C195 0 218 -10 260 -10C379 -10 470 102 470 247C470 371 400 460 303 460C247 460 203 436 159 381V458L153 460C99 439 64 426 9 409V393C18 394 24 394 34 394C68 394 75 384 75 337V-131C75 -184 64 -194 5 -200ZM159 334C159 364 215 400 261 400C335 400 384 324 384 207C384 97 335 22 263 22C216 22 159 58 159 88Z" transform="translate(127.544 111.000) scale(0.104000 -0.104000)"/><path d="M408 164C360 88 317 59 253 59C196 59 153 88 124 145C106 183 99 215 97 277H405C397 342 387 371 362 403C332 439 286 460 234 460C184 460 137 442 99 408C52 367 25 296 25 214C25 76 97 -10 212 -10C307 -10 382 49 424 157ZM99 309C110 387 144 424 205 424C266 424 290 396 303 309Z" transform="translate(179.544 111.000) scale(0.104000 -0.104000)"/><path d="M5 0H245V15C178 17 162 31 160 90V315C160 347 202 397 230 397C236 397 245 392 256 382C271 367 283 362 296 362C320 362 335 379 335 407C335 440 314 460 280 460C238 460 210 438 160 366V458L155 460C99 438 63 424 7 406V390C21 393 30 394 42 394C67 394 76 378 76 334V84C74 32 68 26 5 15Z" transform="translate(225.720 111.000) scale(0.104000 -0.104000)"/><path d="M16 0H253V15C187 20 180 29 179 102V457L175 460L20 405V390L28 391C40 393 52 394 62 394C86 394 95 378 95 334V102C93 28 84 18 16 15ZM128 683C101 683 78 660 78 632C78 603 100 581 128 581C158 581 180 603 180 632C180 661 157 683 128 683Z" transform="translate(260.352 111.000) scale(0.104000 -0.104000)"/><path d="M408 164C360 88 317 59 253 59C196 59 153 88 124 145C106 183 99 215 97 277H405C397 342 387 371 362 403C332 439 286 460 234 460C184 460 137 442 99 408C52 367 25 296 25 214C25 76 97 -10 212 -10C307 -10 382 49 424 157ZM99 309C110 387 144 424 205 424C266 424 290 396 303 309Z" transform="translate(289.264 111.000) scale(0.104000 -0.104000)"/><path d="M18 0H230V15C180 18 164 31 164 67V348C212 393 234 405 267 405C316 405 340 374 340 308V99C338 34 326 18 277 15V0H485V15C436 20 425 32 424 81V310C424 404 380 460 306 460C260 460 229 443 161 379V458L154 460C102 441 68 430 16 415V398C23 401 32 402 43 402C71 402 80 387 80 338V90C79 31 68 18 18 15Z" transform="translate(335.440 111.000) scale(0.104000 -0.104000)"/><path d="M398 156C350 86 314 62 257 62C165 62 102 142 102 257C102 361 157 431 238 431C274 431 287 421 297 383L303 361C311 332 329 315 351 315C377 315 398 334 398 357C398 413 328 460 244 460C195 460 144 440 103 404C53 360 25 292 25 212C25 83 104 -10 215 -10C260 -10 300 6 336 37C363 60 382 88 412 147Z" transform="translate(387.440 111.000) scale(0.104000 -0.104000)"/><path d="M408 164C360 88 317 59 253 59C196 59 153 88 124 145C106 183 99 215 97 277H405C397 342 387 371 362 403C332 439 286 460 234 460C184 460 137 442 99 408C52 367 25 296 25 214C25 76 97 -10 212 -10C307 -10 382 49 424 157ZM99 309C110 387 144 424 205 424C266 424 290 396 303 309Z" transform="translate(433.616 111.000) scale(0.104000 -0.104000)"/></g><g fill="#E31320"><path d="M873 653H706L370 160L315 653H134V637C184 634 208 623 208 600C208 592 204 577 198 559C196 555 193 545 189 529L186 518L80 146C49 42 34 22 -18 16V0H180V16C129 20 109 32 109 60C109 71 113 95 118 113L236 546L297 0H314L691 561L562 91C546 38 526 23 461 16V0H734V16C666 22 657 28 657 59C657 76 659 89 668 120L791 563C809 623 814 628 873 637Z" transform="translate(498.792 111.000) scale(0.104000 -0.104000)"/><path d="M325 441C282 441 243 430 202 408C99 350 27 235 27 129C27 42 83 -11 174 -11C240 -11 304 18 362 76C428 141 468 225 468 301C468 384 410 441 325 441ZM313 420C356 420 384 383 384 326C384 252 352 153 307 88C270 35 232 10 189 10C142 10 111 46 111 101C111 175 140 263 189 334C228 391 270 420 313 420Z" transform="translate(585.424 111.000) scale(0.104000 -0.104000)"/><path d="M460 117C406 49 394 38 378 38C369 38 362 45 362 54C362 62 366 81 376 117L433 323C438 344 442 366 442 380C442 417 415 441 376 441C312 441 249 380 146 221L213 439L210 441C157 430 135 426 48 410V394C99 393 112 387 112 367C112 361 111 355 110 350L14 0H89C136 158 145 180 189 248C249 340 300 390 337 390C352 390 361 379 361 361C361 349 355 316 347 285L303 120C290 68 287 55 287 45C287 7 301 -9 334 -9C379 -9 404 11 474 104Z" transform="translate(637.424 111.000) scale(0.104000 -0.104000)"/><path d="M296 428H216L244 531C245 533 245 535 245 537C245 543 243 546 237 546C231 546 228 545 222 537C183 487 121 436 89 427C64 419 57 413 57 402C57 401 57 399 58 396H132L60 121C58 112 57 108 54 100C44 67 37 36 37 26C37 5 58 -11 85 -11C131 -11 164 17 227 110L214 117C165 54 149 38 133 38C124 38 118 45 118 58C118 59 118 59 119 63L207 396H291Z" transform="translate(689.424 111.000) scale(0.104000 -0.104000)"/><path d="M358 109C286 50 255 34 211 34C155 34 118 70 118 125C118 140 120 154 128 186L156 190C306 211 412 287 412 373C412 415 382 441 332 441C188 441 31 277 31 126C31 45 85 -11 163 -11C234 -11 311 30 370 97ZM152 252C186 341 260 418 311 418C332 418 346 403 346 379C346 348 327 312 296 282C259 247 221 229 135 208Z" transform="translate(718.336 111.000) scale(0.104000 -0.104000)"/><path d="M460 117C406 49 394 38 378 38C369 38 362 45 362 54C362 62 366 81 376 117L433 323C438 344 442 366 442 380C442 417 415 441 376 441C312 441 249 380 146 221L213 439L210 441C157 430 135 426 48 410V394C99 393 112 387 112 367C112 361 111 355 110 350L14 0H89C136 158 145 180 189 248C249 340 300 390 337 390C352 390 361 379 361 361C361 349 355 316 347 285L303 120C290 68 287 55 287 45C287 7 301 -9 334 -9C379 -9 404 11 474 104Z" transform="translate(764.512 111.000) scale(0.104000 -0.104000)"/><path d="M358 109C286 50 255 34 211 34C155 34 118 70 118 125C118 140 120 154 128 186L156 190C306 211 412 287 412 373C412 415 382 441 332 441C188 441 31 277 31 126C31 45 85 -11 163 -11C234 -11 311 30 370 97ZM152 252C186 341 260 418 311 418C332 418 346 403 346 379C346 348 327 312 296 282C259 247 221 229 135 208Z" transform="translate(816.512 111.000) scale(0.104000 -0.104000)"/><path d="M472 405H411C408 405 403 407 395 413C368 431 335 441 297 441C186 441 96 364 96 270C96 218 117 188 175 162C116 122 98 102 98 78C98 65 106 53 125 39C26 -26 8 -46 8 -92C8 -161 74 -206 175 -206C301 -206 385 -147 385 -60C385 3 338 46 242 72C198 83 172 99 172 114C172 129 195 155 208 155C210 155 212 155 215 154C224 152 235 151 246 151C338 151 431 232 431 310C431 327 428 344 422 366H472ZM148 28C149 28 151 27 153 26C156 25 166 22 182 17C289 -17 325 -44 325 -90C325 -144 267 -184 190 -184C110 -184 63 -146 63 -82C63 -58 69 -41 85 -22C99 -4 140 28 148 28ZM296 419C333 419 352 395 352 348C352 312 340 269 321 235C299 194 268 172 234 172C196 172 174 200 174 247C174 339 231 419 296 419Z" transform="translate(862.688 111.000) scale(0.104000 -0.104000)"/><path d="M121 0C173 171 190 212 236 289C270 345 297 376 314 376C321 376 325 372 330 362C338 345 346 340 366 340C396 340 412 358 412 390C412 420 393 441 365 441C342 441 315 426 289 399C248 356 208 298 192 258L178 222L231 439L228 441C155 428 146 426 73 414V397C95 401 99 402 107 402C129 402 142 392 142 374C142 360 142 360 126 292L45 0Z" transform="translate(914.688 111.000) scale(0.104000 -0.104000)"/><path d="M325 441C282 441 243 430 202 408C99 350 27 235 27 129C27 42 83 -11 174 -11C240 -11 304 18 362 76C428 141 468 225 468 301C468 384 410 441 325 441ZM313 420C356 420 384 383 384 326C384 252 352 153 307 88C270 35 232 10 189 10C142 10 111 46 111 101C111 175 140 263 189 334C228 391 270 420 313 420Z" transform="translate(955.144 111.000) scale(0.104000 -0.104000)"/></g></svg></div>
+  <div class="header-sub">Trip Planner</div>
+</header>
+
+<div class="app">
+
+  <!-- CLIENT LIST -->
+  <div class="client-list">
+    <div class="cl-header">
+      <div class="cl-title">Clients</div>
+      <button class="cl-new" onclick="newClient()">+ New</button>
+    </div>
+    <div class="cl-search">
+      <input type="text" id="clSearch" placeholder="Search clients..." oninput="renderClientList()">
+    </div>
+    <button onclick="importFromLeads()" style="width:100%;margin-bottom:0.6rem;background:rgba(46,139,114,0.08);border:1px solid rgba(46,139,114,0.25);color:#3aab8a;padding:0.55rem;font-size:0.68rem;letter-spacing:0.05em;cursor:pointer;border-radius:4px;font-family:inherit;">↓ Import from leads (website)</button>
+    <div class="cl-items" id="clientItems">
+      <div class="cl-empty">No clients yet.<br>Click + New to start.</div>
+    </div>
+    <div class="cl-backup">
+      <button class="cl-backup-btn" onclick="exportBackup()" title="Save all clients to a file on your computer">⬇ Export backup</button>
+      <button class="cl-backup-btn" onclick="document.getElementById('importFile').click()" title="Load clients from a backup file">⬆ Import backup</button>
+      <input type="file" id="importFile" accept=".json" style="display:none;" onchange="importBackup(this)">
+    </div>
+  </div>
+
+  <!-- EVENTS LIBRARY -->
+  <div class="events-panel">
+    <div class="ev-header">
+      <div class="ev-title">Activities</div>
+      <button class="ev-new" onclick="openEvModal()">+ Add</button>
+    </div>
+    <div class="ev-list" id="evList"></div>
+  </div>
+
+  <!-- BUILDER -->
+  <div class="builder">
+    <div class="sec">
+      <div class="sec-title">Client info</div>
+      <div class="fr">
+        <div class="f"><label>First name</label><input id="cName" placeholder="Anna"></div>
+        <div class="f"><label>Last name</label><input id="cLast" placeholder="Smith"></div>
+      </div>
+      <div class="fr">
+        <div class="f"><label>Country</label><input id="cCountry" placeholder="Germany"></div>
+        <div class="f"><label>Group size</label>
+          <div style="display:flex;align-items:center;">
+            <button type="button" onclick="stepGroup(-1)" style="background:rgba(200,184,154,0.08);border:1px solid var(--border);border-right:none;color:var(--white);width:36px;height:36px;font-size:1.1rem;cursor:pointer;flex-shrink:0;" onmouseover="this.style.background='rgba(200,184,154,0.15)'" onmouseout="this.style.background='rgba(200,184,154,0.08)'">−</button>
+            <input type="number" id="cGroup" min="1" max="99" value="1" style="width:100%;background:rgba(200,184,154,0.05);border:1px solid var(--border);color:var(--white);padding:0.55rem 0.8rem;font-family:'DM Sans',sans-serif;font-size:0.85rem;outline:none;text-align:center;" onchange="autoSave()">
+            <button type="button" onclick="stepGroup(1)" style="background:rgba(200,184,154,0.08);border:1px solid var(--border);border-left:none;color:var(--white);width:36px;height:36px;font-size:1.1rem;cursor:pointer;flex-shrink:0;" onmouseover="this.style.background='rgba(200,184,154,0.15)'" onmouseout="this.style.background='rgba(200,184,154,0.08)'">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="fr">
+        <div class="f"><label>Arrival</label><input type="date" id="cArrival"></div>
+        <div class="f"><label>Departure</label><input type="date" id="cDeparture"></div>
+      </div>
+      <div class="f"><label>Welcome message</label><textarea id="cWelcome" placeholder="Hi Anna! Here is your personalised Montenegro itinerary..."></textarea></div>
+      <div class="f"><label>Status</label>
+        <select id="cStatus">
+          <option value="inquiry">Inquiry</option>
+          <option value="planning">Planning</option>
+          <option value="confirmed">Confirmed</option>
+          <option value="completed">Completed</option>
+        </select>
+      </div>
+      <div class="f">
+        <label>Internal notes <span style="color:rgba(200,184,154,0.3);font-size:0.55rem;letter-spacing:0.1em;">NOT shown in itinerary</span></label>
+        <textarea id="cInternalNotes" placeholder="Payment status, special requests, personal notes..." style="min-height:60px;border-color:rgba(193,127,59,0.2);background:rgba(193,127,59,0.03);"></textarea>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-title">Itinerary by day</div>
+      <div id="daysList"></div>
+      <div style="display:flex;gap:0.4rem;margin-top:0.75rem;">
+        <button class="btn btn-o btn-sm" style="flex:1;" onclick="addDay()">+ Add day</button>
+        <button class="btn btn-sm" id="pasteDayBtn" style="flex:1;background:rgba(46,139,114,0.08);color:var(--cta);border:1px solid rgba(46,139,114,0.25);display:none;" onclick="pasteDay()">⎘ Paste day</button>
+      </div>
+    </div>
+
+    <div class="sec" style="border-bottom:none;">
+      <button class="gen-btn" onclick="generate()">Generate Itinerary →</button>
+      <div style="display:flex;gap:0.5rem;margin-top:0.6rem;">
+        <button class="btn btn-o btn-sm" style="flex:1;" onclick="saveDraft()">Save draft</button>
+        <button class="btn btn-o btn-sm" style="flex:1;" onclick="loadDraft()">Load draft</button>
+        <button class="btn btn-sm" style="background:transparent;color:rgba(231,76,60,0.5);border:1px solid rgba(231,76,60,0.2);" onclick="clearAll()">Clear</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PREVIEW -->
+  <div class="preview-panel">
+    <div class="preview-acts" id="previewActs">
+      <button class="btn btn-p btn-sm" onclick="downloadPDF()">⬇ Download PDF</button>
+      <button class="btn btn-o btn-sm" onclick="downloadHTML()">Download HTML</button>
+      <button class="btn btn-o btn-sm" onclick="copyText()">Copy text</button>
+      <button class="btn btn-p btn-sm" onclick="publishToPortal()" style="background:#2e8b72;border-color:#2e8b72;color:#fff;">🔗 Publish to portal</button>
+    </div>
+    <div class="preview-ph" id="previewPh">
+      <svg width="44" height="44" viewBox="0 0 48 48" fill="none"><path d="M8 40 L20 12 L32 28 L38 20 L44 40 Z" stroke="#c8b89a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+      <p>Fill in the form and click Generate</p>
+    </div>
+    <iframe id="previewFrame" title="Preview"></iframe>
+  </div>
+</div>
+
+<!-- LOCATION MODAL -->
+<div class="modal-bg" id="stopModal">
+  <div class="modal">
+    <div class="modal-hdr">
+      <div class="modal-t">Add location</div>
+      <button class="modal-x" onclick="closeModal('stopModal')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="f"><label>Location name *</label><input id="sName" placeholder="e.g. Tara Canyon Viewpoint"></div>
+      <div class="fr">
+        <div class="f"><label>Time</label><input type="time" id="sTime" value="09:00"></div>
+        <div class="f"><label>Duration</label><input id="sDur" placeholder="e.g. 3 hours, Full day"></div>
+      </div>
+      <div class="f">
+        <label>Google Maps link or coordinates</label>
+        <input id="sMap" placeholder="https://maps.google.com/... or 43.1521, 19.2341">
+        <div id="mapPreview" style="margin-top:0.5rem;display:none;">
+          <iframe id="mapIframe" width="100%" height="200" style="border:1px solid var(--border);" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+      <div class="f"><label>Notes / instructions for client</label><textarea id="sNotes" placeholder="Meeting point, what to bring, operator contact, parking..."></textarea></div>
+      <div class="f">
+        <label>Attach file (PDF, image, document)</label>
+        <input type="file" id="sFile" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" style="color:var(--stone);font-size:0.78rem;padding:0.4rem 0;">
+        <div id="sFilePreview" style="font-size:0.65rem;color:var(--cta);margin-top:0.3rem;display:none;"></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-o btn-sm" onclick="closeModal('stopModal')">Cancel</button>
+      <button class="btn btn-p btn-sm" onclick="confirmStop()">Add location</button>
+    </div>
+  </div>
+</div>
+
+<!-- NOTE MODAL -->
+<div class="modal-bg" id="noteModal">
+  <div class="modal note-modal">
+    <div class="modal-hdr note-hdr">
+      <div class="modal-t note-t">Add note</div>
+      <button class="modal-x" onclick="closeModal('noteModal')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="f">
+        <label>Icon / type</label>
+        <select id="nIcon">
+          <option value="⏳">⏳ Free time / Gap</option>
+          <option value="🍽">🍽 Meal / Restaurant</option>
+          <option value="🛏">🛏 Rest / Check-in</option>
+          <option value="🚗">🚗 Transfer / Drive</option>
+          <option value="🛒">🛒 Shopping</option>
+          <option value="📸">📸 Photo stop</option>
+          <option value="☕">☕ Coffee break</option>
+          <option value="ℹ️">ℹ️ General info</option>
+        </select>
+      </div>
+      <div class="fr">
+        <div class="f"><label>Time</label><input type="time" id="nTime" value="12:00"></div>
+        <div class="f"><label>Duration</label><input id="nDur" placeholder="e.g. 1 hour, 30 min"></div>
+      </div>
+      <div class="f"><label>Note text</label><textarea id="nText" placeholder="e.g. Lunch break at the restaurant near the canyon entrance. Free time to explore."></textarea></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-o btn-sm" onclick="closeModal('noteModal')">Cancel</button>
+      <button class="btn btn-sm" style="background:var(--note);color:#fff;" onclick="confirmNote()">Add note</button>
+    </div>
+  </div>
+</div>
+
+<!-- EVENT MODAL -->
+<div class="modal-bg" id="evModal">
+  <div class="modal">
+    <div class="modal-hdr">
+      <div class="modal-t" id="evModalTitle">Add activity</div>
+      <button class="modal-x" onclick="closeModal('evModal')">×</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="evId">
+      <div class="f"><label>Activity name *</label><input id="evName" placeholder="e.g. Tara Rafting"></div>
+      <div class="fr">
+        <div class="f"><label>Location</label><input id="evLocation" placeholder="e.g. Tara Canyon"></div>
+        <div class="f"><label>Default time</label><input type="time" id="evTime" value="09:00"></div>
+      </div>
+      <div class="f"><label>Duration</label><input id="evDur" placeholder="e.g. Full day, 6–8 hours"></div>
+      <div class="f"><label>Default number of persons</label>
+        <div style="display:flex;align-items:center;">
+          <button type="button" onclick="stepEvPersons(-1)" style="background:rgba(200,184,154,0.08);border:1px solid var(--border);border-right:none;color:var(--white);width:36px;height:36px;font-size:1.1rem;cursor:pointer;flex-shrink:0;" onmouseover="this.style.background='rgba(200,184,154,0.15)'" onmouseout="this.style.background='rgba(200,184,154,0.08)'">−</button>
+          <input type="number" id="evPersons" min="1" max="50" value="1" style="width:100%;background:rgba(200,184,154,0.05);border:1px solid var(--border);color:var(--white);padding:0.55rem 0.8rem;font-family:'DM Sans',sans-serif;font-size:0.85rem;outline:none;text-align:center;">
+          <button type="button" onclick="stepEvPersons(1)" style="background:rgba(200,184,154,0.08);border:1px solid var(--border);border-left:none;color:var(--white);width:36px;height:36px;font-size:1.1rem;cursor:pointer;flex-shrink:0;" onmouseover="this.style.background='rgba(200,184,154,0.15)'" onmouseout="this.style.background='rgba(200,184,154,0.08)'">+</button>
+        </div>
+        <div style="font-size:0.6rem;color:rgba(200,184,154,0.35);margin-top:0.25rem;">Template default — overridden per client</div>
+      </div>
+      <div class="f"><label>Google Maps link or coordinates</label><input id="evMap" placeholder="https://maps.google.com/... or 43.15, 19.23"></div>
+      <div class="f"><label>Default notes / instructions</label><textarea id="evNotes" placeholder="Meeting point, what to bring, operator contact..."></textarea></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-o btn-sm" onclick="closeModal('evModal')">Cancel</button>
+      <button class="btn btn-p btn-sm" onclick="saveEvent()">Save activity</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── EVENTS LIBRARY ──
+const DEFAULT_EVENTS = [
+  { id:'ev_rafting', name:'Tara Rafting', location:'Tara Canyon · North Montenegro', time:'08:00', dur:'Full day (6–8h)', map:'43.1521, 19.2341', notes:'Meeting point: Šćepan Polje. What to bring: swimwear, change of clothes, sunscreen. Equipment and lunch included.' },
+  { id:'ev_canyoning', name:'Canyoning — Nevidio', location:'Nevidio · Morača Gorge', time:'08:30', dur:'5–7 hours', map:'43.0912, 19.1034', notes:'Wetsuit, helmet and harness provided. Good fitness required. Starting point: Šavnik.' },
+  { id:'ev_jeep', name:'Jeep Safari', location:'Durmitor · Komovi', time:'09:00', dur:'Full day', map:'43.1301, 19.0124', notes:'Private 4x4 included. Picnic lunch included. Departures from Žabljak or Kolašin.' },
+  { id:'ev_kayak', name:'Kayak & Boat — Kotor', location:'Bay of Kotor', time:'08:00', dur:'2–4 hours', map:'42.4236, 18.7712', notes:'Equipment and guide included. Best at sunrise before tourist boats arrive. Departures from Kotor or Perast.' },
+  { id:'ev_skadar', name:'Boat Tour — Skadar Lake', location:'Skadar Lake · Virpazar', time:'07:30', dur:'3–4 hours', map:'42.2487, 19.0924', notes:'Sunrise tour through water lilies. Private boat. Departures from Virpazar.' },
+  { id:'ev_hiking', name:'Hiking — Durmitor', location:'Durmitor National Park', time:'07:00', dur:'Full day', map:'43.1567, 19.0312', notes:'Local guide included. Bobotov Kuk summit optional. Bring layers — mountain weather changes fast.' },
+  { id:'ev_prokletije', name:'Hiking — Prokletije', location:'Prokletije · Gusinje', time:'07:00', dur:'Full day', map:'42.5341, 19.8723', notes:'Remote terrain — serious mountain hiking. Guide mandatory. Base from Gusinje.' },
+  { id:'ev_wine', name:'Wine & Food Tour', location:'Plantaže · Skadar Valley', time:'10:00', dur:'Half day – full day', map:'42.3512, 19.1823', notes:'Private tasting at Plantaže winery. Food pairing included. Transport from Podgorica.' },
+  { id:'ev_paragliding', name:'Paragliding', location:'Budva · Bay of Kotor', time:'10:00', dur:'20–30 min in air', map:'42.2864, 18.8401', notes:'Tandem with certified pilot. GoPro footage included. No experience needed.' },
+  { id:'ev_horseback', name:'Horseback Riding', location:'Kolašin · Bjelasica', time:'10:00', dur:'1h – half day', map:'42.8234, 19.5213', notes:'All experience levels welcome. Horse and guide included. Departures from Kolašin.' },
+  { id:'ev_mtb', name:'Mountain Biking', location:'Durmitor · Bjelasica', time:'09:00', dur:'Half day – full day', map:'43.1489, 19.0856', notes:'Bike, helmet and guide included. Routes matched to experience level. Base from Žabljak.' },
+  { id:'ev_cetinje', name:'Cultural Tour — Cetinje', location:'Cetinje · Old Royal Capital', time:'10:00', dur:'4–5 hours', map:'42.3931, 18.9213', notes:'Historical walking tour. Includes Monastery, National Museum, old royal buildings. Transfer available.' },
+  { id:'ev_kotor', name:'Kotor Old Town Walk', location:'Kotor Old Town', time:'09:00', dur:'2–3 hours', map:'42.4234, 18.7712', notes:'Self-guided or with local guide. Fortification walls optional (+1h). Best in morning before cruise ships arrive.' },
+  { id:'ev_ostrog', name:'Ostrog Monastery', location:'Ostrog Monastery', time:'09:00', dur:'3–4 hours', map:'42.6834, 19.2134', notes:'One of Montenegro\'s most sacred sites. Respectful dress required. Transfer from Podgorica or Nikšić.' },
+];
+
+let events = JSON.parse(localStorage.getItem('em_events') || 'null');
+if (!events) {
+  events = DEFAULT_EVENTS.map(e => ({...e}));
+  localStorage.setItem('em_events', JSON.stringify(events));
+}
+
+let draggedEvent = null;
+
+function saveEvents() { localStorage.setItem('em_events', JSON.stringify(events)); }
+
+function renderEvents() {
+  const el = document.getElementById('evList');
+  if (!events.length) { el.innerHTML = '<div class="ev-drag-hint">No activities. Click + Add.</div>'; return; }
+  el.innerHTML = events.map(ev => `
+    <div class="ev-item" draggable="true"
+      ondragstart="onEvDragStart(event,'${ev.id}')"
+      ondragend="onEvDragEnd(event)">
+      <div class="ev-item-actions">
+        <button class="ev-act-btn" onclick="openEvModal('${ev.id}')" title="Edit">✏</button>
+        <button class="ev-act-btn del" onclick="deleteEvent('${ev.id}')" title="Delete">✕</button>
+      </div>
+      <div class="ev-item-name">${escHtml(ev.name)}</div>
+      ${ev.location?`<div class="ev-item-loc">📍 ${escHtml(ev.location)}</div>`:''}
+      ${ev.dur?`<div class="ev-item-dur">⏱ ${escHtml(ev.dur)}</div>`:''}
+      ${ev.persons?`<div class="ev-item-dur">👥 ${ev.persons} person${ev.persons!=1?'s':''}</div>`:''}
+    </div>
+  `).join('') + '<div class="ev-drag-hint">Drag into a day ↓</div>';
+}
+
+// DRAG FROM LIBRARY
+function onEvDragStart(e, evId) {
+  draggedEvent = events.find(ev => ev.id === evId);
+  e.dataTransfer.effectAllowed = 'copy';
+  e.target.classList.add('dragging');
+}
+function onEvDragEnd(e) {
+  e.target.classList.remove('dragging');
+  draggedEvent = null;
+  document.querySelectorAll('.drop-zone').forEach(z => z.classList.remove('drag-over'));
+}
+
+// DROP ZONE in day
+function onDropZoneDragOver(e) { e.preventDefault(); e.currentTarget.classList.add('drag-over'); }
+function onDropZoneDragLeave(e) { e.currentTarget.classList.remove('drag-over'); }
+function onDropZoneDrop(e, dayIdx) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+  if (!draggedEvent) return;
+  // Add a copy of the event as a stop in this day
+  days[dayIdx].entries.push({
+    type: 'stop',
+    name: draggedEvent.name,
+    time: draggedEvent.time || '09:00',
+    dur: draggedEvent.dur || '',
+    persons: draggedEvent.persons || getGroupCount(),
+    map: draggedEvent.map || '',
+    notes: draggedEvent.notes || '',
+    file: null,
+  });
+  days[dayIdx]._open = true;
+  renderDays();
+  autoSave();
+}
+
+// EVENT MODAL
+function stepEvPersons(dir) {
+  const el = document.getElementById('evPersons');
+  const val = Math.max(1, (parseInt(el.value) || 1) + dir);
+  el.value = val;
+}
+
+function openEvModal(evId) {
+  const ev = evId ? events.find(e => e.id === evId) : null;
+  document.getElementById('evModalTitle').textContent = ev ? 'Edit activity' : 'Add activity';
+  document.getElementById('evId').value = evId || '';
+  document.getElementById('evName').value = ev ? ev.name : '';
+  document.getElementById('evLocation').value = ev ? (ev.location||'') : '';
+  document.getElementById('evTime').value = ev ? (ev.time||'09:00') : '09:00';
+  document.getElementById('evDur').value = ev ? (ev.dur||'') : '';
+  document.getElementById('evPersons').value = ev ? (ev.persons||1) : getGroupCount();
+  document.getElementById('evMap').value = ev ? (ev.map||'') : '';
+  document.getElementById('evNotes').value = ev ? (ev.notes||'') : '';
+  document.getElementById('evModal').classList.add('open');
+}
+
+function saveEvent() {
+  const name = document.getElementById('evName').value.trim();
+  if (!name) { alert('Please enter an activity name.'); return; }
+  const evId = document.getElementById('evId').value;
+  const data = {
+    id: evId || 'ev_' + Date.now(),
+    name,
+    location: document.getElementById('evLocation').value.trim(),
+    time: document.getElementById('evTime').value,
+    dur: document.getElementById('evDur').value.trim(),
+    persons: parseInt(document.getElementById('evPersons').value) || 1,
+    map: document.getElementById('evMap').value.trim(),
+    notes: document.getElementById('evNotes').value.trim(),
+  };
+  if (evId) {
+    const idx = events.findIndex(e => e.id === evId);
+    if (idx > -1) events[idx] = data;
+  } else {
+    events.unshift(data);
+  }
+  saveEvents();
+  renderEvents();
+  closeModal('evModal');
+}
+
+function deleteEvent(evId) {
+  if (!confirm('Remove this activity from the library?')) return;
+  events = events.filter(e => e.id !== evId);
+  saveEvents();
+  renderEvents();
+}
+
+// ── CLIENT LIST ──
+let clients = JSON.parse(localStorage.getItem('em_clients') || '[]');
+let activeClientId = null;
+
+function exportBackup() {
+  saveCurrentToClient();
+  const data = {
+    version: '1.0',
+    exported: new Date().toISOString(),
+    clients
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  const date = new Date().toISOString().split('T')[0];
+  a.href = URL.createObjectURL(blob);
+  a.download = `experience-montenegro-backup-${date}.json`;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 3000);
+}
+
+function importBackup(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!data.clients || !Array.isArray(data.clients)) {
+        alert('Invalid backup file.'); return;
+      }
+      const count = data.clients.length;
+      if (!confirm(`This will import ${count} client${count!==1?'s':''} from the backup.\n\nExisting clients will be kept — duplicates merged by ID.\n\nContinue?`)) return;
+
+      // Merge — keep existing, add new from backup
+      data.clients.forEach(imported => {
+        const exists = clients.find(c => c.id === imported.id);
+        if (!exists) clients.push(imported);
+      });
+
+      saveClients();
+      renderClientList();
+      alert(`✦ Import complete. ${count} client${count!==1?'s':''} loaded.`);
+    } catch(err) {
+      alert('Could not read backup file. Make sure it is a valid .json export.');
+    }
+  };
+  reader.readAsText(file);
+  input.value = '';
+}
+
+// ── CLIPBOARD ──
+let copiedDay = null;
+
+function copyDay(i) {
+  copiedDay = JSON.parse(JSON.stringify(days[i])); // deep copy
+  copiedDay._open = false;
+  const btn = document.getElementById('pasteDayBtn');
+  if (btn) {
+    btn.style.display = 'block';
+    btn.textContent = `⎘ Paste: "${copiedDay.title || 'Day ' + (i+1)}"`;
+  }
+  // Visual feedback on button
+  const dayBlock = document.getElementById('db-' + i);
+  if (dayBlock) {
+    const copyBtn = dayBlock.querySelector('.ibtn');
+    if (copyBtn) {
+      const orig = copyBtn.textContent;
+      copyBtn.textContent = '✓ Copied';
+      setTimeout(() => copyBtn.textContent = orig, 1500);
+    }
+  }
+}
+
+function pasteDay() {
+  if (!copiedDay) return;
+  const newDay = JSON.parse(JSON.stringify(copiedDay));
+  newDay._open = true;
+  newDay.date = ''; // clear date so user sets it
+  newDay.title = (newDay.title ? newDay.title + ' (copy)' : 'Copy');
+  days.push(newDay);
+  renderDays();
+  autoSave();
+  // Scroll to bottom of days list
+  setTimeout(() => {
+    const last = document.getElementById('db-' + (days.length - 1));
+    if (last) last.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, 100);
+}
+
+let completedOpen = false;
+
+function toggleCompleted() {
+  completedOpen = !completedOpen;
+  renderClientList();
+}
+
+function saveClientsLocal() {
+  localStorage.setItem('em_clients', JSON.stringify(clients));
+}
+function saveClients() {
+  saveClientsLocal();
+  // Push active client to cloud (fire-and-forget)
+  if(activeClientId){
+    var c = clients.find(function(cl){ return cl.id===activeClientId; });
+    if(c && getPortalToken()) cloudPushClient(c);
+  }
+}
+
+function newClient() {
+  // Save current work first if there's an active client
+  if (activeClientId) saveCurrentToClient();
+
+  const id = Date.now().toString();
+  const client = {
+    id, name:'New Client', last:'', country:'', group:'',
+    arrival:'', departure:'', welcome:'', status:'inquiry', days:[]
+  };
+  clients.unshift(client);
+  saveClients();
+  renderClientList();
+  loadClient(id);
+}
+
+function loadClient(id) {
+  if (activeClientId) saveCurrentToClient();
+  activeClientId = id;
+  const c = clients.find(cl => cl.id === id);
+  if (!c) return;
+
+  document.getElementById('cName').value = c.name === 'New Client' ? '' : c.name;
+  document.getElementById('cLast').value = c.last || '';
+  document.getElementById('cCountry').value = c.country || '';
+  document.getElementById('cGroup').value = c.group || '';
+  document.getElementById('cArrival').value = c.arrival || '';
+  document.getElementById('cDeparture').value = c.departure || '';
+  document.getElementById('cWelcome').value = c.welcome || '';
+  document.getElementById('cStatus').value = c.status || 'inquiry';
+  document.getElementById('cInternalNotes').value = c.internalNotes || '';
+  days = c.days || [];
+
+  renderClientList();
+  renderDays();
+
+  // Reset preview
+  document.getElementById('previewPh').style.display='flex';
+  document.getElementById('previewActs').classList.remove('show');
+  document.getElementById('previewFrame').style.display='none';
+  generatedHTML='';
+}
+
+function saveCurrentToClient() {
+  if (!activeClientId) return;
+  const c = clients.find(cl => cl.id === activeClientId);
+  if (!c) return;
+  const name = document.getElementById('cName').value.trim();
+  c.name = name || 'New Client';
+  c.last = document.getElementById('cLast').value.trim();
+  c.country = document.getElementById('cCountry').value.trim();
+  c.group = document.getElementById('cGroup').value;
+  c.arrival = document.getElementById('cArrival').value;
+  c.departure = document.getElementById('cDeparture').value;
+  c.welcome = document.getElementById('cWelcome').value;
+  c.status = document.getElementById('cStatus').value;
+  c.internalNotes = document.getElementById('cInternalNotes').value;
+  c.days = days;
+  saveClients();
+  renderClientList();
+}
+
+function deleteClient(id, e) {
+  e.stopPropagation();
+  if (!confirm('Delete this client and all their data?')) return;
+  clients = clients.filter(c => c.id !== id);
+  if(getPortalToken()) cloudDeleteClient(id);
+  if (activeClientId === id) {
+    activeClientId = null;
+    days = [];
+    ['cName','cLast','cCountry','cArrival','cDeparture','cWelcome'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('cGroup').selectedIndex=0;
+    document.getElementById('cStatus').selectedIndex=0;
+    renderDays();
+  }
+  saveClients();
+  renderClientList();
+}
+
+function renderClientList() {
+  const el = document.getElementById('clientItems');
+  const searchEl = document.getElementById('clSearch');
+  const q = searchEl ? searchEl.value.toLowerCase().trim() : '';
+
+  let filtered = clients;
+  if (q) {
+    filtered = clients.filter(c =>
+      `${c.name} ${c.last}`.toLowerCase().includes(q) ||
+      (c.country || '').toLowerCase().includes(q)
+    );
+  }
+
+  if (!filtered.length) {
+    el.innerHTML = q
+      ? `<div class="cl-empty">No results for "${q}"</div>`
+      : '<div class="cl-empty">No clients yet.<br>Click + New to start.</div>';
+    return;
+  }
+
+  const active = filtered.filter(c => c.status !== 'completed');
+  const completed = filtered.filter(c => c.status === 'completed');
+
+  const renderItem = c => `
+    <div class="cl-item ${c.id===activeClientId?'active':''}" onclick="loadClient('${c.id}')">
+      <button class="cl-item-del" onclick="deleteClient('${c.id}',event)" title="Delete">✕</button>
+      <div class="cl-item-name">${escHtml(c.name)} ${escHtml(c.last)}</div>
+      <div class="cl-item-meta">${c.country||'—'} ${c.arrival?'· '+fmtShort(c.arrival):''}</div>
+      <span class="cl-item-status s-${c.status||'inquiry'}">${c.status||'inquiry'}</span>
+      ${c.internalNotes?`<div style="font-size:0.58rem;color:rgba(193,127,59,0.5);margin-top:0.2rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">📝 ${escHtml(c.internalNotes.substring(0,30))}${c.internalNotes.length>30?'...':''}</div>`:''}
+    </div>
+  `;
+
+  let html = '';
+
+  if (active.length) {
+    html += `<div class="cl-group-label">Active</div>`;
+    html += active.map(renderItem).join('');
+  }
+
+  if (completed.length) {
+    html += `<div class="cl-group-label cl-group-completed" onclick="toggleCompleted()" id="completedToggle">
+      <span>Completed</span>
+      <span id="completedArrow" style="font-size:0.7rem;">${completedOpen?'▲':'▼'}</span>
+    </div>`;
+    if (completedOpen) {
+      html += `<div id="completedList">${completed.map(renderItem).join('')}</div>`;
+    }
+  }
+
+  el.innerHTML = html;
+}
+
+// Auto-save on input changes
+function autoSave() { if (activeClientId) saveCurrentToClient(); }
+
+let days = [];
+let pendingDay = null;
+let pendingEdit = null; // null = add new, number = edit existing
+let generatedHTML = '';
+
+// MAP PREVIEW
+document.getElementById('sMap').addEventListener('input', function() {
+  const embedUrl = getEmbedUrl(this.value.trim());
+  const prev = document.getElementById('mapPreview');
+  if (embedUrl) { document.getElementById('mapIframe').src = embedUrl; prev.style.display='block'; }
+  else prev.style.display='none';
+});
+
+// FILE PREVIEW
+document.getElementById('sFile').addEventListener('change', function() {
+  const prev = document.getElementById('sFilePreview');
+  if (this.files[0]) { prev.textContent=`📎 ${this.files[0].name} (${(this.files[0].size/1024).toFixed(0)} KB)`; prev.style.display='block'; }
+  else prev.style.display='none';
+});
+
+function readFileAsBase64(file) {
+  return new Promise((res,rej) => {
+    const r = new FileReader();
+    r.onload = () => res({ name:file.name, type:file.type, data:r.result });
+    r.onerror = rej;
+    r.readAsDataURL(file);
+  });
+}
+
+// ── DAYS ──
+function addDay() {
+  const arrival = document.getElementById('cArrival').value;
+  let date = '';
+  if (arrival) {
+    // Parse arrival as local date parts to avoid any timezone conversion
+    const [y, m, d] = arrival.split('-').map(Number);
+    const base = new Date(y, m - 1, d); // local date, no UTC shift
+    base.setDate(base.getDate() + days.length);
+    date = `${base.getFullYear()}-${String(base.getMonth()+1).padStart(2,'0')}-${String(base.getDate()).padStart(2,'0')}`;
+  }
+  days.push({ date, title:'', entries:[], notes:'', _open:true });
+  renderDays(); autoSave();
+}
+
+function removeDay(i) {
+  if (!confirm(`Remove Day ${i+1}?`)) return;
+  days.splice(i,1); renderDays(); autoSave();
+}
+
+function toggleDay(i) { days[i]._open=!days[i]._open; renderDays(); }
+
+function moveEntry(di,ei,dir) {
+  const e=days[di].entries; const j=ei+dir;
+  if(j<0||j>=e.length) return;
+  [e[ei],e[j]]=[e[j],e[ei]]; renderDays(); autoSave();
+}
+
+function removeEntry(di,ei) { days[di].entries.splice(ei,1); renderDays(); autoSave(); }
+
+function renderDays() {
+  const el=document.getElementById('daysList');
+  if (!days.length) { el.innerHTML='<div style="font-size:0.72rem;color:rgba(245,242,238,0.22);padding:0.3rem 0;">No days yet.</div>'; return; }
+  el.innerHTML = days.map((day,i) => `
+    <div class="day-block ${day._open?'open':''}" id="db-${i}">
+      <div class="day-hdr" onclick="toggleDay(${i})">
+        <div>
+          <div class="day-title">Day ${i+1}${day.date?' · '+fmtShort(day.date):''}</div>
+          <div class="day-meta">${day.title||'Untitled'} · ${day.entries.length} item${day.entries.length!==1?'s':''}</div>
+        </div>
+        <div class="day-actions">
+          <button class="ibtn" onclick="event.stopPropagation();copyDay(${i})" title="Copy day">⎘ Copy</button>
+          <button class="ibtn red" onclick="event.stopPropagation();removeDay(${i})">✕ Remove</button>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="fr" style="margin-bottom:0.5rem;">
+          <div class="f">
+            <label>Date</label>
+            <input type="date" id="day-date-${i}" value="${day.date}">
+          </div>
+          <div class="f">
+            <label>Day title</label>
+            <input type="text" id="day-title-${i}" value="${escHtml(day.title)}" placeholder="e.g. Canyon Day">
+          </div>
+        </div>
+        <div class="entries" id="entries-${i}">
+          ${day.entries.map((entry,ei) => entry.type==='note' ? `
+            <div class="note-card">
+              <div class="entry-acts">
+                <button class="ibtn" onclick="moveEntry(${i},${ei},-1)" ${ei===0?'disabled style="opacity:0.3"':''}>↑</button>
+                <button class="ibtn" onclick="moveEntry(${i},${ei},1)" ${ei===day.entries.length-1?'disabled style="opacity:0.3"':''}>↓</button>
+                <button class="ibtn" onclick="openEditNoteModal(${i},${ei})">✏</button>
+                <button class="ibtn red" onclick="removeEntry(${i},${ei})">✕</button>
+              </div>
+              <div class="note-card-icon">${entry.icon} <span style="font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(74,124,142,0.6);">${entry.time||''}</span></div>
+              ${entry.dur?`<div class="note-card-dur">⏱ ${entry.dur}</div>`:''}
+              ${entry.text?`<div class="note-card-text">${escHtml(entry.text)}</div>`:''}
+            </div>
+          ` : `
+            <div class="stop-card">
+              <div class="entry-acts">
+                <button class="ibtn" onclick="moveEntry(${i},${ei},-1)" ${ei===0?'disabled style="opacity:0.3"':''}>↑</button>
+                <button class="ibtn" onclick="moveEntry(${i},${ei},1)" ${ei===day.entries.length-1?'disabled style="opacity:0.3"':''}>↓</button>
+                <button class="ibtn" onclick="openEditStopModal(${i},${ei})">✏</button>
+                <button class="ibtn red" onclick="removeEntry(${i},${ei})">✕</button>
+              </div>
+              <div class="stop-card-name">${entry.time?'<span style="color:var(--stone);font-size:0.7rem;">'+entry.time+'</span> · ':''}${escHtml(entry.name)}</div>
+              ${entry.dur?`<div class="stop-card-time">⏱ ${entry.dur}</div>`:''}
+              <div class="stop-card-persons">
+                <span style="font-size:0.6rem;color:rgba(200,184,154,0.4);">👥</span>
+                <button onclick="changePersons(${i},${ei},-1)" class="persons-btn">−</button>
+                <span class="persons-val">${entry.persons||getGroupCount()}</span>
+                <button onclick="changePersons(${i},${ei},1)" class="persons-btn">+</button>
+              </div>
+              ${entry.notes?`<div class="stop-card-note">${escHtml(entry.notes)}</div>`:''}
+              ${entry.map?`<div class="stop-card-coords">📍 ${entry.map.length>50?entry.map.substring(0,50)+'...':entry.map}</div>`:''}
+              ${entry.file?`<div class="stop-card-file">📎 ${entry.file.name}</div>`:''}
+            </div>
+          `).join('')}
+        </div>
+        <div class="add-row">
+          <button class="add-btn add-btn-loc" onclick="openStopModal(${i})">📍 Add location</button>
+          <button class="add-btn add-btn-note" onclick="openNoteModal(${i})">⏳ Add note</button>
+        </div>
+        <div class="drop-zone"
+          ondragover="onDropZoneDragOver(event)"
+          ondragleave="onDropZoneDragLeave(event)"
+          ondrop="onDropZoneDrop(event,${i})">
+          ↓ Drop activity here
+        </div>
+        <div class="f" style="margin-top:0.6rem;">
+          <label>General day notes</label>
+          <textarea id="day-notes-${i}" placeholder="Accommodation, meals, general info...">${escHtml(day.notes||'')}</textarea>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  // Attach input listeners after render
+  days.forEach((day,i) => {
+    const dateEl = document.getElementById(`day-date-${i}`);
+    const titleEl = document.getElementById(`day-title-${i}`);
+    const notesEl = document.getElementById(`day-notes-${i}`);
+    if (dateEl) dateEl.addEventListener('change', function(){ days[i].date=this.value; updateDayHeader(i); });
+    if (titleEl) titleEl.addEventListener('input', function(){ days[i].title=this.value; updateDayHeader(i); });
+    if (notesEl) notesEl.addEventListener('input', function(){ days[i].notes=this.value; });
+  });
+}
+
+function updateDayHeader(i) {
+  const day = days[i];
+  const block = document.getElementById(`db-${i}`);
+  if (!block) return;
+  block.querySelector('.day-title').textContent = `Day ${i+1}${day.date?' · '+fmtShort(day.date):''}`;
+  block.querySelector('.day-meta').textContent = `${day.title||'Untitled'} · ${day.entries.length} item${day.entries.length!==1?'s':''}`;
+}
+
+function escHtml(str) {
+  if (!str) return '';
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── MODALS ──
+function openEditStopModal(di, ei) {
+  const entry = days[di].entries[ei];
+  pendingDay = di;
+  pendingEdit = ei;
+  document.getElementById('sName').value = entry.name || '';
+  document.getElementById('sTime').value = entry.time || '09:00';
+  document.getElementById('sDur').value = entry.dur || '';
+  document.getElementById('sMap').value = entry.map || '';
+  document.getElementById('sNotes').value = entry.notes || '';
+  document.getElementById('sFile').value = '';
+  document.getElementById('sFilePreview').style.display = 'none';
+  // Show map preview if coords exist
+  const embedUrl = getEmbedUrl(entry.map || '');
+  const prev = document.getElementById('mapPreview');
+  if (embedUrl) { document.getElementById('mapIframe').src = embedUrl; prev.style.display = 'block'; }
+  else prev.style.display = 'none';
+  // Change modal title and button
+  document.querySelector('#stopModal .modal-t').textContent = 'Edit location';
+  document.querySelector('#stopModal .modal-foot .btn-p').textContent = 'Save changes';
+  document.getElementById('stopModal').classList.add('open');
+}
+
+function openEditNoteModal(di, ei) {
+  const entry = days[di].entries[ei];
+  pendingDay = di;
+  pendingEdit = ei;
+  document.getElementById('nIcon').value = entry.icon || '⏳';
+  document.getElementById('nTime').value = entry.time || '12:00';
+  document.getElementById('nDur').value = entry.dur || '';
+  document.getElementById('nText').value = entry.text || '';
+  // Change modal title and button
+  document.querySelector('#noteModal .modal-t').textContent = 'Edit note';
+  document.querySelector('#noteModal .modal-foot .btn-sm:last-child').textContent = 'Save changes';
+  document.getElementById('noteModal').classList.add('open');
+}
+
+function openStopModal(dayIdx) {
+  pendingDay = dayIdx;
+  pendingEdit = null;
+  ['sName','sDur','sMap','sNotes'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('sTime').value='09:00';
+  document.getElementById('sFile').value='';
+  document.getElementById('sFilePreview').style.display='none';
+  document.getElementById('mapPreview').style.display='none';
+  document.querySelector('#stopModal .modal-t').textContent = 'Add location';
+  document.querySelector('#stopModal .modal-foot .btn-p').textContent = 'Add location';
+  document.getElementById('stopModal').classList.add('open');
+}
+
+function openNoteModal(dayIdx) {
+  pendingDay = dayIdx;
+  pendingEdit = null;
+  document.getElementById('nIcon').selectedIndex=0;
+  document.getElementById('nTime').value='12:00';
+  ['nDur','nText'].forEach(id=>document.getElementById(id).value='');
+  document.querySelector('#noteModal .modal-t').textContent = 'Add note';
+  document.querySelector('#noteModal .modal-foot .btn-sm:last-child').textContent = 'Add note';
+  document.getElementById('noteModal').classList.add('open');
+}
+
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-bg').forEach(el=>el.addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');}));
+
+function stepGroup(dir) {
+  const el = document.getElementById('cGroup');
+  el.value = Math.max(1, (parseInt(el.value) || 1) + dir);
+  autoSave();
+}
+
+function getGroupCount() {
+  return Math.max(1, parseInt(document.getElementById('cGroup').value) || 1);
+}
+
+function changePersons(di, ei, dir) {
+  const entry = days[di].entries[ei];
+  const current = parseInt(entry.persons) || getGroupCount();
+  entry.persons = Math.max(1, current + dir);
+  autoSave();
+  renderDays();
+}
+
+function updatePersonsDisplay() {
+  const el = document.getElementById('sPersons');
+  if (parseInt(el.value) < 1 || !el.value) el.value = 1;
+}
+
+async function confirmStop() {
+  const name = document.getElementById('sName').value.trim();
+  if (!name) { alert('Please enter a location name.'); return; }
+  let fileData = pendingEdit !== null ? (days[pendingDay].entries[pendingEdit].file || null) : null;
+  const fi = document.getElementById('sFile');
+  if (fi.files[0]) fileData = await readFileAsBase64(fi.files[0]);
+
+  const entryData = {
+    type:'stop', name,
+    time: document.getElementById('sTime').value,
+    dur: document.getElementById('sDur').value.trim(),
+    persons: pendingEdit !== null ? (days[pendingDay].entries[pendingEdit].persons || getGroupCount()) : getGroupCount(),
+    map: document.getElementById('sMap').value.trim(),
+    notes: document.getElementById('sNotes').value.trim(),
+    file: fileData,
+  };
+
+  if (pendingEdit !== null) {
+    days[pendingDay].entries[pendingEdit] = entryData;
+  } else {
+    days[pendingDay].entries.push(entryData);
+  }
+
+  days[pendingDay]._open = true;
+  // Reset modal title
+  document.querySelector('#stopModal .modal-t').textContent = 'Add location';
+  document.querySelector('#stopModal .modal-foot .btn-p').textContent = 'Add location';
+  pendingEdit = null;
+  closeModal('stopModal'); renderDays(); autoSave();
+}
+
+function confirmNote() {
+  const text = document.getElementById('nText').value.trim();
+  const entryData = {
+    type:'note',
+    icon: document.getElementById('nIcon').value,
+    time: document.getElementById('nTime').value,
+    dur: document.getElementById('nDur').value.trim(),
+    text,
+  };
+
+  if (pendingEdit !== null) {
+    days[pendingDay].entries[pendingEdit] = entryData;
+  } else {
+    days[pendingDay].entries.push(entryData);
+  }
+
+  days[pendingDay]._open = true;
+  // Reset modal title
+  document.querySelector('#noteModal .modal-t').textContent = 'Add note';
+  document.querySelector('#noteModal .modal-foot .btn-sm:last-child').textContent = 'Add note';
+  pendingEdit = null;
+  closeModal('noteModal'); renderDays(); autoSave();
+}
+
+// ── GENERATE ──
+function getEmbedUrl(str) {
+  if (!str) return '';
+  const coord=str.match(/(-?\d+\.?\d*)[,\s]+(-?\d+\.?\d*)/);
+  if (coord) return `https://maps.google.com/maps?q=${coord[1]},${coord[2]}&output=embed`;
+  if (str.includes('google.com/maps')) {
+    const ll=str.match(/[@/](-?\d+\.?\d*),(-?\d+\.?\d*)/);
+    if (ll) return `https://maps.google.com/maps?q=${ll[1]},${ll[2]}&output=embed`;
+    const q=str.match(/[?&]q=([^&]+)/);
+    if (q) return `https://maps.google.com/maps?q=${q[1]}&output=embed`;
+  }
+  return '';
+}
+
+function getDirectLink(str) {
+  if (!str) return '';
+  const coord=str.match(/(-?\d+\.?\d*)[,\s]+(-?\d+\.?\d*)/);
+  if (coord) return `https://www.google.com/maps?q=${coord[1]},${coord[2]}`;
+  return str;
+}
+
+function getCoords(str) {
+  if (!str) return null;
+  const coord=str.match(/(-?\d+\.?\d*)[,\s]+(-?\d+\.?\d*)/);
+  if (coord) return { lat:parseFloat(coord[1]), lng:parseFloat(coord[2]) };
+  const ll=str.match(/[@/](-?\d+\.?\d*),(-?\d+\.?\d*)/);
+  if (ll) return { lat:parseFloat(ll[1]), lng:parseFloat(ll[2]) };
+  return null;
+}
+
+function generate() {
+  const name=document.getElementById('cName').value.trim()||'Traveller';
+  const last=document.getElementById('cLast').value.trim();
+  const country=document.getElementById('cCountry').value.trim();
+  const group=document.getElementById('cGroup').value;
+  const arrival=document.getElementById('cArrival').value;
+  const departure=document.getElementById('cDeparture').value;
+  const welcome=document.getElementById('cWelcome').value.trim();
+
+  // Route link
+  const allCoords=[];
+  days.forEach(day=>day.entries.forEach(e=>{
+    if (e.type==='stop' && e.map) {
+      const c=getCoords(e.map);
+      if (c) allCoords.push(`${c.lat},${c.lng}`);
+    }
+  }));
+  let routeHTML='';
+  const hasAnyCoords = allCoords.length >= 1;
+  if (hasAnyCoords) {
+    routeHTML=`<div class="route-hint">Each day has its own route button — look for the <strong>Open Day # Route</strong> button next to the day title.</div>`;
+  }
+
+  let daysHTML=days.map((day,i)=>{
+    // Collect coords for this day's route button
+    const dayCoords=[];
+    day.entries.forEach(e=>{
+      if(e.type==='stop'&&e.map){
+        const c=getCoords(e.map);
+        if(c) dayCoords.push(`${c.lat},${c.lng}`);
+      }
+    });
+
+    const entriesHTML=day.entries.map((entry,ei)=>{
+      if (entry.type==='note') {
+        return `
+          <div class="note-block">
+            <div class="note-block-icon">${entry.icon}${entry.time?` <span class="note-time">${entry.time}</span>`:''}</div>
+            ${entry.dur?`<div class="note-dur">⏱ ${entry.dur}</div>`:''}
+            ${entry.text?`<div class="note-text">${entry.text}</div>`:''}
+          </div>`;
+      }
+      const directLink=getDirectLink(entry.map);
+      return `
+        <div class="stop">
+          <div class="stop-hdr">
+            <div class="stop-num">${ei+1}</div>
+            <div>
+              <div class="stop-name">${entry.time?`<span class="t">${entry.time}</span> · `:''}${entry.name}</div>
+              ${entry.dur?`<div class="stop-dur">⏱ ${entry.dur}</div>`:''}
+              ${entry.persons?`<div class="stop-dur">👥 ${entry.persons} person${entry.persons!=1?'s':''}</div>`:''}
+            </div>
+          </div>
+          ${entry.notes?`<div class="stop-notes">${entry.notes}</div>`:''}
+          ${directLink?`<a class="maps-btn" href="${directLink}" target="_blank">
+            <span class="maps-btn-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#3aab8a"/></svg></span>
+            <span class="maps-btn-text"><span class="maps-btn-label">Open in Google Maps</span><span class="maps-btn-sub">${entry.name}</span></span>
+            <span class="maps-btn-arrow">→</span>
+          </a>`:''}
+          ${entry.file?`<div class="file-wrap"><a href="${entry.file.data}" download="${entry.file.name}" class="file-link">📎 ${entry.file.name}</a></div>`:''}
+        </div>`;
+    }).join('');
+
+    return `
+      <div class="day">
+        <div class="day-hdr-out">
+          <div class="day-hdr-left">
+            <div class="day-badge">Day ${i+1}</div>
+            <div>
+              <div class="day-t">${day.title||`Day ${i+1}`}</div>
+              ${day.date?`<div class="day-d">${fmtFull(day.date)}</div>`:''}
+            </div>
+          </div>
+          ${dayCoords.length>=2?`<a class="day-route" href="https://www.google.com/maps/dir/${dayCoords.map(c=>encodeURIComponent(c)).join('/')}" target="_blank">🗺 Open Day ${i+1} Route</a>`:dayCoords.length===1?`<a class="day-route" href="https://www.google.com/maps?q=${encodeURIComponent(dayCoords[0])}" target="_blank">📍 Open Day ${i+1} Map</a>`:''}
+        </div>
+        <div class="day-entries">${entriesHTML||'<p style="color:rgba(245,242,238,0.3);font-size:0.82rem;">No items for this day.</p>'}</div>
+        ${day.notes?`<div class="day-note"><div class="day-note-lbl">Notes</div>${day.notes}</div>`:''}
+      </div>`;
+  }).join('');
+
+  generatedHTML=`<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="color-scheme" content="dark">
+<title>Montenegro Itinerary — ${name} ${last}</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html{font-size:16px;}
+body{background:#080808;color:#e8e4de;font-family:'DM Sans',sans-serif;font-weight:300;-webkit-font-smoothing:antialiased;line-height:1.6;}
+.page{max-width:680px;margin:0 auto;padding:2rem 1.25rem 4rem;}
+
+/* HEADER */
+.top{position:relative;padding:2rem 1.25rem 1.75rem;margin:-2rem -1.25rem 2rem;background:linear-gradient(150deg,#0d2018 0%,#0a1520 55%,#0f0a04 100%);border-bottom:1px solid rgba(200,184,154,0.15);overflow:hidden;}
+.top::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 85% 40%,rgba(46,139,114,0.14) 0%,transparent 55%);}
+.top-inner{position:relative;}
+.brand{font-size:0.62rem;letter-spacing:0.22em;text-transform:uppercase;color:rgba(200,184,154,0.4);margin-bottom:1.25rem;display:flex;align-items:center;gap:0.6rem;}
+.brand::before{content:'';display:block;width:20px;height:1px;background:rgba(200,184,154,0.4);}
+.client-name{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,6vw,2.6rem);font-weight:400;line-height:1.05;margin-bottom:0.5rem;color:#f5f2ee;}
+.client-name em{font-style:italic;color:#c8b89a;}
+.meta{display:flex;flex-wrap:wrap;gap:0.75rem 0;margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(200,184,154,0.1);}
+.meta-i{font-size:0.72rem;color:rgba(245,242,238,0.4);padding-right:1.25rem;margin-right:1.25rem;border-right:1px solid rgba(200,184,154,0.1);}
+.meta-i:last-child{border-right:none;padding-right:0;margin-right:0;}
+.meta-i span{color:#d4cfc8;display:block;margin-top:0.1rem;font-weight:500;font-size:0.82rem;}
+.welcome{margin-top:1.25rem;padding:0.9rem 1.1rem;border-left:2px solid #2e8b72;background:rgba(46,139,114,0.07);font-size:0.9rem;line-height:1.8;color:rgba(245,242,238,0.65);}
+/* FULL ROUTE */
+.route-box{margin-bottom:1.75rem;padding:1rem 1.1rem;background:rgba(46,139,114,0.06);border:1px solid rgba(46,139,114,0.18);display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;}
+.route-lbl{font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(46,139,114,0.7);}
+.route-btn{display:inline-flex;align-items:center;gap:0.4rem;color:#3aab8a;font-size:0.82rem;text-decoration:none;padding:0.5rem 1rem;border:1px solid rgba(46,139,114,0.3);font-weight:500;}
+/* DAY */
+.day{margin-bottom:2.5rem;}
+.day-hdr-out{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:1.2rem;padding-bottom:0.9rem;border-bottom:1px solid rgba(200,184,154,0.1);}
+.day-hdr-left{display:flex;align-items:flex-start;gap:0.9rem;}
+.day-badge{background:#2e8b72;color:#fff;font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.3rem 0.75rem;white-space:nowrap;flex-shrink:0;margin-top:5px;}
+.day-t{font-family:'Playfair Display',serif;font-size:clamp(1.2rem,4vw,1.5rem);font-weight:400;line-height:1.1;color:#f5f2ee;}
+.day-d{font-size:0.7rem;color:rgba(200,184,154,0.5);margin-top:0.25rem;}
+.day-route{display:inline-flex;align-items:center;gap:0.3rem;color:#2e8b72;font-size:0.68rem;text-decoration:none;padding:0.35rem 0.65rem;border:1px solid rgba(46,139,114,0.25);white-space:nowrap;flex-shrink:0;margin-top:4px;font-weight:500;}
+.day-entries{display:flex;flex-direction:column;gap:0.6rem;}
+/* STOP */
+.stop{background:#111;border:1px solid rgba(200,184,154,0.12);border-left:3px solid #2e8b72;padding:1rem;}
+.stop-hdr{display:flex;align-items:flex-start;gap:0.7rem;margin-bottom:0.5rem;}
+.stop-num{width:24px;height:24px;min-width:24px;background:#2e8b72;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:600;color:#fff;margin-top:1px;}
+.stop-name{font-size:1rem;font-weight:500;line-height:1.3;color:#f0ece6;}
+.t{color:#3aab8a;font-size:0.72rem;margin-right:0.4rem;font-weight:500;}
+.stop-dur{font-size:0.72rem;color:rgba(245,242,238,0.4);margin-top:0.2rem;}
+.stop-notes{font-size:0.85rem;color:rgba(245,242,238,0.6);line-height:1.75;margin:0.55rem 0 0.4rem;padding-left:1.65rem;}
+.map-wrap{margin-top:0.75rem;border:1px solid rgba(200,184,154,0.08);overflow:hidden;}
+.maps-btn{display:flex;align-items:center;gap:0.75rem;margin-top:0.6rem;margin-left:1.65rem;padding:0.65rem 0.9rem;background:rgba(46,139,114,0.06);border:1px solid rgba(46,139,114,0.2);text-decoration:none;transition:all 0.2s;cursor:pointer;}
+.maps-btn:hover{background:rgba(46,139,114,0.1);border-color:rgba(46,139,114,0.35);}
+.maps-btn-icon{width:28px;height:28px;background:rgba(46,139,114,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.maps-btn-text{flex:1;min-width:0;}
+.maps-btn-label{display:block;font-size:0.72rem;font-weight:500;color:#3aab8a;letter-spacing:0.03em;}
+.maps-btn-sub{display:block;font-size:0.65rem;color:rgba(245,242,238,0.35);margin-top:0.1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.maps-btn-arrow{color:rgba(46,139,114,0.5);font-size:0.85rem;flex-shrink:0;}
+.file-wrap{margin-top:0.5rem;padding-left:1.65rem;}
+.file-link{display:inline-flex;align-items:center;gap:0.4rem;color:#c8b89a;font-size:0.78rem;text-decoration:none;padding:0.4rem 0.85rem;border:1px solid rgba(200,184,154,0.2);background:rgba(200,184,154,0.04);}
+/* NOTE */
+.note-block{padding:0.8rem 1rem;background:#0d1a23;border:1px solid rgba(74,124,142,0.2);border-left:3px solid rgba(74,124,142,0.5);display:flex;gap:0.8rem;align-items:flex-start;}
+.note-block-icon{font-size:1.15rem;flex-shrink:0;margin-top:1px;}
+.note-time{font-size:0.68rem;color:rgba(100,160,180,0.7);margin-left:0.4rem;}
+.note-dur{font-size:0.72rem;color:rgba(100,160,180,0.6);margin-top:0.15rem;}
+.note-text{font-size:0.85rem;color:rgba(245,242,238,0.6);line-height:1.7;margin-top:0.2rem;}
+/* DAY NOTE */
+.day-note{margin-top:1rem;padding:0.8rem 1rem;background:#0f0d09;border-left:2px solid rgba(193,127,59,0.4);font-size:0.85rem;color:rgba(245,242,238,0.55);line-height:1.75;}
+.day-note-lbl{font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(193,127,59,0.55);margin-bottom:0.3rem;}
+/* FOOTER */
+.route-hint{margin-bottom:1.75rem;padding:0.85rem 1.1rem;background:rgba(200,184,154,0.04);border:1px solid rgba(200,184,154,0.1);font-size:0.8rem;color:rgba(245,242,238,0.45);line-height:1.6;}
+.route-hint strong{color:rgba(46,139,114,0.85);font-weight:500;}
+.meta-dates{display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;padding-right:1.25rem;margin-right:1.25rem;border-right:1px solid rgba(200,184,154,0.1);}
+.meta-date-item{font-size:0.72rem;color:rgba(245,242,238,0.4);}
+.meta-date-item span{color:#d4cfc8;display:block;margin-top:0.1rem;font-weight:500;font-size:0.82rem;}
+.meta-date-sep{color:rgba(46,139,114,0.5);font-size:0.9rem;margin-top:0.5rem;}
+.footer{margin-top:3rem;padding:1.5rem 0;border-top:1px solid rgba(200,184,154,0.1);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.75rem;}
+.footer-brand{font-family:'Playfair Display',serif;font-size:0.9rem;color:#e8e4de;}
+.footer-brand span{color:#c0392b;font-style:italic;}
+.footer-contact{font-size:0.68rem;color:rgba(245,242,238,0.28);}
+/* MOBILE */
+@media(max-width:480px){
+  .page{padding:1.5rem 1rem 5rem;}
+  .top{padding:1.5rem 1rem;margin:-1.5rem -1rem 1.75rem;}
+  .meta-i{font-size:0.68rem;padding-right:1rem;margin-right:1rem;}
+  .day-hdr-out{flex-wrap:wrap;gap:0.5rem;}
+  .day-route{font-size:0.65rem;padding:0.28rem 0.55rem;}
+  .stop{padding:0.85rem;}
+  .stop-name{font-size:0.95rem;}
+  .stop-notes,.maps-link{padding-left:0;margin-left:0;}
+  .note-block{padding:0.7rem 0.85rem;}
+}
+@media print{
+  .map-wrap{display:none !important;}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
+  html,body{background:#080808 !important;}
+  .top{background:linear-gradient(150deg,#0d2018 0%,#0a1520 55%,#0f0a04 100%) !important;}
+  .stop{background:#111 !important;}
+  .note-block{background:#0d1a23 !important;}
+  .day-note{background:#0f0d09 !important;}
+  .page{padding:1.5rem !important;}
+  .day,.stop{page-break-inside:avoid;}
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="top">
+    <div class="top-inner">
+      <div class="brand"><svg style="height:16px;width:auto;display:inline-block;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1022.14 141" role="img" aria-labelledby="title desc"><title id="title">Experience Montenegro</title><desc id="desc">Bijeli serifni tekst Experience i crveni kurzivni tekst Montenegro. Transparentna pozadina.</desc><g fill="#F8F7F4"><path d="M597 169H569C521 63 476 38 333 37H306C202 40 201 41 201 80V327H355C439 325 452 313 465 231H488V463H465C453 382 439 370 355 368H201V590C202 620 206 624 234 624H369C485 622 505 608 521 519H546L543 662H12V643C85 638 97 625 99 553V109C97 37 84 23 12 19V0H552Z" transform="translate(12.000 111.000) scale(0.104000 -0.104000)"/><path d="M278 0H479V15C448 15 428 31 397 75L269 271L352 391C371 418 400 433 433 435V450H275V435C305 433 315 427 315 413C315 401 303 379 278 348C273 342 261 324 248 304L240 316C225 339 216 352 214 356C195 387 188 403 188 413C188 428 201 434 231 435V450H24V435H33C63 435 79 422 110 375L204 231L90 66C60 25 50 18 17 15V0H162V15C133 15 122 20 122 33C122 40 128 53 142 74L221 197L312 57C316 51 318 46 318 39C318 21 311 17 278 15Z" transform="translate(75.544 111.000) scale(0.104000 -0.104000)"/><path d="M5 -217H247V-199C172 -198 160 -188 159 -124V33C195 0 218 -10 260 -10C379 -10 470 102 470 247C470 371 400 460 303 460C247 460 203 436 159 381V458L153 460C99 439 64 426 9 409V393C18 394 24 394 34 394C68 394 75 384 75 337V-131C75 -184 64 -194 5 -200ZM159 334C159 364 215 400 261 400C335 400 384 324 384 207C384 97 335 22 263 22C216 22 159 58 159 88Z" transform="translate(127.544 111.000) scale(0.104000 -0.104000)"/><path d="M408 164C360 88 317 59 253 59C196 59 153 88 124 145C106 183 99 215 97 277H405C397 342 387 371 362 403C332 439 286 460 234 460C184 460 137 442 99 408C52 367 25 296 25 214C25 76 97 -10 212 -10C307 -10 382 49 424 157ZM99 309C110 387 144 424 205 424C266 424 290 396 303 309Z" transform="translate(179.544 111.000) scale(0.104000 -0.104000)"/><path d="M5 0H245V15C178 17 162 31 160 90V315C160 347 202 397 230 397C236 397 245 392 256 382C271 367 283 362 296 362C320 362 335 379 335 407C335 440 314 460 280 460C238 460 210 438 160 366V458L155 460C99 438 63 424 7 406V390C21 393 30 394 42 394C67 394 76 378 76 334V84C74 32 68 26 5 15Z" transform="translate(225.720 111.000) scale(0.104000 -0.104000)"/><path d="M16 0H253V15C187 20 180 29 179 102V457L175 460L20 405V390L28 391C40 393 52 394 62 394C86 394 95 378 95 334V102C93 28 84 18 16 15ZM128 683C101 683 78 660 78 632C78 603 100 581 128 581C158 581 180 603 180 632C180 661 157 683 128 683Z" transform="translate(260.352 111.000) scale(0.104000 -0.104000)"/><path d="M408 164C360 88 317 59 253 59C196 59 153 88 124 145C106 183 99 215 97 277H405C397 342 387 371 362 403C332 439 286 460 234 460C184 460 137 442 99 408C52 367 25 296 25 214C25 76 97 -10 212 -10C307 -10 382 49 424 157ZM99 309C110 387 144 424 205 424C266 424 290 396 303 309Z" transform="translate(289.264 111.000) scale(0.104000 -0.104000)"/><path d="M18 0H230V15C180 18 164 31 164 67V348C212 393 234 405 267 405C316 405 340 374 340 308V99C338 34 326 18 277 15V0H485V15C436 20 425 32 424 81V310C424 404 380 460 306 460C260 460 229 443 161 379V458L154 460C102 441 68 430 16 415V398C23 401 32 402 43 402C71 402 80 387 80 338V90C79 31 68 18 18 15Z" transform="translate(335.440 111.000) scale(0.104000 -0.104000)"/><path d="M398 156C350 86 314 62 257 62C165 62 102 142 102 257C102 361 157 431 238 431C274 431 287 421 297 383L303 361C311 332 329 315 351 315C377 315 398 334 398 357C398 413 328 460 244 460C195 460 144 440 103 404C53 360 25 292 25 212C25 83 104 -10 215 -10C260 -10 300 6 336 37C363 60 382 88 412 147Z" transform="translate(387.440 111.000) scale(0.104000 -0.104000)"/><path d="M408 164C360 88 317 59 253 59C196 59 153 88 124 145C106 183 99 215 97 277H405C397 342 387 371 362 403C332 439 286 460 234 460C184 460 137 442 99 408C52 367 25 296 25 214C25 76 97 -10 212 -10C307 -10 382 49 424 157ZM99 309C110 387 144 424 205 424C266 424 290 396 303 309Z" transform="translate(433.616 111.000) scale(0.104000 -0.104000)"/></g><g fill="#E31320"><path d="M873 653H706L370 160L315 653H134V637C184 634 208 623 208 600C208 592 204 577 198 559C196 555 193 545 189 529L186 518L80 146C49 42 34 22 -18 16V0H180V16C129 20 109 32 109 60C109 71 113 95 118 113L236 546L297 0H314L691 561L562 91C546 38 526 23 461 16V0H734V16C666 22 657 28 657 59C657 76 659 89 668 120L791 563C809 623 814 628 873 637Z" transform="translate(498.792 111.000) scale(0.104000 -0.104000)"/><path d="M325 441C282 441 243 430 202 408C99 350 27 235 27 129C27 42 83 -11 174 -11C240 -11 304 18 362 76C428 141 468 225 468 301C468 384 410 441 325 441ZM313 420C356 420 384 383 384 326C384 252 352 153 307 88C270 35 232 10 189 10C142 10 111 46 111 101C111 175 140 263 189 334C228 391 270 420 313 420Z" transform="translate(585.424 111.000) scale(0.104000 -0.104000)"/><path d="M460 117C406 49 394 38 378 38C369 38 362 45 362 54C362 62 366 81 376 117L433 323C438 344 442 366 442 380C442 417 415 441 376 441C312 441 249 380 146 221L213 439L210 441C157 430 135 426 48 410V394C99 393 112 387 112 367C112 361 111 355 110 350L14 0H89C136 158 145 180 189 248C249 340 300 390 337 390C352 390 361 379 361 361C361 349 355 316 347 285L303 120C290 68 287 55 287 45C287 7 301 -9 334 -9C379 -9 404 11 474 104Z" transform="translate(637.424 111.000) scale(0.104000 -0.104000)"/><path d="M296 428H216L244 531C245 533 245 535 245 537C245 543 243 546 237 546C231 546 228 545 222 537C183 487 121 436 89 427C64 419 57 413 57 402C57 401 57 399 58 396H132L60 121C58 112 57 108 54 100C44 67 37 36 37 26C37 5 58 -11 85 -11C131 -11 164 17 227 110L214 117C165 54 149 38 133 38C124 38 118 45 118 58C118 59 118 59 119 63L207 396H291Z" transform="translate(689.424 111.000) scale(0.104000 -0.104000)"/><path d="M358 109C286 50 255 34 211 34C155 34 118 70 118 125C118 140 120 154 128 186L156 190C306 211 412 287 412 373C412 415 382 441 332 441C188 441 31 277 31 126C31 45 85 -11 163 -11C234 -11 311 30 370 97ZM152 252C186 341 260 418 311 418C332 418 346 403 346 379C346 348 327 312 296 282C259 247 221 229 135 208Z" transform="translate(718.336 111.000) scale(0.104000 -0.104000)"/><path d="M460 117C406 49 394 38 378 38C369 38 362 45 362 54C362 62 366 81 376 117L433 323C438 344 442 366 442 380C442 417 415 441 376 441C312 441 249 380 146 221L213 439L210 441C157 430 135 426 48 410V394C99 393 112 387 112 367C112 361 111 355 110 350L14 0H89C136 158 145 180 189 248C249 340 300 390 337 390C352 390 361 379 361 361C361 349 355 316 347 285L303 120C290 68 287 55 287 45C287 7 301 -9 334 -9C379 -9 404 11 474 104Z" transform="translate(764.512 111.000) scale(0.104000 -0.104000)"/><path d="M358 109C286 50 255 34 211 34C155 34 118 70 118 125C118 140 120 154 128 186L156 190C306 211 412 287 412 373C412 415 382 441 332 441C188 441 31 277 31 126C31 45 85 -11 163 -11C234 -11 311 30 370 97ZM152 252C186 341 260 418 311 418C332 418 346 403 346 379C346 348 327 312 296 282C259 247 221 229 135 208Z" transform="translate(816.512 111.000) scale(0.104000 -0.104000)"/><path d="M472 405H411C408 405 403 407 395 413C368 431 335 441 297 441C186 441 96 364 96 270C96 218 117 188 175 162C116 122 98 102 98 78C98 65 106 53 125 39C26 -26 8 -46 8 -92C8 -161 74 -206 175 -206C301 -206 385 -147 385 -60C385 3 338 46 242 72C198 83 172 99 172 114C172 129 195 155 208 155C210 155 212 155 215 154C224 152 235 151 246 151C338 151 431 232 431 310C431 327 428 344 422 366H472ZM148 28C149 28 151 27 153 26C156 25 166 22 182 17C289 -17 325 -44 325 -90C325 -144 267 -184 190 -184C110 -184 63 -146 63 -82C63 -58 69 -41 85 -22C99 -4 140 28 148 28ZM296 419C333 419 352 395 352 348C352 312 340 269 321 235C299 194 268 172 234 172C196 172 174 200 174 247C174 339 231 419 296 419Z" transform="translate(862.688 111.000) scale(0.104000 -0.104000)"/><path d="M121 0C173 171 190 212 236 289C270 345 297 376 314 376C321 376 325 372 330 362C338 345 346 340 366 340C396 340 412 358 412 390C412 420 393 441 365 441C342 441 315 426 289 399C248 356 208 298 192 258L178 222L231 439L228 441C155 428 146 426 73 414V397C95 401 99 402 107 402C129 402 142 392 142 374C142 360 142 360 126 292L45 0Z" transform="translate(914.688 111.000) scale(0.104000 -0.104000)"/><path d="M325 441C282 441 243 430 202 408C99 350 27 235 27 129C27 42 83 -11 174 -11C240 -11 304 18 362 76C428 141 468 225 468 301C468 384 410 441 325 441ZM313 420C356 420 384 383 384 326C384 252 352 153 307 88C270 35 232 10 189 10C142 10 111 46 111 101C111 175 140 263 189 334C228 391 270 420 313 420Z" transform="translate(955.144 111.000) scale(0.104000 -0.104000)"/></g></svg> <span style="opacity:0.6;">· Personal Itinerary</span></div>
+      <div class="client-name">Welcome, <em>${name}${last?' '+last:''}.</em></div>
+      <div class="meta">
+        ${country?`<div class="meta-i">Country<span>${country}</span></div>`:''}
+        ${group?`<div class="meta-i">Group<span>${group} person${group!=1?'s':''}</span></div>`:''}
+        ${arrival&&departure?`
+        <div class="meta-dates">
+          <div class="meta-date-item">Arrival<span>${fmtFull(arrival)}</span></div>
+          <div class="meta-date-sep">→</div>
+          <div class="meta-date-item">Departure<span>${fmtFull(departure)}</span></div>
+        </div>`:arrival?`<div class="meta-i">Arrival<span>${fmtFull(arrival)}</span></div>`
+        :departure?`<div class="meta-i">Departure<span>${fmtFull(departure)}</span></div>`:''}
+        ${arrival&&departure?`<div class="meta-i">Duration<span>${calcNights(arrival,departure)}</span></div>`:days.length?`<div class="meta-i">Duration<span>${days.length} day${days.length!==1?'s':''}</span></div>`:''}
+      </div>
+      ${welcome?`<div class="welcome">${welcome}</div>`:''}
+    </div>
+  </div>
+  ${routeHTML}
+  ${daysHTML}
+  <div class="footer">
+    <div class="footer-brand"><svg style="height:16px;width:auto;display:inline-block;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1022.14 141" role="img" aria-labelledby="title desc"><title id="title">Experience Montenegro</title><desc id="desc">Bijeli serifni tekst Experience i crveni kurzivni tekst Montenegro. Transparentna pozadina.</desc><g fill="#F8F7F4"><path d="M597 169H569C521 63 476 38 333 37H306C202 40 201 41 201 80V327H355C439 325 452 313 465 231H488V463H465C453 382 439 370 355 368H201V590C202 620 206 624 234 624H369C485 622 505 608 521 519H546L543 662H12V643C85 638 97 625 99 553V109C97 37 84 23 12 19V0H552Z" transform="translate(12.000 111.000) scale(0.104000 -0.104000)"/><path d="M278 0H479V15C448 15 428 31 397 75L269 271L352 391C371 418 400 433 433 435V450H275V435C305 433 315 427 315 413C315 401 303 379 278 348C273 342 261 324 248 304L240 316C225 339 216 352 214 356C195 387 188 403 188 413C188 428 201 434 231 435V450H24V435H33C63 435 79 422 110 375L204 231L90 66C60 25 50 18 17 15V0H162V15C133 15 122 20 122 33C122 40 128 53 142 74L221 197L312 57C316 51 318 46 318 39C318 21 311 17 278 15Z" transform="translate(75.544 111.000) scale(0.104000 -0.104000)"/><path d="M5 -217H247V-199C172 -198 160 -188 159 -124V33C195 0 218 -10 260 -10C379 -10 470 102 470 247C470 371 400 460 303 460C247 460 203 436 159 381V458L153 460C99 439 64 426 9 409V393C18 394 24 394 34 394C68 394 75 384 75 337V-131C75 -184 64 -194 5 -200ZM159 334C159 364 215 400 261 400C335 400 384 324 384 207C384 97 335 22 263 22C216 22 159 58 159 88Z" transform="translate(127.544 111.000) scale(0.104000 -0.104000)"/><path d="M408 164C360 88 317 59 253 59C196 59 153 88 124 145C106 183 99 215 97 277H405C397 342 387 371 362 403C332 439 286 460 234 460C184 460 137 442 99 408C52 367 25 296 25 214C25 76 97 -10 212 -10C307 -10 382 49 424 157ZM99 309C110 387 144 424 205 424C266 424 290 396 303 309Z" transform="translate(179.544 111.000) scale(0.104000 -0.104000)"/><path d="M5 0H245V15C178 17 162 31 160 90V315C160 347 202 397 230 397C236 397 245 392 256 382C271 367 283 362 296 362C320 362 335 379 335 407C335 440 314 460 280 460C238 460 210 438 160 366V458L155 460C99 438 63 424 7 406V390C21 393 30 394 42 394C67 394 76 378 76 334V84C74 32 68 26 5 15Z" transform="translate(225.720 111.000) scale(0.104000 -0.104000)"/><path d="M16 0H253V15C187 20 180 29 179 102V457L175 460L20 405V390L28 391C40 393 52 394 62 394C86 394 95 378 95 334V102C93 28 84 18 16 15ZM128 683C101 683 78 660 78 632C78 603 100 581 128 581C158 581 180 603 180 632C180 661 157 683 128 683Z" transform="translate(260.352 111.000) scale(0.104000 -0.104000)"/><path d="M408 164C360 88 317 59 253 59C196 59 153 88 124 145C106 183 99 215 97 277H405C397 342 387 371 362 403C332 439 286 460 234 460C184 460 137 442 99 408C52 367 25 296 25 214C25 76 97 -10 212 -10C307 -10 382 49 424 157ZM99 309C110 387 144 424 205 424C266 424 290 396 303 309Z" transform="translate(289.264 111.000) scale(0.104000 -0.104000)"/><path d="M18 0H230V15C180 18 164 31 164 67V348C212 393 234 405 267 405C316 405 340 374 340 308V99C338 34 326 18 277 15V0H485V15C436 20 425 32 424 81V310C424 404 380 460 306 460C260 460 229 443 161 379V458L154 460C102 441 68 430 16 415V398C23 401 32 402 43 402C71 402 80 387 80 338V90C79 31 68 18 18 15Z" transform="translate(335.440 111.000) scale(0.104000 -0.104000)"/><path d="M398 156C350 86 314 62 257 62C165 62 102 142 102 257C102 361 157 431 238 431C274 431 287 421 297 383L303 361C311 332 329 315 351 315C377 315 398 334 398 357C398 413 328 460 244 460C195 460 144 440 103 404C53 360 25 292 25 212C25 83 104 -10 215 -10C260 -10 300 6 336 37C363 60 382 88 412 147Z" transform="translate(387.440 111.000) scale(0.104000 -0.104000)"/><path d="M408 164C360 88 317 59 253 59C196 59 153 88 124 145C106 183 99 215 97 277H405C397 342 387 371 362 403C332 439 286 460 234 460C184 460 137 442 99 408C52 367 25 296 25 214C25 76 97 -10 212 -10C307 -10 382 49 424 157ZM99 309C110 387 144 424 205 424C266 424 290 396 303 309Z" transform="translate(433.616 111.000) scale(0.104000 -0.104000)"/></g><g fill="#E31320"><path d="M873 653H706L370 160L315 653H134V637C184 634 208 623 208 600C208 592 204 577 198 559C196 555 193 545 189 529L186 518L80 146C49 42 34 22 -18 16V0H180V16C129 20 109 32 109 60C109 71 113 95 118 113L236 546L297 0H314L691 561L562 91C546 38 526 23 461 16V0H734V16C666 22 657 28 657 59C657 76 659 89 668 120L791 563C809 623 814 628 873 637Z" transform="translate(498.792 111.000) scale(0.104000 -0.104000)"/><path d="M325 441C282 441 243 430 202 408C99 350 27 235 27 129C27 42 83 -11 174 -11C240 -11 304 18 362 76C428 141 468 225 468 301C468 384 410 441 325 441ZM313 420C356 420 384 383 384 326C384 252 352 153 307 88C270 35 232 10 189 10C142 10 111 46 111 101C111 175 140 263 189 334C228 391 270 420 313 420Z" transform="translate(585.424 111.000) scale(0.104000 -0.104000)"/><path d="M460 117C406 49 394 38 378 38C369 38 362 45 362 54C362 62 366 81 376 117L433 323C438 344 442 366 442 380C442 417 415 441 376 441C312 441 249 380 146 221L213 439L210 441C157 430 135 426 48 410V394C99 393 112 387 112 367C112 361 111 355 110 350L14 0H89C136 158 145 180 189 248C249 340 300 390 337 390C352 390 361 379 361 361C361 349 355 316 347 285L303 120C290 68 287 55 287 45C287 7 301 -9 334 -9C379 -9 404 11 474 104Z" transform="translate(637.424 111.000) scale(0.104000 -0.104000)"/><path d="M296 428H216L244 531C245 533 245 535 245 537C245 543 243 546 237 546C231 546 228 545 222 537C183 487 121 436 89 427C64 419 57 413 57 402C57 401 57 399 58 396H132L60 121C58 112 57 108 54 100C44 67 37 36 37 26C37 5 58 -11 85 -11C131 -11 164 17 227 110L214 117C165 54 149 38 133 38C124 38 118 45 118 58C118 59 118 59 119 63L207 396H291Z" transform="translate(689.424 111.000) scale(0.104000 -0.104000)"/><path d="M358 109C286 50 255 34 211 34C155 34 118 70 118 125C118 140 120 154 128 186L156 190C306 211 412 287 412 373C412 415 382 441 332 441C188 441 31 277 31 126C31 45 85 -11 163 -11C234 -11 311 30 370 97ZM152 252C186 341 260 418 311 418C332 418 346 403 346 379C346 348 327 312 296 282C259 247 221 229 135 208Z" transform="translate(718.336 111.000) scale(0.104000 -0.104000)"/><path d="M460 117C406 49 394 38 378 38C369 38 362 45 362 54C362 62 366 81 376 117L433 323C438 344 442 366 442 380C442 417 415 441 376 441C312 441 249 380 146 221L213 439L210 441C157 430 135 426 48 410V394C99 393 112 387 112 367C112 361 111 355 110 350L14 0H89C136 158 145 180 189 248C249 340 300 390 337 390C352 390 361 379 361 361C361 349 355 316 347 285L303 120C290 68 287 55 287 45C287 7 301 -9 334 -9C379 -9 404 11 474 104Z" transform="translate(764.512 111.000) scale(0.104000 -0.104000)"/><path d="M358 109C286 50 255 34 211 34C155 34 118 70 118 125C118 140 120 154 128 186L156 190C306 211 412 287 412 373C412 415 382 441 332 441C188 441 31 277 31 126C31 45 85 -11 163 -11C234 -11 311 30 370 97ZM152 252C186 341 260 418 311 418C332 418 346 403 346 379C346 348 327 312 296 282C259 247 221 229 135 208Z" transform="translate(816.512 111.000) scale(0.104000 -0.104000)"/><path d="M472 405H411C408 405 403 407 395 413C368 431 335 441 297 441C186 441 96 364 96 270C96 218 117 188 175 162C116 122 98 102 98 78C98 65 106 53 125 39C26 -26 8 -46 8 -92C8 -161 74 -206 175 -206C301 -206 385 -147 385 -60C385 3 338 46 242 72C198 83 172 99 172 114C172 129 195 155 208 155C210 155 212 155 215 154C224 152 235 151 246 151C338 151 431 232 431 310C431 327 428 344 422 366H472ZM148 28C149 28 151 27 153 26C156 25 166 22 182 17C289 -17 325 -44 325 -90C325 -144 267 -184 190 -184C110 -184 63 -146 63 -82C63 -58 69 -41 85 -22C99 -4 140 28 148 28ZM296 419C333 419 352 395 352 348C352 312 340 269 321 235C299 194 268 172 234 172C196 172 174 200 174 247C174 339 231 419 296 419Z" transform="translate(862.688 111.000) scale(0.104000 -0.104000)"/><path d="M121 0C173 171 190 212 236 289C270 345 297 376 314 376C321 376 325 372 330 362C338 345 346 340 366 340C396 340 412 358 412 390C412 420 393 441 365 441C342 441 315 426 289 399C248 356 208 298 192 258L178 222L231 439L228 441C155 428 146 426 73 414V397C95 401 99 402 107 402C129 402 142 392 142 374C142 360 142 360 126 292L45 0Z" transform="translate(914.688 111.000) scale(0.104000 -0.104000)"/><path d="M325 441C282 441 243 430 202 408C99 350 27 235 27 129C27 42 83 -11 174 -11C240 -11 304 18 362 76C428 141 468 225 468 301C468 384 410 441 325 441ZM313 420C356 420 384 383 384 326C384 252 352 153 307 88C270 35 232 10 189 10C142 10 111 46 111 101C111 175 140 263 189 334C228 391 270 420 313 420Z" transform="translate(955.144 111.000) scale(0.104000 -0.104000)"/></g></svg></div>
+    <div class="footer-contact">Igor · experiencemontenegro.me</div>
+  </div>
+</div>
+</body>
+</html>`;
+
+  document.getElementById('previewPh').style.display='none';
+  document.getElementById('previewActs').classList.add('show');
+  const frame=document.getElementById('previewFrame');
+  frame.style.display='block';
+  frame.srcdoc=generatedHTML;
+}
+
+// ── ACTIONS ──
+function downloadPDF() {
+  if (!generatedHTML) { alert('Generate first.'); return; }
+  // Write to blob URL and open in new tab
+  const blob = new Blob([generatedHTML], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.target = '_blank';
+  a.click();
+  // Revoke after short delay
+  setTimeout(() => URL.revokeObjectURL(url), 3000);
+}
+
+function downloadHTML() {
+  if (!generatedHTML) { alert('Generate first.'); return; }
+  const name=(document.getElementById('cName').value||'itinerary').toLowerCase().replace(/\s+/g,'-');
+  const blob=new Blob([generatedHTML],{type:'text/html'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob); a.download=`montenegro-${name}.html`; a.click();
+}
+
+function copyText() {
+  let text=`MONTENEGRO ITINERARY — ${document.getElementById('cName').value} ${document.getElementById('cLast').value}\n\n`;
+  days.forEach((day,i)=>{
+    text+=`DAY ${i+1}${day.date?' — '+fmtFull(day.date):''}${day.title?' · '+day.title:''}\n`;
+    day.entries.forEach(e=>{
+      if (e.type==='note') {
+        text+=`  ${e.icon} ${e.time||''}${e.dur?' ('+e.dur+')':''}\n`;
+        if (e.text) text+=`     ${e.text}\n`;
+      } else {
+        text+=`  ${e.time?e.time+'  ':''}📍 ${e.name}${e.dur?' ('+e.dur+')':''}\n`;
+        if (e.notes) text+=`     ${e.notes}\n`;
+        if (e.map) text+=`     Maps: ${e.map}\n`;
+      }
+    });
+    if (day.notes) text+=`  Note: ${day.notes}\n`;
+    text+='\n';
+  });
+  navigator.clipboard.writeText(text).then(()=>{
+    const b=event.target; b.textContent='Copied ✦'; setTimeout(()=>b.textContent='Copy text',2000);
+  });
+}
+
+function saveDraft() {
+  saveCurrentToClient();
+  alert('Saved ✦');
+}
+
+function loadDraft() {
+  alert('Use the client list on the left to switch between clients.');
+}
+
+function clearAll() {
+  if (!confirm('Clear current client data?')) return;
+  days=[];
+  ['cName','cLast','cCountry','cArrival','cDeparture','cWelcome'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('cGroup').selectedIndex=0;
+  document.getElementById('cStatus').selectedIndex=0;
+  renderDays();
+  document.getElementById('previewPh').style.display='flex';
+  document.getElementById('previewActs').classList.remove('show');
+  document.getElementById('previewFrame').style.display='none';
+  generatedHTML='';
+  if (activeClientId) saveCurrentToClient();
+}
+
+function calcNights(arrival, departure) {
+  if (!arrival || !departure) return '';
+  const a = new Date(arrival + 'T00:00:00');
+  const d = new Date(departure + 'T00:00:00');
+  const nights = Math.round((d - a) / 86400000);
+  const tripDays = nights + 1;
+  if (nights <= 0) return '1 day';
+  return `${tripDays} day${tripDays !== 1 ? 's' : ''} / ${nights} night${nights !== 1 ? 's' : ''}`;
+}
+
+function fmtShort(str) {
+  if (!str) return '';
+  const d=new Date(str+'T00:00:00');
+  return d.toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+}
+function fmtFull(str) {
+  if (!str) return '';
+  const d=new Date(str+'T00:00:00');
+  return d.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'long',year:'numeric'});
+}
+
+// Auto-save on any field change
+['cName','cLast','cCountry','cArrival','cDeparture','cWelcome','cGroup','cStatus','cInternalNotes'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('change', autoSave);
+  if (el && el.tagName !== 'SELECT') el.addEventListener('input', autoSave);
+});
+
+// Init
+renderEvents();
+renderClientList();
+renderDays();
+
+// ── LOGIN GATE + CLOUD SYNC ──
+var IS_ONLINE = (location.protocol === 'http:' || location.protocol === 'https:');
+
+async function plannerGateLogin(){
+  var email = document.getElementById('gateEmail').value.trim();
+  var pass = document.getElementById('gatePass').value;
+  var errEl = document.getElementById('gateErr');
+  errEl.style.display = 'none';
+  if(!email || !pass){ errEl.textContent='Enter email and password'; errEl.style.display='block'; return; }
+  try{
+    var res = await fetch(PORTAL_SUPABASE_URL + '/auth/v1/token?grant_type=password', {
+      method:'POST', headers:{'apikey':PORTAL_SUPABASE_KEY,'Content-Type':'application/json'},
+      body:JSON.stringify({email:email,password:pass})
+    });
+    var data = await res.json();
+    if(res.ok && data.access_token){
+      sessionStorage.setItem('em_portal_token', data.access_token);
+      document.getElementById('plannerGate').style.display='none';
+      await afterAuthStartup();
+    } else {
+      errEl.textContent='Wrong email or password'; errEl.style.display='block';
+    }
+  }catch(e){ errEl.textContent='Login failed — check connection'; errEl.style.display='block'; }
+}
+
+async function afterAuthStartup(){
+  var token = getPortalToken();
+  if(token){
+    var ok = await cloudPull();
+    if(ok){
+      for(var i=0;i<clients.length;i++){
+        if(!clients[i].updated_at){ await cloudPushClient(clients[i]); }
+      }
+    }
+  }
+  checkLeadFromURL();
+}
+
+(async function(){
+  if(IS_ONLINE){
+    // Online: require login. Show gate unless a valid token already exists.
+    var token = getPortalToken();
+    if(token){
+      // verify token still works by attempting a pull
+      document.getElementById('plannerGate').style.display='none';
+      await afterAuthStartup();
+      // if pull failed due to 401, cloudPull clears token — re-show gate
+      if(!getPortalToken()){ document.getElementById('plannerGate').style.display='flex'; }
+    } else {
+      document.getElementById('plannerGate').style.display='flex';
+    }
+  } else {
+    // Local file: works offline, optional cloud sync
+    var token = getPortalToken();
+    if(!token){
+      var wantSync = confirm('Sync clients with the cloud?\n\nOK = log in and load clients (syncs with admin).\nCancel = work offline (syncs when you publish).');
+      if(wantSync){ token = await portalLogin(); }
+    }
+    await afterAuthStartup();
+  }
+})();
+
+// ── IMPORT FROM LEADS (pick a website lead inside the planner) ──
+async function importFromLeads(){
+  var token = await ensureCloudLogin();
+  if(!token){ alert('Login required to load leads.'); return; }
+  var res = await fetch(PORTAL_SUPABASE_URL + '/rest/v1/leads?select=*&order=created_at.desc', {
+    headers:{ 'apikey':PORTAL_SUPABASE_KEY, 'Authorization':'Bearer '+token }
+  });
+  if(res.status===401){ sessionStorage.removeItem('em_portal_token'); alert('Session expired, try again.'); return; }
+  if(!res.ok){ alert('Could not load leads.'); return; }
+  var leads = await res.json();
+  // Only planning leads (not newsletter/guide)
+  leads = leads.filter(function(l){ var s=(l.status||'').toLowerCase(); return s!=='newsletter' && s!=='guide'; });
+  if(leads.length===0){ alert('No planning leads found.'); return; }
+
+  var existing = document.getElementById('leadsModal');
+  if(existing) existing.remove();
+  var m = document.createElement('div');
+  m.id = 'leadsModal';
+  m.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:99999;display:flex;align-items:center;justify-content:center;padding:1.5rem;';
+  var rows = leads.map(function(l){
+    var d = new Date(l.created_at).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
+    var already = clients.find(function(c){ return c.fromLeadId===l.id; });
+    return '<div class="lead-pick" data-leadid="'+l.id+'" style="padding:0.85rem 1rem;border:1px solid rgba(200,184,154,0.12);border-radius:6px;margin-bottom:0.5rem;cursor:pointer;background:rgba(200,184,154,0.02);">'+
+      '<div style="display:flex;justify-content:space-between;gap:1rem;">'+
+        '<div><div style="font-family:Playfair Display,serif;font-size:1rem;color:#f5f2ee;">'+(l.name||'—')+(already?' <span style="font-size:0.6rem;color:#3aab8a;">imported</span>':'')+'</div>'+
+        '<div style="font-size:0.75rem;color:rgba(200,184,154,0.5);">'+(l.email||'')+'</div></div>'+
+        '<div style="font-size:0.68rem;color:rgba(200,184,154,0.35);white-space:nowrap;">'+d+'</div>'+
+      '</div>'+
+      (l.message?'<div style="font-size:0.72rem;color:rgba(245,242,238,0.45);margin-top:0.4rem;line-height:1.5;">'+(l.message.length>90?l.message.substring(0,90)+'…':l.message)+'</div>':'')+
+      '</div>';
+  }).join('');
+  m.innerHTML = '<div style="background:#111;border:1px solid rgba(200,184,154,0.15);border-radius:8px;padding:1.5rem;max-width:520px;width:100%;max-height:80vh;overflow-y:auto;">'+
+    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">'+
+      '<div style="font-family:Playfair Display,serif;font-size:1.2rem;color:#f5f2ee;">Website leads</div>'+
+      '<button id="leadsModalClose" style="background:none;border:none;color:rgba(200,184,154,0.4);font-size:1.3rem;cursor:pointer;">×</button>'+
+    '</div>'+
+    '<div style="font-size:0.75rem;color:rgba(200,184,154,0.4);margin-bottom:1rem;">Click a lead to create a client from it.</div>'+
+    rows + '</div>';
+  m.addEventListener('click', function(e){ if(e.target===m) m.remove(); });
+  document.body.appendChild(m);
+  document.getElementById('leadsModalClose').addEventListener('click', function(){ m.remove(); });
+  m.querySelectorAll('.lead-pick').forEach(function(el){
+    el.addEventListener('click', function(){ pickLead(el.getAttribute('data-leadid')); });
+    el.addEventListener('mouseover', function(){ el.style.borderColor='rgba(46,139,114,0.4)'; });
+    el.addEventListener('mouseout', function(){ el.style.borderColor='rgba(200,184,154,0.12)'; });
+  });
+  window._leadsCache = leads;
+}
+
+function pickLead(leadId){
+  var leads = window._leadsCache || [];
+  var l = leads.find(function(x){ return x.id===leadId; });
+  if(!l) return;
+  var existing = clients.find(function(c){ return c.fromLeadId===leadId; });
+  document.getElementById('leadsModal').remove();
+  if(existing){ loadClient(existing.id); return; }
+  var full = (l.name||'').trim(); var parts = full.split(' ');
+  var first = parts.shift()||''; var last = parts.join(' ');
+  var dates = (l.dates||'').split('→');
+  var id = Date.now().toString();
+  var client = {
+    id:id, name:first||'New Client', last:last, country:l.country||'', email:l.email||'',
+    group:l.group_size||'', arrival:(dates[0]||'').trim(), departure:(dates[1]||'').trim(),
+    welcome:'', status:'inquiry', internalNotes:l.message||'', days:[], fromLeadId:leadId
+  };
+  clients.unshift(client);
+  saveClients();
+  renderClientList();
+  loadClient(id);
+}
+
+// ── CREATE CLIENT FROM ADMIN LEAD (URL hash params) ──
+function checkLeadFromURL(){
+  var hash = window.location.hash.replace(/^#/,'');
+  if(!hash) return;
+  var params = new URLSearchParams(hash);
+  if(params.get('lead') !== '1') return;
+
+  // Avoid duplicate if this lead was already imported
+  var leadId = params.get('leadId') || '';
+  if(leadId){
+    var existing = clients.find(function(c){ return c.fromLeadId === leadId; });
+    if(existing){
+      // Clear hash and just open the existing client
+      history.replaceState(null,'',window.location.pathname);
+      loadClient(existing.id);
+      return;
+    }
+  }
+
+  var id = Date.now().toString();
+  var client = {
+    id: id,
+    name: params.get('name') || 'New Client',
+    last: params.get('last') || '',
+    country: params.get('country') || '',
+    email: params.get('email') || '',
+    group: params.get('group') || '',
+    arrival: params.get('arrival') || '',
+    departure: params.get('departure') || '',
+    welcome: '',
+    status: 'inquiry',
+    internalNotes: params.get('notes') || '',
+    days: [],
+    fromLeadId: leadId
+  };
+  clients.unshift(client);
+  saveClients();
+  renderClientList();
+  loadClient(id);
+  // Clean the URL so refresh doesn't re-add
+  history.replaceState(null,'',window.location.pathname);
+  alert('New client created from lead: ' + (client.name + ' ' + client.last).trim() + '\\n\\nFill in the itinerary and Publish when ready.');
+}
+
+// ══════════════════════════════════════════════════════════
+// PUBLISH TO CLIENT PORTAL (Supabase)
+// ══════════════════════════════════════════════════════════
+var PORTAL_SUPABASE_URL = "https://twkiwlshuyjnzabazhmv.supabase.co";
+var PORTAL_SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3a2l3bHNodXlqbnphYmF6aG12Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyNjg5NjEsImV4cCI6MjA5OTg0NDk2MX0.DMkOrnr4bggWsFYZt5RNuQ47VuvPkVqkWIccZIZIiso";
+var PORTAL_BASE = "https://my.experiencemontenegro.com/my";
+
+// Strong, unambiguous code: EM-XXXX-XXXX (no 0/O/1/I/L)
+function generatePortalCode(){
+  var alphabet = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+  function block(){ var s=''; for(var i=0;i<4;i++){ s+=alphabet[Math.floor(Math.random()*alphabet.length)]; } return s; }
+  return 'EM-' + block() + '-' + block();
+}
+
+function getPortalToken(){ return sessionStorage.getItem('em_portal_token'); }
+
+// ══════════════════════════════════════════════════════════
+// CLOUD SYNC (Supabase clients table) + AUTO LOCAL BACKUP
+// ══════════════════════════════════════════════════════════
+var CLOUD_SYNCING = false;
+
+// Pull all clients from Supabase and merge into local (cloud wins on conflict by updated_at)
+async function cloudPull(){
+  var token = getPortalToken();
+  if(!token){ return false; }
+  try{
+    var res = await fetch(PORTAL_SUPABASE_URL + '/rest/v1/clients?select=*&order=updated_at.desc', {
+      headers:{ 'apikey':PORTAL_SUPABASE_KEY, 'Authorization':'Bearer '+token }
+    });
+    if(res.status===401){ sessionStorage.removeItem('em_portal_token'); return false; }
+    if(!res.ok) return false;
+    var rows = await res.json();
+    // Map cloud rows to local client shape
+    var cloudClients = rows.map(function(r){
+      return {
+        id: r.id, name: r.name||'New Client', last: r.last||'', country: r.country||'',
+        email: r.email||'', group: r.group_size||'', arrival: r.arrival||'', departure: r.departure||'',
+        welcome: r.welcome||'', days: r.days||[], portalCode: r.portal_code||'',
+        status: (r.days&&r._status)|| 'inquiry', updated_at: r.updated_at
+      };
+    });
+    // Merge: cloud is source of truth; keep any purely-local ones not yet synced
+    var byId = {};
+    cloudClients.forEach(function(c){ byId[c.id]=c; });
+    clients.forEach(function(local){
+      if(!byId[local.id]){ byId[local.id]=local; } // local-only, keep to push later
+    });
+    clients = Object.keys(byId).map(function(k){ return byId[k]; });
+    saveClientsLocal();
+    renderClientList();
+    return true;
+  }catch(e){ console.error('cloudPull error', e); return false; }
+}
+
+// Push one client to Supabase (upsert)
+async function cloudPushClient(c){
+  var token = getPortalToken();
+  if(!token) return false;
+  var row = {
+    id: c.id, name: c.name||'', last: c.last||'', country: c.country||'', email: c.email||'',
+    group_size: c.group||'', arrival: c.arrival||'', departure: c.departure||'',
+    welcome: c.welcome||'', days: c.days||[], portal_code: c.portalCode||'',
+    updated_at: new Date().toISOString()
+  };
+  try{
+    var res = await fetch(PORTAL_SUPABASE_URL + '/rest/v1/clients', {
+      method:'POST',
+      headers:{ 'apikey':PORTAL_SUPABASE_KEY, 'Authorization':'Bearer '+token, 'Content-Type':'application/json', 'Prefer':'resolution=merge-duplicates,return=minimal' },
+      body: JSON.stringify(row)
+    });
+    if(res.status===401){ sessionStorage.removeItem('em_portal_token'); return false; }
+    return res.ok;
+  }catch(e){ console.error('cloudPush error', e); return false; }
+}
+
+async function cloudDeleteClient(id){
+  var token = getPortalToken();
+  if(!token) return false;
+  try{
+    var res = await fetch(PORTAL_SUPABASE_URL + '/rest/v1/clients?id=eq.'+encodeURIComponent(id), {
+      method:'DELETE',
+      headers:{ 'apikey':PORTAL_SUPABASE_KEY, 'Authorization':'Bearer '+token }
+    });
+    return res.ok;
+  }catch(e){ return false; }
+}
+
+// Ensure logged in (reuse portalLogin). Returns token or null.
+async function ensureCloudLogin(){
+  var token = getPortalToken();
+  if(token) return token;
+  return await portalLogin();
+}
+
+// Silent auto local backup — downloads full client DB as JSON
+function autoLocalBackup(){
+  try{
+    var data = { version:'1.0', exported:new Date().toISOString(), clients:clients };
+    var blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'EM-clients-backup-' + new Date().toISOString().slice(0,10) + '.json';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000);
+  }catch(e){ console.error('backup error', e); }
+}
+
+
+async function portalLogin(){
+  var email = prompt('Admin email (Supabase login):');
+  if(!email) return null;
+  var pass = prompt('Admin password:');
+  if(!pass) return null;
+  try{
+    var res = await fetch(PORTAL_SUPABASE_URL + '/auth/v1/token?grant_type=password', {
+      method:'POST',
+      headers:{'apikey':PORTAL_SUPABASE_KEY,'Content-Type':'application/json'},
+      body:JSON.stringify({email:email,password:pass})
+    });
+    var data = await res.json();
+    if(res.ok && data.access_token){
+      sessionStorage.setItem('em_portal_token', data.access_token);
+      return data.access_token;
+    }
+    alert('Login failed — wrong email or password.');
+    return null;
+  }catch(e){ alert('Login error — check connection.'); return null; }
+}
+
+async function publishToPortal(){
+  if(activeClientId) saveCurrentToClient();
+  var c = clients.find(function(cl){ return cl.id===activeClientId; });
+  if(!c){ alert('Select or create a client first.'); return; }
+  if(!c.days || c.days.length===0){ alert('This client has no itinerary days yet.'); return; }
+
+  // Strip attached files (keep portal payload light — files stay local only)
+  var cleanDays = JSON.parse(JSON.stringify(c.days));
+  cleanDays.forEach(function(day){
+    (day.entries||[]).forEach(function(e){ if(e.file) delete e.file; });
+  });
+
+  var payload = {
+    name: c.name==='New Client'?'':c.name,
+    last: c.last||'', country: c.country||'', group: c.group||'',
+    arrival: c.arrival||'', departure: c.departure||'',
+    welcome: c.welcome||'', days: cleanDays
+  };
+
+  // Login if needed
+  // Always get a FRESH token right before publishing (avoids stale/expired token issues)
+  var token = await portalLogin();
+  if(!token) return;
+
+  // Reuse existing code if this client was already published
+  var code = c.portalCode || generatePortalCode();
+  var isUpdate = !!c.portalCode;
+  var bodyObj = { code:code, client_name:(payload.name+' '+payload.last).trim(), data:payload };
+
+  async function doInsert(tok){
+    return fetch(PORTAL_SUPABASE_URL + '/rest/v1/itineraries', {
+      method:'POST',
+      headers:{'apikey':PORTAL_SUPABASE_KEY,'Authorization':'Bearer '+tok,'Content-Type':'application/json','Prefer':'return=minimal'},
+      body:JSON.stringify(bodyObj)
+    });
+  }
+  async function doUpdate(tok){
+    return fetch(PORTAL_SUPABASE_URL + '/rest/v1/itineraries?code=eq.'+encodeURIComponent(code), {
+      method:'PATCH',
+      headers:{'apikey':PORTAL_SUPABASE_KEY,'Authorization':'Bearer '+tok,'Content-Type':'application/json','Prefer':'return=minimal'},
+      body:JSON.stringify({ client_name:bodyObj.client_name, data:payload })
+    });
+  }
+
+  var res = isUpdate ? await doUpdate(token) : await doInsert(token);
+
+  // If insert failed because the code already exists (409), switch to update
+  if(!isUpdate && res.status===409){
+    res = await doUpdate(token);
+  }
+
+  if(res.ok){
+    c.portalCode = code;
+    saveClients();
+    await cloudPushClient(c);   // ensure client saved to cloud
+    autoLocalBackup();          // auto local backup on every publish
+    showPortalLink(code, payload.name);
+  }else{
+    var t = await res.text();
+    console.error('Publish failed:', res.status, t);
+    alert('Publish failed: ' + res.status + '\n' + t.substring(0,250) + '\n\nOtvori Console (F12) za detalje.');
+  }
+}
+
+function showPortalLink(code, name){
+  var link = PORTAL_BASE + '/?code=' + code;
+  var existing = document.getElementById('portalModal');
+  if(existing) existing.remove();
+  var m = document.createElement('div');
+  m.id = 'portalModal';
+  m.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:99999;display:flex;align-items:center;justify-content:center;padding:1.5rem;';
+  m.innerHTML =
+    '<div style="background:#111;border:1px solid rgba(46,139,114,0.3);border-radius:8px;padding:2rem;max-width:440px;width:100%;font-family:\'DM Sans\',sans-serif;">'+
+      '<div style="font-family:\'Playfair Display\',serif;font-size:1.3rem;color:#f5f2ee;margin-bottom:0.4rem;">✓ Published to portal</div>'+
+      '<div style="font-size:0.82rem;color:rgba(245,242,238,0.5);margin-bottom:1.3rem;line-height:1.6;">'+ (name?name+'\u2019s':'The') +' itinerary is live. Send this link (or the code) to your client:</div>'+
+      '<div style="font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:#2e8b72;margin-bottom:0.35rem;">Client link</div>'+
+      '<div style="display:flex;gap:0.5rem;margin-bottom:1rem;">'+
+        '<input id="portalLinkInput" readonly value="'+link+'" style="flex:1;background:rgba(200,184,154,0.05);border:1px solid rgba(200,184,154,0.2);color:#f5f2ee;padding:0.6rem 0.75rem;font-size:0.78rem;border-radius:4px;outline:none;">'+
+        '<button onclick="copyPortalLink()" style="background:#2e8b72;color:#fff;border:none;padding:0.6rem 1rem;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;border-radius:4px;white-space:nowrap;font-family:\'DM Sans\',sans-serif;">Copy</button>'+
+      '</div>'+
+      '<div style="font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:#c17f3b;margin-bottom:0.35rem;">Access code (backup)</div>'+
+      '<div style="font-family:\'Playfair Display\',serif;font-size:1.4rem;color:#f5f2ee;letter-spacing:0.1em;margin-bottom:1.5rem;">'+code+'</div>'+
+      '<button onclick="document.getElementById(\'portalModal\').remove()" style="width:100%;background:rgba(200,184,154,0.08);color:rgba(245,242,238,0.7);border:1px solid rgba(200,184,154,0.2);padding:0.7rem;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;border-radius:4px;font-family:\'DM Sans\',sans-serif;">Done</button>'+
+    '</div>';
+  m.addEventListener('click', function(e){ if(e.target===m) m.remove(); });
+  document.body.appendChild(m);
+}
+
+function copyPortalLink(){
+  var inp = document.getElementById('portalLinkInput');
+  inp.select();
+  try{ document.execCommand('copy'); }catch(e){}
+  if(navigator.clipboard) navigator.clipboard.writeText(inp.value).catch(function(){});
+  var btn = event.target; var orig = btn.textContent;
+  btn.textContent = 'Copied'; setTimeout(function(){ btn.textContent = orig; }, 1500);
+}
+
+</script>
+</body>
+</html>
