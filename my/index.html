@@ -126,7 +126,7 @@ function getCodeFromURL(){
   var hash = window.location.hash.replace('#',''); if (hash && /^EM-/i.test(hash)) return hash.toUpperCase();
   return null;
 }
-function goToCode(){ var v=document.getElementById('codeInput').value.trim().toUpperCase(); if(!v||!/^EM-/i.test(v)){document.getElementById('gateErr').style.display='block';return;} window.location.href='/'+v; }
+function goToCode(){ var v=document.getElementById('codeInput').value.trim().toUpperCase(); if(!v||!/^EM-/i.test(v)){document.getElementById('gateErr').style.display='block';return;} window.location.href='?code='+v; }
 function show(id){ ['loadingState','gateState','errorState','content'].forEach(function(x){ document.getElementById(x).style.display=(x===id)?(x==='content'?'block':'flex'):'none'; }); }
 async function loadItinerary(code){
   try{
