@@ -108,6 +108,25 @@ function initAdmin() {
       .adm-close { position:absolute;top:0.85rem;right:0.85rem;background:none;border:none;color:rgba(200,184,154,0.3);font-size:1.1rem;cursor:pointer; }
       .adm-empty { text-align:center;padding:3rem;color:rgba(200,184,154,0.2);font-size:0.78rem; }
       @media(max-width:600px) { .adm-stats{grid-template-columns:1fr 1fr;} .adm-search{width:100%;} }
+      .adm-tabs { display:flex;gap:0;padding:0 1.5rem;background:#0f0f0f;border-bottom:1px solid rgba(200,184,154,0.08); }
+      .adm-tab { background:none;border:none;border-bottom:2px solid transparent;color:rgba(200,184,154,0.5);padding:0.85rem 1.4rem;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;margin-bottom:-1px; }
+      .adm-tab:hover { color:#f5f2ee; }
+      .adm-tab.active { color:#f5f2ee;border-bottom-color:#2e8b72; }
+      /* Booking/Host modal */
+      .bk-modal { display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:99999;overflow-y:auto;padding:2rem 1rem;align-items:flex-start;justify-content:center; }
+      .bk-modal.open { display:flex; }
+      .bk-modal-box { background:#111;border:1px solid rgba(200,184,154,0.12);padding:2rem;width:100%;max-width:520px;position:relative;margin-top:2rem;border-radius:6px; }
+      .bk-f { margin-bottom:0.85rem; }
+      .bk-f label { display:block;font-size:0.55rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(200,184,154,0.45);margin-bottom:0.3rem; }
+      .bk-f input, .bk-f select, .bk-f textarea { width:100%;background:rgba(200,184,154,0.05);border:1px solid rgba(200,184,154,0.15);color:#f5f2ee;padding:0.6rem 0.75rem;font-family:'DM Sans',sans-serif;font-size:0.85rem;outline:none;border-radius:4px; }
+      .bk-f input:focus, .bk-f select:focus, .bk-f textarea:focus { border-color:#2e8b72; }
+      .bk-f textarea { resize:vertical;min-height:60px; }
+      .bk-fr { display:grid;grid-template-columns:1fr 1fr;gap:0.75rem; }
+      .bk-save { width:100%;background:#2e8b72;color:#fff;border:none;padding:0.8rem;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;border-radius:4px;font-family:'DM Sans',sans-serif;margin-top:0.5rem; }
+      .bk-del { width:100%;background:transparent;color:rgba(231,76,60,0.7);border:1px solid rgba(231,76,60,0.25);padding:0.65rem;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;border-radius:4px;font-family:'DM Sans',sans-serif;margin-top:0.5rem; }
+      .badge-todo { background:rgba(193,127,59,0.9);color:#fff; }
+      .badge-reserved { background:rgba(100,130,220,0.9);color:#fff; }
+      .badge-confirmed { background:rgba(46,139,114,0.9);color:#fff; }
     `;
     document.head.appendChild(style);
   }
@@ -124,6 +143,16 @@ function initAdmin() {
           <button onclick="admLogout()" style="background:none;border:none;color:rgba(200,184,154,0.35);cursor:pointer;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;font-family:'DM Sans',sans-serif;">Logout</button>
         </div>
       </div>
+
+      <!-- TAB NAV -->
+      <div class="adm-tabs">
+        <button class="adm-tab active" onclick="admSwitchTab('leads',this)">Leads</button>
+        <button class="adm-tab" onclick="admSwitchTab('bookings',this)">Bookings</button>
+        <button class="adm-tab" onclick="admSwitchTab('hosts',this)">Hosts</button>
+      </div>
+
+      <!-- ========== LEADS TAB ========== -->
+      <div id="tab-leads">
       <div class="adm-stats">
         <div class="adm-stat"><div class="adm-stat-lbl">Total</div><div class="adm-stat-val" id="admTotal">—</div></div>
         <div class="adm-stat"><div class="adm-stat-lbl">Planning</div><div class="adm-stat-val" id="admPlanning" style="color:#2e8b72;">—</div></div>
@@ -163,6 +192,47 @@ function initAdmin() {
         <table class="adm-table" id="admTable"><thead><tr><th>Name</th><th>Type</th><th>Email</th><th>Date</th><th>Waiting</th><th>Status</th></tr></thead><tbody id="admBody"></tbody></table>
         <div class="adm-empty" id="admEmpty" style="display:none;">No leads found</div>
       </div>
+      </div><!-- /tab-leads -->
+
+      <!-- ========== BOOKINGS TAB ========== -->
+      <div id="tab-bookings" style="display:none;">
+        <div class="adm-stats">
+          <div class="adm-stat"><div class="adm-stat-lbl">Total bookings</div><div class="adm-stat-val" id="bkTotal">—</div></div>
+          <div class="adm-stat"><div class="adm-stat-lbl">To book</div><div class="adm-stat-val" id="bkTodo" style="color:#e0a05a;">—</div></div>
+          <div class="adm-stat"><div class="adm-stat-lbl">Confirmed</div><div class="adm-stat-val" id="bkConfirmed" style="color:#2e8b72;">—</div></div>
+          <div class="adm-stat"><div class="adm-stat-lbl">Est. commission</div><div class="adm-stat-val" id="bkCommission" style="color:#7799ff;">—</div></div>
+        </div>
+        <div class="adm-filters">
+          <span style="font-size:0.52rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(200,184,154,0.3);align-self:center;margin-right:0.3rem;">Status:</span>
+          <button class="adm-fbtn bk-fbtn active" onclick="bkFilter('all',this)">All</button>
+          <button class="adm-fbtn bk-fbtn" onclick="bkFilter('todo',this)">To book</button>
+          <button class="adm-fbtn bk-fbtn" onclick="bkFilter('reserved',this)">Reserved</button>
+          <button class="adm-fbtn bk-fbtn" onclick="bkFilter('confirmed',this)">Confirmed</button>
+          <input type="text" class="adm-search" id="bkSearch" placeholder="Search client or item..." oninput="bkRender()">
+          <button class="adm-export-btn" onclick="bkAddNew()" style="margin-left:auto;background:#2e8b72;color:#fff;border-color:#2e8b72;">+ New booking</button>
+        </div>
+        <div class="adm-table-wrap">
+          <table class="adm-table" id="bkTable"><thead><tr><th>Client</th><th>Item</th><th>Host</th><th>Date</th><th>Commission</th><th>Status</th></tr></thead><tbody id="bkBody"></tbody></table>
+          <div class="adm-empty" id="bkEmpty" style="display:none;">No bookings yet</div>
+        </div>
+      </div><!-- /tab-bookings -->
+
+      <!-- ========== HOSTS TAB ========== -->
+      <div id="tab-hosts" style="display:none;">
+        <div class="adm-filters" style="margin-top:0.5rem;">
+          <span style="font-size:0.52rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(200,184,154,0.3);align-self:center;margin-right:0.3rem;">Type:</span>
+          <button class="adm-fbtn ht-fbtn active" onclick="htFilter('all',this)">All</button>
+          <button class="adm-fbtn ht-fbtn" onclick="htFilter('activity',this)">Activities</button>
+          <button class="adm-fbtn ht-fbtn" onclick="htFilter('accommodation',this)">Accommodation</button>
+          <button class="adm-fbtn ht-fbtn" onclick="htFilter('transfer',this)">Transfer</button>
+          <input type="text" class="adm-search" id="htSearch" placeholder="Search hosts..." oninput="htRender()">
+          <button class="adm-export-btn" onclick="htAddNew()" style="margin-left:auto;background:#2e8b72;color:#fff;border-color:#2e8b72;">+ New host</button>
+        </div>
+        <div class="adm-table-wrap">
+          <table class="adm-table" id="htTable"><thead><tr><th>Name</th><th>Type</th><th>Contact</th><th>Phone</th><th>Commission</th></tr></thead><tbody id="htBody"></tbody></table>
+          <div class="adm-empty" id="htEmpty" style="display:none;">No hosts yet</div>
+        </div>
+      </div><!-- /tab-hosts -->
     </div>
 
     <div id="loginBox">
@@ -173,6 +243,47 @@ function initAdmin() {
         <input type="password" id="admPass" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter')admLogin()">
         <button onclick="admLogin()">Sign in</button>
         <div class="lb-err" id="admErr">Wrong email or password</div>
+      </div>
+    </div>
+
+    <!-- BOOKING MODAL -->
+    <div class="bk-modal" id="bkModal">
+      <div class="bk-modal-box">
+        <button class="adm-close" onclick="bkCloseModal()" style="position:absolute;top:1rem;right:1rem;background:none;border:none;color:rgba(200,184,154,0.4);font-size:1.2rem;cursor:pointer;">✕</button>
+        <div style="font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:1.3rem;" id="bkModalTitle">New booking</div>
+        <div class="bk-f"><label>Client</label><input id="bkClient" placeholder="Client name"></div>
+        <div class="bk-f"><label>Item (activity / accommodation)</label><input id="bkItem" placeholder="e.g. Tara Rafting"></div>
+        <div class="bk-f"><label>Host / operator</label><select id="bkHost"><option value="">— select host —</option></select></div>
+        <div class="bk-fr">
+          <div class="bk-f"><label>Date</label><input id="bkDate" type="date"></div>
+          <div class="bk-f"><label>Status</label><select id="bkStatus"><option value="todo">To book</option><option value="reserved">Reserved</option><option value="confirmed">Confirmed</option></select></div>
+        </div>
+        <div class="bk-fr">
+          <div class="bk-f"><label>Client pays host</label><input id="bkClientPrice" placeholder="e.g. €50"></div>
+          <div class="bk-f"><label>Your commission</label><input id="bkCommissionInput" placeholder="e.g. 15% or €10"></div>
+        </div>
+        <div class="bk-f"><label>Notes</label><textarea id="bkNotes" placeholder="Booking reference, special requests..."></textarea></div>
+        <button class="bk-save" onclick="bkSave()">Save booking</button>
+        <button class="bk-del" id="bkDelBtn" onclick="bkDelete()" style="display:none;">Delete booking</button>
+      </div>
+    </div>
+
+    <!-- HOST MODAL -->
+    <div class="bk-modal" id="htModal">
+      <div class="bk-modal-box">
+        <button class="adm-close" onclick="htCloseModal()" style="position:absolute;top:1rem;right:1rem;background:none;border:none;color:rgba(200,184,154,0.4);font-size:1.2rem;cursor:pointer;">✕</button>
+        <div style="font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:1.3rem;" id="htModalTitle">New host</div>
+        <div class="bk-f"><label>Name</label><input id="htName" placeholder="e.g. Tara Rafting Centar"></div>
+        <div class="bk-f"><label>Type</label><select id="htType"><option value="activity">Activity</option><option value="accommodation">Accommodation</option><option value="transfer">Transfer</option><option value="other">Other</option></select></div>
+        <div class="bk-fr">
+          <div class="bk-f"><label>Contact person</label><input id="htContact" placeholder="Name"></div>
+          <div class="bk-f"><label>Phone</label><input id="htPhone" placeholder="+382..."></div>
+        </div>
+        <div class="bk-f"><label>Email</label><input id="htEmail" placeholder="email@..."></div>
+        <div class="bk-f"><label>Commission agreement</label><input id="htCommission" placeholder="e.g. 15% or €10 per guest"></div>
+        <div class="bk-f"><label>Notes</label><textarea id="htNotes" placeholder="What they offer, seasonal info, terms..."></textarea></div>
+        <button class="bk-save" onclick="htSave()">Save host</button>
+        <button class="bk-del" id="htDelBtn" onclick="htDelete()" style="display:none;">Delete host</button>
       </div>
     </div>
 
@@ -565,6 +676,276 @@ async function admSaveNotes() {
   btn.textContent='Saved ✓';
   setTimeout(function(){btn.textContent='Save notes';},2000);
 }
+
+// ══════════════════════════════════════════════════════════
+// TABS
+// ══════════════════════════════════════════════════════════
+function admSwitchTab(tab, btn){
+  document.querySelectorAll('.adm-tab').forEach(function(t){ t.classList.remove('active'); });
+  btn.classList.add('active');
+  document.getElementById('tab-leads').style.display = tab==='leads'?'block':'none';
+  document.getElementById('tab-bookings').style.display = tab==='bookings'?'block':'none';
+  document.getElementById('tab-hosts').style.display = tab==='hosts'?'block':'none';
+  if(tab==='bookings'){ loadBookings(); loadHosts(); }
+  if(tab==='hosts'){ loadHosts(); }
+}
+
+// ══════════════════════════════════════════════════════════
+// HOSTS
+// ══════════════════════════════════════════════════════════
+var allHosts = [];
+var currentHostFilter = 'all';
+var editingHostId = null;
+
+async function loadHosts(){
+  try{
+    var res = await fetch(SUPABASE_URL_ADMIN + '/rest/v1/hosts?select=*&order=name.asc', { headers: admAuthHeaders() });
+    if(res.status===401){ admForceRelogin(); return; }
+    allHosts = await res.json();
+    htRender();
+    populateHostDropdown();
+  }catch(e){ console.error('loadHosts', e); }
+}
+
+function htFilter(f, btn){
+  currentHostFilter = f;
+  document.querySelectorAll('.ht-fbtn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  htRender();
+}
+
+function htRender(){
+  var search = (document.getElementById('htSearch')||{}).value||''; search = search.toLowerCase();
+  var filtered = allHosts.filter(function(h){
+    var mf = currentHostFilter==='all' || h.type===currentHostFilter;
+    var ms = !search || (h.name&&h.name.toLowerCase().includes(search)) || (h.contact_person&&h.contact_person.toLowerCase().includes(search));
+    return mf && ms;
+  });
+  var tbody = document.getElementById('htBody');
+  var empty = document.getElementById('htEmpty');
+  if(filtered.length===0){ tbody.innerHTML=''; empty.style.display='block'; return; }
+  empty.style.display='none';
+  tbody.innerHTML = filtered.map(function(h){
+    return '<tr onclick="htEdit(\''+h.id+'\')">'+
+      '<td><div class="adm-name">'+(h.name||'—')+'</div></td>'+
+      '<td><span class="adm-type-badge adm-type-planning">'+(h.type||'—')+'</span></td>'+
+      '<td style="color:rgba(200,184,154,0.6);font-size:0.78rem;">'+(h.contact_person||'—')+'</td>'+
+      '<td style="color:rgba(200,184,154,0.5);font-size:0.78rem;">'+(h.phone||'—')+'</td>'+
+      '<td style="color:#7799ff;font-size:0.78rem;">'+(h.commission||'—')+'</td>'+
+    '</tr>';
+  }).join('');
+}
+
+function populateHostDropdown(){
+  var sel = document.getElementById('bkHost');
+  if(!sel) return;
+  var cur = sel.value;
+  sel.innerHTML = '<option value="">— select host —</option>' + allHosts.map(function(h){
+    return '<option value="'+h.id+'">'+ (h.name||'') +' ('+ (h.type||'') +')</option>';
+  }).join('');
+  sel.value = cur;
+}
+
+function htAddNew(){
+  editingHostId = null;
+  document.getElementById('htModalTitle').textContent = 'New host';
+  document.getElementById('htName').value='';
+  document.getElementById('htType').value='activity';
+  document.getElementById('htContact').value='';
+  document.getElementById('htPhone').value='';
+  document.getElementById('htEmail').value='';
+  document.getElementById('htCommission').value='';
+  document.getElementById('htNotes').value='';
+  document.getElementById('htDelBtn').style.display='none';
+  document.getElementById('htModal').classList.add('open');
+}
+
+function htEdit(id){
+  var h = allHosts.find(function(x){ return x.id===id; });
+  if(!h) return;
+  editingHostId = id;
+  document.getElementById('htModalTitle').textContent = 'Edit host';
+  document.getElementById('htName').value=h.name||'';
+  document.getElementById('htType').value=h.type||'activity';
+  document.getElementById('htContact').value=h.contact_person||'';
+  document.getElementById('htPhone').value=h.phone||'';
+  document.getElementById('htEmail').value=h.email||'';
+  document.getElementById('htCommission').value=h.commission||'';
+  document.getElementById('htNotes').value=h.notes||'';
+  document.getElementById('htDelBtn').style.display='block';
+  document.getElementById('htModal').classList.add('open');
+}
+
+function htCloseModal(){ document.getElementById('htModal').classList.remove('open'); }
+
+async function htSave(){
+  var row = {
+    id: editingHostId || ('h'+Date.now()),
+    name: document.getElementById('htName').value.trim(),
+    type: document.getElementById('htType').value,
+    contact_person: document.getElementById('htContact').value.trim(),
+    phone: document.getElementById('htPhone').value.trim(),
+    email: document.getElementById('htEmail').value.trim(),
+    commission: document.getElementById('htCommission').value.trim(),
+    notes: document.getElementById('htNotes').value.trim()
+  };
+  if(!row.name){ alert('Host name is required.'); return; }
+  var res = await fetch(SUPABASE_URL_ADMIN + '/rest/v1/hosts', {
+    method:'POST',
+    headers: admAuthHeaders({'Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=minimal'}),
+    body: JSON.stringify(row)
+  });
+  if(res.status===401){ admForceRelogin(); return; }
+  if(res.ok){ htCloseModal(); loadHosts(); }
+  else{ alert('Save failed: '+res.status); }
+}
+
+async function htDelete(){
+  if(!editingHostId) return;
+  if(!confirm('Delete this host?')) return;
+  var res = await fetch(SUPABASE_URL_ADMIN + '/rest/v1/hosts?id=eq.'+encodeURIComponent(editingHostId), { method:'DELETE', headers: admAuthHeaders() });
+  if(res.ok){ htCloseModal(); loadHosts(); }
+}
+
+// ══════════════════════════════════════════════════════════
+// BOOKINGS
+// ══════════════════════════════════════════════════════════
+var allBookings = [];
+var currentBkFilter = 'all';
+var editingBookingId = null;
+
+async function loadBookings(){
+  try{
+    var res = await fetch(SUPABASE_URL_ADMIN + '/rest/v1/bookings?select=*&order=date.asc', { headers: admAuthHeaders() });
+    if(res.status===401){ admForceRelogin(); return; }
+    allBookings = await res.json();
+    bkUpdateStats();
+    bkRender();
+  }catch(e){ console.error('loadBookings', e); }
+}
+
+function bkUpdateStats(){
+  var t = allBookings.length;
+  var todo = allBookings.filter(function(b){ return (b.status||'todo')==='todo'; }).length;
+  var conf = allBookings.filter(function(b){ return b.status==='confirmed'; }).length;
+  document.getElementById('bkTotal').textContent = t;
+  document.getElementById('bkTodo').textContent = todo;
+  document.getElementById('bkConfirmed').textContent = conf;
+  // Sum numeric commissions (€ amounts only; % can't be summed without base)
+  var sum = 0, hasAmount=false;
+  allBookings.forEach(function(b){
+    var m = (b.commission||'').match(/€?\s*(\d+(?:\.\d+)?)/);
+    if(m && (b.commission||'').indexOf('%')<0){ sum += parseFloat(m[1]); hasAmount=true; }
+  });
+  document.getElementById('bkCommission').textContent = hasAmount ? ('€'+sum) : '—';
+}
+
+function bkFilter(f, btn){
+  currentBkFilter = f;
+  document.querySelectorAll('.bk-fbtn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  bkRender();
+}
+
+function bkRender(){
+  var search = (document.getElementById('bkSearch')||{}).value||''; search = search.toLowerCase();
+  var filtered = allBookings.filter(function(b){
+    var mf = currentBkFilter==='all' || (b.status||'todo')===currentBkFilter;
+    var ms = !search || (b.client_name&&b.client_name.toLowerCase().includes(search)) || (b.item&&b.item.toLowerCase().includes(search));
+    return mf && ms;
+  });
+  var tbody = document.getElementById('bkBody');
+  var empty = document.getElementById('bkEmpty');
+  if(filtered.length===0){ tbody.innerHTML=''; empty.style.display='block'; return; }
+  empty.style.display='none';
+  tbody.innerHTML = filtered.map(function(b){
+    var d = b.date ? new Date(b.date).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}) : '—';
+    var st = b.status||'todo';
+    return '<tr onclick="bkEdit(\''+b.id+'\')">'+
+      '<td><div class="adm-name">'+(b.client_name||'—')+'</div></td>'+
+      '<td style="font-size:0.82rem;">'+(b.item||'—')+'</td>'+
+      '<td style="color:rgba(200,184,154,0.55);font-size:0.78rem;">'+(b.host_name||'—')+'</td>'+
+      '<td class="adm-date">'+d+'</td>'+
+      '<td style="color:#7799ff;font-size:0.78rem;">'+(b.commission||'—')+'</td>'+
+      '<td><span class="badge badge-'+st+'">'+st+'</span></td>'+
+    '</tr>';
+  }).join('');
+}
+
+function bkAddNew(){
+  editingBookingId = null;
+  document.getElementById('bkModalTitle').textContent = 'New booking';
+  document.getElementById('bkClient').value='';
+  document.getElementById('bkItem').value='';
+  document.getElementById('bkHost').value='';
+  document.getElementById('bkDate').value='';
+  document.getElementById('bkStatus').value='todo';
+  document.getElementById('bkClientPrice').value='';
+  document.getElementById('bkCommissionInput').value='';
+  document.getElementById('bkNotes').value='';
+  document.getElementById('bkDelBtn').style.display='none';
+  populateHostDropdown();
+  document.getElementById('bkModal').classList.add('open');
+}
+
+function bkEdit(id){
+  var b = allBookings.find(function(x){ return x.id===id; });
+  if(!b) return;
+  editingBookingId = id;
+  document.getElementById('bkModalTitle').textContent = 'Edit booking';
+  document.getElementById('bkClient').value=b.client_name||'';
+  document.getElementById('bkItem').value=b.item||'';
+  populateHostDropdown();
+  document.getElementById('bkHost').value=b.host_id||'';
+  document.getElementById('bkDate').value=b.date||'';
+  document.getElementById('bkStatus').value=b.status||'todo';
+  document.getElementById('bkClientPrice').value=b.client_price||'';
+  document.getElementById('bkCommissionInput').value=b.commission||'';
+  document.getElementById('bkNotes').value=b.notes||'';
+  document.getElementById('bkDelBtn').style.display='block';
+  document.getElementById('bkModal').classList.add('open');
+}
+
+function bkCloseModal(){ document.getElementById('bkModal').classList.remove('open'); }
+
+async function bkSave(){
+  var hostSel = document.getElementById('bkHost');
+  var hostName = hostSel.value ? (allHosts.find(function(h){return h.id===hostSel.value;})||{}).name||'' : '';
+  var row = {
+    id: editingBookingId || ('b'+Date.now()),
+    client_name: document.getElementById('bkClient').value.trim(),
+    item: document.getElementById('bkItem').value.trim(),
+    host_id: hostSel.value,
+    host_name: hostName,
+    date: document.getElementById('bkDate').value,
+    status: document.getElementById('bkStatus').value,
+    client_price: document.getElementById('bkClientPrice').value.trim(),
+    commission: document.getElementById('bkCommissionInput').value.trim(),
+    notes: document.getElementById('bkNotes').value.trim()
+  };
+  if(!row.client_name || !row.item){ alert('Client and item are required.'); return; }
+  var res = await fetch(SUPABASE_URL_ADMIN + '/rest/v1/bookings', {
+    method:'POST',
+    headers: admAuthHeaders({'Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=minimal'}),
+    body: JSON.stringify(row)
+  });
+  if(res.status===401){ admForceRelogin(); return; }
+  if(res.ok){ bkCloseModal(); loadBookings(); }
+  else{ alert('Save failed: '+res.status); }
+}
+
+async function bkDelete(){
+  if(!editingBookingId) return;
+  if(!confirm('Delete this booking?')) return;
+  var res = await fetch(SUPABASE_URL_ADMIN + '/rest/v1/bookings?id=eq.'+encodeURIComponent(editingBookingId), { method:'DELETE', headers: admAuthHeaders() });
+  if(res.ok){ bkCloseModal(); loadBookings(); }
+}
+
+// Close booking/host modals on outside click
+document.addEventListener('click', function(e){
+  var bm = document.getElementById('bkModal'); if(bm && e.target===bm) bkCloseModal();
+  var hm = document.getElementById('htModal'); if(hm && e.target===hm) htCloseModal();
+});
 
 // Init on page load
 window.addEventListener('DOMContentLoaded', initAdmin);
