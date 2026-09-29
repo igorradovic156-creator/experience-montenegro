@@ -40,6 +40,8 @@ body{background:#080808;color:#e8e4de;font-family:'DM Sans',sans-serif;font-weig
 .stop-name{font-size:0.98rem;color:#f5f2ee;font-weight:400;line-height:1.35;}
 .stop-name .t{color:#3aab8a;font-weight:500;}
 .stop-dur{font-size:0.72rem;color:rgba(200,184,154,0.5);margin-top:0.2rem;}
+.stop-price{font-size:0.82rem;color:#3aab8a;margin-top:0.35rem;font-weight:500;}
+.stop-pay{color:rgba(245,242,238,0.4);font-weight:400;font-size:0.72rem;}
 .stop-notes{font-size:0.84rem;color:rgba(245,242,238,0.6);line-height:1.7;margin-top:0.6rem;padding-left:calc(24px + 0.85rem);}
 .maps-btn{display:flex;align-items:center;gap:0.65rem;margin-top:0.75rem;margin-left:calc(24px + 0.85rem);background:rgba(46,139,114,0.08);border:1px solid rgba(46,139,114,0.22);border-radius:6px;padding:0.6rem 0.85rem;text-decoration:none;transition:all 0.2s;}
 .maps-btn:hover{background:rgba(46,139,114,0.14);border-color:rgba(46,139,114,0.4);}
@@ -264,6 +266,7 @@ function render(row){
         '<div class="stop-name">'+(entry.time?'<span class="t">'+esc(entry.time)+'</span> · ':'')+esc(entry.name)+'</div>'+
         (entry.dur?'<div class="stop-dur">⏱ '+esc(entry.dur)+'</div>':'')+
         (entry.persons?'<div class="stop-dur">👥 '+esc(entry.persons)+' person'+(entry.persons!=1?'s':'')+'</div>':'')+
+        (entry.price?'<div class="stop-price">'+esc(entry.price)+(entry.payment?' <span class="stop-pay">· '+esc(entry.payment)+'</span>':'')+'</div>':'')+
         '</div></div>'+
         (entry.notes?'<div class="stop-notes">'+esc(entry.notes)+'</div>':'')+
         (directLink?'<a class="maps-btn" href="'+esc(directLink)+'" target="_blank"><span class="maps-btn-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#3aab8a"/></svg></span><span class="maps-btn-text"><span class="maps-btn-label">Open in Google Maps</span><span class="maps-btn-sub">'+esc(entry.name)+'</span></span><span class="maps-btn-arrow">→</span></a>':'')+
