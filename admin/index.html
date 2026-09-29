@@ -11,6 +11,9 @@
 :root { --black:#171814; --white:#f5f2ee; --stone:#c8b89a; --cta:#2e8b72; --cta-hover:#3aab8a; --accent:#c17f3b; --mne-red:#c0392b; }
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:#171814;color:#f5f2ee;font-family:'DM Sans',sans-serif;font-weight:300;-webkit-font-smoothing:antialiased;}
+
+select option{background:#1a1a1a;color:#f5f2ee;}
+select{color:#f5f2ee;}
 </style>
 </head>
 <body>
@@ -311,6 +314,13 @@ function initAdmin() {
         <div class="adm-field-lbl" style="margin-top:1rem;">Notes</div>
         <textarea class="adm-notes" id="admMNotes" placeholder="Add notes..."></textarea>
         <button class="adm-save" onclick="admSaveNotes()">Save notes</button>
+
+        <!-- CLIENT BOOKINGS PANEL -->
+        <div id="admMBookingsWrap" style="margin-top:1.3rem;padding-top:1rem;border-top:1px solid rgba(200,184,154,0.07);display:none;">
+          <div class="adm-field-lbl" style="margin-bottom:0.6rem;">This client's bookings</div>
+          <div id="admMBookings"></div>
+        </div>
+
         <div style="margin-top:1.2rem;padding-top:0.85rem;border-top:1px solid rgba(200,184,154,0.07);display:flex;gap:0.5rem;flex-wrap:wrap;">
           <a id="admWa" href="#" target="_blank" style="font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:#25D366;text-decoration:none;border:1px solid rgba(37,211,102,0.2);padding:0.45rem 0.85rem;">WhatsApp →</a>
           <a id="admEmail" href="#" style="font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:#c8b89a;text-decoration:none;border:1px solid rgba(200,184,154,0.18);padding:0.45rem 0.85rem;">Email →</a>
@@ -616,6 +626,32 @@ function admOpenModal(l) {
   document.getElementById('admWa').href = 'https://wa.me/?text=Hi '+encodeURIComponent(l.name||'')+'!';
   document.getElementById('admEmail').href = 'mailto:'+(l.email||'');
   document.getElementById('admModal').classList.add('open');
+  loadClientBookings(l);
+}
+
+// Show all bookings tied to this client (same id) in the lead modal
+async function loadClientBookings(l){
+  var wrap = document.getElementById('admMBookingsWrap');
+  var box = document.getElementById('admMBookings');
+  if(!wrap||!box) return;
+  box.innerHTML = '<div style="font-size:0.72rem;color:rgba(200,184,154,0.3);">Loading…</div>';
+  wrap.style.display = 'block';
+  try{
+    // match by client_id (same as lead id) OR by client name as fallback
+    var res = await fetch(SUPABASE_URL_ADMIN + '/rest/v1/bookings?or=(client_id.eq.'+encodeURIComponent(l.id)+',client_name.ilike.'+encodeURIComponent('%'+(l.name||'')+'%')+')&select=*&order=date.asc', { headers: admAuthHeaders() });
+    if(!res.ok){ box.innerHTML='<div style="font-size:0.72rem;color:rgba(200,184,154,0.3);">Could not load bookings.</div>'; return; }
+    var bookings = await res.json();
+    if(!bookings.length){ box.innerHTML='<div style="font-size:0.72rem;color:rgba(200,184,154,0.3);">No bookings yet. Create a plan and publish to generate them.</div>'; return; }
+    box.innerHTML = bookings.map(function(b){
+      var dt = b.date ? new Date(b.date).toLocaleDateString('en-GB',{day:'2-digit',month:'short'}) : '';
+      var st = b.status||'todo';
+      return '<div style="display:flex;justify-content:space-between;align-items:center;gap:0.75rem;padding:0.5rem 0.65rem;border:1px solid rgba(200,184,154,0.1);border-radius:4px;margin-bottom:0.35rem;background:rgba(200,184,154,0.02);">'+
+        '<div><div style="font-size:0.8rem;color:#f5f2ee;">'+(b.item||'—')+'</div>'+
+        '<div style="font-size:0.68rem;color:rgba(200,184,154,0.45);">'+(b.host_name||'no host')+(dt?' · '+dt:'')+(b.commission?' · '+b.commission:'')+'</div></div>'+
+        '<span class="badge badge-'+st+'">'+st+'</span>'+
+      '</div>';
+    }).join('');
+  }catch(e){ box.innerHTML='<div style="font-size:0.72rem;color:rgba(200,184,154,0.3);">Error loading bookings.</div>'; }
 }
 
 function admCreatePlan() {
