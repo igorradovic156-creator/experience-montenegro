@@ -271,6 +271,12 @@ input[type=number]{-moz-appearance:textfield;}
         <label>Internal notes <span style="color:rgba(200,184,154,0.3);font-size:0.55rem;letter-spacing:0.1em;">NOT shown in itinerary</span></label>
         <textarea id="cInternalNotes" placeholder="Payment status, special requests, personal notes..." style="min-height:60px;border-color:rgba(193,127,59,0.2);background:rgba(193,127,59,0.03);"></textarea>
       </div>
+      <div class="f">
+        <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;">
+          <input type="checkbox" id="cShowPrices" checked onchange="autoSave()" style="width:auto;margin:0;">
+          <span>Show prices in itinerary</span>
+        </label>
+      </div>
     </div>
 
     <div class="sec">
@@ -432,6 +438,10 @@ input[type=number]{-moz-appearance:textfield;}
         </div>
         <div style="font-size:0.6rem;color:rgba(200,184,154,0.35);margin-top:0.25rem;">Template default — overridden per client</div>
       </div>
+      <div class="fr">
+        <div class="f"><label>Host / operator</label><select id="evHost" onchange="evHostChanged()"><option value="">— none —</option></select></div>
+        <div class="f"><label>Price per person (€)</label><input id="evPrice" type="number" min="0" step="1" placeholder="e.g. 50"></div>
+      </div>
       <div class="f"><label>Google Maps link or coordinates</label><input id="evMap" placeholder="https://maps.google.com/... or 43.15, 19.23"></div>
       <div class="f"><label>Default notes / instructions</label><textarea id="evNotes" placeholder="Meeting point, what to bring, operator contact..."></textarea></div>
     </div>
@@ -490,8 +500,9 @@ function renderEvents() {
       </div>
       <div class="ev-item-name">${escHtml(ev.name)}</div>
       ${ev.location?`<div class="ev-item-loc">📍 ${escHtml(ev.location)}</div>`:''}
+      ${(function(){ var h = ev.host ? (plannerHosts||[]).find(function(x){return x.id===ev.host;}) : null; return h?`<div class="ev-item-host">🤝 ${escHtml(h.name)}</div>`:''; })()}
+      ${ev.price?`<div class="ev-item-price">€${escHtml(ev.price)} / person</div>`:''}
       ${ev.dur?`<div class="ev-item-dur">⏱ ${escHtml(ev.dur)}</div>`:''}
-      ${ev.persons?`<div class="ev-item-dur">👥 ${ev.persons} person${ev.persons!=1?'s':''}</div>`:''}
     </div>
   `).join('') + '<div class="ev-drag-hint">Drag into a day ↓</div>';
 }
@@ -515,14 +526,17 @@ function onDropZoneDrop(e, dayIdx) {
   e.preventDefault();
   e.currentTarget.classList.remove('drag-over');
   if (!draggedEvent) return;
-  // Add a copy of the event as a stop in this day
+  // Add a copy of the event as a stop in this day — pull host + price too
   days[dayIdx].entries.push({
     type: 'stop',
     name: draggedEvent.name,
     time: draggedEvent.time || '09:00',
     dur: draggedEvent.dur || '',
-    persons: draggedEvent.persons || getGroupCount(),
+    persons: getGroupCount(),
     map: draggedEvent.map || '',
+    price: draggedEvent.price ? ('€'+draggedEvent.price) : '',
+    payment: 'Paid to host',
+    host: draggedEvent.host || '',
     notes: draggedEvent.notes || '',
     file: null,
   });
@@ -549,7 +563,34 @@ function openEvModal(evId) {
   document.getElementById('evPersons').value = ev ? (ev.persons||1) : getGroupCount();
   document.getElementById('evMap').value = ev ? (ev.map||'') : '';
   document.getElementById('evNotes').value = ev ? (ev.notes||'') : '';
+  populateEvHostDropdown();
+  document.getElementById('evHost').value = ev ? (ev.host||'') : '';
+  document.getElementById('evPrice').value = ev ? (ev.price||'') : '';
   document.getElementById('evModal').classList.add('open');
+}
+
+function populateEvHostDropdown(){
+  var sel = document.getElementById('evHost');
+  if(!sel) return;
+  var cur = sel.value;
+  sel.innerHTML = '<option value="">— none —</option>' + (plannerHosts||[]).map(function(h){
+    return '<option value="'+h.id+'">'+ (h.name||'') +' ('+ (h.type||'') +')</option>';
+  }).join('');
+  sel.value = cur;
+}
+
+// When a host is picked in the activity editor, auto-fill price + map from host
+function evHostChanged(){
+  var hostId = document.getElementById('evHost').value;
+  if(!hostId) return;
+  var h = (plannerHosts||[]).find(function(x){ return x.id===hostId; });
+  if(!h) return;
+  // Auto-fill price if host has one and field is empty
+  var priceEl = document.getElementById('evPrice');
+  if(h.price && !priceEl.value){ var pm=(''+h.price).match(/(\d+(?:\.\d+)?)/); if(pm) priceEl.value = pm[1]; }
+  // Auto-fill map if empty
+  var mapEl = document.getElementById('evMap');
+  if(!mapEl.value && (h.map||h.address)){ mapEl.value = h.map||h.address; }
 }
 
 function saveEvent() {
@@ -565,6 +606,8 @@ function saveEvent() {
     persons: parseInt(document.getElementById('evPersons').value) || 1,
     map: document.getElementById('evMap').value.trim(),
     notes: document.getElementById('evNotes').value.trim(),
+    host: document.getElementById('evHost').value,
+    price: document.getElementById('evPrice').value.trim(),
   };
   if (evId) {
     const idx = events.findIndex(e => e.id === evId);
@@ -729,6 +772,7 @@ function loadClient(id) {
   document.getElementById('cWelcome').value = c.welcome || '';
   document.getElementById('cStatus').value = c.status || 'inquiry';
   document.getElementById('cInternalNotes').value = c.internalNotes || '';
+  document.getElementById('cShowPrices').checked = c.showPrices !== false;
   days = c.days || [];
   stays = c.stays || [];
   var car = c.car || {};
@@ -764,6 +808,7 @@ function saveCurrentToClient() {
   c.welcome = document.getElementById('cWelcome').value;
   c.status = document.getElementById('cStatus').value;
   c.internalNotes = document.getElementById('cInternalNotes').value;
+  c.showPrices = document.getElementById('cShowPrices').checked;
   c.days = days;
   c.stays = stays;
   c.car = {
@@ -1251,6 +1296,7 @@ function generate() {
   const arrival=document.getElementById('cArrival').value;
   const departure=document.getElementById('cDeparture').value;
   const welcome=document.getElementById('cWelcome').value.trim();
+  const showPrices=document.getElementById('cShowPrices').checked;
 
   // Route link
   const allCoords=[];
@@ -1301,7 +1347,7 @@ function generate() {
               <div class="stop-name">${entry.time?`<span class="t">${entry.time}</span> · `:''}${entry.name}</div>
               ${entry.dur?`<div class="stop-dur">⏱ ${entry.dur}</div>`:''}
               ${entry.persons?`<div class="stop-dur">👥 ${entry.persons} person${entry.persons!=1?'s':''}</div>`:''}
-              ${entry.price?`<div class="stop-price">${entry.price} per person${entry.persons&&entry.persons>1?` · ${entry.persons} people`:''}${entry.payment?` <span class="stop-pay">· ${entry.payment}</span>`:''}</div>`:''}
+              ${(showPrices&&entry.price)?`<div class="stop-price">${entry.price} per person${entry.persons&&entry.persons>1?` · ${entry.persons} people`:''}${entry.payment?` <span class="stop-pay">· ${entry.payment}</span>`:''}</div>`:''}
               ${hostContact}
             </div>
           </div>
@@ -2066,7 +2112,13 @@ async function publishToPortal(){
     name: c.name==='New Client'?'':c.name,
     last: c.last||'', country: c.country||'', group: c.group||'',
     arrival: c.arrival||'', departure: c.departure||'',
-    welcome: c.welcome||'', days: cleanDays
+    welcome: c.welcome||'', days: cleanDays,
+    showPrices: c.showPrices !== false,
+    stays: c.stays||[], car: c.car||{},
+    hosts: (plannerHosts||[]).filter(function(h){
+      // include only hosts referenced by the plan (for contact/map in portal)
+      return cleanDays.some(function(d){ return (d.entries||[]).some(function(e){ return e.host===h.id; }); });
+    })
   };
 
   // Login if needed
