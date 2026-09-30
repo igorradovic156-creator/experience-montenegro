@@ -1144,16 +1144,18 @@ function bkMessageHost(){
   var b = allBookings.find(function(x){ return x.id===editingBookingId; });
   if(!b){ return; }
   var host = allHosts.find(function(h){ return h.id===b.host_id; });
-  var dateStr = b.date ? new Date(b.date).toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'}) : '(date to confirm)';
+  var meseci = ['januar','februar','mart','april','maj','jun','jul','avgust','septembar','oktobar','novembar','decembar'];
+  var dateStr = '(datum za potvrdu)';
+  if(b.date){ var dd=new Date(b.date); dateStr = dd.getDate()+'. '+meseci[dd.getMonth()]+' '+dd.getFullYear()+'.'; }
   var persons = b.persons||1;
   // Build a clean message
-  var msg = 'Hello' + (host&&host.contact_person?(' '+host.contact_person):'') + ',\n\n' +
-    'I\'d like to arrange the following for my client:\n\n' +
-    '• Activity: ' + (b.item||'—') + '\n' +
-    '• Date: ' + dateStr + '\n' +
-    '• Guests: ' + persons + ' person' + (persons!=1?'s':'') + '\n' +
-    (b.client_name?('• Guest name: ' + b.client_name + '\n'):'') +
-    '\nCould you please confirm availability and the price? Thank you!\n\n— Experience Montenegro';
+  var msg = 'Zdravo' + (host&&host.contact_person?(' '+host.contact_person):'') + ',\n\n' +
+    'Htio bih da dogovorim sljedeće za svog klijenta:\n\n' +
+    '• Aktivnost: ' + (b.item||'—') + '\n' +
+    '• Datum: ' + dateStr + '\n' +
+    '• Broj gostiju: ' + persons + '\n' +
+    (b.client_name?('• Ime gosta: ' + b.client_name + '\n'):'') +
+    '\nMožeš li potvrditi dostupnost i cijenu? Hvala!\n\n— Experience Montenegro';
 
   // Show a small chooser: WhatsApp / Copy / Email
   var existing = document.getElementById('msgHostModal');
@@ -1172,7 +1174,7 @@ function bkMessageHost(){
       (email?'<a href="#" id="msgEmailBtn" style="flex:1;min-width:120px;text-align:center;background:rgba(200,184,154,0.1);color:#c8b89a;padding:0.65rem;border-radius:4px;text-decoration:none;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;border:1px solid rgba(200,184,154,0.2);">Email</a>':'')+
       '<button onclick="msgHostCopy()" style="flex:1;min-width:120px;background:rgba(46,139,114,0.15);color:#3aab8a;border:1px solid rgba(46,139,114,0.3);padding:0.65rem;border-radius:4px;cursor:pointer;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;font-family:\'DM Sans\',sans-serif;">Copy</button>'+
     '</div>'+
-    '<button onclick="document.getElementById(\'msgHostModal\').remove()" style="width:100%;background:none;border:none;color:rgba(200,184,154,0.35);padding:0.75rem;margin-top:0.5rem;cursor:pointer;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;font-family:\'DM Sans\',sans-serif;">Close</button>'+
+    '<button onclick="document.getElementById(\'msgHostModal\').remove()" style="width:100%;background:rgba(200,184,154,0.05);border:1px solid rgba(200,184,154,0.2);color:rgba(200,184,154,0.6);padding:0.75rem;margin-top:0.6rem;cursor:pointer;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;font-family:\'DM Sans\',sans-serif;border-radius:4px;">Close</button>'+
   '</div>';
   m.addEventListener('click',function(e){ if(e.target===m) m.remove(); });
   document.body.appendChild(m);
