@@ -156,6 +156,10 @@ function initAdmin() {
 
       <!-- ========== LEADS TAB ========== -->
       <div id="tab-leads">
+      <div id="admDashboard" style="padding:1.25rem 1.5rem;border-bottom:1px solid rgba(200,184,154,0.06);display:none;">
+        <div style="font-size:0.55rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(200,184,154,0.35);margin-bottom:0.85rem;">What needs attention</div>
+        <div id="admDashCards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0.75rem;"></div>
+      </div>
       <div class="adm-stats">
         <div class="adm-stat"><div class="adm-stat-lbl">Total</div><div class="adm-stat-val" id="admTotal">—</div></div>
         <div class="adm-stat"><div class="adm-stat-lbl">Planning</div><div class="adm-stat-val" id="admPlanning" style="color:#2e8b72;">—</div></div>
@@ -212,12 +216,14 @@ function initAdmin() {
           <button class="adm-fbtn bk-fbtn" onclick="bkFilter('reserved',this)">Reserved</button>
           <button class="adm-fbtn bk-fbtn" onclick="bkFilter('confirmed',this)">Confirmed</button>
           <input type="text" class="adm-search" id="bkSearch" placeholder="Search client or item..." oninput="bkRender()">
-          <button class="adm-export-btn" onclick="bkAddNew()" style="margin-left:auto;background:#2e8b72;color:#fff;border-color:#2e8b72;">+ New booking</button>
+          <button class="adm-fbtn" id="bkViewToggle" onclick="bkToggleView()" style="margin-left:auto;">📅 Calendar</button>
+          <button class="adm-export-btn" onclick="bkAddNew()" style="background:#2e8b72;color:#fff;border-color:#2e8b72;">+ New booking</button>
         </div>
-        <div class="adm-table-wrap">
+        <div class="adm-table-wrap" id="bkListView">
           <table class="adm-table" id="bkTable"><thead><tr><th>Client</th><th>Item</th><th>Host</th><th>Date</th><th>Commission</th><th>Status</th></tr></thead><tbody id="bkBody"></tbody></table>
           <div class="adm-empty" id="bkEmpty" style="display:none;">No bookings yet</div>
         </div>
+        <div id="bkCalView" style="display:none;padding:1.25rem 1.5rem;"></div>
       </div><!-- /tab-bookings -->
 
       <!-- ========== HOSTS TAB ========== -->
@@ -262,11 +268,17 @@ function initAdmin() {
           <div class="bk-f"><label>Status</label><select id="bkStatus"><option value="todo">To book</option><option value="reserved">Reserved</option><option value="confirmed">Confirmed</option></select></div>
         </div>
         <div class="bk-fr">
-          <div class="bk-f"><label>Client pays host</label><input id="bkClientPrice" placeholder="e.g. €50"></div>
+          <div class="bk-f"><label>Price per person</label><input id="bkClientPrice" placeholder="e.g. €50" oninput="bkCalcTotal()"></div>
+          <div class="bk-f"><label>Persons</label><input id="bkPersons" type="number" min="1" value="1" oninput="bkCalcTotal()"></div>
+        </div>
+        <div class="bk-fr">
+          <div class="bk-f"><label>Total (auto)</label><input id="bkTotal" readonly style="background:rgba(46,139,114,0.08);color:#3aab8a;"></div>
           <div class="bk-f"><label>Your commission</label><input id="bkCommissionInput" placeholder="e.g. 15% or €10"></div>
         </div>
         <div class="bk-f"><label>Notes</label><textarea id="bkNotes" placeholder="Booking reference, special requests..."></textarea></div>
         <button class="bk-save" onclick="bkSave()">Save booking</button>
+        <button id="bkMsgHost" onclick="bkMessageHost()" style="width:100%;background:#25D366;color:#fff;border:none;padding:0.7rem;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;border-radius:4px;font-family:'DM Sans',sans-serif;margin-top:0.5rem;display:none;">✉ Message host</button>
+        <button id="bkViewClient" onclick="bkViewClient()" style="width:100%;background:rgba(46,139,114,0.1);color:#3aab8a;border:1px solid rgba(46,139,114,0.3);padding:0.7rem;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;border-radius:4px;font-family:'DM Sans',sans-serif;margin-top:0.5rem;display:none;">→ View client lead</button>
         <button class="bk-del" id="bkDelBtn" onclick="bkDelete()" style="display:none;">Delete booking</button>
       </div>
     </div>
@@ -410,6 +422,7 @@ async function loadLeads() {
   allLeads = await res.json();
   admUpdateStats();
   admRender();
+  renderDashboard();
   var el = document.getElementById('admLastUpdate');
   if (el) el.textContent = 'Updated ' + new Date().toLocaleTimeString();
 }
@@ -481,6 +494,55 @@ function admUpdateStats() {
   var cEl = document.getElementById('admConversion'); if (cEl) cEl.textContent = conv + '%';
 }
 
+async function renderDashboard(){
+  var wrap = document.getElementById('admDashboard');
+  var cards = document.getElementById('admDashCards');
+  if(!wrap||!cards) return;
+
+  // New leads waiting
+  var newWaiting = allLeads.filter(function(l){ return leadType(l)==='planning' && (l.status||'new')==='new'; });
+  var stale = newWaiting.filter(function(l){ return daysAgo(l.created_at) >= 3; });
+
+  // Load bookings for upcoming + to-book counts
+  var bkTodo = 0, bkUpcoming = 0;
+  try{
+    var res = await fetch(SUPABASE_URL_ADMIN + '/rest/v1/bookings?select=status,date', { headers: admAuthHeaders() });
+    if(res.ok){
+      var bks = await res.json();
+      var now = new Date(); var wk = new Date(); wk.setDate(wk.getDate()+7);
+      bks.forEach(function(b){
+        if((b.status||'todo')==='todo') bkTodo++;
+        if(b.date){ var d=new Date(b.date); if(d>=now && d<=wk) bkUpcoming++; }
+      });
+    }
+  }catch(e){}
+
+  var cardsHTML = '';
+  cardsHTML += dashCard(newWaiting.length, 'New leads waiting', '#2e8b72', "admSwitchTab('leads',null);setTimeout(function(){admFilterByStatus('new')},100)");
+  if(stale.length>0) cardsHTML += dashCard(stale.length, 'Waiting 3+ days ⚠', '#e07b6f', "admSwitchTab('leads',null);setTimeout(function(){admFilterByStatus('new')},100)");
+  cardsHTML += dashCard(bkTodo, 'Bookings to make', '#e0a05a', "admSwitchTab('bookings',null)");
+  cardsHTML += dashCard(bkUpcoming, 'Activities next 7 days', '#7799ff', "admSwitchTab('bookings',null)");
+
+  cards.innerHTML = cardsHTML;
+  wrap.style.display = 'block';
+}
+
+function dashCard(num, label, color, onclick){
+  return '<div onclick="'+onclick+'" style="background:rgba(200,184,154,0.03);border:1px solid rgba(200,184,154,0.1);border-radius:6px;padding:1rem 1.15rem;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor=\''+color+'66\'" onmouseout="this.style.borderColor=\'rgba(200,184,154,0.1)\'">'+
+    '<div style="font-family:\'Playfair Display\',serif;font-size:1.8rem;color:'+color+';line-height:1;">'+num+'</div>'+
+    '<div style="font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;color:rgba(200,184,154,0.45);margin-top:0.4rem;">'+label+'</div>'+
+  '</div>';
+}
+
+function admFilterByStatus(status){
+  currentFilter = status;
+  document.querySelectorAll('.adm-fbtn:not(.adm-type)').forEach(function(b){
+    b.classList.remove('active');
+    if(b.textContent.trim().toLowerCase()===status || (status==='new'&&b.textContent.trim()==='New')) b.classList.add('active');
+  });
+  admRender();
+}
+
 function admFilter(f, btn) {
   currentFilter = f;
   // only toggle status-row buttons (not type buttons)
@@ -546,6 +608,7 @@ function admRender() {
     } else {
       tr.className = 'adm-row-status adm-rs-type-' + type;
     }
+    tr.setAttribute('data-lead-id', l.id);
     tr.onclick = function(){admOpenModal(l);};
 
     // Waiting cell — only meaningful for New planning leads that haven't been actioned
@@ -642,7 +705,17 @@ async function loadClientBookings(l){
     if(!res.ok){ box.innerHTML='<div style="font-size:0.72rem;color:rgba(200,184,154,0.3);">Could not load bookings.</div>'; return; }
     var bookings = await res.json();
     if(!bookings.length){ box.innerHTML='<div style="font-size:0.72rem;color:rgba(200,184,154,0.3);">No bookings yet. Create a plan and publish to generate them.</div>'; return; }
-    box.innerHTML = bookings.map(function(b){
+    // Sum totals + commission for this client
+    var sumTotal=0, curT='€', sumComm=0, hasComm=false;
+    bookings.forEach(function(b){
+      var tm=(b.total||'').match(/(\d+(?:\.\d+)?)/); if(tm){ sumTotal+=parseFloat(tm[1]); var cc=(b.total||'').match(/[€$£]/); if(cc)curT=cc[0]; }
+      var cm=(b.commission||'').match(/(\d+(?:\.\d+)?)/); if(cm && (b.commission||'').indexOf('%')<0){ sumComm+=parseFloat(cm[1]); hasComm=true; }
+    });
+    var summary = '<div style="display:flex;gap:1rem;margin-bottom:0.7rem;font-size:0.72rem;">'+
+      '<span style="color:rgba(200,184,154,0.5);">Trip value: <b style="color:#f5f2ee;">'+curT+sumTotal+'</b></span>'+
+      (hasComm?'<span style="color:rgba(200,184,154,0.5);">Your commission: <b style="color:#7799ff;">'+curT+sumComm+'</b></span>':'')+
+      '</div>';
+    box.innerHTML = summary + bookings.map(function(b){
       var dt = b.date ? new Date(b.date).toLocaleDateString('en-GB',{day:'2-digit',month:'short'}) : '';
       var st = b.status||'todo';
       return '<div style="display:flex;justify-content:space-between;align-items:center;gap:0.75rem;padding:0.5rem 0.65rem;border:1px solid rgba(200,184,154,0.1);border-radius:4px;margin-bottom:0.35rem;background:rgba(200,184,154,0.02);">'+
@@ -718,12 +791,49 @@ async function admSaveNotes() {
 // ══════════════════════════════════════════════════════════
 function admSwitchTab(tab, btn){
   document.querySelectorAll('.adm-tab').forEach(function(t){ t.classList.remove('active'); });
-  btn.classList.add('active');
+  if(btn){ btn.classList.add('active'); }
+  else { // programmatic switch — find the matching tab button
+    document.querySelectorAll('.adm-tab').forEach(function(t){ if(t.textContent.trim().toLowerCase()===tab){ t.classList.add('active'); } });
+  }
   document.getElementById('tab-leads').style.display = tab==='leads'?'block':'none';
   document.getElementById('tab-bookings').style.display = tab==='bookings'?'block':'none';
   document.getElementById('tab-hosts').style.display = tab==='hosts'?'block':'none';
   if(tab==='bookings'){ loadBookings(); loadHosts(); }
   if(tab==='hosts'){ loadHosts(); }
+}
+
+// Jump from a booking to its client's lead, highlighted
+function gotoLeadFromBooking(clientId, clientName){
+  admSwitchTab('leads', null);
+  var lead = allLeads.find(function(l){ return l.id===clientId; });
+  if(!lead && clientName){ lead = allLeads.find(function(l){ return (l.name||'').toLowerCase()===clientName.toLowerCase(); }); }
+  if(lead){
+    admOpenModal(lead);
+    setTimeout(function(){ highlightLeadRow(lead.id); }, 100);
+  } else {
+    alert('Lead not found for this booking (may be a manually-added booking).');
+  }
+}
+
+// Jump from a lead to bookings tab, filtered/highlighted for that client
+function gotoBookingsFromLead(clientId, clientName){
+  admCloseModal();
+  admSwitchTab('bookings', null);
+  var s = document.getElementById('bkSearch');
+  if(s){ s.value = clientName || ''; }
+  setTimeout(function(){ bkRender(); }, 300);
+}
+
+function highlightLeadRow(id){
+  var rows = document.querySelectorAll('#admBody tr');
+  rows.forEach(function(r){
+    if(r.getAttribute('data-lead-id')===id){
+      r.style.transition='background 0.3s';
+      r.style.background='rgba(46,139,114,0.25)';
+      r.scrollIntoView({behavior:'smooth', block:'center'});
+      setTimeout(function(){ r.style.background=''; }, 2500);
+    }
+  });
 }
 
 // ══════════════════════════════════════════════════════════
@@ -857,6 +967,7 @@ async function loadBookings(){
     allBookings = await res.json();
     bkUpdateStats();
     bkRender();
+    if(bkViewMode==='calendar') renderCalendar();
   }catch(e){ console.error('loadBookings', e); }
 }
 
@@ -897,15 +1008,88 @@ function bkRender(){
   tbody.innerHTML = filtered.map(function(b){
     var d = b.date ? new Date(b.date).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}) : '—';
     var st = b.status||'todo';
+    var itemLine = (b.item||'—') + (b.persons&&b.persons>1?' <span style="color:rgba(200,184,154,0.4);font-size:0.7rem;">×'+b.persons+'</span>':'');
     return '<tr onclick="bkEdit(\''+b.id+'\')">'+
       '<td><div class="adm-name">'+(b.client_name||'—')+'</div></td>'+
-      '<td style="font-size:0.82rem;">'+(b.item||'—')+'</td>'+
+      '<td style="font-size:0.82rem;">'+itemLine+(b.total?'<div style="font-size:0.68rem;color:rgba(200,184,154,0.4);">'+b.total+'</div>':'')+'</td>'+
       '<td style="color:rgba(200,184,154,0.55);font-size:0.78rem;">'+(b.host_name||'—')+'</td>'+
       '<td class="adm-date">'+d+'</td>'+
       '<td style="color:#7799ff;font-size:0.78rem;">'+(b.commission||'—')+'</td>'+
       '<td><span class="badge badge-'+st+'">'+st+'</span></td>'+
     '</tr>';
   }).join('');
+}
+
+var bkCalMonth = new Date().getMonth();
+var bkCalYear = new Date().getFullYear();
+var bkViewMode = 'list';
+
+function bkToggleView(){
+  bkViewMode = bkViewMode==='list' ? 'calendar' : 'list';
+  document.getElementById('bkListView').style.display = bkViewMode==='list'?'block':'none';
+  document.getElementById('bkCalView').style.display = bkViewMode==='calendar'?'block':'none';
+  document.getElementById('bkViewToggle').textContent = bkViewMode==='list' ? '📅 Calendar' : '☰ List';
+  if(bkViewMode==='calendar') renderCalendar();
+}
+
+function bkCalNav(delta){
+  bkCalMonth += delta;
+  if(bkCalMonth<0){ bkCalMonth=11; bkCalYear--; }
+  if(bkCalMonth>11){ bkCalMonth=0; bkCalYear++; }
+  renderCalendar();
+}
+
+function renderCalendar(){
+  var el = document.getElementById('bkCalView');
+  var monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var first = new Date(bkCalYear, bkCalMonth, 1);
+  var startDay = (first.getDay()+6)%7; // Monday-first
+  var daysInMonth = new Date(bkCalYear, bkCalMonth+1, 0).getDate();
+
+  // Group bookings by date (YYYY-MM-DD)
+  var byDate = {};
+  allBookings.forEach(function(b){
+    if(!b.date) return;
+    var d = new Date(b.date);
+    if(d.getMonth()===bkCalMonth && d.getFullYear()===bkCalYear){
+      var key = b.date.slice(0,10);
+      (byDate[key] = byDate[key]||[]).push(b);
+    }
+  });
+
+  var statusColor = {todo:'#e0a05a', reserved:'#7799ff', confirmed:'#2e8b72'};
+
+  var html = '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">'+
+    '<button onclick="bkCalNav(-1)" style="background:rgba(200,184,154,0.08);border:1px solid rgba(200,184,154,0.15);color:#f5f2ee;padding:0.4rem 0.9rem;border-radius:4px;cursor:pointer;">←</button>'+
+    '<div style="font-family:\'Playfair Display\',serif;font-size:1.2rem;color:#f5f2ee;">'+monthNames[bkCalMonth]+' '+bkCalYear+'</div>'+
+    '<button onclick="bkCalNav(1)" style="background:rgba(200,184,154,0.08);border:1px solid rgba(200,184,154,0.15);color:#f5f2ee;padding:0.4rem 0.9rem;border-radius:4px;cursor:pointer;">→</button>'+
+  '</div>';
+
+  html += '<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:rgba(200,184,154,0.08);border:1px solid rgba(200,184,154,0.08);">';
+  ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].forEach(function(d){
+    html += '<div style="background:#0f0f0f;padding:0.5rem;text-align:center;font-size:0.55rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(200,184,154,0.4);">'+d+'</div>';
+  });
+  for(var i=0;i<startDay;i++){ html += '<div style="background:#0a0a0a;min-height:80px;"></div>'; }
+  var today = new Date(); var todayKey = today.toISOString().slice(0,10);
+  for(var day=1;day<=daysInMonth;day++){
+    var key = bkCalYear+'-'+String(bkCalMonth+1).padStart(2,'0')+'-'+String(day).padStart(2,'0');
+    var items = byDate[key]||[];
+    var isToday = key===todayKey;
+    html += '<div style="background:#0a0a0a;min-height:80px;padding:0.4rem;'+(isToday?'box-shadow:inset 0 0 0 1px rgba(46,139,114,0.5);':'')+'">'+
+      '<div style="font-size:0.7rem;color:'+(isToday?'#3aab8a':'rgba(200,184,154,0.5)')+';margin-bottom:0.25rem;font-weight:'+(isToday?'600':'400')+';">'+day+'</div>'+
+      items.map(function(b){
+        var col = statusColor[b.status||'todo']||'#888';
+        return '<div onclick="bkEdit(\''+b.id+'\')" style="font-size:0.6rem;color:#f5f2ee;background:'+col+'22;border-left:2px solid '+col+';padding:0.15rem 0.3rem;margin-bottom:0.2rem;border-radius:2px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="'+(b.client_name||'')+' — '+(b.item||'')+'">'+(b.item||'—')+'</div>';
+      }).join('')+
+    '</div>';
+  }
+  html += '</div>';
+  html += '<div style="display:flex;gap:1rem;margin-top:1rem;font-size:0.62rem;color:rgba(200,184,154,0.5);">'+
+    '<span><span style="display:inline-block;width:8px;height:8px;background:#e0a05a;border-radius:2px;"></span> To book</span>'+
+    '<span><span style="display:inline-block;width:8px;height:8px;background:#7799ff;border-radius:2px;"></span> Reserved</span>'+
+    '<span><span style="display:inline-block;width:8px;height:8px;background:#2e8b72;border-radius:2px;"></span> Confirmed</span>'+
+  '</div>';
+  el.innerHTML = html;
 }
 
 function bkAddNew(){
@@ -917,6 +1101,8 @@ function bkAddNew(){
   document.getElementById('bkDate').value='';
   document.getElementById('bkStatus').value='todo';
   document.getElementById('bkClientPrice').value='';
+  document.getElementById('bkPersons').value='1';
+  document.getElementById('bkTotal').value='';
   document.getElementById('bkCommissionInput').value='';
   document.getElementById('bkNotes').value='';
   document.getElementById('bkDelBtn').style.display='none';
@@ -935,13 +1121,87 @@ function bkEdit(id){
   document.getElementById('bkHost').value=b.host_id||'';
   document.getElementById('bkDate').value=b.date||'';
   document.getElementById('bkStatus').value=b.status||'todo';
-  document.getElementById('bkClientPrice').value=b.client_price||'';
+  document.getElementById('bkClientPrice').value=b.client_price||b.price_per_person||'';
+  document.getElementById('bkPersons').value=b.persons||1;
+  document.getElementById('bkTotal').value=b.total||'';
   document.getElementById('bkCommissionInput').value=b.commission||'';
+  bkCalcTotal();
   document.getElementById('bkNotes').value=b.notes||'';
   document.getElementById('bkDelBtn').style.display='block';
+  document.getElementById('bkViewClient').style.display = b.client_id ? 'block' : 'none';
+  document.getElementById('bkMsgHost').style.display = b.host_id ? 'block' : 'none';
   document.getElementById('bkModal').classList.add('open');
 }
 
+function bkViewClient(){
+  var b = allBookings.find(function(x){ return x.id===editingBookingId; });
+  if(!b) return;
+  bkCloseModal();
+  gotoLeadFromBooking(b.client_id, b.client_name);
+}
+
+function bkMessageHost(){
+  var b = allBookings.find(function(x){ return x.id===editingBookingId; });
+  if(!b){ return; }
+  var host = allHosts.find(function(h){ return h.id===b.host_id; });
+  var dateStr = b.date ? new Date(b.date).toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'}) : '(date to confirm)';
+  var persons = b.persons||1;
+  // Build a clean message
+  var msg = 'Hello' + (host&&host.contact_person?(' '+host.contact_person):'') + ',\n\n' +
+    'I\'d like to arrange the following for my client:\n\n' +
+    '• Activity: ' + (b.item||'—') + '\n' +
+    '• Date: ' + dateStr + '\n' +
+    '• Guests: ' + persons + ' person' + (persons!=1?'s':'') + '\n' +
+    (b.client_name?('• Guest name: ' + b.client_name + '\n'):'') +
+    '\nCould you please confirm availability and the price? Thank you!\n\n— Experience Montenegro';
+
+  // Show a small chooser: WhatsApp / Copy / Email
+  var existing = document.getElementById('msgHostModal');
+  if(existing) existing.remove();
+  var phone = host&&host.phone ? host.phone.replace(/[^0-9]/g,'') : '';
+  var email = host&&host.email ? host.email : '';
+  var m = document.createElement('div');
+  m.id='msgHostModal';
+  m.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:100000;display:flex;align-items:center;justify-content:center;padding:1.5rem;';
+  m.innerHTML='<div style="background:#111;border:1px solid rgba(200,184,154,0.15);border-radius:8px;padding:1.75rem;max-width:480px;width:100%;">'+
+    '<div style="font-family:\'Playfair Display\',serif;font-size:1.15rem;color:#f5f2ee;margin-bottom:0.3rem;">Message to '+(host?host.name:'host')+'</div>'+
+    '<div style="font-size:0.68rem;color:rgba(200,184,154,0.4);margin-bottom:1rem;">Review, then send however you like.</div>'+
+    '<textarea id="msgHostText" style="width:100%;height:200px;background:rgba(200,184,154,0.05);border:1px solid rgba(200,184,154,0.15);color:#f5f2ee;padding:0.75rem;font-family:\'DM Sans\',sans-serif;font-size:0.82rem;line-height:1.6;outline:none;border-radius:4px;resize:vertical;">'+msg.replace(/</g,'&lt;')+'</textarea>'+
+    '<div style="display:flex;gap:0.5rem;margin-top:0.85rem;flex-wrap:wrap;">'+
+      (phone?'<a href="#" target="_blank" id="msgWaBtn" style="flex:1;min-width:120px;text-align:center;background:#25D366;color:#fff;padding:0.65rem;border-radius:4px;text-decoration:none;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;">WhatsApp</a>':'')+
+      (email?'<a href="#" id="msgEmailBtn" style="flex:1;min-width:120px;text-align:center;background:rgba(200,184,154,0.1);color:#c8b89a;padding:0.65rem;border-radius:4px;text-decoration:none;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;border:1px solid rgba(200,184,154,0.2);">Email</a>':'')+
+      '<button onclick="msgHostCopy()" style="flex:1;min-width:120px;background:rgba(46,139,114,0.15);color:#3aab8a;border:1px solid rgba(46,139,114,0.3);padding:0.65rem;border-radius:4px;cursor:pointer;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;font-family:\'DM Sans\',sans-serif;">Copy</button>'+
+    '</div>'+
+    '<button onclick="document.getElementById(\'msgHostModal\').remove()" style="width:100%;background:none;border:none;color:rgba(200,184,154,0.35);padding:0.75rem;margin-top:0.5rem;cursor:pointer;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;font-family:\'DM Sans\',sans-serif;">Close</button>'+
+  '</div>';
+  m.addEventListener('click',function(e){ if(e.target===m) m.remove(); });
+  document.body.appendChild(m);
+  // Wire dynamic links to the (editable) textarea content
+  function refreshLinks(){
+    var t = encodeURIComponent(document.getElementById('msgHostText').value);
+    var wa = document.getElementById('msgWaBtn'); if(wa) wa.href = 'https://wa.me/'+phone+'?text='+t;
+    var em = document.getElementById('msgEmailBtn'); if(em) em.href = 'mailto:'+email+'?subject='+encodeURIComponent('Booking request — '+(b.item||''))+'&body='+t;
+  }
+  document.getElementById('msgHostText').addEventListener('input', refreshLinks);
+  refreshLinks();
+}
+
+function msgHostCopy(){
+  var t = document.getElementById('msgHostText');
+  t.select();
+  if(navigator.clipboard){ navigator.clipboard.writeText(t.value).catch(function(){}); }
+  else { try{document.execCommand('copy');}catch(e){} }
+  event.target.textContent='Copied ✓';
+  setTimeout(function(){ event.target.textContent='Copy'; },1500);
+}
+
+function bkCalcTotal(){
+  var p = document.getElementById('bkClientPrice').value.trim();
+  var n = parseInt(document.getElementById('bkPersons').value)||1;
+  var m = p.match(/(\d+(?:\.\d+)?)/);
+  var cur = (p.match(/[€$£]/)||['€'])[0];
+  document.getElementById('bkTotal').value = m ? (cur + (parseFloat(m[1])*n)) : '';
+}
 function bkCloseModal(){ document.getElementById('bkModal').classList.remove('open'); }
 
 async function bkSave(){
@@ -956,6 +1216,9 @@ async function bkSave(){
     date: document.getElementById('bkDate').value,
     status: document.getElementById('bkStatus').value,
     client_price: document.getElementById('bkClientPrice').value.trim(),
+    price_per_person: document.getElementById('bkClientPrice').value.trim(),
+    persons: parseInt(document.getElementById('bkPersons').value)||1,
+    total: document.getElementById('bkTotal').value.trim(),
     commission: document.getElementById('bkCommissionInput').value.trim(),
     notes: document.getElementById('bkNotes').value.trim()
   };
