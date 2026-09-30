@@ -170,6 +170,11 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1.2rem
 
 /* TESTIMONIALS SLIDER */
 .testimonials-section { padding: 5rem 2rem; background: rgba(200,184,154,0.02); border-top: 1px solid rgba(200,184,154,0.1); border-bottom: 1px solid rgba(200,184,154,0.1); }
+/* GOOGLE REVIEWS */
+.reviews-section { padding: 5rem 2rem; background: var(--black); border-top: 1px solid rgba(200,184,154,0.08); border-bottom: 1px solid rgba(200,184,154,0.08); }
+.reviews-head { max-width: 700px; margin: 0 auto 2.5rem; }
+.reviews-widget { max-width: 1100px; margin: 0 auto; }
+.reviews-widget iframe { width: 100% !important; }
 .testimonials-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem; }
 .testimonials-header .section-label { margin-bottom: 0; }
 .testimonials-header .section-title { margin-bottom: 0; }
@@ -1033,6 +1038,25 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
 }
+
+select option{background:#1a1a1a;color:#f5f2ee;}
+select{color:#f5f2ee;}
+
+/* FOOD TASTE STRIP */
+.taste-section{background:#0a1a12;padding:3.5rem 0 3rem;overflow:hidden;position:relative;}
+.taste-head{text-align:center;margin-bottom:2rem;padding:0 1.5rem;}
+.taste-label{font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--cta);margin-bottom:0.75rem;}
+.taste-title{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,4vw,2.4rem);font-weight:400;color:var(--white);line-height:1.2;}
+.taste-title em{font-style:italic;color:var(--stone);}
+.taste-track-wrap{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);}
+.taste-track{display:flex;gap:2.5rem;width:max-content;animation:tasteScroll 40s linear infinite;}
+.taste-section:hover .taste-track{animation-play-state:paused;}
+.taste-item{display:flex;flex-direction:column;align-items:center;gap:0.6rem;width:88px;flex-shrink:0;}
+.taste-item img{width:56px;height:56px;display:block;transition:transform 0.3s;}
+.taste-item:hover img{transform:scale(1.12) translateY(-3px);}
+.taste-item span{font-size:0.62rem;letter-spacing:0.06em;color:rgba(245,242,238,0.5);text-align:center;line-height:1.3;}
+@keyframes tasteScroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+@media(max-width:768px){.taste-item{width:74px;}.taste-item img{width:46px;height:46px;}.taste-track{gap:1.8rem;}}
 </style>
 </head>
 <body>
@@ -1422,6 +1446,17 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
 <!-- THE DIFFERENCE -->
 
 
+<!-- TASTE OF MONTENEGRO -->
+<section class="taste-section">
+  <div class="taste-head">
+    <div class="taste-label">A taste of Montenegro</div>
+    <h2 class="taste-title">Flavours you'll <em>discover.</em></h2>
+  </div>
+  <div class="taste-track-wrap">
+    <div class="taste-track"><div class="taste-item"><img src="/food/korpa.svg" alt="Local basket" loading="lazy"><span>Local basket</span></div><div class="taste-item"><img src="/food/hljeb.svg" alt="Homemade bread" loading="lazy"><span>Homemade bread</span></div><div class="taste-item"><img src="/food/meso.svg" alt="Meat under the sač" loading="lazy"><span>Meat under the sač</span></div><div class="taste-item"><img src="/food/sir.svg" alt="Njeguši cheese" loading="lazy"><span>Njeguši cheese</span></div><div class="taste-item"><img src="/food/med.svg" alt="Wild honey" loading="lazy"><span>Wild honey</span></div><div class="taste-item"><img src="/food/ulje.svg" alt="Olive oil" loading="lazy"><span>Olive oil</span></div><div class="taste-item"><img src="/food/prsut.svg" alt="Prosciutto" loading="lazy"><span>Prosciutto</span></div><div class="taste-item"><img src="/food/masline.svg" alt="Olives" loading="lazy"><span>Olives</span></div><div class="taste-item"><img src="/food/grozdje.svg" alt="Grapes" loading="lazy"><span>Grapes</span></div><div class="taste-item"><img src="/food/vino.svg" alt="Local wine" loading="lazy"><span>Local wine</span></div><div class="taste-item"><img src="/food/rakija.svg" alt="Rakija" loading="lazy"><span>Rakija</span></div><div class="taste-item"><img src="/food/smokve.svg" alt="Figs" loading="lazy"><span>Figs</span></div><div class="taste-item"><img src="/food/riba.svg" alt="Fresh fish" loading="lazy"><span>Fresh fish</span></div><div class="taste-item"><img src="/food/dzem.svg" alt="Homemade jam" loading="lazy"><span>Homemade jam</span></div><div class="taste-item"><img src="/food/kacamak.svg" alt="Kačamak" loading="lazy"><span>Kačamak</span></div><div class="taste-item"><img src="/food/kafa.svg" alt="Coffee" loading="lazy"><span>Coffee</span></div><div class="taste-item"><img src="/food/korpa.svg" alt="Local basket" loading="lazy"><span>Local basket</span></div><div class="taste-item"><img src="/food/hljeb.svg" alt="Homemade bread" loading="lazy"><span>Homemade bread</span></div><div class="taste-item"><img src="/food/meso.svg" alt="Meat under the sač" loading="lazy"><span>Meat under the sač</span></div><div class="taste-item"><img src="/food/sir.svg" alt="Njeguši cheese" loading="lazy"><span>Njeguši cheese</span></div><div class="taste-item"><img src="/food/med.svg" alt="Wild honey" loading="lazy"><span>Wild honey</span></div><div class="taste-item"><img src="/food/ulje.svg" alt="Olive oil" loading="lazy"><span>Olive oil</span></div><div class="taste-item"><img src="/food/prsut.svg" alt="Prosciutto" loading="lazy"><span>Prosciutto</span></div><div class="taste-item"><img src="/food/masline.svg" alt="Olives" loading="lazy"><span>Olives</span></div><div class="taste-item"><img src="/food/grozdje.svg" alt="Grapes" loading="lazy"><span>Grapes</span></div><div class="taste-item"><img src="/food/vino.svg" alt="Local wine" loading="lazy"><span>Local wine</span></div><div class="taste-item"><img src="/food/rakija.svg" alt="Rakija" loading="lazy"><span>Rakija</span></div><div class="taste-item"><img src="/food/smokve.svg" alt="Figs" loading="lazy"><span>Figs</span></div><div class="taste-item"><img src="/food/riba.svg" alt="Fresh fish" loading="lazy"><span>Fresh fish</span></div><div class="taste-item"><img src="/food/dzem.svg" alt="Homemade jam" loading="lazy"><span>Homemade jam</span></div><div class="taste-item"><img src="/food/kacamak.svg" alt="Kačamak" loading="lazy"><span>Kačamak</span></div><div class="taste-item"><img src="/food/kafa.svg" alt="Coffee" loading="lazy"><span>Coffee</span></div></div>
+  </div>
+</section>
+
 <!-- QUIZ -->
 <section class="quiz-section" id="quiz">
   <div class="quiz-inner">
@@ -1647,94 +1682,17 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
 </section>
 
 <!-- TESTIMONIALS SLIDER -->
-<section class="testimonials-section" id="reviews" style="display:none">
-  <div class="testimonials-header">
-    <div>
-      <div class="section-label">What travellers say</div>
-      <h2 class="section-title">Real experiences,<br><em>real people.</em></h2>
-    </div>
-    <div class="slider-controls">
-      <button class="slider-btn" id="prevBtn" onclick="slideTestimonials(-1)">←</button>
-      <button class="slider-btn" id="nextBtn" onclick="slideTestimonials(1)">→</button>
-    </div>
+<!-- GOOGLE REVIEWS -->
+<section class="reviews-section" id="reviews">
+  <div class="reviews-head">
+    <div class="section-label" style="justify-content:center;">What travellers say</div>
+    <h2 class="section-title" style="text-align:center;max-width:100%;margin:0 auto 0.75rem;">Real experiences,<br><em style="color:var(--stone);">real people.</em></h2>
+    <p style="text-align:center;font-size:0.82rem;color:rgba(245,242,238,0.45);max-width:420px;margin:0 auto;">Verified reviews from travellers, straight from Google.</p>
   </div>
-  <div class="testimonials-track-wrap">
-    <div class="testimonials-track" id="testimonialsTrack">
-      <div class="testimonial">
-        <div class="testimonial-stars">★★★★★</div>
-        <p class="testimonial-quote">Igor planned our entire week from scratch. Tara rafting, a hidden canyon, dinner at a family winery, none of it was in any guidebook. Absolutely unforgettable.</p>
-        <div class="testimonial-author">
-          <div class="testimonial-flag">🇩🇪</div>
-          <div><div class="testimonial-name">Markus K.</div><div class="testimonial-origin">Germany · 7-day trip</div></div>
-        </div>
-      </div>
-      <div class="testimonial">
-        <div class="testimonial-stars">★★★★★</div>
-        <p class="testimonial-quote">We came as a couple looking for something different. Igor understood exactly what we wanted: peaceful mornings on the bay, adventure in the afternoons. Perfect balance.</p>
-        <div class="testimonial-author">
-          <div class="testimonial-flag">🇳🇱</div>
-          <div><div class="testimonial-name">Sophie V.</div><div class="testimonial-origin">Netherlands · 5-day trip</div></div>
-        </div>
-      </div>
-      <div class="testimonial">
-        <div class="testimonial-stars">★★★★★</div>
-        <p class="testimonial-quote">I've used travel agencies before, but this felt completely different. Direct, personal, honest. Igor replied to every message within hours. Worth every cent.</p>
-        <div class="testimonial-author">
-          <div class="testimonial-flag">🇬🇧</div>
-          <div><div class="testimonial-name">James H.</div><div class="testimonial-origin">United Kingdom · 3-day trip</div></div>
-        </div>
-      </div>
-      <div class="testimonial">
-        <div class="testimonial-stars">★★★★★</div>
-        <p class="testimonial-quote">As a solo traveller I was nervous, but Igor made everything seamless. Every transfer was arranged, every operator was professional. I just showed up and enjoyed it.</p>
-        <div class="testimonial-author">
-          <div class="testimonial-flag">🇸🇪</div>
-          <div><div class="testimonial-name">Anna L.</div><div class="testimonial-origin">Sweden · Solo, 6 days</div></div>
-        </div>
-      </div>
-      <div class="testimonial">
-        <div class="testimonial-stars">★★★★★</div>
-        <p class="testimonial-quote">We brought four families, 14 people total. Igor handled everything without blinking. The kids did canyoning, the parents had wine tours. Everyone was happy.</p>
-        <div class="testimonial-author">
-          <div class="testimonial-flag">🇫🇷</div>
-          <div><div class="testimonial-name">Romain D.</div><div class="testimonial-origin">France · Group, 7 days</div></div>
-        </div>
-      </div>
-      <div class="testimonial">
-        <div class="testimonial-stars">★★★★★</div>
-        <p class="testimonial-quote">Montenegro exceeded every expectation. The Kotor kayak at sunrise was the highlight of our entire year. Already planning to come back next summer.</p>
-        <div class="testimonial-author">
-          <div class="testimonial-flag">🇺🇸</div>
-          <div><div class="testimonial-name">Emily W.</div><div class="testimonial-origin">USA · 5-day trip</div></div>
-        </div>
-      </div>
-      <div class="testimonial">
-        <div class="testimonial-stars">★★★★★</div>
-        <p class="testimonial-quote">The Durmitor jeep safari was something I'll never forget. Igor knew exactly which trails were open, which viewpoints were worth it. Local knowledge you simply can't buy elsewhere.</p>
-        <div class="testimonial-author">
-          <div class="testimonial-flag">🇨🇭</div>
-          <div><div class="testimonial-name">Lukas B.</div><div class="testimonial-origin">Switzerland · 4-day trip</div></div>
-        </div>
-      </div>
-      <div class="testimonial">
-        <div class="testimonial-stars">★★★★★</div>
-        <p class="testimonial-quote">We asked for a wine-focused trip and Igor delivered beyond anything we imagined. A private cellar dinner, a vineyard walk at golden hour. Magical.</p>
-        <div class="testimonial-author">
-          <div class="testimonial-flag">🇮🇹</div>
-          <div><div class="testimonial-name">Giulia M.</div><div class="testimonial-origin">Italy · 5-day trip</div></div>
-        </div>
-      </div>
-      <div class="testimonial">
-        <div class="testimonial-stars">★★★★★</div>
-        <p class="testimonial-quote">Came for two days, stayed for five. Igor rearranged the whole plan without hesitation when we decided to extend. That kind of flexibility is rare.</p>
-        <div class="testimonial-author">
-          <div class="testimonial-flag">🇦🇺</div>
-          <div><div class="testimonial-name">Chris & Kate R.</div><div class="testimonial-origin">Australia · 5-day trip</div></div>
-        </div>
-      </div>
-    </div>
+  <div class="reviews-widget">
+    <div class="sk-ww-google-reviews" data-embed-id="25718369"></div>
+    <script src="https://widgets.sociablekit.com/google-reviews/widget.js" defer></script>
   </div>
-  <div class="slider-dots" id="sliderDots"></div>
 </section>
 
 <!-- FORM -->
