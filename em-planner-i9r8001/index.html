@@ -343,8 +343,12 @@ input[type=number]{-moz-appearance:textfield;}
         <div class="f"><label>Duration</label><input id="sDur" placeholder="e.g. 3 hours, Full day"></div>
       </div>
       <div class="fr">
-        <div class="f"><label>Price <span style="color:rgba(200,184,154,0.3);">optional</span></label><input id="sPrice" placeholder="e.g. €50 per person"></div>
+        <div class="f"><label>Price per person <span style="color:rgba(200,184,154,0.3);">optional</span></label><input id="sPrice" placeholder="e.g. €50" oninput="updateStopTotal()"></div>
         <div class="f"><label>Payment</label><select id="sPayment"><option value="">— not shown —</option><option value="Paid on site">Paid on site</option><option value="Paid to operator">Paid to operator</option><option value="Included">Included</option><option value="Free">Free</option></select></div>
+      </div>
+      <div class="fr">
+        <div class="f"><label>Persons for this activity</label><input type="number" id="sPersons" min="1" max="99" value="1" oninput="updateStopTotal()"></div>
+        <div class="f"><label>Total</label><input id="sTotal" readonly style="background:rgba(46,139,114,0.08);color:#3aab8a;font-weight:500;" placeholder="—"></div>
       </div>
       <div class="f">
         <label>Host / operator <span style="color:rgba(200,184,154,0.3);">links to bookings</span></label>
@@ -688,6 +692,12 @@ function saveClients() {
   }
 }
 
+function genClientCode(){
+  var abc = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+  var s=''; for(var i=0;i<4;i++){ s+=abc[Math.floor(Math.random()*abc.length)]; }
+  return 'EM-C-' + s;
+}
+
 function newClient() {
   // Save current work first if there's an active client
   if (activeClientId) saveCurrentToClient();
@@ -695,7 +705,8 @@ function newClient() {
   const id = Date.now().toString();
   const client = {
     id, name:'New Client', last:'', country:'', group:'',
-    arrival:'', departure:'', welcome:'', status:'inquiry', days:[]
+    arrival:'', departure:'', welcome:'', status:'inquiry', days:[],
+    clientCode: genClientCode()
   };
   clients.unshift(client);
   saveClients();
@@ -793,7 +804,9 @@ function renderClientList() {
   if (q) {
     filtered = clients.filter(c =>
       `${c.name} ${c.last}`.toLowerCase().includes(q) ||
-      (c.country || '').toLowerCase().includes(q)
+      (c.country || '').toLowerCase().includes(q) ||
+      (c.email || '').toLowerCase().includes(q) ||
+      (c.clientCode || '').toLowerCase().includes(q)
     );
   }
 
@@ -811,7 +824,7 @@ function renderClientList() {
     <div class="cl-item ${c.id===activeClientId?'active':''}" onclick="loadClient('${c.id}')">
       <button class="cl-item-del" onclick="deleteClient('${c.id}',event)" title="Delete">✕</button>
       <div class="cl-item-name">${escHtml(c.name)} ${escHtml(c.last)}</div>
-      <div class="cl-item-meta">${c.country||'—'} ${c.arrival?'· '+fmtShort(c.arrival):''}</div>
+      <div class="cl-item-meta">${c.clientCode?'<span style="color:rgba(46,139,114,0.7);">'+escHtml(c.clientCode)+'</span> · ':''}${c.country||'—'} ${c.arrival?'· '+fmtShort(c.arrival):''}</div>
       <span class="cl-item-status s-${c.status||'inquiry'}">${c.status||'inquiry'}</span>
       ${c.internalNotes?`<div style="font-size:0.58rem;color:rgba(193,127,59,0.5);margin-top:0.2rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">📝 ${escHtml(c.internalNotes.substring(0,30))}${c.internalNotes.length>30?'...':''}</div>`:''}
     </div>
@@ -1036,8 +1049,10 @@ function openEditStopModal(di, ei) {
   document.getElementById('sDur').value = entry.dur || '';
   document.getElementById('sPrice').value = entry.price || '';
   document.getElementById('sPayment').value = entry.payment || '';
+  if(document.getElementById('sPersons')) document.getElementById('sPersons').value = entry.persons || getGroupCount();
   populateStopHostDropdown();
   if(document.getElementById('sHost')) document.getElementById('sHost').value = entry.host || '';
+  updateStopTotal();
   document.getElementById('sMap').value = entry.map || '';
   document.getElementById('sNotes').value = entry.notes || '';
   document.getElementById('sFile').value = '';
@@ -1072,6 +1087,8 @@ function openStopModal(dayIdx) {
   pendingEdit = null;
   ['sName','sDur','sMap','sNotes','sPrice'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('sPayment').value='';
+  if(document.getElementById('sPersons')) document.getElementById('sPersons').value = getGroupCount();
+  if(document.getElementById('sTotal')) document.getElementById('sTotal').value = '';
   populateStopHostDropdown();
   if(document.getElementById('sHost')) document.getElementById('sHost').value='';
   document.getElementById('sTime').value='09:00';
@@ -1117,7 +1134,25 @@ function changePersons(di, ei, dir) {
 
 function updatePersonsDisplay() {
   const el = document.getElementById('sPersons');
-  if (parseInt(el.value) < 1 || !el.value) el.value = 1;
+  if (el && (parseInt(el.value) < 1 || !el.value)) el.value = 1;
+}
+
+function updateStopTotal() {
+  var priceEl = document.getElementById('sPrice');
+  var persEl = document.getElementById('sPersons');
+  var totalEl = document.getElementById('sTotal');
+  if(!priceEl || !persEl || !totalEl) return;
+  var priceStr = priceEl.value.trim();
+  var m = priceStr.match(/(\d+(?:\.\d+)?)/);
+  var persons = Math.max(1, parseInt(persEl.value)||1);
+  if(m){
+    var total = parseFloat(m[1]) * persons;
+    // preserve currency symbol if present
+    var cur = priceStr.match(/[€$£]/);
+    totalEl.value = (cur?cur[0]:'€') + total + (persons>1?(' ('+persons+' × '+(cur?cur[0]:'€')+m[1]+')'):'');
+  } else {
+    totalEl.value = '';
+  }
 }
 
 async function confirmStop() {
@@ -1131,7 +1166,7 @@ async function confirmStop() {
     type:'stop', name,
     time: document.getElementById('sTime').value,
     dur: document.getElementById('sDur').value.trim(),
-    persons: pendingEdit !== null ? (days[pendingDay].entries[pendingEdit].persons || getGroupCount()) : getGroupCount(),
+    persons: Math.max(1, parseInt(document.getElementById('sPersons') ? document.getElementById('sPersons').value : 0) || getGroupCount()),
     map: document.getElementById('sMap').value.trim(),
     price: document.getElementById('sPrice').value.trim(),
     payment: document.getElementById('sPayment').value,
@@ -1250,7 +1285,14 @@ function generate() {
             ${entry.text?`<div class="note-text">${entry.text}</div>`:''}
           </div>`;
       }
-      const directLink=getDirectLink(entry.map);
+      // Pull host data if activity is linked to a host
+      var hostObj = entry.host ? (plannerHosts||[]).find(function(h){return h.id===entry.host;}) : null;
+      var effMap = entry.map || (hostObj ? (hostObj.map||hostObj.address||'') : '');
+      const directLink=getDirectLink(effMap);
+      var hostContact = '';
+      if(hostObj && (hostObj.phone || hostObj.contact_person)){
+        hostContact = '<div class="stop-host">Host: '+escHtml(hostObj.name||'')+(hostObj.phone?' · <a href="tel:'+escAttr(hostObj.phone)+'" style="color:#3aab8a;text-decoration:none;">'+escHtml(hostObj.phone)+'</a>':'')+'</div>';
+      }
       return `
         <div class="stop">
           <div class="stop-hdr">
@@ -1259,7 +1301,8 @@ function generate() {
               <div class="stop-name">${entry.time?`<span class="t">${entry.time}</span> · `:''}${entry.name}</div>
               ${entry.dur?`<div class="stop-dur">⏱ ${entry.dur}</div>`:''}
               ${entry.persons?`<div class="stop-dur">👥 ${entry.persons} person${entry.persons!=1?'s':''}</div>`:''}
-              ${entry.price?`<div class="stop-price">${entry.price}${entry.payment?` <span class="stop-pay">· ${entry.payment}</span>`:''}</div>`:''}
+              ${entry.price?`<div class="stop-price">${entry.price} per person${entry.persons&&entry.persons>1?` · ${entry.persons} people`:''}${entry.payment?` <span class="stop-pay">· ${entry.payment}</span>`:''}</div>`:''}
+              ${hostContact}
             </div>
           </div>
           ${entry.notes?`<div class="stop-notes">${entry.notes}</div>`:''}
@@ -1382,6 +1425,7 @@ body{background:#080808;color:#e8e4de;font-family:'DM Sans',sans-serif;font-weig
 .stop-dur{font-size:0.72rem;color:rgba(245,242,238,0.4);margin-top:0.2rem;}
 .stop-price{font-size:0.8rem;color:#3aab8a;margin-top:0.35rem;font-weight:500;}
 .stop-pay{color:rgba(245,242,238,0.4);font-weight:400;font-size:0.72rem;}
+.stop-host{font-size:0.72rem;color:rgba(245,242,238,0.45);margin-top:0.35rem;}
 .stop-notes{font-size:0.85rem;color:rgba(245,242,238,0.6);line-height:1.75;margin:0.55rem 0 0.4rem;padding-left:1.65rem;}
 .map-wrap{margin-top:0.75rem;border:1px solid rgba(200,184,154,0.08);overflow:hidden;}
 .maps-btn{display:flex;align-items:center;gap:0.75rem;margin-top:0.6rem;margin-left:1.65rem;padding:0.65rem 0.9rem;background:rgba(46,139,114,0.06);border:1px solid rgba(46,139,114,0.2);text-decoration:none;transition:all 0.2s;cursor:pointer;}
@@ -1723,7 +1767,7 @@ function pickLead(leadId){
   var client = {
     id:id, name:first||'New Client', last:last, country:l.country||'', email:l.email||'',
     group:l.group_size||'', arrival:(dates[0]||'').trim(), departure:(dates[1]||'').trim(),
-    welcome:'', status:'inquiry', internalNotes:l.message||'', days:[], fromLeadId:leadId
+    welcome:'', status:'inquiry', internalNotes:l.message||'', days:[], fromLeadId:leadId, clientCode:genClientCode()
   };
   clients.unshift(client);
   saveClients();
@@ -1763,7 +1807,8 @@ function checkLeadFromURL(){
     status: 'inquiry',
     internalNotes: params.get('notes') || '',
     days: [],
-    fromLeadId: leadId
+    fromLeadId: leadId,
+    clientCode: genClientCode()
   };
   clients.unshift(client);
   saveClients();
@@ -1811,7 +1856,7 @@ async function cloudPull(){
       return {
         id: r.id, name: r.name||'New Client', last: r.last||'', country: r.country||'',
         email: r.email||'', group: r.group_size||'', arrival: r.arrival||'', departure: r.departure||'',
-        welcome: r.welcome||'', days: r.days||[], portalCode: r.portal_code||'',
+        welcome: r.welcome||'', days: r.days||[], portalCode: r.portal_code||'', clientCode: r.client_code||'',
         status: (r.days&&r._status)|| 'inquiry', updated_at: r.updated_at
       };
     });
@@ -1835,7 +1880,7 @@ async function cloudPushClient(c){
   var row = {
     id: c.id, name: c.name||'', last: c.last||'', country: c.country||'', email: c.email||'',
     group_size: c.group||'', arrival: c.arrival||'', departure: c.departure||'',
-    welcome: c.welcome||'', days: c.days||[], portal_code: c.portalCode||'',
+    welcome: c.welcome||'', days: c.days||[], portal_code: c.portalCode||'', client_code: c.clientCode||'',
     updated_at: new Date().toISOString()
   };
   try{
@@ -1920,6 +1965,24 @@ async function syncBookingsForClient(c){
       var hostObj = e.host ? plannerHosts.find(function(h){return h.id===e.host;}) : null;
       // deterministic id so re-sync updates instead of duplicating
       var bid = 'b_' + c.id + '_' + (day.date||'') + '_' + (e.name||'').replace(/[^a-zA-Z0-9]/g,'').slice(0,20);
+      var persons = Math.max(1, parseInt(e.persons)||1);
+      // price per person → total
+      var priceNum = 0; var cur = '€';
+      if(e.price){ var pm = e.price.match(/(\d+(?:\.\d+)?)/); if(pm) priceNum = parseFloat(pm[1]); var cm = e.price.match(/[€$£]/); if(cm) cur = cm[0]; }
+      var totalNum = priceNum * persons;
+      var totalStr = priceNum ? (cur + totalNum) : '';
+      // commission: if host commission is %, apply to total; if fixed €, keep as-is (per booking)
+      var commStr = '';
+      if(hostObj && hostObj.commission){
+        var comm = hostObj.commission.trim();
+        if(comm.indexOf('%')>=0){
+          var perc = parseFloat(comm.match(/(\d+(?:\.\d+)?)/)[1]);
+          if(!isNaN(perc) && totalNum){ commStr = cur + (Math.round(totalNum*perc)/100) + ' ('+comm+')'; }
+          else commStr = comm;
+        } else {
+          commStr = comm; // fixed amount
+        }
+      }
       toSync.push({
         id: bid,
         client_id: c.id,
@@ -1929,8 +1992,11 @@ async function syncBookingsForClient(c){
         host_name: hostObj ? hostObj.name : '',
         date: day.date || '',
         status: 'todo',
+        persons: persons,
+        price_per_person: e.price || '',
         client_price: e.price || '',
-        commission: hostObj ? (hostObj.commission||'') : '',
+        total: totalStr,
+        commission: commStr,
         notes: ''
       });
     });
