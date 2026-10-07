@@ -2159,6 +2159,15 @@ async function publishToPortal(){
     await cloudPushClient(c);   // ensure client saved to cloud
     await syncBookingsForClient(c);  // auto-create/update bookings from the plan
     autoLocalBackup();          // auto local backup on every publish
+    // Email the itinerary link to the client (if they have an email)
+    if(c.email){
+      var portalLink = PORTAL_BASE + '/?code=' + code;
+      fetch(PORTAL_SUPABASE_URL + '/functions/v1/send-email', {
+        method:'POST',
+        headers:{ 'apikey':PORTAL_SUPABASE_KEY, 'Authorization':'Bearer '+PORTAL_SUPABASE_KEY, 'Content-Type':'application/json' },
+        body: JSON.stringify({ type:'itinerary', email: c.email, name: (c.name==='New Client'?'':c.name), link: portalLink })
+      }).catch(function(){});
+    }
     showPortalLink(code, payload.name);
   }else{
     var t = await res.text();
