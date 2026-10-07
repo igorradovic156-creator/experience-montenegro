@@ -493,6 +493,12 @@ async function subscribeNewsletter() {
       },
       body: JSON.stringify({ email: email, name: 'Newsletter subscriber', message: 'Subscribed via Travel Notes newsletter', status: 'newsletter' })
     });
+    // Welcome email
+    fetch(NL_SUPABASE_URL + '/functions/v1/send-email', {
+      method:'POST',
+      headers:{ 'apikey':NL_SUPABASE_KEY, 'Authorization':'Bearer '+NL_SUPABASE_KEY, 'Content-Type':'application/json' },
+      body: JSON.stringify({ type:'newsletter', email: email })
+    }).catch(function(){});
   } catch(e) { /* fail silently, still show success */ }
   document.getElementById('newsletterForm').style.display = 'none';
   document.getElementById('newsletterSuccess').style.display = 'block';
