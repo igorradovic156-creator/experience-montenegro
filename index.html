@@ -272,12 +272,22 @@ body::before {
 .and-more-cta:hover { color: var(--cta-hover); border-color: var(--cta-hover); }
 @media (max-width: 768px) { .and-more-section { padding: 3rem 1.2rem; } }
 
-/* ============ ACTIVITIES — immersive photo cards ============ */
-.activities-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; background: transparent; }
+/* ============ ACTIVITIES — horizontal scroll rail ============ */
+.activities-grid { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; padding: 0.5rem 0 1.5rem; scrollbar-width: none; scroll-behavior: smooth; }
+.activities-grid::-webkit-scrollbar { display: none; }
+.activities-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 1.5rem; padding: 0 0 1.75rem; }
+.activities-nav { display: flex; gap: 0.6rem; flex-shrink: 0; }
+.act-arrow { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(200,184,154,0.2); background: rgba(200,184,154,0.03); color: rgba(245,242,238,0.7); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.25s ease; }
+.act-arrow:hover { border-color: var(--cta); background: rgba(46,139,114,0.12); color: #fff; }
+.act-arrow:disabled { opacity: 0.3; cursor: default; }
+.act-arrow:disabled:hover { border-color: rgba(200,184,154,0.2); background: rgba(200,184,154,0.03); color: rgba(245,242,238,0.7); }
 
-.activity { background: var(--black); position: relative; cursor: pointer; border-radius: 10px; overflow: hidden; transition: transform 0.45s cubic-bezier(0.4,0,0.2,1), box-shadow 0.45s ease; aspect-ratio: 3 / 4; display: flex; flex-direction: column; justify-content: flex-end; isolation: isolate; }
-.activity:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(0,0,0,0.45); }
-.activity.expanded { aspect-ratio: auto; cursor: default; grid-column: 1 / -1; box-shadow: 0 24px 60px rgba(0,0,0,0.5); transform: none; z-index: 3; justify-content: flex-start; }
+.activity { background: var(--black); position: relative; cursor: pointer; border-radius: 14px; overflow: hidden; transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), box-shadow 0.4s ease; width: 280px; height: 360px; flex: 0 0 280px; scroll-snap-align: start; display: flex; flex-direction: column; justify-content: flex-end; isolation: isolate; }
+.activity:hover { transform: translateY(-5px); box-shadow: 0 20px 44px rgba(0,0,0,0.5); }
+.activity.expanded { width: 100%; height: auto; flex: 0 0 100%; cursor: default; box-shadow: 0 24px 60px rgba(0,0,0,0.5); transform: none; z-index: 3; justify-content: flex-start; scroll-snap-align: none; }
+/* when any card is open, the rail stops scrolling and hides the siblings so the article has the floor */
+.activities-grid.has-open { overflow-x: hidden; flex-wrap: wrap; }
+.activities-grid.has-open .activity:not(.expanded) { display: none; }
 
 /* photo as living background */
 .activity-img { position: absolute; inset: 0; z-index: -2; overflow: hidden; display: block; }
@@ -742,14 +752,15 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
   .quiz-opt-sub { font-size: 0.7rem; }
   .quiz-result-title { font-size: 1.2rem; }
   .quiz-result-desc { font-size: 0.8rem; }
-  .activities-grid { grid-template-columns: 1fr; gap: 16px; }
   .and-more-strip { padding: 3rem 1.2rem; }
   .and-more-strip-inner { align-items: center; text-align: center; }
   .and-more-title { font-size: 0.95rem; }
   .and-more-list { font-size: 0.72rem; }
-  /* full-width photo cards on mobile */
-  .activity { aspect-ratio: 16 / 11; }
-  .activity.expanded { aspect-ratio: auto; grid-column: 1 / -1; }
+  /* scroll rail on mobile: smaller cards, swipe instead of arrows */
+  .activities-nav { display: none; }
+  .activities-head { padding-bottom: 1.25rem; }
+  .activity { width: 240px; height: 310px; flex: 0 0 240px; }
+  .activity.expanded { width: 86vw; flex: 0 0 86vw; height: auto; }
   .activity.expanded .activity-img { display: none; }
   .activity.expanded .activity-article-inner { grid-template-columns: 1fr; }
   .activity-article-img { min-height: 200px; }
@@ -1213,10 +1224,20 @@ select{color:#f5f2ee;}
 
 <!-- ACTIVITIES -->
 <section class="section activities-blend" style="padding-top:0;" id="activities">
-  <div style="padding: 0 0 2.5rem; max-width: 640px;">
-    <div class="section-label">What's possible</div>
-    <h2 class="section-title">Montenegro, in full</h2>
-    <p style="font-size:0.88rem;line-height:1.75;color:rgba(245,242,238,0.45);margin-top:1rem;">Nine ways to experience the country, from its wildest rivers to its quietest mountain tables. Tap any one to see what it involves.</p>
+  <div class="activities-head">
+    <div style="max-width: 640px;">
+      <div class="section-label">What's possible</div>
+      <h2 class="section-title">Montenegro, in full</h2>
+      <p style="font-size:0.88rem;line-height:1.75;color:rgba(245,242,238,0.45);margin-top:1rem;">Nine ways to experience the country, from its wildest rivers to its quietest mountain tables. Tap any one to see what it involves.</p>
+    </div>
+    <div class="activities-nav">
+      <button class="act-arrow" id="actPrev" aria-label="Previous" onclick="scrollActivities(-1)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <button class="act-arrow" id="actNext" aria-label="Next" onclick="scrollActivities(1)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
   </div>
   <div class="activities-grid" id="activitiesGrid">
 
@@ -1966,21 +1987,43 @@ async function sendEmail(type, email, extra){
   setInterval(() => goTo((current + 1) % totalSteps()), 5000);
 })();
 
+function scrollActivities(dir) {
+  var grid = document.getElementById('activitiesGrid');
+  if (!grid) return;
+  grid.scrollBy({ left: dir * (280 + 16) * 2, behavior: 'smooth' });
+}
+function updateActArrows() {
+  var grid = document.getElementById('activitiesGrid');
+  var prev = document.getElementById('actPrev');
+  var next = document.getElementById('actNext');
+  if (!grid || !prev || !next) return;
+  prev.disabled = grid.scrollLeft <= 5;
+  next.disabled = grid.scrollLeft >= (grid.scrollWidth - grid.clientWidth - 5);
+}
+(function(){
+  var grid = document.getElementById('activitiesGrid');
+  if (grid) { grid.addEventListener('scroll', updateActArrows); window.addEventListener('resize', updateActArrows); setTimeout(updateActArrows, 300); }
+})();
+
 function toggleActivity(el) {
   var isOpen = el.classList.contains('expanded');
+  var grid = document.getElementById('activitiesGrid');
   document.querySelectorAll('.activity.expanded').forEach(function(a) {
     a.classList.remove('expanded');
   });
   if (!isOpen) {
     el.classList.add('expanded');
+    if (grid) grid.classList.add('has-open');
     // gently bring the opened card into view
     setTimeout(function(){
       var r = el.getBoundingClientRect();
       if (r.top < 70 || r.top > window.innerHeight * 0.5) {
-        var y = window.pageYOffset + r.top - 80;
+        var y = window.pageYOffset + r.top - 90;
         window.scrollTo({ top: y, behavior: 'smooth' });
       }
     }, 120);
+  } else {
+    if (grid) { grid.classList.remove('has-open'); updateActArrows(); }
   }
 }
 
