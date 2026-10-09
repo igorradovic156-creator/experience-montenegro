@@ -272,58 +272,60 @@ body::before {
 .and-more-cta:hover { color: var(--cta-hover); border-color: var(--cta-hover); }
 @media (max-width: 768px) { .and-more-section { padding: 3rem 1.2rem; } }
 
-.activities-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(200,184,154,0.08); }
+/* ============ ACTIVITIES — immersive photo cards ============ */
+.activities-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; background: transparent; }
 
-.activity { background: var(--black); position: relative; cursor: pointer; transition: background 0.35s cubic-bezier(0.4,0,0.2,1); }
-.activity:hover { background: rgba(16,24,18,1); }
-.activity.expanded { background: linear-gradient(165deg, rgba(12,22,15,1) 0%, rgba(8,14,10,1) 100%); cursor: default; box-shadow: inset 0 0 0 1px rgba(46,139,114,0.4), 0 20px 50px rgba(0,0,0,0.35); z-index: 3; }
+.activity { background: var(--black); position: relative; cursor: pointer; border-radius: 10px; overflow: hidden; transition: transform 0.45s cubic-bezier(0.4,0,0.2,1), box-shadow 0.45s ease; aspect-ratio: 3 / 4; display: flex; flex-direction: column; justify-content: flex-end; isolation: isolate; }
+.activity:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(0,0,0,0.45); }
+.activity.expanded { aspect-ratio: auto; cursor: default; grid-column: 1 / -1; box-shadow: 0 24px 60px rgba(0,0,0,0.5); transform: none; z-index: 3; justify-content: flex-start; }
 
-/* top accent line — appears on hover */
-.activity::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--cta), var(--accent)); transform: scaleX(0); transition: transform 0.35s ease; transform-origin: left; z-index: 2; }
+/* photo as living background */
+.activity-img { position: absolute; inset: 0; z-index: -2; overflow: hidden; display: block; }
+.activity-img img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 0.9s cubic-bezier(0.2,0,0.2,1), filter 0.5s ease; filter: saturate(1.05) brightness(0.82); }
+.activity:hover .activity-img img { transform: scale(1.07); filter: saturate(1.1) brightness(0.9); }
+.activity.expanded .activity-img { display: none; }
+
+/* readability gradient over photo */
+.activity-img::after { content: ''; position: absolute; inset: 0; display: block; background: linear-gradient(to top, rgba(6,10,7,0.92) 0%, rgba(6,10,7,0.5) 38%, rgba(6,10,7,0.08) 70%, rgba(6,10,7,0.25) 100%); transition: opacity 0.45s ease; }
+.activity:hover .activity-img::after { opacity: 0.88; }
+
+/* thin accent that reveals on hover */
+.activity::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--cta), var(--accent)); transform: scaleX(0); transition: transform 0.4s ease; transform-origin: left; z-index: 2; }
 .activity:hover::before { transform: scaleX(1); }
 .activity.expanded::before { transform: scaleX(1); }
 
-/* green bottom line on hover/expanded */
-.activity::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: var(--cta); transform: scaleX(0); transition: transform 0.3s ease; transform-origin: left; }
-.activity:hover::after { transform: scaleX(1); }
-.activity.expanded::after { transform: scaleX(1); background: rgba(46,139,114,0.6); }
-
-.activity-img { display: none; }
-.activity-img::after { display: none; }
-.activity-img img { display: none; }
-
-.activity-body { padding: 2rem 1.7rem; }
-.activity-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
-.activity-name { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 400; color: var(--white); margin-bottom: 0.4rem; line-height: 1.2; letter-spacing: -0.01em; transition: color 0.25s, transform 0.35s cubic-bezier(0.4,0,0.2,1); }
-.activity:hover .activity-name { color: #fff; transform: translateX(3px); }
-.activity-desc { font-size: 0.8rem; line-height: 1.7; color: rgba(245,242,238,0.45); margin-top: 0.5rem; transition: opacity 0.3s, transform 0.35s cubic-bezier(0.4,0,0.2,1); }
-.activity:hover .activity-desc { transform: translateX(3px); }
+.activity-body { position: relative; z-index: 1; padding: 1.5rem 1.4rem; }
+.activity.expanded .activity-body { background: linear-gradient(165deg, rgba(14,24,17,1) 0%, rgba(8,14,10,1) 100%); padding: 1.6rem 1.7rem 0.4rem; }
+.activity-header { display: flex; justify-content: space-between; align-items: flex-end; gap: 1rem; }
+.activity-name { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 400; color: #fff; margin-bottom: 0; line-height: 1.15; letter-spacing: -0.01em; text-shadow: 0 2px 16px rgba(0,0,0,0.6); transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); }
+.activity:hover .activity-name { transform: translateY(-2px); }
+.activity-desc { font-size: 0.8rem; line-height: 1.6; color: rgba(245,242,238,0.72); margin-top: 0.55rem; max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.45s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease, margin 0.4s ease; text-shadow: 0 1px 10px rgba(0,0,0,0.5); }
+.activity:hover .activity-desc, .activity:focus-visible .activity-desc { max-height: 140px; opacity: 1; }
 .activity.expanded .activity-desc { display: none; }
-.activity.expanded .activity-body { padding: 1.3rem 1.7rem 0; }
-.activity-header-right { display: flex; align-items: center; gap: 0.9rem; flex-shrink: 0; }
-.activity-icon { color: rgba(46,139,114,0.45); display: flex; align-items: center; transition: color 0.25s, transform 0.35s cubic-bezier(0.4,0,0.2,1); }
-.activity:hover .activity-icon { color: rgba(46,139,114,0.95); transform: scale(1.12) rotate(-4deg); }
+.activity-header-right { display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; }
+.activity-icon { color: rgba(255,255,255,0.75); display: flex; align-items: center; transition: color 0.25s, transform 0.4s cubic-bezier(0.4,0,0.2,1); filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5)); }
+.activity:hover .activity-icon { color: #fff; transform: scale(1.12) rotate(-4deg); }
 .activity.expanded .activity-icon { color: var(--cta); }
 
-/* Explore hint — appears on hover */
-.activity-explore { font-size: 0.55rem; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(46,139,114,0.6); margin-top: 1rem; display: flex; align-items: center; gap: 0.4rem; opacity: 0; transform: translateY(4px); transition: opacity 0.3s, transform 0.3s; }
-.activity:hover .activity-explore { opacity: 1; transform: translateY(0); }
+/* Explore hint */
+.activity-explore { font-size: 0.55rem; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.75); margin-top: 0.85rem; display: flex; align-items: center; gap: 0.4rem; opacity: 0; transform: translateY(6px); max-height: 0; overflow: hidden; transition: opacity 0.35s, transform 0.35s, max-height 0.35s; }
+.activity:hover .activity-explore, .activity:focus-visible .activity-explore { opacity: 1; transform: translateY(0); max-height: 30px; }
 .activity.expanded .activity-explore { display: none; }
 .activity-explore::after { content: '→'; transition: transform 0.3s; }
 .activity:hover .activity-explore::after { transform: translateX(3px); }
 
-.activity-toggle { font-size: 1.3rem; color: rgba(193,127,59,0.7); font-weight: 300; flex-shrink: 0; transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), color 0.2s; line-height: 1; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(193,127,59,0.25); border-radius: 50%; }
-.activity:hover .activity-toggle { border-color: rgba(193,127,59,0.5); color: rgba(193,127,59,1); }
-.activity.expanded .activity-toggle { transform: rotate(135deg); color: var(--accent); border-color: rgba(193,127,59,0.6); }
+.activity-toggle { font-size: 1.2rem; color: #fff; font-weight: 300; flex-shrink: 0; transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), background 0.25s, border-color 0.2s; line-height: 1; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.35); border-radius: 50%; background: rgba(255,255,255,0.08); backdrop-filter: blur(4px); }
+.activity:hover .activity-toggle { border-color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.15); }
+.activity.expanded .activity-toggle { transform: rotate(135deg); color: var(--accent); border-color: rgba(193,127,59,0.6); background: rgba(193,127,59,0.1); }
 
 /* ARTICLE — accordion expand */
-.activity-article { max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.35s ease, padding 0.3s ease; padding: 0 1.5rem; }
-.activity.expanded .activity-article { max-height: 800px; opacity: 1; padding: 0; }
+.activity-article { max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.55s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease; background: linear-gradient(165deg, rgba(14,24,17,1) 0%, rgba(8,14,10,1) 100%); }
+.activity.expanded .activity-article { max-height: 900px; opacity: 1; }
 .activity.expanded .activity-article-inner { display: grid; grid-template-columns: 1fr 1.4fr; gap: 0; }
-.activity-article-img { position: relative; overflow: hidden; min-height: 280px; }
-.activity-article-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(0.75); transition: transform 0.6s ease; }
-.activity.expanded .activity-article-img img { transform: scale(1.03); }
-.activity-article-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, transparent 60%, rgba(8,16,10,1) 100%); }
+.activity-article-img { position: relative; overflow: hidden; min-height: 300px; }
+.activity-article-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(0.8); transition: transform 0.8s ease; }
+.activity.expanded .activity-article-img img { transform: scale(1.04); }
+.activity-article-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, transparent 55%, rgba(14,24,17,1) 100%); }
 .activity-article-text { padding: 2.2rem 2.2rem 2.2rem 2rem; }
 .activity-article p { font-size: 0.88rem; line-height: 1.85; color: rgba(245,242,238,0.7); margin-bottom: 1rem; }
 .activity-article ul { list-style: none; margin: 1.4rem 0; border-top: 1px solid rgba(200,184,154,0.1); border-bottom: 1px solid rgba(200,184,154,0.1); padding: 1.1rem 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem 1.5rem; }
@@ -740,31 +742,29 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
   .quiz-opt-sub { font-size: 0.7rem; }
   .quiz-result-title { font-size: 1.2rem; }
   .quiz-result-desc { font-size: 0.8rem; }
-  .activities-grid { grid-template-columns: 1fr; }
+  .activities-grid { grid-template-columns: 1fr; gap: 16px; }
   .and-more-strip { padding: 3rem 1.2rem; }
   .and-more-strip-inner { align-items: center; text-align: center; }
-  .and-more-title { font-size: 1.4rem; }
   .and-more-title { font-size: 0.95rem; }
   .and-more-list { font-size: 0.72rem; }
+  /* full-width photo cards on mobile */
+  .activity { aspect-ratio: 16 / 11; }
+  .activity.expanded { aspect-ratio: auto; grid-column: 1 / -1; }
   .activity.expanded .activity-img { display: none; }
-  .activity-panel { grid-column: span 2; }
   .activity.expanded .activity-article-inner { grid-template-columns: 1fr; }
-  .activity-article-img { min-height: 180px; }
-  .activity-article-img::after { background: linear-gradient(to bottom, transparent 60%, rgba(8,16,10,1) 100%); }
-  .activity-article-text { padding: 1.2rem; }
+  .activity-article-img { min-height: 200px; }
+  .activity-article-img::after { background: linear-gradient(to bottom, transparent 55%, rgba(14,24,17,1) 100%); }
+  .activity-article-text { padding: 1.3rem; }
   .activity-article ul { grid-template-columns: 1fr; }
-  .activity-panel-content { padding: 1.5rem 1.2rem; }
-  .activity-panel-content ul { grid-template-columns: 1fr; }
-  .activity-panel-close { top: 1rem; right: 1.2rem; }
   .activity-article p { font-size: 0.82rem; }
   .activity-article ul li { font-size: 0.75rem; }
-  .activity-img { height: 110px; }
-  .activity-name { font-size: 1.1rem; }
-  .activity-desc { display: block; font-size: 0.8rem; }
+  .activity-name { font-size: 1.25rem; }
+  /* on touch, show description by default (no hover) */
+  .activity-desc { max-height: 120px; opacity: 1; margin-top: 0.5rem; font-size: 0.8rem; }
   .activity.expanded .activity-desc { display: none; }
-  .activity-body { padding: 1.4rem 1.3rem; }
-  .activity.expanded .activity-body { display: block; padding: 1.2rem 1.3rem 0; }
-  .activity-explore { display: flex !important; opacity: 1 !important; transform: none !important; }
+  .activity-body { padding: 1.4rem 1.4rem; }
+  .activity.expanded .activity-body { display: block; padding: 1.5rem 1.4rem 0.4rem; }
+  .activity-explore { display: flex !important; opacity: 1 !important; transform: none !important; max-height: 30px !important; }
   .activity-article-text .mobile-close { display: none !important; }
   .activity-article-text .mobile-close { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cta); cursor: pointer; margin-bottom: 1rem; }
   .pricing-section { padding: 3rem 0 3rem; }
@@ -1212,8 +1212,8 @@ select{color:#f5f2ee;}
 </section>
 
 <!-- ACTIVITIES -->
-<section class="section activities-blend" style="padding-top:0;padding-left:0;padding-right:0;" id="activities">
-  <div style="padding: 0 2rem 2.5rem; max-width: 640px;">
+<section class="section activities-blend" style="padding-top:0;" id="activities">
+  <div style="padding: 0 0 2.5rem; max-width: 640px;">
     <div class="section-label">What's possible</div>
     <h2 class="section-title">Montenegro, in full</h2>
     <p style="font-size:0.88rem;line-height:1.75;color:rgba(245,242,238,0.45);margin-top:1rem;">Nine ways to experience the country, from its wildest rivers to its quietest mountain tables. Tap any one to see what it involves.</p>
@@ -1973,6 +1973,14 @@ function toggleActivity(el) {
   });
   if (!isOpen) {
     el.classList.add('expanded');
+    // gently bring the opened card into view
+    setTimeout(function(){
+      var r = el.getBoundingClientRect();
+      if (r.top < 70 || r.top > window.innerHeight * 0.5) {
+        var y = window.pageYOffset + r.top - 80;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
+    }, 120);
   }
 }
 
