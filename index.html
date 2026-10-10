@@ -126,8 +126,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1.2rem
 .nav-cta:hover { opacity: 0.6; }
 
 /* HERO */
-.hero { height: 100vh; min-height: 640px; display: flex; flex-direction: column; justify-content: flex-end; padding: 7rem 2rem 0; position: relative; overflow: hidden; }
-.hero-content { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 2rem; }
+.hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 7rem 2rem 9.5rem; position: relative; overflow: hidden; }
 .hero-title, .hero-sub, .hero-label { transition: opacity 0.4s ease; }
 .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(10,10,10,0.2) 0%, transparent 35%, rgba(10,10,10,0.88) 100%); }
 .hero-content { position: relative; }
@@ -148,14 +147,18 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1.2rem
 
 /* BUTTONS */
 .btn-primary { background: var(--cta); color: var(--white); padding: 0.9rem 2rem; font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; border: none; cursor: pointer; transition: all 0.3s; display: inline-block; touch-action: manipulation; }
+.btn-add { background: rgba(255,255,255,0.08); color: #fff; padding: 0.9rem 1.6rem; font-family: 'DM Sans', sans-serif; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.3); border-radius: 4px; cursor: pointer; transition: all 0.25s; backdrop-filter: blur(4px); }
+.btn-add:hover { background: rgba(255,255,255,0.16); border-color: rgba(255,255,255,0.6); }
+.btn-add.in-list { background: var(--cta); border-color: var(--cta); }
+.btn-add.in-list:hover { background: var(--cta-hover); border-color: var(--cta-hover); }
 .btn-primary:hover { background: var(--cta-hover); transform: translateY(-2px); }
 .btn-ghost { color: var(--white); font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; opacity: 0.5; transition: opacity 0.2s; display: flex; align-items: center; gap: 0.5rem; }
 .btn-ghost:hover { opacity: 1; }
 .btn-ghost::after { content: '↓'; }
 
 /* MARQUEE */
-/* ===== BIG ACTIVITY SHOWCASE (inside hero, anchored bottom) ===== */
-.showcase-wrap { position: relative; z-index: 20; max-width: 1280px; width: 100%; margin: 0 auto; padding: 0 2rem 1.5rem; flex-shrink: 0; }
+/* ===== BIG ADVENTURE SHOWCASE (straddles hero / section boundary) ===== */
+.showcase-wrap { position: relative; z-index: 20; max-width: 1280px; width: 100%; margin: -135px auto 0; padding: 0 2rem 3.5rem; }
 .showcase { display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; scroll-behavior: smooth; padding: 4px 2px 8px; }
 .showcase::-webkit-scrollbar { display: none; }
 .show-card { flex: 0 0 240px; width: 240px; height: 230px; border-radius: 14px; overflow: hidden; position: relative; border: none; background: #111; cursor: pointer; padding: 0; scroll-snap-align: start; transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), box-shadow 0.4s ease; isolation: isolate; box-shadow: 0 16px 40px rgba(0,0,0,0.45); }
@@ -177,7 +180,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1.2rem
 .showcase-all:hover { color: var(--cta-hover); }
 @media (max-width: 768px) {
   /* edge-to-edge rail: break out of the centered wrap */
-  .showcase-wrap { padding: 0 0 1rem; max-width: 100%; }
+  .showcase-wrap { padding: 0 0 2.5rem; max-width: 100%; margin-top: -70px; }
   .showcase { gap: 10px; padding: 4px 1rem 8px; scroll-padding-left: 1rem; }
   /* ~3 cards visible, 4th peeking: (100vw - gutters) / 3.3 */
   .show-card { flex: 0 0 29vw; width: 29vw; height: 32vw; min-height: 120px; border-radius: 12px; }
@@ -605,6 +608,13 @@ textarea { resize: vertical; min-height: 160px; font-size: 0.88rem; line-height:
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
 .fee-note { font-size: 0.76rem; color: rgba(245,242,238,0.36); line-height: 1.6; margin-bottom: 1.2rem; padding: 0.9rem 1rem; border-left: 2px solid var(--cta); background: rgba(46,139,114,0.04); }
 .fee-note strong { color: var(--cta-hover); }
+.sel-adv-wrap { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.sel-chip { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(46,139,114,0.12); border: 1px solid rgba(46,139,114,0.35); color: #e8e4de; font-size: 0.78rem; padding: 0.4rem 0.4rem 0.4rem 0.85rem; border-radius: 50px; }
+.sel-chip button { background: rgba(255,255,255,0.08); border: none; color: rgba(245,242,238,0.7); width: 20px; height: 20px; border-radius: 50%; cursor: pointer; font-size: 0.7rem; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+.sel-chip button:hover { background: var(--accent); color: #fff; }
+.sel-adv-hint { font-size: 0.72rem; color: rgba(245,242,238,0.4); margin-top: 0.7rem; line-height: 1.5; }
+.sel-adv-hint a { color: var(--cta); text-decoration: none; }
+.sel-adv-hint a:hover { text-decoration: underline; }
 .submit-btn { width: 100%; background: var(--cta); color: var(--white); border: none; padding: 1rem 2rem; font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: all 0.3s; touch-action: manipulation; }
 .submit-btn:hover { background: var(--cta-hover); transform: translateY(-1px); }
 .success-msg { display: none; text-align: center; padding: 3rem 2rem; border: 1px solid rgba(200,184,154,0.18); }
@@ -742,8 +752,7 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
   .nav-logo { font-size: 0.85rem; }
   .nav-links { display: none !important; }
   .nav-hamburger { display: flex !important; }
-  .hero { height: 100vh; min-height: 560px; padding: 5rem 1.2rem 0; }
-  .hero-content { padding-bottom: 1.25rem; }
+  .hero { min-height: 100vh; padding: 5rem 1.2rem 6rem; }
   .hero-title { font-size: clamp(2.2rem, 10vw, 3.2rem); }
   .hero-sub { font-size: 0.88rem; max-width: 100%; }
   .hero-actions { flex-direction: column; align-items: flex-start; gap: 0.85rem; }
@@ -1120,7 +1129,7 @@ select{color:#f5f2ee;}
 <nav>
   <div class="nav-logo"><img src="/wordmark.svg" alt="Experience Montenegro" style="height:18px;display:block;"></div>
   <div class="nav-links">
-    <a href="/activities" class="nav-link nav-activities">Activities</a>
+    <a href="/adventures" class="nav-link nav-activities">Adventures</a>
     <a href="/notes" class="nav-link">Travel Notes</a>
     <a href="#plan" class="nav-cta">Plan My Trip</a>
   </div>
@@ -1142,7 +1151,7 @@ select{color:#f5f2ee;}
     <button class="mobile-menu-close" onclick="closeMobileMenu()" aria-label="Close">&times;</button>
   </div>
   <div class="mobile-menu-links">
-    <a href="/activities" onclick="closeMobileMenu()"><span class="mm-num">01</span>Activities</a>
+    <a href="/adventures" onclick="closeMobileMenu()"><span class="mm-num">01</span>Adventures</a>
     <a href="#how" onclick="closeMobileMenu()"><span class="mm-num">02</span>How it works</a>
     <a href="#pricing" onclick="closeMobileMenu()"><span class="mm-num">03</span>Pricing</a>
     <a href="#faq" onclick="closeMobileMenu()"><span class="mm-num">04</span>FAQ</a>
@@ -1193,12 +1202,14 @@ select{color:#f5f2ee;}
     <div class="hero-actions">
       <a href="#plan" class="btn-primary">Start Planning</a>
       <a href="#how" class="btn-ghost">How it works</a>
+      <button type="button" id="heroAddBtn" class="btn-add" data-adv-toggle="" data-add="＋ Add to my trip" data-added="✓ Added to trip" style="display:none;" onclick="toggleHeroAdventure()"><span data-adv-label>＋ Add to my trip</span></button>
     </div>
 
   </div>
+</section>
 
-  <!-- BIG ACTIVITY SHOWCASE — sits inside the hero, anchored at the bottom -->
-  <div class="showcase-wrap">
+<!-- BIG ADVENTURE SHOWCASE — straddles the hero / section boundary -->
+<div class="showcase-wrap">
   <button class="showcase-arrow showcase-prev" id="showPrev" aria-label="Previous" onclick="slideShowcase(-1)">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
   </button>
@@ -1235,10 +1246,9 @@ select{color:#f5f2ee;}
     </button>
   </div>
   <div class="showcase-foot">
-    <a href="/activities" class="showcase-all">View all adventures →</a>
+    <a href="/adventures" class="showcase-all">View all adventures →</a>
   </div>
-  </div>
-</section>
+</div>
 
 <!-- HOW IT WORKS -->
 <section class="section how-section" id="how">
@@ -1614,6 +1624,12 @@ select{color:#f5f2ee;}
           <option>A mix of everything</option>
         </select>
       </div>
+      <div class="form-group" id="selectedAdventuresBox" style="display:none;">
+        <label>Your selected adventures</label>
+        <div class="sel-adv-wrap" id="selectedAdventures"></div>
+        <input type="hidden" id="selectedAdventuresField">
+        <div class="sel-adv-hint">Added from the adventures you browsed — remove any that don't fit, or <a href="/adventures">add more</a>.</div>
+      </div>
       <div class="form-group">
         <label for="notes">Anything specific you want or want to avoid?</label>
         <textarea id="notes" class="notes-textarea" placeholder="Tell me anything: dietary needs, mobility considerations, dream experiences, places you've already seen..."></textarea>
@@ -1684,7 +1700,7 @@ select{color:#f5f2ee;}
   <div class="footer-logo"><img src="/wordmark.svg" alt="Experience Montenegro" style="height:18px;display:block;"></div>
   <div class="footer-links">
     <a href="#how">How it works</a>
-    <a href="/activities">Activities</a><a href="/notes">Travel Notes</a>
+    <a href="/adventures">Adventures</a><a href="/notes">Travel Notes</a>
     <a href="#itineraries">Itineraries</a>
     <a href="#pricing">Pricing</a>
     
@@ -1847,12 +1863,36 @@ function pickActivity(card) {
       if (lblEl) lblEl.style.opacity = '1';
     }, 220);
   }
+
+  // reveal the hero "add to my trip" button for this adventure
+  var addBtn = document.getElementById('heroAddBtn');
+  if (addBtn) {
+    var plain = (card.getAttribute('data-title') || '').replace(/&amp;/g, '&');
+    addBtn.setAttribute('data-adv-toggle', plain);
+    addBtn.style.display = 'inline-flex';
+    if (window.EMShortlistRender) window.EMShortlistRender();
+  }
 }
 
+function toggleHeroAdventure() {
+  var addBtn = document.getElementById('heroAddBtn');
+  if (!addBtn || !window.EMShortlist) return;
+  var name = addBtn.getAttribute('data-adv-toggle');
+  if (name) window.EMShortlist.toggle(name);
+}
+
+function showcaseStep() {
+  var s = document.getElementById('showcase');
+  if (!s) return 320;
+  var card = s.querySelector('.show-card');
+  var gap = parseFloat(getComputedStyle(s).gap) || 16;
+  return card ? (card.getBoundingClientRect().width + gap) : 320;
+}
 function slideShowcase(dir) {
   var s = document.getElementById('showcase');
   if (!s) return;
-  s.scrollBy({ left: dir * (300 + 18) * 2, behavior: 'smooth' });
+  pauseAutoScroll();
+  s.scrollBy({ left: dir * showcaseStep() * 2, behavior: 'smooth' });
 }
 function updateShowcaseArrows() {
   var s = document.getElementById('showcase');
@@ -1862,9 +1902,41 @@ function updateShowcaseArrows() {
   prev.disabled = s.scrollLeft <= 5;
   next.disabled = s.scrollLeft >= (s.scrollWidth - s.clientWidth - 5);
 }
+
+// Auto-scroll: advance one card every few seconds, loop back at the end, pause on interaction
+var autoScrollTimer = null, autoResumeTimer = null, autoScrollPaused = false;
+function autoScrollTick() {
+  var s = document.getElementById('showcase');
+  if (!s || autoScrollPaused) return;
+  var atEnd = s.scrollLeft >= (s.scrollWidth - s.clientWidth - 8);
+  if (atEnd) {
+    s.scrollTo({ left: 0, behavior: 'smooth' });
+  } else {
+    s.scrollBy({ left: showcaseStep(), behavior: 'smooth' });
+  }
+}
+function startAutoScroll() {
+  if (autoScrollTimer) clearInterval(autoScrollTimer);
+  autoScrollTimer = setInterval(autoScrollTick, 3500);
+}
+function pauseAutoScroll() {
+  autoScrollPaused = true;
+  if (autoResumeTimer) clearTimeout(autoResumeTimer);
+  autoResumeTimer = setTimeout(function(){ autoScrollPaused = false; }, 7000);
+}
 (function(){
   var s = document.getElementById('showcase');
-  if (s) { s.addEventListener('scroll', updateShowcaseArrows); window.addEventListener('resize', updateShowcaseArrows); setTimeout(updateShowcaseArrows, 400); }
+  if (!s) return;
+  s.addEventListener('scroll', updateShowcaseArrows);
+  window.addEventListener('resize', updateShowcaseArrows);
+  setTimeout(updateShowcaseArrows, 400);
+  // pause auto-scroll on any manual interaction
+  ['mouseenter','touchstart','wheel','pointerdown'].forEach(function(ev){
+    s.addEventListener(ev, pauseAutoScroll, { passive: true });
+  });
+  // respect reduced-motion preference
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduce) { setTimeout(startAutoScroll, 3000); }
 })();
 
 function planExperience(link) {
@@ -1894,7 +1966,7 @@ function planExperience(link) {
   }, 50);
 }
 
-// If arriving from the /activities page with a chosen experience, prefill notes
+// If arriving from the /adventures page with a chosen experience, prefill notes
 (function(){
   try {
     var act = sessionStorage.getItem('em_activity');
@@ -1939,13 +2011,20 @@ document.getElementById('tripForm').addEventListener('submit', async function(e)
   var dates = '';
   if (arrival || departure) dates = (arrival || '?') + ' → ' + (departure || '?');
 
+  // selected adventures (shortlist)
+  var advList = (window.EMShortlist ? window.EMShortlist.all() : []);
+  var fullMessage = notes;
+  if (advList.length) {
+    fullMessage = 'Selected adventures: ' + advList.join(', ') + (notes ? ('\n\n' + notes) : '');
+  }
+
   var payload = {
     name: (fname + ' ' + lname).trim(),
     email: email,
     dates: dates,
     group_size: group,
     plan: interests,
-    message: notes,
+    message: fullMessage,
     status: 'new'
   };
 
@@ -1953,6 +2032,7 @@ document.getElementById('tripForm').addEventListener('submit', async function(e)
 
   if (ok) {
     sendEmail('inquiry', email, { name: fname });
+    if (window.EMShortlist) window.EMShortlist.clear();
     form.style.display = 'none';
     document.getElementById('successMsg').style.display = 'block';
   } else {
@@ -2534,6 +2614,6 @@ function closeMobileMenu() {
 
 </script>
 
-
+<script src="/shortlist.js" defer></script>
 </body>
 </html>
