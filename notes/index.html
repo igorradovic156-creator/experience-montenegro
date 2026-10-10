@@ -237,10 +237,39 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:#171814;border-b
 </head>
 <body>
 
+<!-- intro loader (shows on Travel Notes) -->
+<div id="nLoader" style="position:fixed;inset:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0a0e0a;transition:opacity 0.6s ease,visibility 0.6s ease;">
+  <img src="/wordmark.svg" alt="Experience Montenegro" style="height:26px;opacity:0;animation:nLoaderUp 0.7s ease 0.15s forwards;">
+  <div style="width:140px;height:2px;background:rgba(200,184,154,0.12);margin-top:1.5rem;border-radius:2px;overflow:hidden;">
+    <div style="height:100%;width:40%;background:linear-gradient(90deg,transparent,#2e8b72,transparent);animation:nLoaderBar 1.1s ease-in-out infinite;"></div>
+  </div>
+</div>
+<style>
+@keyframes nLoaderUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+@keyframes nLoaderBar{0%{transform:translateX(-120%);}100%{transform:translateX(320%);}}
+#nLoader.hidden{opacity:0;visibility:hidden;pointer-events:none;}
+</style>
+<script>
+(function(){
+  var l=document.getElementById('nLoader');
+  if(!l) return;
+  document.documentElement.style.overflow='hidden';
+  window.addEventListener('load',function(){
+    setTimeout(function(){
+      l.classList.add('hidden');
+      document.documentElement.style.overflow='';
+      setTimeout(function(){ l.style.display='none'; }, 650);
+    }, 650);
+  });
+  // safety fallback
+  setTimeout(function(){ if(l&&!l.classList.contains('hidden')){ l.classList.add('hidden'); document.documentElement.style.overflow=''; } }, 2500);
+})();
+</script>
+
 <nav>
   <a href="/" class="nav-logo"><img src="/wordmark.svg" alt="Experience Montenegro" style="height:18px;display:block;"></a>
   <div class="nav-links">
-    <a href="/#activities">Activities</a>
+    <a href="/adventures">Adventures</a>
     <a href="/notes" class="active">Travel Notes</a>
     <a href="/#plan" class="nav-cta">Plan My Trip</a>
   </div>
@@ -313,7 +342,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:#171814;border-b
   <div class="notes-footer-logo"><img src="/wordmark.svg" alt="Experience Montenegro" style="height:16px;display:block;"></div>
   <div style="display:flex;gap:1.5rem;">
     <a href="/" class="notes-footer-link">Home</a>
-    <a href="/#activities" class="notes-footer-link">Activities</a>
+    <a href="/adventures" class="notes-footer-link">Adventures</a>
     <a href="/#plan" class="notes-footer-link">Plan a trip</a>
     <a href="/legal" class="notes-footer-link">Legal</a>
   </div>
