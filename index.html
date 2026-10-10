@@ -161,7 +161,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1.2rem
 
 /* MARQUEE */
 /* ===== BIG ADVENTURE SHOWCASE (straddles hero / section boundary) ===== */
-.showcase-wrap { position: relative; z-index: 20; max-width: 1320px; width: 100%; margin: -135px auto 0; padding: 0 2.5rem 1.5rem; }
+.showcase-wrap { position: relative; z-index: 20; max-width: 1320px; width: 100%; margin: -135px auto 0; padding: 0 2.5rem 0; }
 .showcase { display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; scroll-behavior: smooth; padding: 4px 2px 8px; }
 .showcase::-webkit-scrollbar { display: none; }
 .show-card { flex: 0 0 240px; width: 240px; height: 230px; border-radius: 14px; overflow: hidden; position: relative; border: none; background: #111; cursor: pointer; padding: 0; scroll-snap-align: start; transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), box-shadow 0.4s ease; isolation: isolate; box-shadow: 0 16px 40px rgba(0,0,0,0.45); }
@@ -183,7 +183,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1.2rem
 .showcase-all:hover { color: var(--cta-hover); }
 @media (max-width: 768px) {
   /* edge-to-edge rail: break out of the centered wrap */
-  .showcase-wrap { padding: 0 0 2.5rem; max-width: 100%; margin-top: -70px; }
+  .showcase-wrap { padding: 0 0 0.5rem; max-width: 100%; margin-top: -70px; }
   .showcase { gap: 10px; padding: 4px 1rem 8px; scroll-padding-left: 1rem; }
   /* ~3 cards visible, 4th peeking: (100vw - gutters) / 3.3 */
   .show-card { flex: 0 0 29vw; width: 29vw; height: 32vw; min-height: 120px; border-radius: 12px; }
@@ -283,8 +283,8 @@ body::before {
 }
 /* HOW IT WORKS */
 .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-.how-section { background: linear-gradient(to bottom, var(--black) 0%, #060e09 14%); position: relative; overflow: hidden; padding-top: 3rem; }
-.how-section::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 0%, rgba(46,139,114,0.1) 0%, transparent 60%); pointer-events: none; }
+.how-section { background: var(--black); position: relative; overflow: hidden; padding-top: 2rem; }
+.how-section::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 30%, rgba(46,139,114,0.07) 0%, transparent 60%); pointer-events: none; }
 .how-section::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 120px; background: linear-gradient(to bottom, transparent, var(--black)); pointer-events: none; z-index: 1; }
 .step { padding: 2.5rem 2rem; border: 1px solid rgba(46,139,114,0.1); background: rgba(46,139,114,0.03); position: relative; overflow: hidden; transition: border-color 0.3s, background 0.3s; }
 .step::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--cta), transparent); opacity: 0; transition: opacity 0.3s; }
