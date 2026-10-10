@@ -126,15 +126,18 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1.2rem
 .nav-cta:hover { opacity: 0.6; }
 
 /* HERO */
-.hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 7rem 2rem 9.5rem; position: relative; overflow: hidden; }
+.hero { min-height: 86vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 6rem 2rem 8rem; position: relative; overflow: hidden; }
 .hero-title, .hero-sub, .hero-label { transition: opacity 0.4s ease; }
-.hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(10,10,10,0.2) 0%, transparent 35%, rgba(10,10,10,0.88) 100%); }
-.hero-content { position: relative; }
-.hero-label { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--stone); margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.75rem; }
+.hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(8,12,9,0.45) 0%, rgba(8,12,9,0.15) 30%, rgba(8,12,9,0.55) 72%, rgba(8,12,9,0.95) 100%); }
+.hero-overlay::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, rgba(8,12,9,0.55) 0%, rgba(8,12,9,0.15) 45%, transparent 70%); }
+.hero-content { position: relative; max-width: 680px; }
+/* soft scrim directly behind the text block for guaranteed legibility */
+.hero-content::before { content: ''; position: absolute; inset: -2rem -3rem -2rem -3rem; background: radial-gradient(130% 120% at 20% 70%, rgba(6,10,7,0.72) 0%, rgba(6,10,7,0.45) 45%, transparent 80%); z-index: -1; pointer-events: none; }
+.hero-label { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--stone); margin-bottom: 1.1rem; display: flex; align-items: center; gap: 0.75rem; }
 .hero-label::before { content: ''; display: block; width: 30px; height: 1px; background: var(--stone); }
-.hero-title { font-family: 'Playfair Display', serif; font-size: clamp(2.6rem, 9vw, 7rem); line-height: 1.0; font-weight: 400; margin-bottom: 1.5rem; }
+.hero-title { font-family: 'Playfair Display', serif; font-size: clamp(2.4rem, 6.5vw, 5rem); line-height: 1.02; font-weight: 400; margin-bottom: 1.25rem; text-shadow: 0 2px 30px rgba(0,0,0,0.5); }
 .hero-title em { font-style: italic; color: var(--stone); }
-.hero-sub { max-width: 480px; font-size: clamp(0.88rem, 2.5vw, 1rem); line-height: 1.7; color: rgba(245,242,238,0.82); margin-bottom: 0.75rem; }
+.hero-sub { max-width: 500px; font-size: clamp(0.88rem, 2.5vw, 1rem); line-height: 1.7; color: rgba(245,242,238,0.9); margin-bottom: 1.75rem; text-shadow: 0 1px 16px rgba(0,0,0,0.5); }
 .hero-urgency { font-size: 0.72rem; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 2rem; display: flex; align-items: center; gap: 0.5rem; }
 .hero-urgency::before { content: '●'; font-size: 0.55rem; color: var(--accent); animation: pulse 1.6s infinite; flex-shrink: 0; }
 @keyframes pulse { 0%,100%{ opacity:1; transform:scale(1); } 50%{ opacity:0.2; transform:scale(0.7); } }
@@ -152,13 +155,13 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1.2rem
 .btn-add.in-list { background: var(--cta); border-color: var(--cta); }
 .btn-add.in-list:hover { background: var(--cta-hover); border-color: var(--cta-hover); }
 .btn-primary:hover { background: var(--cta-hover); transform: translateY(-2px); }
-.btn-ghost { color: var(--white); font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; opacity: 0.5; transition: opacity 0.2s; display: flex; align-items: center; gap: 0.5rem; }
-.btn-ghost:hover { opacity: 1; }
-.btn-ghost::after { content: '↓'; }
+.btn-ghost { color: var(--white); font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; opacity: 0.65; transition: opacity 0.2s, gap 0.2s; display: flex; align-items: center; gap: 0.5rem; }
+.btn-ghost:hover { opacity: 1; gap: 0.7rem; }
+.btn-ghost::after { content: '→'; }
 
 /* MARQUEE */
 /* ===== BIG ADVENTURE SHOWCASE (straddles hero / section boundary) ===== */
-.showcase-wrap { position: relative; z-index: 20; max-width: 1280px; width: 100%; margin: -135px auto 0; padding: 0 2rem 3.5rem; }
+.showcase-wrap { position: relative; z-index: 20; max-width: 1320px; width: 100%; margin: -135px auto 0; padding: 0 2.5rem 1.5rem; }
 .showcase { display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; scroll-behavior: smooth; padding: 4px 2px 8px; }
 .showcase::-webkit-scrollbar { display: none; }
 .show-card { flex: 0 0 240px; width: 240px; height: 230px; border-radius: 14px; overflow: hidden; position: relative; border: none; background: #111; cursor: pointer; padding: 0; scroll-snap-align: start; transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), box-shadow 0.4s ease; isolation: isolate; box-shadow: 0 16px 40px rgba(0,0,0,0.45); }
@@ -280,8 +283,8 @@ body::before {
 }
 /* HOW IT WORKS */
 .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-.how-section { background: #060e09; position: relative; overflow: hidden; }
-.how-section::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 0%, rgba(46,139,114,0.08) 0%, transparent 65%); pointer-events: none; }
+.how-section { background: linear-gradient(to bottom, var(--black) 0%, #060e09 14%); position: relative; overflow: hidden; padding-top: 3rem; }
+.how-section::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 0%, rgba(46,139,114,0.1) 0%, transparent 60%); pointer-events: none; }
 .how-section::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 120px; background: linear-gradient(to bottom, transparent, var(--black)); pointer-events: none; z-index: 1; }
 .step { padding: 2.5rem 2rem; border: 1px solid rgba(46,139,114,0.1); background: rgba(46,139,114,0.03); position: relative; overflow: hidden; transition: border-color 0.3s, background 0.3s; }
 .step::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--cta), transparent); opacity: 0; transition: opacity 0.3s; }
@@ -1198,11 +1201,9 @@ select{color:#f5f2ee;}
     <div class="hero-label" id="heroLabel" style="display:none;"></div>
     <h1 class="hero-title" id="heroTitle" data-default-html="Your journey,<br><em>your way.</em>">Your journey,<br><em>your way.</em></h1>
     <p class="hero-sub" id="heroSub" data-default="Tell me your dates, your pace, your passions. I'll craft a personalised Montenegro itinerary that fits you, and only you.">Tell me your dates, your pace, your passions. I'll craft a personalised Montenegro itinerary that fits you, and only you.</p>
-    <p class="hero-urgency">Limited availability, ensuring every trip gets full personal attention</p>
     <div class="hero-actions">
-      <a href="#plan" class="btn-primary">Start Planning</a>
-      <a href="#how" class="btn-ghost">How it works</a>
-      <button type="button" id="heroAddBtn" class="btn-add" data-adv-toggle="" data-add="＋ Add to my trip" data-added="✓ Added to trip" style="display:none;" onclick="toggleHeroAdventure()"><span data-adv-label>＋ Add to my trip</span></button>
+      <button type="button" class="btn-primary" id="heroPlanBtn" onclick="planFromHero()">Start planning →</button>
+      <a href="/adventures" class="btn-ghost">All adventures</a>
     </div>
 
   </div>
@@ -1864,21 +1865,20 @@ function pickActivity(card) {
     }, 220);
   }
 
-  // reveal the hero "add to my trip" button for this adventure
-  var addBtn = document.getElementById('heroAddBtn');
-  if (addBtn) {
-    var plain = (card.getAttribute('data-title') || '').replace(/&amp;/g, '&');
-    addBtn.setAttribute('data-adv-toggle', plain);
-    addBtn.style.display = 'inline-flex';
-    if (window.EMShortlistRender) window.EMShortlistRender();
-  }
+  // remember the current hero adventure and update the primary button label
+  currentHeroAdventure = (card.getAttribute('data-title') || '').replace(/&amp;/g, '&');
+  var planBtn = document.getElementById('heroPlanBtn');
+  if (planBtn) planBtn.textContent = 'Plan ' + currentHeroAdventure + ' →';
 }
 
-function toggleHeroAdventure() {
-  var addBtn = document.getElementById('heroAddBtn');
-  if (!addBtn || !window.EMShortlist) return;
-  var name = addBtn.getAttribute('data-adv-toggle');
-  if (name) window.EMShortlist.toggle(name);
+var currentHeroAdventure = '';
+function planFromHero() {
+  // if an adventure is showing, add it to the shortlist, then jump to the form
+  if (currentHeroAdventure && window.EMShortlist) {
+    window.EMShortlist.add(currentHeroAdventure);
+  }
+  var plan = document.getElementById('plan');
+  if (plan) plan.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function showcaseStep() {
