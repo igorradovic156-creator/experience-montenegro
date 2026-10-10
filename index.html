@@ -126,7 +126,9 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1.2rem
 .nav-cta:hover { opacity: 0.6; }
 
 /* HERO */
-.hero { min-height: 100svh; display: flex; flex-direction: column; justify-content: flex-end; padding: 7rem 2rem 3.5rem; position: relative; overflow: hidden; }
+.hero { height: 100vh; min-height: 640px; display: flex; flex-direction: column; justify-content: flex-end; padding: 7rem 2rem 0; position: relative; overflow: hidden; }
+.hero-content { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 2rem; }
+.hero-title, .hero-sub, .hero-label { transition: opacity 0.4s ease; }
 .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(10,10,10,0.2) 0%, transparent 35%, rgba(10,10,10,0.88) 100%); }
 .hero-content { position: relative; }
 .hero-label { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--stone); margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.75rem; }
@@ -152,6 +154,38 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1.2rem
 .btn-ghost::after { content: '↓'; }
 
 /* MARQUEE */
+/* ===== BIG ACTIVITY SHOWCASE (inside hero, anchored bottom) ===== */
+.showcase-wrap { position: relative; z-index: 20; max-width: 1280px; width: 100%; margin: 0 auto; padding: 0 2rem 1.5rem; flex-shrink: 0; }
+.showcase { display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; scroll-behavior: smooth; padding: 4px 2px 8px; }
+.showcase::-webkit-scrollbar { display: none; }
+.show-card { flex: 0 0 240px; width: 240px; height: 230px; border-radius: 14px; overflow: hidden; position: relative; border: none; background: #111; cursor: pointer; padding: 0; scroll-snap-align: start; transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), box-shadow 0.4s ease; isolation: isolate; box-shadow: 0 16px 40px rgba(0,0,0,0.45); }
+.show-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s cubic-bezier(0.2,0,0.2,1), filter 0.4s ease; filter: brightness(0.78); }
+.show-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.15) 45%, transparent 70%); }
+.show-card-name { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; padding: 1rem 1.1rem; font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 400; color: #fff; text-align: left; text-shadow: 0 2px 12px rgba(0,0,0,0.7); line-height: 1.1; }
+.show-card:hover { transform: translateY(-6px); box-shadow: 0 24px 50px rgba(0,0,0,0.55); }
+.show-card:hover img { transform: scale(1.07); filter: brightness(0.9); }
+.show-card.active { box-shadow: 0 0 0 3px var(--cta), 0 20px 46px rgba(0,0,0,0.5); }
+.show-card.active img { filter: brightness(0.92); }
+.show-card.active::before { content: ''; position: absolute; top: 1rem; right: 1rem; z-index: 2; width: 24px; height: 24px; border-radius: 50%; background: var(--cta); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: center; }
+.showcase-arrow { position: absolute; top: calc(50% - 20px); transform: translateY(-50%); z-index: 25; width: 48px; height: 48px; border-radius: 50%; border: none; background: #fff; color: #1a1a1a; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 6px 20px rgba(0,0,0,0.35); transition: all 0.25s ease; }
+.showcase-arrow:hover { background: var(--cta); color: #fff; transform: translateY(-50%) scale(1.06); }
+.showcase-arrow:disabled { opacity: 0; pointer-events: none; }
+.showcase-prev { left: -8px; }
+.showcase-next { right: -8px; }
+.showcase-foot { display: flex; justify-content: flex-end; margin-top: 0.7rem; }
+.showcase-all { font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cta); text-decoration: none; transition: color 0.2s; }
+.showcase-all:hover { color: var(--cta-hover); }
+@media (max-width: 768px) {
+  /* edge-to-edge rail: break out of the centered wrap */
+  .showcase-wrap { padding: 0 0 1rem; max-width: 100%; }
+  .showcase { gap: 10px; padding: 4px 1rem 8px; scroll-padding-left: 1rem; }
+  /* ~3 cards visible, 4th peeking: (100vw - gutters) / 3.3 */
+  .show-card { flex: 0 0 29vw; width: 29vw; height: 32vw; min-height: 120px; border-radius: 12px; }
+  .show-card-name { font-size: 0.82rem; padding: 0.55rem 0.6rem; line-height: 1.1; }
+  .showcase-arrow { display: none; }
+  .showcase-foot { justify-content: center; margin-top: 0.5rem; padding: 0 1rem; }
+  .showcase-all { font-size: 0.6rem; }
+}
 .marquee-wrap { overflow: hidden; border-top: 1px solid rgba(200,184,154,0.18); border-bottom: 1px solid rgba(200,184,154,0.18); padding: 0.8rem 0; background: rgba(200,184,154,0.03); cursor: default; }
 .marquee-wrap:hover .marquee { animation-play-state: paused; }
 .marquee { display: flex; gap: 3rem; animation: marquee 22s linear infinite; width: max-content; }
@@ -708,7 +742,8 @@ footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); dis
   .nav-logo { font-size: 0.85rem; }
   .nav-links { display: none !important; }
   .nav-hamburger { display: flex !important; }
-  .hero { padding: 5.5rem 1.2rem 2.5rem; }
+  .hero { height: 100vh; min-height: 560px; padding: 5rem 1.2rem 0; }
+  .hero-content { padding-bottom: 1.25rem; }
   .hero-title { font-size: clamp(2.2rem, 10vw, 3.2rem); }
   .hero-sub { font-size: 0.88rem; max-width: 100%; }
   .hero-actions { flex-direction: column; align-items: flex-start; gap: 0.85rem; }
@@ -1085,7 +1120,7 @@ select{color:#f5f2ee;}
 <nav>
   <div class="nav-logo"><img src="/wordmark.svg" alt="Experience Montenegro" style="height:18px;display:block;"></div>
   <div class="nav-links">
-    <a href="#activities" class="nav-link nav-activities">Activities</a>
+    <a href="/activities" class="nav-link nav-activities">Activities</a>
     <a href="/notes" class="nav-link">Travel Notes</a>
     <a href="#plan" class="nav-cta">Plan My Trip</a>
   </div>
@@ -1107,7 +1142,7 @@ select{color:#f5f2ee;}
     <button class="mobile-menu-close" onclick="closeMobileMenu()" aria-label="Close">&times;</button>
   </div>
   <div class="mobile-menu-links">
-    <a href="#activities" onclick="closeMobileMenu()"><span class="mm-num">01</span>Activities</a>
+    <a href="/activities" onclick="closeMobileMenu()"><span class="mm-num">01</span>Activities</a>
     <a href="#how" onclick="closeMobileMenu()"><span class="mm-num">02</span>How it works</a>
     <a href="#pricing" onclick="closeMobileMenu()"><span class="mm-num">03</span>Pricing</a>
     <a href="#faq" onclick="closeMobileMenu()"><span class="mm-num">04</span>FAQ</a>
@@ -1142,62 +1177,68 @@ select{color:#f5f2ee;}
        </video>
        ============================================================ -->
   <img
+    id="heroBg"
     src="https://image2url.com/r2/default/images/1774185498923-4749e033-3b97-47bb-a4bb-a50465cb3fcb.jpg"
+    data-default="https://image2url.com/r2/default/images/1774185498923-4749e033-3b97-47bb-a4bb-a50465cb3fcb.jpg"
     alt="Montenegro"
-    style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"
+    style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;transition:opacity 0.45s ease;"
   >
+  <img id="heroBg2" alt="" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:0;transition:opacity 0.45s ease;">
   <div class="hero-overlay"></div>
   <div class="hero-content">
-    <h1 class="hero-title">Your journey,<br><em>your way.</em></h1>
-    <p class="hero-sub">Tell me your dates, your pace, your passions. I'll craft a personalised Montenegro itinerary that fits you, and only you.</p>
+    <div class="hero-label" id="heroLabel" style="display:none;"></div>
+    <h1 class="hero-title" id="heroTitle" data-default-html="Your journey,<br><em>your way.</em>">Your journey,<br><em>your way.</em></h1>
+    <p class="hero-sub" id="heroSub" data-default="Tell me your dates, your pace, your passions. I'll craft a personalised Montenegro itinerary that fits you, and only you.">Tell me your dates, your pace, your passions. I'll craft a personalised Montenegro itinerary that fits you, and only you.</p>
     <p class="hero-urgency">Limited availability, ensuring every trip gets full personal attention</p>
     <div class="hero-actions">
       <a href="#plan" class="btn-primary">Start Planning</a>
       <a href="#how" class="btn-ghost">How it works</a>
     </div>
-    <div class="hero-trust">
-      <span class="hero-trust-text">Trusted by international travellers from</span>
-      <div class="hero-trust-flags">
-        <svg width="24" height="16" viewBox="0 0 24 16" title="Germany"><rect width="24" height="5.33" y="0" fill="#000"/><rect width="24" height="5.33" y="5.33" fill="#D00"/><rect width="24" height="5.34" y="10.66" fill="#FFCE00"/></svg>
-        <svg width="24" height="16" viewBox="0 0 24 16" title="United Kingdom"><rect width="24" height="16" fill="#012169"/><path d="M0 0l24 16M24 0L0 16" stroke="#fff" stroke-width="3"/><path d="M0 0l24 16M24 0L0 16" stroke="#C8102E" stroke-width="1.8"/><path d="M12 0v16M0 8h24" stroke="#fff" stroke-width="5"/><path d="M12 0v16M0 8h24" stroke="#C8102E" stroke-width="3"/></svg>
-        <svg width="24" height="16" viewBox="0 0 24 16" title="Netherlands"><rect width="24" height="5.33" y="0" fill="#AE1C28"/><rect width="24" height="5.33" y="5.33" fill="#fff"/><rect width="24" height="5.34" y="10.66" fill="#21468B"/></svg>
-        <svg width="24" height="16" viewBox="0 0 24 16" title="USA"><rect width="24" height="16" fill="#B22234"/><rect width="24" height="1.23" y="1.23" fill="#fff"/><rect width="24" height="1.23" y="3.69" fill="#fff"/><rect width="24" height="1.23" y="6.15" fill="#fff"/><rect width="24" height="1.23" y="8.62" fill="#fff"/><rect width="24" height="1.23" y="11.08" fill="#fff"/><rect width="24" height="1.23" y="13.54" fill="#fff"/><rect width="10" height="8.62" fill="#3C3B6E"/></svg>
-        <svg width="24" height="16" viewBox="0 0 24 16" title="France"><rect width="8" height="16" x="0" fill="#002395"/><rect width="8" height="16" x="8" fill="#fff"/><rect width="8" height="16" x="16" fill="#ED2939"/></svg>
-        <svg width="24" height="16" viewBox="0 0 24 16" title="Sweden"><rect width="24" height="16" fill="#006AA7"/><rect width="24" height="3" y="6.5" fill="#FECC02"/><rect width="3" height="16" x="7" fill="#FECC02"/></svg>
-        <svg width="24" height="16" viewBox="0 0 24 16" title="Switzerland"><rect width="24" height="16" fill="#FF0000"/><rect width="3" height="9" x="10.5" y="3.5" fill="#fff"/><rect width="9" height="3" x="7.5" y="6.5" fill="#fff"/></svg>
-        <svg width="24" height="16" viewBox="0 0 24 16" title="Australia"><rect width="24" height="16" fill="#00008B"/><rect width="12" height="8" fill="#00008B"/><path d="M0 0l12 8M12 0L0 8" stroke="#fff" stroke-width="2"/><path d="M0 0l12 8M12 0L0 8" stroke="#CC0001" stroke-width="1.2"/><path d="M6 0v8M0 4h12" stroke="#fff" stroke-width="3.2"/><path d="M6 0v8M0 4h12" stroke="#CC0001" stroke-width="2"/><circle cx="18" cy="5" r="1.2" fill="#fff"/><circle cx="20.5" cy="8" r="1.2" fill="#fff"/><circle cx="15.5" cy="8" r="1.2" fill="#fff"/><circle cx="21" cy="4" r="1.2" fill="#fff"/><circle cx="17" cy="11" r="1.6" fill="#fff"/></svg>
-        <svg width="24" height="16" viewBox="0 0 24 16" title="Italy"><rect width="8" height="16" x="0" fill="#009246"/><rect width="8" height="16" x="8" fill="#fff"/><rect width="8" height="16" x="16" fill="#CE2B37"/></svg>
-        <svg width="24" height="16" viewBox="0 0 24 16" title="Belgium"><rect width="8" height="16" x="0" fill="#000"/><rect width="8" height="16" x="8" fill="#FFD90C"/><rect width="8" height="16" x="16" fill="#F00"/></svg>
-        <svg width="24" height="16" viewBox="0 0 24 16" title="Austria"><rect width="24" height="5.33" y="0" fill="#ED2939"/><rect width="24" height="5.33" y="5.33" fill="#fff"/><rect width="24" height="5.34" y="10.66" fill="#ED2939"/></svg>
-        <svg width="24" height="16" viewBox="0 0 24 16" title="Norway"><rect width="24" height="16" fill="#EF2B2D"/><rect width="24" height="4" y="6" fill="#fff"/><rect width="4" height="16" x="6" fill="#fff"/><rect width="24" height="2.4" y="6.8" fill="#002868"/><rect width="2.4" height="16" x="6.8" fill="#002868"/></svg>
-      </div>
-    </div>
+
+  </div>
+
+  <!-- BIG ACTIVITY SHOWCASE — sits inside the hero, anchored at the bottom -->
+  <div class="showcase-wrap">
+  <button class="showcase-arrow showcase-prev" id="showPrev" aria-label="Previous" onclick="slideShowcase(-1)">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <button class="showcase-arrow showcase-next" id="showNext" aria-label="Next" onclick="slideShowcase(1)">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+  </button>
+  <div class="showcase" id="showcase">
+    <button class="show-card active" onclick="pickActivity(this)" data-img="rafting.webp" data-label="Adventure" data-title="Tara Rafting" data-sub="One of Europe's deepest canyons — Grade 3–4 rapids on a full day down one of the region's most dramatic rivers.">
+      <img src="rafting.webp" alt="Tara Rafting" loading="lazy"><span class="show-card-name">Rafting</span>
+    </button>
+    <button class="show-card" onclick="pickActivity(this)" data-img="canyoning.webp" data-label="Adventure" data-title="Canyoning" data-sub="Abseil waterfalls and swim through the Nevidio canyon — 'the unseen,' first explored only in 1965.">
+      <img src="canyoning.webp" alt="Canyoning" loading="lazy"><span class="show-card-name">Canyoning</span>
+    </button>
+    <button class="show-card" onclick="pickActivity(this)" data-img="jeep.webp" data-label="Adventure" data-title="Jeep Safari" data-sub="Montenegro's wild interior by 4x4 — mountain plateaus, shepherd villages and panoramas no ordinary car reaches.">
+      <img src="jeep.webp" alt="Jeep Safari" loading="lazy"><span class="show-card-name">Jeep Safari</span>
+    </button>
+    <button class="show-card" onclick="pickActivity(this)" data-img="kayak.webp" data-label="Water" data-title="Kayak &amp; Boat" data-sub="Paddle Europe's southernmost fjord, or glide across the Balkans' largest lake at sunrise.">
+      <img src="kayak.webp" alt="Kayak & Boat" loading="lazy"><span class="show-card-name">Kayaking</span>
+    </button>
+    <button class="show-card" onclick="pickActivity(this)" data-img="hiking.webp" data-label="Nature" data-title="Hiking" data-sub="Over 1,000km of marked trails across two UNESCO parks — from lakeside walks to serious mountain routes.">
+      <img src="hiking.webp" alt="Hiking" loading="lazy"><span class="show-card-name">Hiking</span>
+    </button>
+    <button class="show-card" onclick="pickActivity(this)" data-img="wine.webp" data-label="Culture" data-title="Wine &amp; Food" data-sub="Private tastings at Montenegro's finest wineries, market visits and meals that reveal the real local table.">
+      <img src="wine.webp" alt="Wine & Food" loading="lazy"><span class="show-card-name">Wine &amp; Food</span>
+    </button>
+    <button class="show-card" onclick="pickActivity(this)" data-img="horseback.webp" data-label="Nature" data-title="Horseback Riding" data-sub="Ride through highland meadows and pine forest on calm horses — a gentle way to reach the hidden places.">
+      <img src="horseback.webp" alt="Horseback Riding" loading="lazy"><span class="show-card-name">Horseback</span>
+    </button>
+    <button class="show-card" onclick="pickActivity(this)" data-img="biking.webp" data-label="Adventure" data-title="Mountain Biking" data-sub="Quiet mountain roads, forest singletrack and long alpine descents — e-bikes available for the climbs.">
+      <img src="biking.webp" alt="Mountain Biking" loading="lazy"><span class="show-card-name">E-Biking</span>
+    </button>
+    <button class="show-card" onclick="pickActivity(this)" data-img="paragliding.webp" data-label="Adventure" data-title="Paragliding" data-sub="Tandem flights above the Bay of Kotor — Montenegro from a perspective most visitors never see.">
+      <img src="paragliding.webp" alt="Paragliding" loading="lazy"><span class="show-card-name">Paragliding</span>
+    </button>
+  </div>
+  <div class="showcase-foot">
+    <a href="/activities" class="showcase-all">View all adventures →</a>
+  </div>
   </div>
 </section>
-
-<!-- MARQUEE -->
-<div class="marquee-wrap">
-  <div class="marquee">
-    <span class="marquee-item">Tara Rafting</span>
-    <span class="marquee-item">Canyoning</span>
-    <span class="marquee-item">Jeep Safari</span>
-    <span class="marquee-item">Kayak &amp; Boat</span>
-    <span class="marquee-item">Hiking</span>
-    <span class="marquee-item">Wine &amp; Food</span>
-    <span class="marquee-item">Horseback Riding</span>
-    <span class="marquee-item">Mountain Biking</span>
-    <span class="marquee-item">Paragliding</span>
-    <span class="marquee-item">Tara Rafting</span>
-    <span class="marquee-item">Canyoning</span>
-    <span class="marquee-item">Jeep Safari</span>
-    <span class="marquee-item">Kayak &amp; Boat</span>
-    <span class="marquee-item">Hiking</span>
-    <span class="marquee-item">Wine &amp; Food</span>
-    <span class="marquee-item">Horseback Riding</span>
-    <span class="marquee-item">Mountain Biking</span>
-    <span class="marquee-item">Paragliding</span>
-  </div>
-</div>
 
 <!-- HOW IT WORKS -->
 <section class="section how-section" id="how">
@@ -1222,233 +1263,6 @@ select{color:#f5f2ee;}
   </div>
 </section>
 
-<!-- ACTIVITIES -->
-<section class="section activities-blend" style="padding-top:0;" id="activities">
-  <div class="activities-head">
-    <div style="max-width: 640px;">
-      <div class="section-label">What's possible</div>
-      <h2 class="section-title">Montenegro, in full</h2>
-      <p style="font-size:0.88rem;line-height:1.75;color:rgba(245,242,238,0.45);margin-top:1rem;">Nine ways to experience the country, from its wildest rivers to its quietest mountain tables. Tap any one to see what it involves.</p>
-    </div>
-    <div class="activities-nav">
-      <button class="act-arrow" id="actPrev" aria-label="Previous" onclick="scrollActivities(-1)">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-      </button>
-      <button class="act-arrow" id="actNext" aria-label="Next" onclick="scrollActivities(1)">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-      </button>
-    </div>
-  </div>
-  <div class="activities-grid" id="activitiesGrid">
-
-    <div class="activity" onclick="toggleActivity(this)" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleActivity(this);}">
-      <div class="activity-img">
-        <img src="rafting.webp" alt="Tara Rafting" style="width:100%;height:100%;object-fit:cover;display:block;">
-      </div>
-      <div class="activity-body">
-        <div class="activity-header">
-          <div class="activity-name">Tara Rafting</div>
-          <div class="activity-header-right"><span class="activity-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="9" width="16" height="8" rx="2"/><line x1="2" y1="13" x2="6" y2="13"/><line x1="18" y1="13" x2="22" y2="13"/><line x1="4" y1="11" x2="2" y2="8"/><line x1="20" y1="11" x2="22" y2="8"/><line x1="4" y1="15" x2="2" y2="18"/><line x1="20" y1="15" x2="22" y2="18"/></svg></span><span class="activity-toggle">+</span></div>
-        </div>
-        <div class="activity-desc">One of Europe's deepest canyons. Grade 3–4 rapids. A full day on one of the region's most dramatic rivers.</div>
-          <div class="activity-explore">Tap to explore</div>
-      </div>
-      <div class="activity-article">
-        <div class="activity-article-inner">
-          <div class="activity-article-img"><img src="rafting.webp" alt="Tara Rafting"></div>
-          <div class="activity-article-text">
-            <p>The Tara River Canyon is one of the deepest in Europe, reaching over 1,300 metres. The river typically runs cold and fast from spring through autumn, with the strongest rapids usually in spring when snowmelt raises the water. Beginners are welcome on most trips — operators provide guides, a safety briefing and equipment. Your suitability depends on the specific route and water level, which we'll match to your group.</p><p>A full-day rafting trip covers around 18km of river, passing through emerald gorges, under ancient bridges, and past waterfalls that drop directly into the canyon.</p><ul><li>Duration: Full day (4 hours on water)</li><li>Difficulty: Grade 3–4 (moderate to challenging)</li><li>Best season: April – October</li><li>Includes: Guide, equipment, lunch on the river</li><li>Starting point: Šćepan Polje, ~2.5h from Podgorica</li></ul>
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;"><a href="#plan" class="activity-cta" data-interest="Adventure & adrenaline" data-activity="Tara Rafting" onclick="event.stopPropagation();planExperience(this)">Plan this experience &rarr;</a><button onclick="event.stopPropagation();toggleActivity(this.closest('.activity'))" style="background:none;border:none;color:rgba(200,184,154,0.25);cursor:pointer;font-size:0.7rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;font-family:inherit;flex-shrink:0;padding:0;" onmouseover="this.style.color='rgba(200,184,154,0.6)'" onmouseout="this.style.color='rgba(200,184,154,0.25)'">close</button></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="activity" onclick="toggleActivity(this)" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleActivity(this);}">
-      <div class="activity-img">
-        <img src="canyoning.webp" alt="Canyoning" style="width:100%;height:100%;object-fit:cover;display:block;">
-      </div>
-      <div class="activity-body">
-        <div class="activity-header">
-          <div class="activity-name">Canyoning</div>
-          <div class="activity-header-right"><span class="activity-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3v10l4 3v5"/><path d="M20 3v10l-4 3v5"/><path d="M8 16c1.5-1 2.5-1 4 0s2.5 1 4 0"/><path d="M10 3c0 2-2 3-2 5s2 3 2 5"/><path d="M14 3c0 2 2 3 2 5s-2 3-2 5"/></svg></span><span class="activity-toggle">+</span></div>
-        </div>
-        <div class="activity-desc">Rappel through limestone gorges, swim through crystal pools, jump into plunge basins few ever discover.</div>
-          <div class="activity-explore">Tap to explore</div>
-      </div>
-      <div class="activity-article">
-        <div class="activity-article-inner">
-          <div class="activity-article-img"><img src="canyoning.webp" alt="Canyoning"></div>
-          <div class="activity-article-text">
-            <p>Nevidio Canyon, "the unseen," was only first explored in 1965. A narrow limestone gorge carved by the Komarnica river, with walls rising over 300 metres. Canyoning here means abseiling down waterfalls, swimming through ice-cold pools, and squeezing through passages just wide enough for one person.</p><p>It's challenging, exhilarating, and unlike anything you'll find elsewhere in Europe.</p><ul><li>Duration: 5–6 hours</li><li>Difficulty: Challenging (good fitness required)</li><li>Best season: May – September</li><li>Includes: Guide, wetsuit, helmet, harness, rich meal after</li></ul>
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;"><a href="#plan" class="activity-cta" data-interest="Adventure & adrenaline" data-activity="Canyoning" onclick="event.stopPropagation();planExperience(this)">Plan this experience &rarr;</a><button onclick="event.stopPropagation();toggleActivity(this.closest('.activity'))" style="background:none;border:none;color:rgba(200,184,154,0.25);cursor:pointer;font-size:0.7rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;font-family:inherit;flex-shrink:0;padding:0;" onmouseover="this.style.color='rgba(200,184,154,0.6)'" onmouseout="this.style.color='rgba(200,184,154,0.25)'">close</button></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="activity" onclick="toggleActivity(this)" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleActivity(this);}">
-      <div class="activity-img">
-        <img src="jeep.webp" alt="Jeep Safari" style="width:100%;height:100%;object-fit:cover;display:block;">
-      </div>
-      <div class="activity-body">
-        <div class="activity-header">
-          <div class="activity-name">Jeep Safari</div>
-          <div class="activity-header-right"><span class="activity-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="9" width="20" height="9" rx="1"/><path d="M5 9V7a2 2 0 012-2h10a2 2 0 012 2v2"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/><path d="M5 13h2M17 13h2"/></svg></span><span class="activity-toggle">+</span></div>
-        </div>
-        <div class="activity-desc">Off-road into Montenegro's wild interior. Mountain plateaus, shepherd villages, panoramas that take your breath away.</div>
-          <div class="activity-explore">Tap to explore</div>
-      </div>
-      <div class="activity-article">
-        <div class="activity-article-inner">
-          <div class="activity-article-img"><img src="jeep.webp" alt="Jeep Safari"></div>
-          <div class="activity-article-text">
-            <p>Montenegro's mountain interior is largely inaccessible by ordinary car. Durmitor National Park has over 40 glacial lakes, high-altitude meadows, and centuries-old shepherd villages that sit above the clouds.</p><ul><li>Duration: Full day or half day</li><li>Difficulty: Easy (you're in the jeep)</li><li>Best season: May – October</li><li>Includes: Private 4x4, guide, picnic lunch</li><li>Departures from: Žabljak or Kolašin</li></ul>
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;"><a href="#plan" class="activity-cta" data-interest="Nature & hiking" data-activity="Jeep Safari" onclick="event.stopPropagation();planExperience(this)">Plan this experience &rarr;</a><button onclick="event.stopPropagation();toggleActivity(this.closest('.activity'))" style="background:none;border:none;color:rgba(200,184,154,0.25);cursor:pointer;font-size:0.7rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;font-family:inherit;flex-shrink:0;padding:0;" onmouseover="this.style.color='rgba(200,184,154,0.6)'" onmouseout="this.style.color='rgba(200,184,154,0.25)'">close</button></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="activity" onclick="toggleActivity(this)" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleActivity(this);}">
-      <div class="activity-img">
-        <img src="kayak.webp" alt="Kayak &amp; Boat" style="width:100%;height:100%;object-fit:cover;display:block;">
-      </div>
-      <div class="activity-body">
-        <div class="activity-header">
-          <div class="activity-name">Kayak &amp; Boat</div>
-          <div class="activity-header-right"><span class="activity-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="22"/><path d="M12 2c-3 2-5 3-5 5s2 3 5 2 5-1 5-2-2-3-5-5z"/><path d="M12 22c-3-2-5-3-5-5s2-3 5-2 5 1 5 2-2 3-5 5z"/></svg></span><span class="activity-toggle">+</span></div>
-        </div>
-        <div class="activity-desc">Paddle through Europe's southernmost fjord, or glide across the Balkans' largest lake at sunrise.</div>
-          <div class="activity-explore">Tap to explore</div>
-      </div>
-      <div class="activity-article">
-        <div class="activity-article-inner">
-          <div class="activity-article-img"><img src="kayak.webp" alt="Kayak &amp; Boat"></div>
-          <div class="activity-article-text">
-            <p>The Bay of Kotor: dramatic limestone cliffs dropping into dark blue water, with medieval towns clinging to the shoreline. Kayaking it at sunrise, before the tourist boats arrive, is one of the great quiet experiences of the Adriatic.</p><ul><li>Duration: 2–4 hours (kayak) or half day (boat)</li><li>Difficulty: Easy to moderate</li><li>Best season: April – October</li><li>Includes: Equipment, guide, safety briefing</li><li>Departures from: Kotor, Perast, or Virpazar</li></ul>
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;"><a href="#plan" class="activity-cta" data-interest="Adventure & adrenaline" data-activity="Kayak &amp; Boat" onclick="event.stopPropagation();planExperience(this)">Plan this experience &rarr;</a><button onclick="event.stopPropagation();toggleActivity(this.closest('.activity'))" style="background:none;border:none;color:rgba(200,184,154,0.25);cursor:pointer;font-size:0.7rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;font-family:inherit;flex-shrink:0;padding:0;" onmouseover="this.style.color='rgba(200,184,154,0.6)'" onmouseout="this.style.color='rgba(200,184,154,0.25)'">close</button></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="activity" onclick="toggleActivity(this)" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleActivity(this);}">
-      <div class="activity-img">
-        <img src="hiking.webp" alt="Hiking" style="width:100%;height:100%;object-fit:cover;display:block;">
-      </div>
-      <div class="activity-body">
-        <div class="activity-header">
-          <div class="activity-name">Hiking</div>
-          <div class="activity-header-right"><span class="activity-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12,3 22,20 2,20"/><polyline points="7,20 12,11 17,20"/></svg></span><span class="activity-toggle">+</span></div>
-        </div>
-        <div class="activity-desc">From gentle lakeside trails to summit ascents through Southern Europe's finest national parks.</div>
-          <div class="activity-explore">Tap to explore</div>
-      </div>
-      <div class="activity-article">
-        <div class="activity-article-inner">
-          <div class="activity-article-img"><img src="hiking.webp" alt="Hiking"></div>
-          <div class="activity-article-text">
-            <p>Montenegro has more than 1,000km of marked trails across two UNESCO-listed national parks. Whatever your pace and fitness level, there is a trail that fits.</p><ul><li>Duration: Half day to multi-day</li><li>Difficulty: Easy to very challenging</li><li>Best season: June – October</li><li>Includes: Local guide, route planning, safety equipment</li></ul>
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;"><a href="#plan" class="activity-cta" data-interest="Nature & hiking" data-activity="Hiking" onclick="event.stopPropagation();planExperience(this)">Plan this experience &rarr;</a><button onclick="event.stopPropagation();toggleActivity(this.closest('.activity'))" style="background:none;border:none;color:rgba(200,184,154,0.25);cursor:pointer;font-size:0.7rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;font-family:inherit;flex-shrink:0;padding:0;" onmouseover="this.style.color='rgba(200,184,154,0.6)'" onmouseout="this.style.color='rgba(200,184,154,0.25)'">close</button></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="activity" onclick="toggleActivity(this)" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleActivity(this);}">
-      <div class="activity-img">
-        <img src="wine.webp" alt="Wine &amp; Food" style="width:100%;height:100%;object-fit:cover;display:block;">
-      </div>
-      <div class="activity-body">
-        <div class="activity-header">
-          <div class="activity-name">Wine &amp; Food</div>
-          <div class="activity-header-right"><span class="activity-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3l1 7a4 4 0 008 0l1-7"/><line x1="12" y1="10" x2="12" y2="21"/><line x1="8" y1="21" x2="16" y2="21"/></svg></span><span class="activity-toggle">+</span></div>
-        </div>
-        <div class="activity-desc">Private tastings at Montenegro's finest wineries, market visits, and meals that reveal local culinary identity.</div>
-          <div class="activity-explore">Tap to explore</div>
-      </div>
-      <div class="activity-article">
-        <div class="activity-article-inner">
-          <div class="activity-article-img"><img src="wine.webp" alt="Wine &amp; Food"></div>
-          <div class="activity-article-text">
-            <p>Montenegro has some of the most scenic wine country in the Balkans: rolling vineyards, family-run cellars, and local konobas with views that make every glass taste better.</p><ul><li>Duration: Half day to full day</li><li>Difficulty: Easy</li><li>Best season: Year-round (harvest: September–October)</li><li>Includes: Private tasting, food pairing, transport</li></ul>
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;"><a href="#plan" class="activity-cta" data-interest="Culture & food" data-activity="Wine &amp; Food" onclick="event.stopPropagation();planExperience(this)">Plan this experience &rarr;</a><button onclick="event.stopPropagation();toggleActivity(this.closest('.activity'))" style="background:none;border:none;color:rgba(200,184,154,0.25);cursor:pointer;font-size:0.7rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;font-family:inherit;flex-shrink:0;padding:0;" onmouseover="this.style.color='rgba(200,184,154,0.6)'" onmouseout="this.style.color='rgba(200,184,154,0.25)'">close</button></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="activity" onclick="toggleActivity(this)" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleActivity(this);}">
-      <div class="activity-img">
-        <img src="horseback.webp" alt="Horseback Riding" style="width:100%;height:100%;object-fit:cover;display:block;">
-      </div>
-      <div class="activity-body">
-        <div class="activity-header">
-          <div class="activity-name">Horseback Riding</div>
-          <div class="activity-header-right"><span class="activity-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 20v-6a5 5 0 0110 0v6"/><line x1="7" y1="17" x2="5" y2="17"/><line x1="17" y1="17" x2="19" y2="17"/><line x1="7" y1="20" x2="5" y2="20"/><line x1="17" y1="20" x2="19" y2="20"/></svg></span><span class="activity-toggle">+</span></div>
-        </div>
-        <div class="activity-desc">Ride through alpine meadows and beech forests, one of the most peaceful ways to experience Montenegro's mountain interior.</div>
-          <div class="activity-explore">Tap to explore</div>
-      </div>
-      <div class="activity-article">
-        <div class="activity-article-inner">
-          <div class="activity-article-img"><img src="horseback.webp" alt="Horseback Riding"></div>
-          <div class="activity-article-text">
-            <p>Montenegro's mountain pastures have been grazed by horses for centuries. Riding through Bjelasica's high meadows in summer, with views across three mountain ranges, is something no road can replicate.</p><ul><li>Duration: 2 hours to full day</li><li>Difficulty: Beginner to advanced</li><li>Best season: May – October</li><li>Includes: Horse, guide, equipment</li></ul>
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;"><a href="#plan" class="activity-cta" data-interest="Nature & hiking" data-activity="Horseback Riding" onclick="event.stopPropagation();planExperience(this)">Plan this experience &rarr;</a><button onclick="event.stopPropagation();toggleActivity(this.closest('.activity'))" style="background:none;border:none;color:rgba(200,184,154,0.25);cursor:pointer;font-size:0.7rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;font-family:inherit;flex-shrink:0;padding:0;" onmouseover="this.style.color='rgba(200,184,154,0.6)'" onmouseout="this.style.color='rgba(200,184,154,0.25)'">close</button></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="activity" onclick="toggleActivity(this)" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleActivity(this);}">
-      <div class="activity-img">
-        <img src="biking.webp" alt="Mountain Biking" style="width:100%;height:100%;object-fit:cover;display:block;">
-      </div>
-      <div class="activity-body">
-        <div class="activity-header">
-          <div class="activity-name">Mountain Biking</div>
-          <div class="activity-header-right"><span class="activity-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="16" r="4"/><circle cx="18" cy="16" r="4"/><path d="M6 16l4-8h4l2 4"/><path d="M14 8l2-4"/><path d="M10 8l-2-4 4-1"/></svg></span><span class="activity-toggle">+</span></div>
-        </div>
-        <div class="activity-desc">Singletrack trails through national park terrain, from flowing forest paths to technical descents above the treeline.</div>
-          <div class="activity-explore">Tap to explore</div>
-      </div>
-      <div class="activity-article">
-        <div class="activity-article-inner">
-          <div class="activity-article-img"><img src="biking.webp" alt="Mountain Biking"></div>
-          <div class="activity-article-text">
-            <p>Durmitor National Park has some of the most varied mountain biking terrain in the Balkans. Trails are graded from easy family-friendly routes to demanding technical singletrack for experienced riders.</p><ul><li>Duration: Half day to full day</li><li>Difficulty: Easy to advanced</li><li>Best season: June – October</li><li>Includes: Bike, helmet, guide, route planning</li><li>Departures from: Žabljak</li></ul>
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;"><a href="#plan" class="activity-cta" data-interest="Adventure & adrenaline" data-activity="Mountain Biking" onclick="event.stopPropagation();planExperience(this)">Plan this experience &rarr;</a><button onclick="event.stopPropagation();toggleActivity(this.closest('.activity'))" style="background:none;border:none;color:rgba(200,184,154,0.25);cursor:pointer;font-size:0.7rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;font-family:inherit;flex-shrink:0;padding:0;" onmouseover="this.style.color='rgba(200,184,154,0.6)'" onmouseout="this.style.color='rgba(200,184,154,0.25)'">close</button></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="activity" onclick="toggleActivity(this)" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleActivity(this);}">
-      <div class="activity-img">
-        <img src="paragliding.webp" alt="Paragliding" style="width:100%;height:100%;object-fit:cover;display:block;">
-      </div>
-      <div class="activity-body">
-        <div class="activity-header">
-          <div class="activity-name">Paragliding</div>
-          <div class="activity-header-right"><span class="activity-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 10c0-5 4-8 10-8s10 3 10 8"/><path d="M2 10c2 0 4-1 5-2"/><path d="M22 10c-2 0-4-1-5-2"/><path d="M12 2v8"/><path d="M7 8l5 10"/><path d="M17 8l-5 10"/><ellipse cx="12" cy="19" rx="2" ry="1.5"/></svg></span><span class="activity-toggle">+</span></div>
-        </div>
-        <div class="activity-desc">Tandem paragliding above the Bay of Kotor or the mountain ranges above Kolašin, Montenegro from a perspective most visitors never see.</div>
-          <div class="activity-explore">Tap to explore</div>
-      </div>
-      <div class="activity-article">
-        <div class="activity-article-inner">
-          <div class="activity-article-img"><img src="paragliding.webp" alt="Paragliding"></div>
-          <div class="activity-article-text">
-            <p>Launching from the hills above Budva gives you a bird's-eye view of the entire Adriatic coastline. Flights last 15–30 minutes depending on thermals. All flights are tandem with certified instructors. No experience required.</p><ul><li>Duration: 20–40 minutes in the air</li><li>Difficulty: Easy (tandem, no experience needed)</li><li>Best season: April – October</li><li>Includes: Tandem flight, instructor, photos/video</li></ul>
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;"><a href="#plan" class="activity-cta" data-interest="Adventure & adrenaline" data-activity="Paragliding" onclick="event.stopPropagation();planExperience(this)">Plan this experience &rarr;</a><button onclick="event.stopPropagation();toggleActivity(this.closest('.activity'))" style="background:none;border:none;color:rgba(200,184,154,0.25);cursor:pointer;font-size:0.7rem;letter-spacing:0.1em;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;font-family:inherit;flex-shrink:0;padding:0;" onmouseover="this.style.color='rgba(200,184,154,0.6)'" onmouseout="this.style.color='rgba(200,184,154,0.25)'">close</button></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
 <!-- AND MORE -->
 <section class="and-more-section">
   <p class="and-more-eyebrow">And much more</p>
@@ -1870,7 +1684,7 @@ select{color:#f5f2ee;}
   <div class="footer-logo"><img src="/wordmark.svg" alt="Experience Montenegro" style="height:18px;display:block;"></div>
   <div class="footer-links">
     <a href="#how">How it works</a>
-    <a href="#activities">Activities</a><a href="/notes">Travel Notes</a>
+    <a href="/activities">Activities</a><a href="/notes">Travel Notes</a>
     <a href="#itineraries">Itineraries</a>
     <a href="#pricing">Pricing</a>
     
@@ -1987,45 +1801,71 @@ async function sendEmail(type, email, extra){
   setInterval(() => goTo((current + 1) % totalSteps()), 5000);
 })();
 
-function scrollActivities(dir) {
-  var grid = document.getElementById('activitiesGrid');
-  if (!grid) return;
-  grid.scrollBy({ left: dir * (280 + 16) * 2, behavior: 'smooth' });
-}
-function updateActArrows() {
-  var grid = document.getElementById('activitiesGrid');
-  var prev = document.getElementById('actPrev');
-  var next = document.getElementById('actNext');
-  if (!grid || !prev || !next) return;
-  prev.disabled = grid.scrollLeft <= 5;
-  next.disabled = grid.scrollLeft >= (grid.scrollWidth - grid.clientWidth - 5);
-}
-(function(){
-  var grid = document.getElementById('activitiesGrid');
-  if (grid) { grid.addEventListener('scroll', updateActArrows); window.addEventListener('resize', updateActArrows); setTimeout(updateActArrows, 300); }
-})();
+// Activity showcase — click a card to change the hero image, title and subtitle
+var heroActiveLayer = 1;
+function pickActivity(card) {
+  if (!card) return;
+  // active state
+  document.querySelectorAll('.show-card').forEach(function(c){ c.classList.remove('active'); });
+  card.classList.add('active');
 
-function toggleActivity(el) {
-  var isOpen = el.classList.contains('expanded');
-  var grid = document.getElementById('activitiesGrid');
-  document.querySelectorAll('.activity.expanded').forEach(function(a) {
-    a.classList.remove('expanded');
-  });
-  if (!isOpen) {
-    el.classList.add('expanded');
-    if (grid) grid.classList.add('has-open');
-    // gently bring the opened card into view
+  var img = card.getAttribute('data-img');
+  var label = card.getAttribute('data-label') || '';
+  var title = card.getAttribute('data-title') || '';
+  var sub = card.getAttribute('data-sub') || '';
+
+  // crossfade hero image
+  var a = document.getElementById('heroBg');
+  var b = document.getElementById('heroBg2');
+  if (a && b) {
+    var incoming = heroActiveLayer === 1 ? b : a;
+    var outgoing = heroActiveLayer === 1 ? a : b;
+    var pre = new Image();
+    pre.onload = function(){
+      incoming.src = img;
+      incoming.style.opacity = '1';
+      outgoing.style.opacity = '0';
+      heroActiveLayer = heroActiveLayer === 1 ? 2 : 1;
+    };
+    pre.src = img;
+  }
+
+  // fade-swap the hero text
+  var lblEl = document.getElementById('heroLabel');
+  var titleEl = document.getElementById('heroTitle');
+  var subEl = document.getElementById('heroSub');
+  if (titleEl && subEl) {
+    titleEl.style.opacity = '0';
+    subEl.style.opacity = '0';
+    if (lblEl) lblEl.style.opacity = '0';
     setTimeout(function(){
-      var r = el.getBoundingClientRect();
-      if (r.top < 70 || r.top > window.innerHeight * 0.5) {
-        var y = window.pageYOffset + r.top - 90;
-        window.scrollTo({ top: y, behavior: 'smooth' });
-      }
-    }, 120);
-  } else {
-    if (grid) { grid.classList.remove('has-open'); updateActArrows(); }
+      titleEl.innerHTML = title;
+      subEl.textContent = sub;
+      if (lblEl) { lblEl.textContent = label; lblEl.style.display = 'flex'; }
+      titleEl.style.opacity = '1';
+      subEl.style.opacity = '1';
+      if (lblEl) lblEl.style.opacity = '1';
+    }, 220);
   }
 }
+
+function slideShowcase(dir) {
+  var s = document.getElementById('showcase');
+  if (!s) return;
+  s.scrollBy({ left: dir * (300 + 18) * 2, behavior: 'smooth' });
+}
+function updateShowcaseArrows() {
+  var s = document.getElementById('showcase');
+  var prev = document.getElementById('showPrev');
+  var next = document.getElementById('showNext');
+  if (!s || !prev || !next) return;
+  prev.disabled = s.scrollLeft <= 5;
+  next.disabled = s.scrollLeft >= (s.scrollWidth - s.clientWidth - 5);
+}
+(function(){
+  var s = document.getElementById('showcase');
+  if (s) { s.addEventListener('scroll', updateShowcaseArrows); window.addEventListener('resize', updateShowcaseArrows); setTimeout(updateShowcaseArrows, 400); }
+})();
 
 function planExperience(link) {
   var interest = link.getAttribute('data-interest');
@@ -2053,6 +1893,20 @@ function planExperience(link) {
     if (plan) plan.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, 50);
 }
+
+// If arriving from the /activities page with a chosen experience, prefill notes
+(function(){
+  try {
+    var act = sessionStorage.getItem('em_activity');
+    if (act) {
+      sessionStorage.removeItem('em_activity');
+      var notes = document.getElementById('notes');
+      if (notes && !notes.value.trim()) {
+        notes.value = "I'm especially interested in: " + act + ".\n\n";
+      }
+    }
+  } catch(e){}
+})();
 
 document.getElementById('tripForm').addEventListener('submit', async function(e) {
   e.preventDefault();
