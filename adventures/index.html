@@ -282,6 +282,144 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeActMo
 
 renderCards('all');
 </script>
-<script src="/shortlist.js" defer></script>
+<script>
+/* inlined shortlist (no external dependency) */
+/* ============================================================
+   Experience Montenegro — Adventure shortlist
+   Shared across homepage, /adventures and the planning form.
+   Persists in localStorage, syncs across tabs, drives:
+     - a floating "N adventures" pill
+     - the Add/Added buttons on cards & modals
+     - the selected-adventures chips inside the form
+   ============================================================ */
+(function () {
+  var KEY = 'em_adventures';
+
+  function read() {
+    try { return JSON.parse(localStorage.getItem(KEY) || '[]'); }
+    catch (e) { return []; }
+  }
+  function save(arr) {
+    try { localStorage.setItem(KEY, JSON.stringify(arr)); } catch (e) {}
+    renderAll();
+  }
+
+  var EM = {
+    all: read,
+    has: function (name) { return read().indexOf(name) >= 0; },
+    add: function (name) { var a = read(); if (a.indexOf(name) < 0) { a.push(name); save(a); } },
+    remove: function (name) { save(read().filter(function (x) { return x !== name; })); },
+    toggle: function (name) { if (this.has(name)) this.remove(name); else this.add(name); },
+    clear: function () { save([]); }
+  };
+  window.EMShortlist = EM;
+
+  /* ---------- floating pill ---------- */
+  function ensurePill() {
+    var pill = document.getElementById('emPill');
+    if (pill) return pill;
+    pill = document.createElement('a');
+    pill.id = 'emPill';
+    pill.href = (location.pathname.replace(/\/+$/, '') === '' ) ? '#plan' : '/#plan';
+    pill.setAttribute('aria-label', 'View your selected adventures');
+    pill.innerHTML =
+      '<span class="em-pill-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2l1.5 4h9L18 2"/><path d="M4 6h16l-1.2 13a2 2 0 01-2 1.8H7.2a2 2 0 01-2-1.8z"/></svg></span>' +
+      '<span class="em-pill-txt"></span>' +
+      '<span class="em-pill-arrow">→</span>';
+    document.body.appendChild(pill);
+    injectPillCSS();
+    return pill;
+  }
+  function injectPillCSS() {
+    if (document.getElementById('emPillCSS')) return;
+    var s = document.createElement('style');
+    s.id = 'emPillCSS';
+    s.textContent =
+      '#emPill{position:fixed;left:50%;bottom:1.5rem;transform:translateX(-50%) translateY(140%);z-index:9000;display:flex;align-items:center;gap:0.65rem;background:#2e8b72;color:#fff;text-decoration:none;padding:0.85rem 1.4rem;border-radius:50px;box-shadow:0 12px 32px rgba(0,0,0,0.4);font-family:"DM Sans",sans-serif;font-size:0.82rem;letter-spacing:0.02em;opacity:0;transition:transform .45s cubic-bezier(.2,.8,.2,1),opacity .35s ease,background .2s;}' +
+      '#emPill.show{transform:translateX(-50%) translateY(0);opacity:1;}' +
+      '#emPill:hover{background:#3aab8a;}' +
+      '#emPill .em-pill-ic{display:flex;}' +
+      '#emPill .em-pill-txt{font-weight:500;}' +
+      '#emPill .em-pill-arrow{transition:transform .25s;}' +
+      '#emPill:hover .em-pill-arrow{transform:translateX(3px);}' +
+      '@media(max-width:768px){#emPill{bottom:1rem;font-size:0.78rem;padding:0.75rem 1.2rem;}}';
+    document.head.appendChild(s);
+  }
+  function renderPill() {
+    var n = read().length;
+    var pill = ensurePill();
+    pill.querySelector('.em-pill-txt').textContent =
+      n + (n === 1 ? ' adventure selected' : ' adventures selected');
+    // show only when there is at least one and we're not already looking at the form top
+    if (n > 0) { requestAnimationFrame(function(){ pill.classList.add('show'); }); }
+    else { pill.classList.remove('show'); }
+  }
+
+  /* ---------- card / button states ---------- */
+  function renderCardStates() {
+    document.querySelectorAll('[data-adv-toggle]').forEach(function (btn) {
+      var name = btn.getAttribute('data-adv-toggle');
+      var on = EM.has(name);
+      btn.classList.toggle('in-list', on);
+      var label = btn.querySelector('[data-adv-label]');
+      if (label) label.textContent = on ? (btn.getAttribute('data-added') || 'Added ✓')
+                                         : (btn.getAttribute('data-add') || 'Add to my trip');
+      else {
+        // button text itself
+        if (btn.hasAttribute('data-add')) {
+          btn.textContent = on ? (btn.getAttribute('data-added') || 'Added ✓')
+                               : (btn.getAttribute('data-add') || 'Add to my trip');
+        }
+      }
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+
+  /* ---------- form chips ---------- */
+  function renderFormChips() {
+    var wrap = document.getElementById('selectedAdventures');
+    if (!wrap) return;
+    var list = read();
+    var box = document.getElementById('selectedAdventuresBox');
+    if (list.length === 0) {
+      wrap.innerHTML = '';
+      if (box) box.style.display = 'none';
+      syncHiddenField([]);
+      return;
+    }
+    if (box) box.style.display = 'block';
+    wrap.innerHTML = list.map(function (name) {
+      return '<span class="sel-chip">' + escapeHtml(name) +
+        '<button type="button" aria-label="Remove ' + escapeHtml(name) +
+        '" onclick="EMShortlist.remove(\'' + name.replace(/'/g, "\\'") + '\')">✕</button></span>';
+    }).join('');
+    syncHiddenField(list);
+  }
+  function syncHiddenField(list) {
+    var hid = document.getElementById('selectedAdventuresField');
+    if (hid) hid.value = list.join(', ');
+  }
+  function escapeHtml(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  /* ---------- orchestration ---------- */
+  function renderAll() {
+    renderPill();
+    renderCardStates();
+    renderFormChips();
+    try { document.dispatchEvent(new CustomEvent('shortlist:change')); } catch (e) {}
+  }
+  window.EMShortlistRender = renderAll;
+
+  window.addEventListener('storage', function (e) { if (e.key === KEY) renderAll(); });
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderAll);
+  } else {
+    renderAll();
+  }
+})();
+
+</script>
 </body>
 </html>
