@@ -162,7 +162,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1.2rem
 /* MARQUEE */
 /* ===== BIG ADVENTURE SHOWCASE (straddles hero / section boundary) ===== */
 .showcase-wrap { position: relative; z-index: 20; max-width: 1320px; width: 100%; margin: -135px auto 0; padding: 0 2.5rem 0; }
-.showcase { display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; scroll-behavior: smooth; padding: 4px 2px 8px; }
+.showcase { display: flex; gap: 18px; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; scroll-behavior: smooth; padding: 16px 2px 18px; }
 .showcase::-webkit-scrollbar { display: none; }
 .show-card { flex: 0 0 240px; width: 240px; height: 230px; border-radius: 14px; overflow: hidden; position: relative; border: none; background: #111; cursor: pointer; padding: 0; scroll-snap-align: start; transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), box-shadow 0.4s ease; isolation: isolate; box-shadow: 0 16px 40px rgba(0,0,0,0.45); }
 .show-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s cubic-bezier(0.2,0,0.2,1), filter 0.4s ease; filter: brightness(0.78); }
@@ -170,7 +170,9 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1.2rem
 .show-card-name { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; padding: 1rem 1.1rem; font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 400; color: #fff; text-align: left; text-shadow: 0 2px 12px rgba(0,0,0,0.7); line-height: 1.1; }
 .show-card:hover { transform: translateY(-6px); box-shadow: 0 24px 50px rgba(0,0,0,0.55); }
 .show-card:hover img { transform: scale(1.07); filter: brightness(0.9); }
-.show-card.active { box-shadow: 0 0 0 3px var(--cta), 0 20px 46px rgba(0,0,0,0.5); }
+/* inset outline never gets clipped by the scroll container */
+.show-card.active { box-shadow: inset 0 0 0 3px var(--cta), 0 20px 46px rgba(0,0,0,0.5); }
+.show-card.active:hover { box-shadow: inset 0 0 0 3px var(--cta), 0 24px 50px rgba(0,0,0,0.55); }
 .show-card.active img { filter: brightness(0.92); }
 .show-card.active::before { content: ''; position: absolute; top: 1rem; right: 1rem; z-index: 2; width: 24px; height: 24px; border-radius: 50%; background: var(--cta); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: center; }
 .showcase-arrow { position: absolute; top: calc(50% - 20px); transform: translateY(-50%); z-index: 25; width: 48px; height: 48px; border-radius: 50%; border: none; background: #fff; color: #1a1a1a; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 6px 20px rgba(0,0,0,0.35); transition: all 0.25s ease; }
@@ -206,12 +208,12 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1.2rem
 .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 5vw, 3.2rem); font-weight: 400; line-height: 1.18; letter-spacing: -0.01em; margin-bottom: 3rem; max-width: 580px; }
 
 /* SCARCITY STRIP */
-.scarcity-strip { background: rgba(193,127,59,0.07); border-top: 1px solid rgba(193,127,59,0.15); border-bottom: 1px solid rgba(193,127,59,0.15); padding: 0.7rem 2rem; text-align: center; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+.scarcity-strip { background: rgba(193,127,59,0.07); padding: 0.7rem 2rem; text-align: center; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
 
 /* TESTIMONIALS SLIDER */
 .testimonials-section { padding: 5rem 2rem; background: rgba(200,184,154,0.02); border-top: 1px solid rgba(200,184,154,0.1); border-bottom: 1px solid rgba(200,184,154,0.1); }
 /* GOOGLE REVIEWS */
-.reviews-section { padding: 5rem 2rem; background: var(--black); border-top: 1px solid rgba(200,184,154,0.08); border-bottom: 1px solid rgba(200,184,154,0.08); }
+.reviews-section { padding: 5rem 2rem; background: var(--black); }
 .reviews-head { max-width: 700px; margin: 0 auto 2.5rem; }
 .reviews-widget { max-width: 1100px; margin: 0 auto; }
 .reviews-widget iframe { width: 100% !important; }
@@ -393,7 +395,7 @@ body::before {
 .activity-panel-close { display: none; }
 
 /* ITINERARIES */
-.itineraries-section { padding: 5rem 2rem; background: rgba(46,139,114,0.03); border-top: 1px solid rgba(46,139,114,0.1); }
+.itineraries-section { padding: 5rem 2rem; background: rgba(46,139,114,0.03); }
 .itineraries-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(46,139,114,0.12); margin-top: 3rem; }
 .itinerary { background: var(--black); overflow: hidden; transition: background 0.3s; }
 .itinerary:hover { background: rgba(10,10,10,1); }
@@ -472,7 +474,7 @@ body::before {
 .pricing-inner { max-width: 920px; margin: 0 auto; }
 .pricing-inner .pricing-grid { max-width: 100%; margin-left: 0; margin-right: 0; }
 /* THE DIFFERENCE */
-.diff-section { padding: 5rem 2rem; background: #080f0c; border-top: 1px solid rgba(46,139,114,0.1); border-bottom: 1px solid rgba(46,139,114,0.1); }
+.diff-section { padding: 5rem 2rem; background: #080f0c; }
 .diff-section > * { max-width: 1100px; margin-left: auto; margin-right: auto; }
 .diff-grid { display: grid; grid-template-columns: 1fr auto 1fr; gap: 0; align-items: stretch; margin-top: 2rem; max-width: 860px; margin-left: auto; margin-right: auto; }
 .diff-col-hdr { margin-bottom: 1.5rem; }
@@ -568,7 +570,7 @@ body::before {
 .quiz-result-card-item:last-child { border-bottom: none; }
 .quiz-result-card-item span:first-child { color: var(--cta); flex-shrink: 0; font-size: 0.7rem; margin-top: 2px; }
 
-.lead-magnet-strip { background: rgba(46,139,114,0.06); border-top: 1px solid rgba(46,139,114,0.15); border-bottom: 1px solid rgba(46,139,114,0.15); padding: 1.8rem 2rem; }
+.lead-magnet-strip { background: rgba(46,139,114,0.06); padding: 1.8rem 2rem; }
 .lead-magnet-strip-inner { display: flex; align-items: center; justify-content: space-between; gap: 2rem; max-width: 1100px; margin: 0 auto; flex-wrap: wrap; }
 .lead-magnet-strip-text { flex: 1; min-width: 200px; }
 .lead-magnet-strip .lead-magnet-label { font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--cta); margin-bottom: 0.3rem; }
@@ -626,7 +628,7 @@ textarea { resize: vertical; min-height: 160px; font-size: 0.88rem; line-height:
 .success-msg p { font-size: 0.83rem; color: rgba(245,242,238,0.52); line-height: 1.6; }
 
 /* ABOUT */
-.about-section { padding: 5rem 2rem; background: rgba(200,184,154,0.02); border-top: 1px solid rgba(200,184,154,0.1); }
+.about-section { padding: 5rem 2rem; background: rgba(200,184,154,0.02); }
 .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
 .about-photo { width: 100%; aspect-ratio: 3/4; background: rgba(200,184,154,0.04); border: 1px solid rgba(200,184,154,0.1); display: flex; align-items: center; justify-content: center; overflow: hidden; }
 .about-photo-hint { font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(200,184,154,0.18); text-align: center; padding: 2rem; line-height: 2; }
@@ -652,7 +654,7 @@ textarea { resize: vertical; min-height: 160px; font-size: 0.88rem; line-height:
 .faq-item.open .faq-arrow { transform: rotate(45deg); }
 
 /* FOOTER */
-footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(200,184,154,0.12); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+footer { padding: 2.5rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
 .footer-logo { font-family: 'Playfair Display', serif; font-size: 0.95rem; letter-spacing: 0.05em; }
 .footer-logo span { color: var(--mne-red); font-style: italic; }
 .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
@@ -1626,10 +1628,10 @@ select{color:#f5f2ee;}
         </select>
       </div>
       <div class="form-group" id="selectedAdventuresBox" style="display:none;">
-        <label>Your selected adventures</label>
+        <label>Adventures you're curious about</label>
         <div class="sel-adv-wrap" id="selectedAdventures"></div>
         <input type="hidden" id="selectedAdventuresField">
-        <div class="sel-adv-hint">Added from the adventures you browsed — remove any that don't fit, or <a href="/adventures">add more</a>.</div>
+        <div class="sel-adv-hint">Just a starting point — nothing is locked in. We'll shape the final plan together when we talk, so add whatever catches your eye or <a href="/adventures">browse more</a>. Remove any that don't fit with the ✕.</div>
       </div>
       <div class="form-group">
         <label for="notes">Anything specific you want or want to avoid?</label>
@@ -2446,11 +2448,19 @@ document.addEventListener('click', function(e) {
   document.head.appendChild(script);
 })();
 
-// LOADER
+// LOADER — show only on the first page load of a session
 (function() {
   var loader = document.getElementById('loader');
   if (!loader) return;
-  // Hide body scroll while loading
+  var seen = false;
+  try { seen = sessionStorage.getItem('em_loaded') === '1'; } catch(e){}
+  if (seen) {
+    loader.style.display = 'none';
+    loader.classList.add('hidden');
+    document.body.style.overflow = '';
+    return;
+  }
+  try { sessionStorage.setItem('em_loaded', '1'); } catch(e){}
   document.body.style.overflow = 'hidden';
   setTimeout(function() {
     loader.classList.add('hidden');
