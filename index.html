@@ -128,8 +128,8 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1.2rem
 /* HERO */
 .hero { min-height: 86vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 6rem 2rem 8rem; position: relative; overflow: hidden; }
 .hero-title, .hero-sub, .hero-label { transition: opacity 0.4s ease; }
-.hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(8,12,9,0.45) 0%, rgba(8,12,9,0.15) 30%, rgba(8,12,9,0.55) 72%, rgba(8,12,9,0.95) 100%); }
-.hero-overlay::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, rgba(8,12,9,0.55) 0%, rgba(8,12,9,0.15) 45%, transparent 70%); }
+.hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(10,14,10,0.45) 0%, rgba(10,14,10,0.15) 28%, rgba(10,14,10,0.6) 68%, #0a0e0a 94%); }
+.hero-overlay::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, rgba(10,14,10,0.55) 0%, rgba(10,14,10,0.15) 45%, transparent 70%); }
 .hero-content { position: relative; max-width: 680px; }
 /* soft scrim directly behind the text block for guaranteed legibility */
 .hero-content::before { content: ''; position: absolute; inset: -2rem -3rem -2rem -3rem; background: radial-gradient(130% 120% at 20% 70%, rgba(6,10,7,0.72) 0%, rgba(6,10,7,0.45) 45%, transparent 80%); z-index: -1; pointer-events: none; }
@@ -286,8 +286,6 @@ body::before {
 /* HOW IT WORKS */
 .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
 .how-section { background: var(--black); position: relative; overflow: hidden; padding-top: 2rem; }
-.how-section::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 30%, rgba(46,139,114,0.07) 0%, transparent 60%); pointer-events: none; }
-.how-section::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 120px; background: linear-gradient(to bottom, transparent, var(--black)); pointer-events: none; z-index: 1; }
 .step { padding: 2.5rem 2rem; border: 1px solid rgba(46,139,114,0.1); background: rgba(46,139,114,0.03); position: relative; overflow: hidden; transition: border-color 0.3s, background 0.3s; }
 .step::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--cta), transparent); opacity: 0; transition: opacity 0.3s; }
 .step::after { content: attr(data-num); position: absolute; bottom: -0.5rem; right: 1rem; font-family: 'Playfair Display', serif; font-size: 8rem; font-weight: 700; color: rgba(46,139,114,0.13); line-height: 1; pointer-events: none; transition: color 0.3s; }
@@ -301,8 +299,7 @@ body::before {
 
 /* ACTIVITIES */
 /* AND MORE */
-.and-more-section { padding: 4rem 2rem 110px; background: var(--black); text-align: center; position: relative; overflow: hidden; }
-.and-more-section::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 80px; background: linear-gradient(to bottom, rgba(46,139,114,0.03), transparent); pointer-events: none; }
+.and-more-section { padding: 4rem 2rem 140px; background: var(--black); text-align: center; position: relative; overflow: hidden; }
 
 /* seamless top fade from activities grid */
 
@@ -1282,13 +1279,7 @@ select{color:#f5f2ee;}
   <h2 class="and-more-headline">If you can dream it,<br><em>we can plan it.</em></h2>
   <p class="and-more-items">Skydiving &middot; Special events &middot; Photography &amp; drone tours &middot; Water sports &middot; Helicopter tours &middot; Fishing on Skadar Lake &middot; Cultural walks &middot; Ski &amp; Snow</p>
 
-  <div style="position:absolute;bottom:0;left:0;right:0;height:100px;overflow:hidden;line-height:0;pointer-events:none;">
-    <svg viewBox="0 0 1200 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;">
-    <g opacity="0.5"><rect x="27.0" y="74.9" width="5.9" height="7.1" fill="#0a1712"/><polygon points="8.9,76.9 30.0,64.7 51.1,76.9" fill="#0a1712"/><polygon points="13.5,67.6 30.0,54.4 46.5,67.6" fill="#0a1712"/><polygon points="19.0,58.1 30.0,43.5 41.0,58.1" fill="#0a1712"/><rect x="112.9" y="75.4" width="6.7" height="6.6" fill="#0a1712"/><polygon points="92.3,77.4 116.3,66.1 140.3,77.4" fill="#0a1712"/><polygon points="97.5,68.8 116.3,56.9 135.0,68.8" fill="#0a1712"/><polygon points="103.8,60.2 116.3,47.0 128.8,60.2" fill="#0a1712"/><rect x="192.1" y="75.4" width="6.7" height="6.6" fill="#0a1712"/><polygon points="171.6,77.4 195.4,66.2 219.2,77.4" fill="#0a1712"/><polygon points="176.8,68.8 195.4,57.0 214.0,68.8" fill="#0a1712"/><polygon points="183.0,60.3 195.4,47.2 207.8,60.3" fill="#0a1712"/><rect x="263.5" y="74.7" width="5.7" height="7.3" fill="#0a1712"/><polygon points="245.8,76.7 266.4,64.0 286.9,76.7" fill="#0a1712"/><polygon points="250.3,67.1 266.4,53.4 282.4,67.1" fill="#0a1712"/><polygon points="255.7,57.2 266.4,41.9 277.0,57.2" fill="#0a1712"/><rect x="335.0" y="74.7" width="7.3" height="7.3" fill="#0a1712"/><polygon points="312.4,76.7 338.6,64.1 364.8,76.7" fill="#0a1712"/><polygon points="318.2,67.1 338.6,53.4 359.1,67.1" fill="#0a1712"/><polygon points="325.0,57.2 338.6,42.1 352.2,57.2" fill="#0a1712"/><rect x="408.3" y="75.1" width="6.9" height="6.9" fill="#0a1712"/><polygon points="387.0,77.1 411.7,65.2 436.4,77.1" fill="#0a1712"/><polygon points="392.4,68.1 411.7,55.4 431.0,68.1" fill="#0a1712"/><polygon points="398.9,58.9 411.7,44.9 424.6,58.9" fill="#0a1712"/><rect x="502.2" y="74.4" width="6.4" height="7.6" fill="#0a1712"/><polygon points="482.4,76.4 505.4,63.2 528.4,76.4" fill="#0a1712"/><polygon points="487.5,66.4 505.4,51.9 523.3,66.4" fill="#0a1712"/><polygon points="493.5,56.0 505.4,39.9 517.4,56.0" fill="#0a1712"/><rect x="596.1" y="75.4" width="7.4" height="6.6" fill="#0a1712"/><polygon points="573.4,77.4 599.8,66.3 626.3,77.4" fill="#0a1712"/><polygon points="579.2,68.9 599.8,57.1 620.4,68.9" fill="#0a1712"/><polygon points="586.1,60.4 599.8,47.3 613.6,60.4" fill="#0a1712"/><rect x="674.1" y="75.2" width="5.8" height="6.8" fill="#0a1712"/><polygon points="656.2,77.2 677.1,65.7 697.9,77.2" fill="#0a1712"/><polygon points="660.8,68.4 677.1,56.2 693.3,68.4" fill="#0a1712"/><polygon points="666.2,59.6 677.1,46.0 687.9,59.6" fill="#0a1712"/><rect x="751.8" y="73.9" width="6.0" height="8.1" fill="#0a1712"/><polygon points="733.4,75.9 754.8,61.8 776.1,75.9" fill="#0a1712"/><polygon points="738.1,65.2 754.8,49.6 771.4,65.2" fill="#0a1712"/><polygon points="743.7,53.9 754.8,36.6 765.9,53.9" fill="#0a1712"/><rect x="836.1" y="74.3" width="6.4" height="7.7" fill="#0a1712"/><polygon points="816.5,76.3 839.3,62.8 862.1,76.3" fill="#0a1712"/><polygon points="821.5,66.1 839.3,51.3 857.1,66.1" fill="#0a1712"/><polygon points="827.5,55.4 839.3,39.1 851.2,55.4" fill="#0a1712"/><rect x="920.1" y="75.4" width="5.7" height="6.6" fill="#0a1712"/><polygon points="902.6,77.4 923.0,66.2 943.4,77.4" fill="#0a1712"/><polygon points="907.1,68.8 923.0,57.0 938.9,68.8" fill="#0a1712"/><polygon points="912.4,60.3 923.0,47.1 933.6,60.3" fill="#0a1712"/><rect x="994.9" y="74.2" width="6.5" height="7.8" fill="#0a1712"/><polygon points="974.9,76.2 998.1,62.6 1021.4,76.2" fill="#0a1712"/><polygon points="980.0,65.9 998.1,50.9 1016.3,65.9" fill="#0a1712"/><polygon points="986.1,55.1 998.1,38.5 1010.2,55.1" fill="#0a1712"/><rect x="1072.7" y="74.4" width="6.6" height="7.6" fill="#0a1712"/><polygon points="1052.6,76.4 1076.0,63.1 1099.4,76.4" fill="#0a1712"/><polygon points="1057.8,66.3 1076.0,51.9 1094.3,66.3" fill="#0a1712"/><polygon points="1063.8,55.9 1076.0,39.8 1088.2,55.9" fill="#0a1712"/><rect x="1150.0" y="74.0" width="7.1" height="8.0" fill="#0a1712"/><polygon points="1128.3,76.0 1153.5,61.9 1178.7,76.0" fill="#0a1712"/><polygon points="1133.8,65.3 1153.5,49.8 1173.2,65.3" fill="#0a1712"/><polygon points="1140.4,54.1 1153.5,36.9 1166.6,54.1" fill="#0a1712"/></g>
-    <rect x="0" y="74" width="1200" height="26" fill="#060f0a"/>
-    <g><rect x="0.2" y="77.3" width="9.5" height="10.7" fill="#060f0a"/><polygon points="-29.1,79.3 5.0,60.0 39.1,79.3" fill="#060f0a"/><polygon points="-21.6,65.0 5.0,42.7 31.6,65.0" fill="#060f0a"/><polygon points="-12.7,48.9 5.0,24.2 22.7,48.9" fill="#060f0a"/><rect x="106.9" y="76.8" width="8.7" height="11.2" fill="#060f0a"/><polygon points="80.2,78.8 111.3,58.5 142.4,78.8" fill="#060f0a"/><polygon points="87.0,63.7 111.3,40.1 135.5,63.7" fill="#060f0a"/><polygon points="95.1,46.7 111.3,20.5 127.4,46.7" fill="#060f0a"/><rect x="216.1" y="78.9" width="9.2" height="9.1" fill="#060f0a"/><polygon points="187.9,80.9 220.7,64.6 253.4,80.9" fill="#060f0a"/><polygon points="195.1,68.7 220.7,50.4 246.2,68.7" fill="#060f0a"/><polygon points="203.6,55.5 220.7,35.2 237.7,55.5" fill="#060f0a"/><rect x="318.7" y="78.8" width="9.4" height="9.2" fill="#060f0a"/><polygon points="289.8,80.8 323.4,64.3 357.0,80.8" fill="#060f0a"/><polygon points="297.2,68.4 323.4,49.8 349.6,68.4" fill="#060f0a"/><polygon points="305.9,55.0 323.4,34.4 340.9,55.0" fill="#060f0a"/><rect x="399.4" y="77.0" width="10.4" height="11.0" fill="#060f0a"/><polygon points="367.5,79.0 404.5,59.1 441.6,79.0" fill="#060f0a"/><polygon points="375.6,64.2 404.5,41.2 433.5,64.2" fill="#060f0a"/><polygon points="385.3,47.6 404.5,22.0 423.8,47.6" fill="#060f0a"/><rect x="497.3" y="76.3" width="8.8" height="11.7" fill="#060f0a"/><polygon points="470.3,78.3 501.7,57.0 533.2,78.3" fill="#060f0a"/><polygon points="477.2,62.5 501.7,37.7 526.2,62.5" fill="#060f0a"/><polygon points="485.4,44.6 501.7,17.0 518.1,44.6" fill="#060f0a"/><rect x="597.7" y="77.3" width="9.7" height="10.7" fill="#060f0a"/><polygon points="567.9,79.3 602.6,59.8 637.3,79.3" fill="#060f0a"/><polygon points="575.5,64.8 602.6,42.4 629.7,64.8" fill="#060f0a"/><polygon points="584.5,48.6 602.6,23.7 620.7,48.6" fill="#060f0a"/><rect x="690.8" y="76.5" width="11.0" height="11.5" fill="#060f0a"/><polygon points="657.0,78.5 696.3,57.4 735.6,78.5" fill="#060f0a"/><polygon points="665.6,62.8 696.3,38.3 726.9,62.8" fill="#060f0a"/><polygon points="675.8,45.1 696.3,17.8 716.7,45.1" fill="#060f0a"/><rect x="786.6" y="77.0" width="7.9" height="11.0" fill="#060f0a"/><polygon points="762.3,79.0 790.5,59.1 818.8,79.0" fill="#060f0a"/><polygon points="768.5,64.3 790.5,41.2 812.6,64.3" fill="#060f0a"/><polygon points="775.8,47.6 790.5,22.1 805.2,47.6" fill="#060f0a"/><rect x="886.0" y="77.1" width="11.2" height="10.9" fill="#060f0a"/><polygon points="851.6,79.1 891.6,59.3 931.5,79.1" fill="#060f0a"/><polygon points="860.4,64.4 891.6,41.5 922.7,64.4" fill="#060f0a"/><polygon points="870.8,47.9 891.6,22.5 912.3,47.9" fill="#060f0a"/><rect x="991.7" y="78.3" width="9.1" height="9.7" fill="#060f0a"/><polygon points="963.9,80.3 996.2,63.0 1028.5,80.3" fill="#060f0a"/><polygon points="971.0,67.4 996.2,47.6 1021.4,67.4" fill="#060f0a"/><polygon points="979.4,53.1 996.2,31.2 1013.0,53.1" fill="#060f0a"/><rect x="1091.6" y="79.2" width="9.3" height="8.8" fill="#060f0a"/><polygon points="1063.0,81.2 1096.3,65.6 1129.5,81.2" fill="#060f0a"/><polygon points="1070.3,69.5 1096.3,52.0 1122.2,69.5" fill="#060f0a"/><polygon points="1079.0,56.9 1096.3,37.5 1113.6,56.9" fill="#060f0a"/><rect x="1177.4" y="78.9" width="7.9" height="9.1" fill="#060f0a"/><polygon points="1153.1,80.9 1181.3,64.7 1209.5,80.9" fill="#060f0a"/><polygon points="1159.3,68.7 1181.3,50.4 1203.3,68.7" fill="#060f0a"/><polygon points="1166.6,55.5 1181.3,35.2 1196.0,55.5" fill="#060f0a"/></g>
-    </svg>
-  </div>
+  <div style="position:absolute;bottom:0;left:0;right:0;line-height:0;pointer-events:none;"><img src="/mountains-divider.png" alt="" aria-hidden="true" style="width:100%;height:auto;display:block;opacity:0.9;"></div>
 </section>
 
 <!-- THE DIFFERENCE -->
@@ -2624,6 +2615,144 @@ function closeMobileMenu() {
 
 </script>
 
-<script src="/shortlist.js" defer></script>
+<script>
+/* inlined shortlist (no external dependency) */
+/* ============================================================
+   Experience Montenegro — Adventure shortlist
+   Shared across homepage, /adventures and the planning form.
+   Persists in localStorage, syncs across tabs, drives:
+     - a floating "N adventures" pill
+     - the Add/Added buttons on cards & modals
+     - the selected-adventures chips inside the form
+   ============================================================ */
+(function () {
+  var KEY = 'em_adventures';
+
+  function read() {
+    try { return JSON.parse(localStorage.getItem(KEY) || '[]'); }
+    catch (e) { return []; }
+  }
+  function save(arr) {
+    try { localStorage.setItem(KEY, JSON.stringify(arr)); } catch (e) {}
+    renderAll();
+  }
+
+  var EM = {
+    all: read,
+    has: function (name) { return read().indexOf(name) >= 0; },
+    add: function (name) { var a = read(); if (a.indexOf(name) < 0) { a.push(name); save(a); } },
+    remove: function (name) { save(read().filter(function (x) { return x !== name; })); },
+    toggle: function (name) { if (this.has(name)) this.remove(name); else this.add(name); },
+    clear: function () { save([]); }
+  };
+  window.EMShortlist = EM;
+
+  /* ---------- floating pill ---------- */
+  function ensurePill() {
+    var pill = document.getElementById('emPill');
+    if (pill) return pill;
+    pill = document.createElement('a');
+    pill.id = 'emPill';
+    pill.href = (location.pathname.replace(/\/+$/, '') === '' ) ? '#plan' : '/#plan';
+    pill.setAttribute('aria-label', 'View your selected adventures');
+    pill.innerHTML =
+      '<span class="em-pill-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2l1.5 4h9L18 2"/><path d="M4 6h16l-1.2 13a2 2 0 01-2 1.8H7.2a2 2 0 01-2-1.8z"/></svg></span>' +
+      '<span class="em-pill-txt"></span>' +
+      '<span class="em-pill-arrow">→</span>';
+    document.body.appendChild(pill);
+    injectPillCSS();
+    return pill;
+  }
+  function injectPillCSS() {
+    if (document.getElementById('emPillCSS')) return;
+    var s = document.createElement('style');
+    s.id = 'emPillCSS';
+    s.textContent =
+      '#emPill{position:fixed;left:50%;bottom:1.5rem;transform:translateX(-50%) translateY(140%);z-index:9000;display:flex;align-items:center;gap:0.65rem;background:#2e8b72;color:#fff;text-decoration:none;padding:0.85rem 1.4rem;border-radius:50px;box-shadow:0 12px 32px rgba(0,0,0,0.4);font-family:"DM Sans",sans-serif;font-size:0.82rem;letter-spacing:0.02em;opacity:0;transition:transform .45s cubic-bezier(.2,.8,.2,1),opacity .35s ease,background .2s;}' +
+      '#emPill.show{transform:translateX(-50%) translateY(0);opacity:1;}' +
+      '#emPill:hover{background:#3aab8a;}' +
+      '#emPill .em-pill-ic{display:flex;}' +
+      '#emPill .em-pill-txt{font-weight:500;}' +
+      '#emPill .em-pill-arrow{transition:transform .25s;}' +
+      '#emPill:hover .em-pill-arrow{transform:translateX(3px);}' +
+      '@media(max-width:768px){#emPill{bottom:1rem;font-size:0.78rem;padding:0.75rem 1.2rem;}}';
+    document.head.appendChild(s);
+  }
+  function renderPill() {
+    var n = read().length;
+    var pill = ensurePill();
+    pill.querySelector('.em-pill-txt').textContent =
+      n + (n === 1 ? ' adventure selected' : ' adventures selected');
+    // show only when there is at least one and we're not already looking at the form top
+    if (n > 0) { requestAnimationFrame(function(){ pill.classList.add('show'); }); }
+    else { pill.classList.remove('show'); }
+  }
+
+  /* ---------- card / button states ---------- */
+  function renderCardStates() {
+    document.querySelectorAll('[data-adv-toggle]').forEach(function (btn) {
+      var name = btn.getAttribute('data-adv-toggle');
+      var on = EM.has(name);
+      btn.classList.toggle('in-list', on);
+      var label = btn.querySelector('[data-adv-label]');
+      if (label) label.textContent = on ? (btn.getAttribute('data-added') || 'Added ✓')
+                                         : (btn.getAttribute('data-add') || 'Add to my trip');
+      else {
+        // button text itself
+        if (btn.hasAttribute('data-add')) {
+          btn.textContent = on ? (btn.getAttribute('data-added') || 'Added ✓')
+                               : (btn.getAttribute('data-add') || 'Add to my trip');
+        }
+      }
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+
+  /* ---------- form chips ---------- */
+  function renderFormChips() {
+    var wrap = document.getElementById('selectedAdventures');
+    if (!wrap) return;
+    var list = read();
+    var box = document.getElementById('selectedAdventuresBox');
+    if (list.length === 0) {
+      wrap.innerHTML = '';
+      if (box) box.style.display = 'none';
+      syncHiddenField([]);
+      return;
+    }
+    if (box) box.style.display = 'block';
+    wrap.innerHTML = list.map(function (name) {
+      return '<span class="sel-chip">' + escapeHtml(name) +
+        '<button type="button" aria-label="Remove ' + escapeHtml(name) +
+        '" onclick="EMShortlist.remove(\'' + name.replace(/'/g, "\\'") + '\')">✕</button></span>';
+    }).join('');
+    syncHiddenField(list);
+  }
+  function syncHiddenField(list) {
+    var hid = document.getElementById('selectedAdventuresField');
+    if (hid) hid.value = list.join(', ');
+  }
+  function escapeHtml(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  /* ---------- orchestration ---------- */
+  function renderAll() {
+    renderPill();
+    renderCardStates();
+    renderFormChips();
+    try { document.dispatchEvent(new CustomEvent('shortlist:change')); } catch (e) {}
+  }
+  window.EMShortlistRender = renderAll;
+
+  window.addEventListener('storage', function (e) { if (e.key === KEY) renderAll(); });
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderAll);
+  } else {
+    renderAll();
+  }
+})();
+
+</script>
 </body>
 </html>
