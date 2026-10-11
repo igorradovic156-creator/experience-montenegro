@@ -61,18 +61,24 @@ nav{position:sticky;top:0;z-index:100;display:flex;justify-content:space-between
 .act-card-tag{font-size:0.72rem;color:var(--stone);margin-top:0.35rem;}
 .act-card-desc{font-size:0.8rem;line-height:1.6;color:rgba(245,242,238,0.72);margin-top:0.7rem;max-height:0;opacity:0;overflow:hidden;transition:max-height 0.4s ease,opacity 0.35s ease,margin 0.35s ease;}
 .act-card:hover .act-card-desc{max-height:120px;opacity:1;}
+.act-card-price{margin-left:auto;font-size:0.68rem;letter-spacing:0.01em;text-transform:none;color:rgba(245,242,238,0.5);}
+.act-card-price b{color:#f5f2ee;font-weight:500;}
+.act-modal-price{display:inline-flex;align-items:baseline;gap:0.4rem;background:rgba(46,139,114,0.1);border:1px solid rgba(46,139,114,0.28);border-radius:4px;padding:0.5rem 0.85rem;margin-bottom:1.1rem;}
+.act-modal-price b{font-size:1.05rem;color:#fff;font-weight:500;}
+.act-modal-price span{font-size:0.68rem;color:rgba(245,242,238,0.55);}
+.act-modal-price i{font-style:normal;font-size:0.62rem;color:var(--cta);letter-spacing:0.08em;text-transform:uppercase;}
 .act-card-more{font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--cta-hover);margin-top:0.9rem;display:flex;align-items:center;gap:0.4rem;}
 .act-card-more::after{content:'→';transition:transform 0.3s;}
 .act-card:hover .act-card-more::after{transform:translateX(4px);}
 /* MODAL */
-.act-modal{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;padding:1.5rem;background:rgba(5,8,5,0.8);backdrop-filter:blur(6px);}
-.act-modal.open{display:flex;}
-.act-modal-box{background:linear-gradient(165deg,#12170f 0%,#0a0e0a 100%);border:1px solid var(--border);border-radius:16px;max-width:860px;width:100%;max-height:88vh;overflow:hidden;display:grid;grid-template-columns:1fr 1.1fr;box-shadow:0 30px 80px rgba(0,0,0,0.6);animation:modalIn 0.35s cubic-bezier(0.2,0,0.2,1);}
+.act-modal{position:fixed;inset:0;z-index:1000;display:none;justify-content:center;padding:1.5rem;background:rgba(5,8,5,0.8);backdrop-filter:blur(6px);overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;}
+.act-modal.open{display:flex;align-items:flex-start;}
+.act-modal-box{background:linear-gradient(165deg,#12170f 0%,#0a0e0a 100%);border:1px solid var(--border);border-radius:16px;max-width:860px;width:100%;margin:auto;overflow:hidden;display:grid;grid-template-columns:1fr 1.1fr;box-shadow:0 30px 80px rgba(0,0,0,0.6);animation:modalIn 0.35s cubic-bezier(0.2,0,0.2,1);}
 @keyframes modalIn{from{opacity:0;transform:translateY(20px) scale(0.98);}to{opacity:1;transform:none;}}
 .act-modal-media{position:relative;min-height:320px;}
 .act-modal-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(0.85);}
 .act-modal-media::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,transparent 60%,#12170f 100%);}
-.act-modal-content{padding:2.2rem 2.2rem;overflow-y:auto;}
+.act-modal-content{padding:2.2rem 2.2rem;}
 .act-modal-badge{font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--cta);margin-bottom:0.6rem;}
 .act-modal-name{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:400;color:#fff;line-height:1.1;margin-bottom:1rem;}
 .act-modal-desc p{font-size:0.86rem;line-height:1.8;color:rgba(245,242,238,0.72);margin-bottom:0.9rem;}
@@ -114,10 +120,13 @@ footer{padding:2.5rem 2rem;border-top:1px solid var(--border);text-align:center;
   .act-card{aspect-ratio:16/11;}
   /* on touch show description by default */
   .act-card-desc{max-height:120px;opacity:1;margin-top:0.6rem;}
-  .act-modal-box{grid-template-columns:1fr;max-height:92vh;}
+  .act-modal-box{grid-template-columns:1fr;overflow:visible;}
+  .act-modal-media{border-radius:16px 16px 0 0;overflow:hidden;}
   .act-modal-media{min-height:180px;}
   .act-modal-media::after{background:linear-gradient(to bottom,transparent 55%,#12170f 100%);}
   .act-modal-content{padding:1.6rem 1.4rem;}
+  .act-modal{backdrop-filter:none;background:rgba(5,8,5,0.93);}
+  .act-modal-close{position:fixed;top:1.1rem;right:1.1rem;}
   .act-modal-facts{grid-template-columns:1fr;}
 }
 </style>
@@ -177,6 +186,7 @@ footer{padding:2.5rem 2rem;border-top:1px solid var(--border);text-align:center;
     <div class="act-modal-content">
       <div class="act-modal-badge" id="mdBadge"></div>
       <h2 class="act-modal-name" id="mdName"></h2>
+      <div class="act-modal-price" id="mdPrice" style="display:none;"></div>
       <div class="act-modal-desc" id="mdDesc"></div>
       <ul class="act-modal-facts" id="mdFacts"></ul>
       <div class="act-modal-actions">
@@ -192,34 +202,52 @@ footer{padding:2.5rem 2rem;border-top:1px solid var(--border);text-align:center;
 </script>
 <script>
 var ACTS = [
-  {id:"rafting",cat:"Adventure",img:"/rafting.webp",name:"Tara Rafting",tag:"One of Europe's deepest canyons",
+  {id:"rafting",price:45,unit:"per person",cat:"Adventure",img:"/rafting.webp",name:"Tara Rafting",tag:"One of Europe's deepest canyons",
    desc:["The Tara River Canyon is one of the deepest in Europe, reaching over 1,300 metres. The river runs cold and fast from spring through autumn, with the strongest rapids in spring when snowmelt raises the water. Beginners are welcome on most trips — operators provide guides, a safety briefing and equipment.","A full-day trip covers around 18km of river, passing through emerald gorges, under ancient bridges, and past waterfalls that drop directly into the canyon."],
    facts:[["Duration","Full day (~4h on water)"],["Difficulty","Grade 3–4, moderate"],["Season","April – October"],["Includes","Guide, gear, river lunch"]]},
-  {id:"canyoning",cat:"Adventure",img:"/canyoning.webp",name:"Canyoning",tag:"Nevidio — \"the unseen\" canyon",
+  {id:"canyoning",price:95,unit:"per person",cat:"Adventure",img:"/canyoning.webp",name:"Canyoning",tag:"Nevidio — \"the unseen\" canyon",
    desc:["Nevidio Canyon, \"the unseen,\" was only first explored in 1965. A narrow limestone gorge carved by the Komarnica river, with walls rising over 300 metres. Canyoning here means abseiling down waterfalls, swimming through ice-cold pools, and squeezing through passages just wide enough for one person.","It's challenging, exhilarating, and unlike anything you'll find elsewhere in Europe."],
    facts:[["Duration","5–6 hours"],["Difficulty","Challenging, good fitness"],["Season","May – September"],["Includes","Guide, wetsuit, helmet, meal"]]},
-  {id:"jeep",cat:"Adventure",img:"/jeep.webp",name:"Jeep Safari",tag:"Durmitor & the high plateaus",
+  {id:"jeep",price:60,unit:"per person",cat:"Adventure",img:"/jeep.webp",name:"Jeep Safari",tag:"Durmitor & the high plateaus",
    desc:["Montenegro's wild interior opens up from the seat of a 4x4. Mountain plateaus, shepherd villages, glacial lakes and panoramas that take your breath away — reached on tracks no ordinary car could manage.","Private departures with a local driver who knows where the light falls best, where to stop, and which route suits your day."],
    facts:[["Duration","Half day to full day"],["Difficulty","Easy — just enjoy the ride"],["Season","May – October"],["Includes","Private 4x4, driver, picnic"]]},
-  {id:"kayak",cat:"Water",img:"/kayak.webp",name:"Kayak & Boat",tag:"The Bay of Kotor & Lake Skadar",
+  {id:"kayak",price:35,unit:"per person",cat:"Water",img:"/kayak.webp",name:"Kayak & Boat",tag:"The Bay of Kotor & Lake Skadar",
    desc:["Paddle through Europe's southernmost fjord, or glide across the Balkans' largest lake at sunrise. Sea kayaking in the Bay of Kotor reaches hidden coves and churches you can't get to by road; Lake Skadar is all water lilies, birdlife and stillness.","From gentle sunset paddles to half-day expeditions — matched to your experience and energy."],
    facts:[["Duration","2 hours to half day"],["Difficulty","Easy to moderate"],["Season","May – October"],["Includes","Kayak, guide, safety gear"]]},
-  {id:"hiking",cat:"Nature",img:"/hiking.webp",name:"Hiking",tag:"Durmitor & Prokletije parks",
+  {id:"hiking",price:40,unit:"per person",cat:"Nature",img:"/hiking.webp",name:"Hiking",tag:"Durmitor & Prokletije parks",
    desc:["Montenegro has more than 1,000km of marked trails across two UNESCO-listed national parks — from easy lakeside walks to serious multi-day mountain routes. Whatever your pace and fitness level, there is a trail that fits.","We work with experienced local guides who know the terrain in every season. Routes are chosen around your group and what you want to see — not a fixed itinerary from a brochure."],
    facts:[["Duration","Half day to multi-day"],["Difficulty","Easy to very challenging"],["Season","June – October"],["Includes","Local guide, route planning"]]},
-  {id:"wine",cat:"Culture",img:"/wine.webp",name:"Wine & Food",tag:"Private tastings & local tables",
+  {id:"wine",price:55,unit:"per person",cat:"Culture",img:"/wine.webp",name:"Wine & Food",tag:"Private tastings & local tables",
    desc:["Private tastings at Montenegro's finest wineries, market visits, and meals that reveal the real culinary identity of the country — Vranac reds, smoked Njeguši prosciutto, mountain cheese, honey and olive oil from families who've made them for generations.","Arranged around your taste: simple and rustic, or refined and paired. Often the highlight people remember most."],
    facts:[["Duration","Half day to full day"],["Difficulty","Pure pleasure"],["Season","Year-round"],["Includes","Tastings, host, transport"]]},
-  {id:"horseback",cat:"Nature",img:"/horseback.webp",name:"Horseback Riding",tag:"Highland meadows & forest trails",
+  {id:"horseback",price:30,unit:"per person",cat:"Nature",img:"/horseback.webp",name:"Horseback Riding",tag:"Highland meadows & forest trails",
    desc:["Ride through highland meadows and pine forest on calm, well-kept horses, with guides who match the pace to your confidence. A gentle way to reach places cars never see, at a rhythm that lets the landscape sink in.","Suitable for complete beginners through to experienced riders."],
    facts:[["Duration","1–3 hours"],["Difficulty","Beginner-friendly"],["Season","May – October"],["Includes","Horse, guide, helmet"]]},
-  {id:"biking",cat:"Adventure",img:"/biking.webp",name:"Mountain Biking",tag:"Alpine roads & forest descents",
+  {id:"biking",price:45,unit:"per person",cat:"Adventure",img:"/biking.webp",name:"Mountain Biking",tag:"Alpine roads & forest descents",
    desc:["Quiet mountain roads, forest singletrack and long alpine descents — Montenegro's terrain rewards cyclists with huge variety over short distances. E-bikes available for those who want the views without the climb.","Routes planned around your fitness, with support and the right bike for the day."],
    facts:[["Duration","Half day to full day"],["Difficulty","Easy (e-bike) to challenging"],["Season","April – October"],["Includes","Bike, helmet, guide, route"]]},
-  {id:"paragliding",cat:"Adventure",img:"/paragliding.webp",name:"Paragliding",tag:"Above the Bay of Kotor",
+  {id:"paragliding",price:80,unit:"per person",cat:"Adventure",img:"/paragliding.webp",name:"Paragliding",tag:"Above the Bay of Kotor",
    desc:["Tandem paragliding above the Bay of Kotor or the mountain ranges above Kolašin — Montenegro from a perspective most visitors never see. No experience needed: you fly with a certified pilot who handles everything.","The take-off and the view are both unforgettable."],
    facts:[["Duration","20–40 min flight"],["Difficulty","None — tandem flight"],["Season","April – October"],["Includes","Certified pilot, all gear"]]}
 ];
+
+var EM_SB_URL = "https://twkiwlshuyjnzabazhmv.supabase.co";
+var EM_SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3a2l3bHNodXlqbnphYmF6aG12Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyNjg5NjEsImV4cCI6MjA5OTg0NDk2MX0.DMkOrnr4bggWsFYZt5RNuQ47VuvPkVqkWIccZIZIiso";
+function loadLivePrices(){
+  return fetch(EM_SB_URL+'/rest/v1/adventure_prices?select=id,price,unit,active', {headers:{apikey:EM_SB_KEY, Authorization:'Bearer '+EM_SB_KEY}})
+    .then(function(r){ return r.ok ? r.json() : null; })
+    .then(function(rows){
+      if(!rows || !rows.length) return;
+      rows.forEach(function(row){
+        var a = ACTS.find(function(x){ return x.id===row.id; });
+        if(!a) return;
+        if(row.active===false){ a.price = null; return; }
+        if(row.price!=null) a.price = row.price;
+        if(row.unit) a.unit = row.unit;
+      });
+    })
+    .catch(function(){});
+}
 
 function esc(s){return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
@@ -230,12 +258,13 @@ function renderCards(cat){
     return '<article class="act-card" onclick="openActModal(\''+a.id+'\')">'+
       '<img src="'+a.img+'" alt="'+esc(a.name)+'" loading="lazy">'+
       '<span class="act-card-badge">'+esc(a.cat)+'</span>'+
+
       '<button type="button" class="act-card-add" data-adv-toggle="'+esc(a.name)+'" data-add="＋" data-added="✓" aria-label="Add to my trip" onclick="event.stopPropagation();EMShortlist.toggle(\''+nm+'\')"><span data-adv-label>＋</span></button>'+
       '<div class="act-card-body">'+
         '<div class="act-card-name">'+a.name+'</div>'+
         '<div class="act-card-tag">'+a.tag+'</div>'+
         '<div class="act-card-desc">'+esc(a.desc[0]).slice(0,120)+'…</div>'+
-        '<div class="act-card-more">See details</div>'+
+        '<div class="act-card-more">See details'+(a.price? '<span class="act-card-price">from <b>\u20ac'+a.price+'</b></span>' : '')+'</div>'+
       '</div>'+
     '</article>';
   }).join('');
@@ -255,6 +284,11 @@ function openActModal(id){
   document.getElementById('mdImg').alt = a.name;
   document.getElementById('mdBadge').textContent = a.cat;
   document.getElementById('mdName').innerHTML = a.name;
+  var pEl = document.getElementById('mdPrice');
+  if(pEl){
+    if(a.price){ pEl.style.display='inline-flex'; pEl.innerHTML = '<b>\u20ac'+a.price+'</b><span>'+esc(a.unit||'per person')+'</span><i>paid to host</i>'; }
+    else { pEl.style.display='none'; }
+  }
   document.getElementById('mdDesc').innerHTML = a.desc.map(function(p){return '<p>'+esc(p)+'</p>';}).join('');
   document.getElementById('mdFacts').innerHTML = a.facts.map(function(f){return '<li><b>'+esc(f[0])+'</b>'+esc(f[1])+'</li>';}).join('');
   var cta = document.getElementById('mdCta');
@@ -281,6 +315,7 @@ function closeActModal(){
 document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeActModal(); });
 
 renderCards('all');
+loadLivePrices().then(function(){ var act=document.querySelector('.filter-chip.active'); renderCards(act&&act.dataset.cat?act.dataset.cat:'all'); });
 </script>
 <script>
 /* inlined shortlist (no external dependency) */
