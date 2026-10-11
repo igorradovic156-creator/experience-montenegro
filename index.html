@@ -161,6 +161,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1.2rem
 /* MARQUEE */
 /* ===== BIG ADVENTURE SHOWCASE (straddles hero / section boundary) ===== */
 .showcase-wrap { position: relative; z-index: 20; max-width: 1320px; width: 100%; margin: -135px auto 0; padding: 0 2.5rem 0; }
+.showcase-wrap::before { content: ''; position: absolute; left: 50%; transform: translateX(-50%); width: 100vw; top: 135px; bottom: 0; background: var(--black); z-index: -1; }
 .showcase { display: flex; gap: 18px; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; scroll-behavior: smooth; padding: 16px 2px 18px; }
 .showcase::-webkit-scrollbar { display: none; }
 .show-card { flex: 0 0 240px; width: 240px; height: 230px; border-radius: 14px; overflow: hidden; position: relative; border: none; background: #111; cursor: pointer; padding: 0; scroll-snap-align: start; transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), box-shadow 0.4s ease; isolation: isolate; box-shadow: 0 16px 40px rgba(0,0,0,0.45); }
@@ -185,6 +186,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1.2rem
 @media (max-width: 768px) {
   /* edge-to-edge rail: break out of the centered wrap */
   .showcase-wrap { padding: 0 0 0.5rem; max-width: 100%; margin-top: -70px; }
+  .showcase-wrap::before { top: 70px; }
   .showcase { gap: 10px; padding: 4px 1rem 8px; scroll-padding-left: 1rem; }
   /* ~3 cards visible, 4th peeking: (100vw - gutters) / 3.3 */
   .show-card { flex: 0 0 29vw; width: 29vw; height: 32vw; min-height: 120px; border-radius: 12px; }
@@ -2104,6 +2106,35 @@ function pauseAutoScroll() {
   if (autoResumeTimer) clearTimeout(autoResumeTimer);
   autoResumeTimer = setTimeout(function(){ autoScrollPaused = false; }, 7000);
 }
+
+/* ---- hero rail from the adventures table (falls back to the markup already here) ---- */
+(function(){
+  var URL = "https://twkiwlshuyjnzabazhmv.supabase.co";
+  var rail = document.getElementById('showcase');
+  if (!rail) return;
+  function esc2(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  fetch(URL + '/rest/v1/adventures?select=id,name,short,img,cat,tag,descr,hero,active,sort&order=sort.asc',
+        { headers: { apikey: SUPABASE_KEY, Authorization: 'Bearer ' + SUPABASE_KEY } })
+    .then(function(r){ return r.ok ? r.json() : null; })
+    .then(function(rows){
+      if (!rows) return;
+      var list = rows.filter(function(r){ return r.active !== false && r.hero !== false && r.img; });
+      if (!list.length) return;
+      rail.innerHTML = list.map(function(r){
+        var sub = r.tag || String(r.descr||'').split(/\n\s*\n/)[0] || '';
+        if (sub.length > 150) sub = sub.slice(0,147) + '…';
+        return '<button class="show-card" onclick="pickActivity(this)"'+
+          ' data-img="'+esc2(r.img)+'" data-label="'+esc2(r.cat||'')+'"'+
+          ' data-title="'+esc2(r.name)+'" data-sub="'+esc2(sub)+'">'+
+          '<img src="'+esc2(r.img)+'" alt="'+esc2(r.name)+'" loading="lazy" onerror="this.style.display=\'none\'">'+
+          '<span class="show-card-name">'+esc2(r.short || r.name)+'</span>'+
+          '</button>';
+      }).join('');
+      if (typeof updateShowcaseArrows === 'function') updateShowcaseArrows();
+    })
+    .catch(function(){});
+})();
+
 (function(){
   var s = document.getElementById('showcase');
   if (!s) return;
