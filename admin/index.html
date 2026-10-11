@@ -152,6 +152,7 @@ function initAdmin() {
         <button class="adm-tab active" onclick="admSwitchTab('leads',this)">Leads</button>
         <button class="adm-tab" onclick="admSwitchTab('bookings',this)">Bookings</button>
         <button class="adm-tab" onclick="admSwitchTab('hosts',this)">Hosts</button>
+        <button class="adm-tab" onclick="admSwitchTab('prices',this)">Prices</button>
       </div>
 
       <!-- ========== LEADS TAB ========== -->
@@ -242,6 +243,24 @@ function initAdmin() {
           <div class="adm-empty" id="htEmpty" style="display:none;">No hosts yet</div>
         </div>
       </div><!-- /tab-hosts -->
+
+      <!-- ========== PRICES TAB ========== -->
+      <div id="tab-prices" style="display:none;">
+        <div class="adm-filters" style="margin-top:0.5rem;">
+          <span style="font-size:0.52rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(200,184,154,0.3);align-self:center;">Prices shown on experiencemontenegro.com/adventures</span>
+          <span id="prStatus" style="font-size:0.62rem;color:rgba(46,139,114,0.9);align-self:center;margin-left:0.6rem;"></span>
+          <button class="adm-export-btn" onclick="savePrices()" style="margin-left:auto;background:#2e8b72;color:#fff;border-color:#2e8b72;">Save changes</button>
+        </div>
+        <div class="adm-table-wrap">
+          <table class="adm-table" id="prTable">
+            <thead><tr><th style="width:30%;">Adventure</th><th style="width:18%;">Price (&euro;)</th><th style="width:28%;">Unit</th><th style="width:14%;">Show on site</th><th style="width:10%;">Preview</th></tr></thead>
+            <tbody id="prBody"></tbody>
+          </table>
+        </div>
+        <div style="padding:0.9rem 1.5rem 1.5rem;font-size:0.65rem;line-height:1.7;color:rgba(200,184,154,0.3);">
+          Cards show <b style="color:rgba(200,184,154,0.55);">from &euro;X</b>; the detail popup shows the full line plus &ldquo;paid to host&rdquo;. Untick <b style="color:rgba(200,184,154,0.55);">Show on site</b> to hide a price without deleting it. Changes are live within seconds &mdash; visitors may need one refresh.
+        </div>
+      </div><!-- /tab-prices -->
     </div>
 
     <div id="loginBox">
@@ -789,6 +808,84 @@ async function admSaveNotes() {
 // ══════════════════════════════════════════════════════════
 // TABS
 // ══════════════════════════════════════════════════════════
+
+/* ========== ADVENTURE PRICES ========== */
+var ADV_LIST = [
+  {id:'rafting',    name:'Tara Rafting',      price:45, unit:'per person'},
+  {id:'canyoning',  name:'Canyoning',         price:95, unit:'per person'},
+  {id:'jeep',       name:'Jeep Safari',       price:60, unit:'per person'},
+  {id:'kayak',      name:'Kayak & Boat',      price:35, unit:'per person'},
+  {id:'hiking',     name:'Hiking',            price:40, unit:'per person'},
+  {id:'wine',       name:'Wine & Food',       price:55, unit:'per person'},
+  {id:'horseback',  name:'Horseback Riding',  price:30, unit:'per person'},
+  {id:'biking',     name:'Mountain Biking',   price:45, unit:'per person'},
+  {id:'paragliding',name:'Paragliding',       price:80, unit:'per person'}
+];
+var prRows = [];
+
+async function loadPrices(){
+  prRows = ADV_LIST.map(function(a){ return {id:a.id, name:a.name, price:a.price, unit:a.unit, active:true}; });
+  try {
+    var res = await fetch(SUPABASE_URL_ADMIN + '/rest/v1/adventure_prices?select=*', { headers: admAuthHeaders() });
+    if(res.ok){
+      var rows = await res.json();
+      rows.forEach(function(r){
+        var row = prRows.find(function(x){ return x.id===r.id; });
+        if(!row) return;
+        if(r.price!=null) row.price = Number(r.price);
+        if(r.unit) row.unit = r.unit;
+        row.active = r.active!==false;
+      });
+    }
+  } catch(e){}
+  prRender();
+}
+
+function prRender(){
+  document.getElementById('prBody').innerHTML = prRows.map(function(r,i){
+    return '<tr>'+
+      '<td style="color:#f5f2ee;">'+r.name+'</td>'+
+      '<td><input type="number" min="0" step="1" value="'+(r.price==null?'':r.price)+'" oninput="prSet('+i+',\'price\',this.value)" style="width:90px;background:rgba(200,184,154,0.05);border:1px solid rgba(200,184,154,0.15);color:#f5f2ee;padding:0.35rem 0.5rem;border-radius:3px;font-family:inherit;font-size:0.72rem;"></td>'+
+      '<td><input type="text" value="'+(r.unit||'')+'" oninput="prSet('+i+',\'unit\',this.value)" style="width:100%;max-width:200px;background:rgba(200,184,154,0.05);border:1px solid rgba(200,184,154,0.15);color:#f5f2ee;padding:0.35rem 0.5rem;border-radius:3px;font-family:inherit;font-size:0.72rem;"></td>'+
+      '<td><input type="checkbox" '+(r.active?'checked':'')+' onchange="prSet('+i+',\'active\',this.checked)" style="accent-color:#2e8b72;width:16px;height:16px;cursor:pointer;"></td>'+
+      '<td style="color:rgba(200,184,154,0.5);font-size:0.7rem;" id="prPrev'+i+'">'+prPreview(r)+'</td>'+
+    '</tr>';
+  }).join('');
+}
+function prPreview(r){
+  if(!r.active || r.price==null || r.price==='') return '<span style="color:rgba(200,184,154,0.2);">hidden</span>';
+  return 'from \u20ac'+r.price;
+}
+function prSet(i, key, val){
+  if(key==='price') val = (val===''? null : Number(val));
+  prRows[i][key] = val;
+  var p = document.getElementById('prPrev'+i);
+  if(p) p.innerHTML = prPreview(prRows[i]);
+  document.getElementById('prStatus').textContent = 'Unsaved changes';
+  document.getElementById('prStatus').style.color = '#d8a24a';
+}
+
+async function savePrices(){
+  var st = document.getElementById('prStatus');
+  st.textContent = 'Saving...'; st.style.color = 'rgba(200,184,154,0.5)';
+  var payload = prRows.map(function(r){
+    return { id:r.id, price:(r.price===''||r.price==null)?null:Number(r.price), unit:r.unit||'per person', active:!!r.active };
+  });
+  try {
+    var res = await fetch(SUPABASE_URL_ADMIN + '/rest/v1/adventure_prices', {
+      method: 'POST',
+      headers: admAuthHeaders({ 'Content-Type':'application/json', 'Prefer':'resolution=merge-duplicates,return=minimal' }),
+      body: JSON.stringify(payload)
+    });
+    if(!res.ok){ throw new Error(await res.text()); }
+    st.textContent = 'Saved \u2713 live on the site'; st.style.color = '#2e8b72';
+    setTimeout(function(){ st.textContent=''; }, 4000);
+  } catch(e){
+    st.textContent = 'Save failed \u2014 ' + String(e.message||e).slice(0,90);
+    st.style.color = '#d05b4a';
+  }
+}
+
 function admSwitchTab(tab, btn){
   document.querySelectorAll('.adm-tab').forEach(function(t){ t.classList.remove('active'); });
   if(btn){ btn.classList.add('active'); }
@@ -798,8 +895,10 @@ function admSwitchTab(tab, btn){
   document.getElementById('tab-leads').style.display = tab==='leads'?'block':'none';
   document.getElementById('tab-bookings').style.display = tab==='bookings'?'block':'none';
   document.getElementById('tab-hosts').style.display = tab==='hosts'?'block':'none';
+  document.getElementById('tab-prices').style.display = tab==='prices'?'block':'none';
   if(tab==='bookings'){ loadBookings(); loadHosts(); }
   if(tab==='hosts'){ loadHosts(); }
+  if(tab==='prices'){ loadPrices(); }
 }
 
 // Jump from a booking to its client's lead, highlighted
