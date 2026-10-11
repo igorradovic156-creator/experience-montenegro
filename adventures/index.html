@@ -15,7 +15,8 @@
 <meta property="og:url" content="https://experiencemontenegro.com/adventures">
 <meta property="og:image" content="https://experiencemontenegro.com/og-logo.png">
 <meta name="twitter:card" content="summary_large_image">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://twkiwlshuyjnzabazhmv.supabase.co">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root{--black:#141a15;--white:#f5f2ee;--cta:#2e8b72;--cta-hover:#3aab8a;--accent:#c17f3b;--stone:#c8b89a;--border:rgba(200,184,154,0.1);}
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -130,6 +131,30 @@ footer{padding:2.5rem 2rem;border-top:1px solid var(--border);text-align:center;
   .act-modal-facts{grid-template-columns:1fr;}
 }
 </style>
+
+<script>
+/* ---- first-touch attribution: where this visitor actually came from ---- */
+(function(){
+  var K = 'em_attr';
+  function read(){ try { return JSON.parse(localStorage.getItem(K) || 'null'); } catch(e){ return null; } }
+  var a = read();
+  if (!a) {
+    var p = new URLSearchParams(location.search);
+    var ref = '';
+    try { ref = document.referrer ? new URL(document.referrer).hostname.replace(/^www\./,'') : ''; } catch(e){}
+    if (ref === location.hostname.replace(/^www\./,'')) ref = '';
+    var camp = [p.get('utm_source'), p.get('utm_medium'), p.get('utm_campaign')].filter(Boolean).join(' / ');
+    a = {
+      referrer: ref || '(direct)',
+      campaign: camp || '',
+      landing: (location.pathname + location.search).slice(0, 180),
+      at: new Date().toISOString()
+    };
+    try { localStorage.setItem(K, JSON.stringify(a)); } catch(e){}
+  }
+  window.EMAttr = a;
+})();
+</script>
 </head>
 <body>
 <nav>
@@ -304,7 +329,15 @@ function openActModal(id){
   document.getElementById('mdDesc').innerHTML = a.desc.map(function(p){return '<p>'+esc(p)+'</p>';}).join('');
   document.getElementById('mdFacts').innerHTML = a.facts.map(function(f){return '<li><b>'+esc(f[0])+'</b>'+esc(f[1])+'</li>';}).join('');
   var cta = document.getElementById('mdCta');
-  cta.onclick = function(){ try{ sessionStorage.setItem('em_activity', a.name); }catch(e){} };
+  cta.onclick = function(ev){
+    try{ sessionStorage.setItem('em_activity', a.name); }catch(e){}
+    if (window.embOpen) {
+      ev.preventDefault();
+      if (window.EMShortlist) EMShortlist.add(a.name);
+      closeActModal();
+      embOpen();
+    }
+  };
   // wire the add-to-trip toggle for this adventure
   var addBtn = document.getElementById('mdAdd');
   if (addBtn) {
@@ -367,7 +400,8 @@ loadAdventures().then(function(){ var act=document.querySelector('.filter-chip.a
     if (pill) return pill;
     pill = document.createElement('a');
     pill.id = 'emPill';
-    pill.href = (location.pathname.replace(/\/+$/, '') === '' ) ? '#plan' : '/#plan';
+    pill.href = '#';
+    pill.addEventListener('click', function(ev){ if (window.embOpen) { ev.preventDefault(); embOpen(); } });
     pill.setAttribute('aria-label', 'View your selected adventures');
     pill.innerHTML =
       '<span class="em-pill-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2l1.5 4h9L18 2"/><path d="M4 6h16l-1.2 13a2 2 0 01-2 1.8H7.2a2 2 0 01-2-1.8z"/></svg></span>' +
@@ -468,5 +502,221 @@ loadAdventures().then(function(){ var act=document.querySelector('.filter-chip.a
 })();
 
 </script>
+<!-- ============ QUICK BOOKING MODAL (shared) ============ -->
+<style>
+#emBook{position:fixed;inset:0;z-index:10000;display:none;justify-content:center;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:1.5rem;background:rgba(5,9,6,0.86);}
+#emBook.open{display:flex;align-items:flex-start;}
+.emb-box{background:linear-gradient(168deg,#16211a 0%,#0e1711 100%);border:1px solid rgba(200,184,154,0.14);border-radius:14px;width:100%;max-width:540px;margin:auto;padding:2rem 2rem 1.8rem;position:relative;box-shadow:0 30px 80px rgba(0,0,0,0.6);font-family:'DM Sans',sans-serif;animation:embIn .32s cubic-bezier(.2,0,.2,1);}
+@keyframes embIn{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+.emb-x{position:absolute;top:0.9rem;right:0.9rem;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#f5f2ee;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.emb-x:hover{background:rgba(255,255,255,0.12);}
+.emb-eyebrow{font-size:0.56rem;letter-spacing:0.18em;text-transform:uppercase;color:#2e8b72;margin-bottom:0.55rem;}
+.emb-title{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:400;color:#fff;line-height:1.2;margin-bottom:0.5rem;}
+.emb-sub{font-size:0.8rem;line-height:1.7;color:rgba(245,242,238,0.55);margin-bottom:1.3rem;}
+.emb-chips{display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.5rem;}
+.emb-chip{display:inline-flex;align-items:center;gap:0.4rem;font-size:0.72rem;color:rgba(245,242,238,0.82);background:rgba(46,139,114,0.12);border:1px solid rgba(46,139,114,0.3);border-radius:50px;padding:0.35rem 0.5rem 0.35rem 0.8rem;}
+.emb-chip button{background:none;border:none;color:rgba(245,242,238,0.45);cursor:pointer;font-size:0.8rem;line-height:1;padding:0 0.15rem;}
+.emb-chip button:hover{color:#c0392b;}
+.emb-note{font-size:0.68rem;line-height:1.65;color:rgba(245,242,238,0.4);margin-bottom:1.3rem;}
+.emb-note a{color:rgba(46,139,114,0.95);text-decoration:none;border-bottom:1px solid rgba(46,139,114,0.35);}
+.emb-row{display:grid;grid-template-columns:1fr 1fr;gap:0 0.7rem;}
+.emb-f{margin-bottom:0.8rem;}
+.emb-f label{display:block;font-size:0.54rem;letter-spacing:0.13em;text-transform:uppercase;color:rgba(200,184,154,0.5);margin-bottom:0.3rem;}
+.emb-f input,.emb-f select,.emb-f textarea{width:100%;background:rgba(200,184,154,0.05);border:1px solid rgba(200,184,154,0.16);color:#f5f2ee;padding:0.68rem 0.8rem;font-family:'DM Sans',sans-serif;font-size:0.85rem;outline:none;border-radius:5px;box-sizing:border-box;}
+.emb-f input:focus,.emb-f select:focus,.emb-f textarea:focus{border-color:#2e8b72;background:rgba(46,139,114,0.06);}
+.emb-f textarea{resize:vertical;min-height:70px;}
+.emb-f input[type=date]{color-scheme:dark;}
+.emb-go{width:100%;background:#2e8b72;color:#fff;border:none;padding:1rem;font-family:'DM Sans',sans-serif;font-size:0.74rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;border-radius:5px;transition:background .2s;margin-top:0.4rem;}
+.emb-go:hover{background:#3aab8a;}
+.emb-go:disabled{opacity:0.6;cursor:default;}
+.emb-err{font-size:0.72rem;color:#e07a6a;margin-top:0.7rem;display:none;}
+.emb-fine{font-size:0.66rem;line-height:1.7;color:rgba(245,242,238,0.38);text-align:center;margin-top:0.9rem;}
+.emb-done{text-align:center;padding:1.5rem 0 0.5rem;}
+.emb-done-ic{width:54px;height:54px;border-radius:50%;background:rgba(46,139,114,0.15);border:1px solid rgba(46,139,114,0.4);display:flex;align-items:center;justify-content:center;margin:0 auto 1.2rem;color:#2e8b72;}
+.emb-done h3{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:400;color:#fff;margin-bottom:0.7rem;}
+.emb-done p{font-size:0.82rem;line-height:1.75;color:rgba(245,242,238,0.58);max-width:24rem;margin:0 auto 1.4rem;}
+@media(max-width:768px){
+  #emBook{padding:0.9rem;}
+  .emb-box{padding:1.6rem 1.2rem 1.4rem;border-radius:12px;}
+  .emb-title{font-size:1.25rem;}
+  .emb-row{grid-template-columns:1fr;}
+  .emb-x{position:fixed;top:1rem;right:1rem;}
+}
+</style>
+
+<div id="emBook" onclick="if(event.target===this)embClose()">
+  <div class="emb-box">
+    <button class="emb-x" onclick="embClose()" aria-label="Close">&#10005;</button>
+
+    <div id="embForm">
+      <div class="emb-eyebrow">Start your plan</div>
+      <div class="emb-title" id="embTitle">Tell me the basics</div>
+      <div class="emb-sub">I read every message myself and reply within hours &mdash; usually with a question or two before anything is priced.</div>
+
+      <div id="embChipsWrap" style="display:none;">
+        <div class="emb-chips" id="embChips"></div>
+        <div class="emb-note">A starting point, not a booking. We'll shape the final plan together &mdash; remove anything that doesn't fit with the &times;.</div>
+      </div>
+
+      <div class="emb-row">
+        <div class="emb-f"><label>First name</label><input type="text" id="embFirst" autocomplete="given-name"></div>
+        <div class="emb-f"><label>Last name</label><input type="text" id="embLast" autocomplete="family-name"></div>
+      </div>
+      <div class="emb-f"><label>Email</label><input type="email" id="embEmail" autocomplete="email" placeholder="you@example.com"></div>
+      <div class="emb-row">
+        <div class="emb-f"><label>Arriving</label><input type="date" id="embFrom"></div>
+        <div class="emb-f"><label>Leaving</label><input type="date" id="embTo"></div>
+      </div>
+      <div class="emb-f"><label>Group</label>
+        <select id="embGroup">
+          <option value="">Not sure yet</option>
+          <option>Solo</option>
+          <option>2 people</option>
+          <option>3–5 people</option>
+          <option>6–10 people</option>
+          <option>More than 10</option>
+        </select>
+      </div>
+      <div class="emb-f"><label>Anything I should know?</label><textarea id="embNotes" placeholder="Pace, budget, kids, mobility, what you'd hate — all useful."></textarea></div>
+
+      <button class="emb-go" id="embGo" onclick="embSubmit()">Send my request</button>
+      <div class="emb-err" id="embErr"></div>
+      <div class="emb-fine">No payment now. Nothing is booked until we've agreed the plan.</div>
+    </div>
+
+    <div class="emb-done" id="embDone" style="display:none;">
+      <div class="emb-done-ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <h3>Got it.</h3>
+      <p id="embDoneMsg">I'll be in touch shortly &mdash; check your inbox, and your spam folder just in case.</p>
+      <button class="emb-go" onclick="embClose()" style="max-width:220px;margin:0 auto;">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  function sbUrl(){ return window.SUPABASE_URL || window.EM_SB_URL || ''; }
+  function sbKey(){ return window.SUPABASE_KEY || window.EM_SB_KEY || ''; }
+  function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  window.embOpen = function(){
+    var box = document.getElementById('emBook');
+    if (!box) return;
+    document.getElementById('embForm').style.display = '';
+    document.getElementById('embDone').style.display = 'none';
+    document.getElementById('embErr').style.display = 'none';
+    var go = document.getElementById('embGo');
+    go.disabled = false; go.textContent = 'Send my request';
+    embChips();
+    box.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  };
+  window.embClose = function(){
+    var box = document.getElementById('emBook');
+    if (!box) return;
+    box.classList.remove('open');
+    document.body.style.overflow = '';
+  };
+
+  function embChips(){
+    var list = (window.EMShortlist ? EMShortlist.all() : []);
+    var wrap = document.getElementById('embChipsWrap');
+    var chips = document.getElementById('embChips');
+    var title = document.getElementById('embTitle');
+    if (!list.length) {
+      wrap.style.display = 'none';
+      title.textContent = 'Tell me the basics';
+      return;
+    }
+    wrap.style.display = '';
+    title.textContent = list.length === 1 ? 'One adventure, and the basics' : list.length + ' adventures, and the basics';
+    chips.innerHTML = list.map(function(n){
+      return '<span class="emb-chip">' + esc(n) +
+        '<button type="button" aria-label="Remove ' + esc(n) + '" onclick="EMShortlist.remove(' +
+        JSON.stringify(n).replace(/"/g,'&quot;') + ')">&times;</button></span>';
+    }).join('');
+  }
+  document.addEventListener('shortlist:change', function(){
+    var box = document.getElementById('emBook');
+    if (box && box.classList.contains('open')) embChips();
+  });
+
+  window.embSubmit = async function(){
+    var err = document.getElementById('embErr');
+    var go = document.getElementById('embGo');
+    err.style.display = 'none';
+
+    var first = (document.getElementById('embFirst').value || '').trim();
+    var last  = (document.getElementById('embLast').value || '').trim();
+    var email = (document.getElementById('embEmail').value || '').trim();
+    if (!first || !email || email.indexOf('@') < 1) {
+      err.textContent = 'I need your first name and a valid email to reply to.';
+      err.style.display = 'block';
+      return;
+    }
+
+    var from = document.getElementById('embFrom').value || '';
+    var to   = document.getElementById('embTo').value || '';
+    var dates = (from || to) ? ((from || '?') + ' → ' + (to || '?')) : '';
+    var notes = (document.getElementById('embNotes').value || '').trim();
+    var advs  = (window.EMShortlist ? EMShortlist.all() : []);
+    var msg = notes;
+    if (advs.length) msg = 'Selected adventures: ' + advs.join(', ') + (notes ? ('\n\n' + notes) : '');
+
+    go.disabled = true; go.textContent = 'Sending…';
+
+    var ok = false;
+    try {
+      var res = await fetch(sbUrl() + '/rest/v1/leads', {
+        method: 'POST',
+        headers: { apikey: sbKey(), Authorization: 'Bearer ' + sbKey(), 'Content-Type': 'application/json', Prefer: 'return=minimal' },
+        body: JSON.stringify({
+          name: (first + ' ' + last).trim(),
+          email: email,
+          dates: dates,
+          group_size: document.getElementById('embGroup').value || '',
+          plan: '',
+          message: msg,
+          status: 'new',
+          source: 'modal',
+          referrer: (window.EMAttr && EMAttr.referrer) || '',
+          campaign: (window.EMAttr && EMAttr.campaign) || '',
+          landing:  (window.EMAttr && EMAttr.landing)  || ''
+        })
+      });
+      ok = res.ok;
+    } catch(e) { ok = false; }
+
+    if (!ok) {
+      go.disabled = false; go.textContent = 'Send my request';
+      err.textContent = 'That didn\'t go through. Try again, or message me on WhatsApp and I\'ll pick it up there.';
+      err.style.display = 'block';
+      return;
+    }
+
+    try {
+      fetch(sbUrl() + '/functions/v1/send-email', {
+        method: 'POST',
+        headers: { apikey: sbKey(), Authorization: 'Bearer ' + sbKey(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'inquiry', email: email, name: first })
+      });
+    } catch(e) {}
+
+    if (advs.length) {
+      document.getElementById('embDoneMsg').innerHTML =
+        'I have your dates and the ' + advs.length + ' adventure' + (advs.length > 1 ? 's' : '') +
+        ' you picked. I\'ll come back within hours with what actually fits them together &mdash; check your inbox, and your spam folder just in case.';
+    }
+    if (window.EMShortlist) EMShortlist.clear();
+    document.getElementById('embForm').style.display = 'none';
+    document.getElementById('embDone').style.display = '';
+  };
+
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') embClose();
+  });
+})();
+</script>
+
 </body>
 </html>
