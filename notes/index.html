@@ -680,6 +680,32 @@ document.addEventListener('keydown', function(e) {
 
 updateFilterCounts();
 renderNotes();
+
+/* ---- notes come from the database; the list above is the fallback ---- */
+(function(){
+  fetch(NL_SUPABASE_URL + '/rest/v1/notes?select=*&order=sort.asc',
+        { headers: { apikey: NL_SUPABASE_KEY, Authorization: 'Bearer ' + NL_SUPABASE_KEY } })
+    .then(function(r){ return r.ok ? r.json() : null; })
+    .then(function(rows){
+      if (!rows) return;
+      var live = rows.filter(function(r){ return r.active !== false; }).map(function(r){
+        return {
+          tag: r.tag || 'Local Insight',
+          slug: r.slug,
+          title: r.title,
+          date: r.date || '',
+          readTime: r.read_time || '',
+          excerpt: r.excerpt || '',
+          body: r.body || ''
+        };
+      });
+      if (!live.length) return;
+      travelNotes = live;
+      renderNotes();
+    })
+    .catch(function(){});
+})();
+
 </script>
 </body>
 </html>
