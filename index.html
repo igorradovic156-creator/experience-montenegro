@@ -757,6 +757,11 @@ footer { padding: 2.5rem 2rem; background: #102a1d; display: flex; justify-conte
   .hero-actions { flex-direction: column; align-items: flex-start; gap: 0.85rem; }
   .hero-trust { gap: 0.75rem; padding-top: 1.5rem; }
   .section { padding: 4rem 1.2rem; }
+  .step { padding: 2rem 1.4rem; }
+  .step::after { font-size: 3.6rem; top: 0.7rem; bottom: auto; right: 0.9rem; }
+  .step-title { padding-right: 3.2rem; position: relative; z-index: 1; }
+  .step-desc, .step-tag { position: relative; z-index: 1; }
+
   .reviews-section { padding: 4rem 1.2rem; }
   .taste-section { padding: 4rem 0 3.5rem; }
   .section-title { font-size: clamp(1.6rem,6vw,2.4rem); margin-bottom: 1.5rem; }
@@ -1189,6 +1194,19 @@ select{color:#f5f2ee;}
 .quiz-adv-more { font-size: 0.72rem; color: rgba(245,242,238,0.5); text-decoration: none; border-bottom: 1px solid rgba(245,242,238,0.2); padding-bottom: 1px; transition: all 0.2s; }
 .quiz-adv-more:hover { color: var(--cta); border-color: var(--cta); }
 
+
+/* ===== funnel step-through CTAs ===== */
+.next-step { max-width: 1240px; margin: 3.2rem auto 0; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 1.1rem; text-align: center; }
+.next-step-line { font-size: 0.86rem; line-height: 1.7; color: rgba(245,242,238,0.58); max-width: 34rem; }
+.next-step-line b { color: var(--white); font-weight: 500; }
+.next-step-btn { display: inline-flex; align-items: center; gap: 0.55rem; background: var(--cta); color: #fff; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; padding: 0.95rem 1.9rem; border-radius: 4px; transition: background 0.22s, gap 0.22s; white-space: nowrap; }
+.next-step-btn:hover { background: var(--cta-hover); gap: 0.8rem; }
+.next-step-alt { font-size: 0.74rem; color: rgba(245,242,238,0.5); text-decoration: none; border-bottom: 1px solid rgba(245,242,238,0.2); padding-bottom: 1px; transition: all 0.2s; }
+.next-step-alt:hover { color: var(--cta); border-color: var(--cta); }
+@media (max-width: 768px) {
+  .next-step { margin-top: 2.4rem; gap: 0.9rem; flex-direction: column; }
+  .next-step-btn { width: 100%; justify-content: center; padding: 1rem 1.5rem; }
+}
 </style>
 </head>
 <body>
@@ -1354,7 +1372,7 @@ select{color:#f5f2ee;}
   <h2 class="and-more-headline">If you can dream it,<br><em>we can plan it.</em></h2>
   <p class="and-more-items">Skydiving &middot; Special events &middot; Photography &amp; drone tours &middot; Water sports &middot; Helicopter tours &middot; Fishing on Skadar Lake &middot; Cultural walks &middot; Ski &amp; Snow</p>
 
-  <div style="position:absolute;bottom:0;left:0;right:0;line-height:0;pointer-events:none;"><picture><source media="(max-width:768px)" srcset="/mountains-divider-mobile.png"><img src="/mountains-divider.png" alt="" aria-hidden="true" style="width:100%;height:auto;display:block;opacity:0.95;"></picture></div>
+  <div style="position:absolute;bottom:0;left:0;right:0;line-height:0;pointer-events:none;"><picture><source media="(max-width:768px)" srcset="/mountains-divider-mobile.png"><img src="/mountains-divider.png" alt="" aria-hidden="true" onerror="this.closest('picture').parentNode.style.display='none';" style="width:100%;height:auto;display:block;opacity:0.95;"></picture></div>
 </section>
 
 <!-- THE DIFFERENCE -->
@@ -1443,13 +1461,249 @@ select{color:#f5f2ee;}
       <div class="dv-item"><b>They answer the phone &mdash; and so do we</b><p>You get each host's number and a few words of context. If something goes sideways, we're an hour or two away, in the same country, in the same time zone.</p></div>
     </div>
   </div>
+
+  <div class="next-step">
+    <div class="next-step-line">Every trip on this site was put together exactly like that. <b>Tell me your dates and it takes about five minutes.</b></div>
+    <a href="#plan" class="next-step-btn">Start my plan &rarr;</a>
+    <a href="#pricing" class="next-step-alt">First, what does it cost?</a>
+  </div>
 </section>
 
+<!-- SOCIAL PROOF -->
+<!-- GOOGLE REVIEWS -->
+<section class="reviews-section" id="reviews">
+  <div class="reviews-head">
+    <div class="section-label" style="justify-content:center;">What travellers say</div>
+    <h2 class="section-title" style="text-align:center;max-width:100%;margin:0 auto 0.75rem;">Real experiences,<br><em style="color:var(--stone);">real people.</em></h2>
+    <p style="text-align:center;font-size:0.82rem;color:rgba(245,242,238,0.55);max-width:420px;margin:0 auto;">Verified reviews from travellers, straight from Google.</p>
+  </div>
+  <div class="reviews-widget">
+    <div class="sk-ww-google-reviews" data-embed-id="25718369"></div>
+    <script src="https://widgets.sociablekit.com/google-reviews/widget.js" defer></script>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+  <div class="pricing-inner">
+    <div class="section-label" style="color:rgba(245,242,238,0.55);">Investment</div>
+    <h2 class="section-title">One fee. Everything handled.<br><em style="color:var(--stone);">Refined until it's right.</em></h2>
+    <p class="pricing-note" style="margin-top:1.5rem;">Most travel planning costs you time, energy, and missed experiences. This costs less than a dinner out, and gives you a trip worth remembering.</p>
+    <p class="pricing-note" style="margin-top:0.9rem;">You pay only for the planning itself. <strong style="color:var(--stone);">I reach out within hours</strong> to discuss your trip. Once we've shaped the direction together, you secure your plan with a simple payment request. Activities, stays and transfers are always paid <strong style="color:var(--stone);">directly to the host</strong>, at their own local price. Nothing passes through me, and nothing is marked up.</p>
+    <p class="pricing-note" style="margin-top:0.9rem;">What you actually get is a document &mdash; <a href="#deliverable" style="color:var(--cta);text-decoration:none;border-bottom:1px solid rgba(46,139,114,0.4);">see a real day from a real itinerary</a>.</p>
+    <div class="pricing-grid">
+
+    <div class="price-card">
+      <div class="price-label">Short Stay</div>
+      <div class="price-name">Escape</div>
+      <div class="price-amount">€9</div>
+      <div class="price-per">basic plan · 2–3 days</div>
+      <div class="price-divider"></div>
+      <ul class="price-includes">
+        <li class="li-check">Tailored itinerary for 2–3 days</li>
+        <li class="li-check">The 3 best experiences for your style</li>
+        <li class="li-check">Transfer &amp; logistics guidance</li>
+        <li class="li-check">Local tips you won't find online</li>
+        <li class="li-no">No accommodation planning</li>
+        <li class="li-no">No live support during trip</li>
+      </ul>
+    </div>
+
+    <div class="price-card featured">
+      <div class="price-badge">Most popular</div>
+      <div class="price-name">Explorer</div>
+      <div class="price-amount">€19</div>
+      <div class="price-per">full planning · 4–7 days</div>
+      <div class="price-divider"></div>
+      <ul class="price-includes">
+        <li>Full day-by-day plan, morning to evening</li>
+        <li>Activities arranged with hosts we&rsquo;ve met in person</li>
+        <li>Where to eat, park &amp; arrive, down to every detail</li>
+        <li>Accommodation matched to your style</li>
+        <li>Photography spots &amp; golden hour timing</li>
+        <li>Reachable by email &amp; WhatsApp during your trip (reasonable hours)</li>
+      </ul>
+    </div>
+
+    <div class="price-card price-private">
+      <div class="price-label" style="color:rgba(200,184,154,0.5);letter-spacing:0.2em;">Private</div>
+      <div class="price-name" style="color:var(--stone);font-size:1.25rem;line-height:1.3;">Curated for you.<br><em style="font-size:1rem;color:rgba(200,184,154,0.55);">Priced accordingly.</em></div>
+      <div class="price-per" style="color:rgba(200,184,154,0.35);margin-top:0.5rem;">Full travel plan · Your schedule · Your vision</div>
+      <div class="price-divider"></div>
+      <ul class="price-includes">
+        <li>Everything in Explorer</li>
+        <li>Multi-region coast, canyon &amp; mountain routing</li>
+        <li>Full group coordination for 2 to 20 people</li>
+        <li>Exclusive operators not available publicly</li>
+        <li>Adjustments until it feels exactly right</li>
+        <li>Priority WhatsApp, available when you need me</li>
+      </ul>
+      <div style="margin-top:1.2rem;padding-top:1rem;border-top:1px solid rgba(200,184,154,0.08);">
+        <a href="#plan" style="font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--stone);text-decoration:none;border-bottom:1px solid rgba(200,184,154,0.25);padding-bottom:2px;">Get in touch to discuss →</a>
+      </div>
+    </div>
+
+  </div>
+  </div>
+  <div class="pricing-scroll-hint">swipe to see all plans</div>
+</section>
+
+<!-- SCARCITY -->
+<div class="scarcity-strip">Only limited clients per week, ensuring every trip gets full personal attention</div>
+
+<!-- THE ASK -->
+<section class="form-section" id="plan">
+  <div class="form-intro">
+    <div class="section-label">Let's begin</div>
+    <h2 class="section-title">Plan your Montenegro experience</h2>
+    <p class="form-tagline">Fill in the form and <strong>I'll personally reach out within a few hours</strong> to discuss your trip. Once we've talked it through, you secure your plan and I start crafting your itinerary. No templates, no copy-paste, just a plan made entirely for you.</p>
+    <div class="form-detail">
+      <span class="fd-icon">📅</span>
+      <div class="fd-text"><strong>Personal contact within hours</strong>I reach out to discuss your trip before anything is confirmed. No automated replies.</div>
+    </div>
+    <div class="form-detail">
+      <span class="fd-icon">🤝</span>
+      <div class="fd-text"><strong>Trusted local operators</strong>Every activity arranged with vetted partners personally selected.</div>
+    </div>
+    <div class="form-detail">
+      <span class="fd-icon">✏️</span>
+      <div class="fd-text"><strong>Refined until it's right</strong>We shape the itinerary together until every day feels exactly the way you want.</div>
+    </div>
+    <div class="form-detail">
+      <span class="fd-icon">⚡</span>
+      <div class="fd-text"><strong>Only a few clients per week</strong>I limit bookings to ensure every trip gets full personal attention.</div>
+    </div>
+    <div class="form-trust">No spam. Personal contact within hours.</div>
+  </div>
+  <div class="form-wrap" id="formWrap">
+    <div class="form-wrap-header">Send your request</div>
+    <form id="tripForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="fname">First name</label>
+          <input type="text" id="fname" placeholder="Alex" required>
+        </div>
+        <div class="form-group">
+          <label for="lname">Last name</label>
+          <input type="text" id="lname" placeholder="Smith" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="alex@email.com" required>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="arrival">Arrival date <span style="color:rgba(245,242,238,0.3);font-size:0.6rem;letter-spacing:0;">(optional)</span></label>
+          <input type="date" id="arrival">
+        </div>
+        <div class="form-group">
+          <label for="departure">Departure date <span style="color:rgba(245,242,238,0.3);font-size:0.6rem;letter-spacing:0;">(optional)</span></label>
+          <input type="date" id="departure">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="group">Group size</label>
+        <select id="group">
+          <option value="">Select...</option>
+          <option>Solo</option>
+          <option>2 people</option>
+          <option>3–5 people</option>
+          <option>6–10 people</option>
+          <option>10+ people</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="interests">What excites you most?</label>
+        <select id="interests">
+          <option value="">Select your vibe...</option>
+          <option>Adventure & adrenaline</option>
+          <option>Nature & hiking</option>
+          <option>Culture & food</option>
+          <option>Relaxation & scenery</option>
+          <option>A mix of everything</option>
+        </select>
+      </div>
+      <div class="form-group" id="selectedAdventuresBox" style="display:none;">
+        <label>Adventures you're curious about</label>
+        <div class="sel-adv-wrap" id="selectedAdventures"></div>
+        <input type="hidden" id="selectedAdventuresField">
+        <div class="sel-adv-hint">Just a starting point — nothing is locked in. We'll shape the final plan together when we talk, so add whatever catches your eye or <a href="/adventures">browse more</a>. Remove any that don't fit with the ✕.</div>
+      </div>
+      <div class="form-group">
+        <label for="notes">Anything specific you want or want to avoid?</label>
+        <textarea id="notes" class="notes-textarea" placeholder="Tell me anything: dietary needs, mobility considerations, dream experiences, places you've already seen..."></textarea>
+      </div>
+      <div class="fee-note">
+        <strong>Planning fee.</strong> After we talk through your trip, I send a simple payment request to secure your plan. Then I craft and refine your itinerary until it feels exactly right.
+      </div>
+      <button type="submit" class="submit-btn">Send my request →</button>
+    </form>
+    <div class="success-msg" id="successMsg">
+      <div class="check">✦</div>
+      <h3>Request received.</h3>
+      <p><strong>I'll personally reach out within a few hours</strong> to discuss your trip and the next steps. Check your inbox and get ready for Montenegro.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- FAQ -->
+<section class="section" id="faq">
+  <div class="section-label">Common questions</div>
+  <h2 class="section-title">Everything you need to know</h2>
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)"><span>Is Montenegro safe for travellers?</span><span class="faq-arrow">+</span></div>
+      <div class="faq-a">Montenegro is generally considered a safe destination, with a low crime rate and welcoming locals. As anywhere, sensible precautions apply. For adventure activities, I work with operators who follow proper safety practices.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)"><span>Do I need a visa to visit Montenegro?</span><span class="faq-arrow">+</span></div>
+      <div class="faq-a">Many travellers — including citizens of the EU, UK, USA, Canada and Australia — can typically enter Montenegro visa-free for short stays, but rules change and depend on your nationality. Always confirm current requirements with an official source or your embassy before booking. I'm happy to point you in the right direction.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)"><span>How much does a typical trip cost in total?</span><span class="faq-arrow">+</span></div>
+      <div class="faq-a">Typical trips range from €200 to €1,500 per person, depending on duration, activities, and accommodation style. The planning fee (€9–19) is separate and secures your plan once we've talked through your trip. All activity costs are paid at cost — either directly to operators or coordinated through me — with full transparency and no markup.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)"><span>How does payment work?</span><span class="faq-arrow">+</span></div>
+      <div class="faq-a">After you fill in the form, I reach out within hours to discuss your trip. Once we've shaped the direction together, I send a simple payment request (PayPal or bank transfer) to secure your plan. Activity costs are paid directly to operators or coordinated through me, fully transparent, no markup.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)"><span>What if the weather changes my plans?</span><span class="faq-arrow">+</span></div>
+      <div class="faq-a">Wherever possible, I build backup options into your itinerary. If a canyon day gets rained out, we can often switch to a wine tour or coastal boat trip. Montenegro's weather is generally pleasant from late spring through early autumn, though mountain and coastal conditions can vary — so flexibility is part of the plan.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)"><span>Can you arrange accommodation too?</span><span class="faq-arrow">+</span></div>
+      <div class="faq-a">Yes, from boutique hotels in Kotor's Old Town to mountain lodges near Durmitor. No markup, just honest recommendations based on what I'd personally choose.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)"><span>What's the best time of year to visit?</span><span class="faq-arrow">+</span></div>
+      <div class="faq-a">Spring (April–May) is perfect for rafting and hiking, with rivers full and crowds minimal. Summer (June–September) is peak season for the coast. Autumn brings wine harvest and golden landscapes. Winter offers skiing in Kolašin. There's no bad time, just different experiences.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)"><span>Can you help groups and families with children?</span><span class="faq-arrow">+</span></div>
+      <div class="faq-a">Absolutely. Tell me in your request and I'll build an itinerary for everyone. Montenegro has experiences for every pace. Not everything needs to be adrenaline.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)"><span>How far in advance should I book?</span><span class="faq-arrow">+</span></div>
+      <div class="faq-a">At least 2–4 weeks before your trip is ideal. Summer dates (July–August) fill quickly, so earlier is better. That said, I'll always try to make last-minute trips work if I can.</div>
+    </div>
+  </div>
+
+  <div class="next-step">
+    <div class="next-step-line">Still unsure? <b>Send your dates and I'll tell you honestly whether I can make the trip worth it.</b> No obligation, and no payment until we've agreed the direction together.</div>
+    <a href="#plan" class="next-step-btn">Send my dates &rarr;</a>
+    <a href="#quiz" class="next-step-alt">I don't know what I want yet</a>
+  </div>
+</section>
+
+<!-- STILL UNDECIDED? -->
 <section class="quiz-section" id="quiz">
   <div class="quiz-inner">
-    <div class="quiz-eyebrow">Find your trip</div>
-    <h2 class="quiz-headline">Your Montenegro trip<br><em>starts here.</em></h2>
-    <p class="quiz-sub">Five questions to match you with the right plan.</p>
+    <div class="quiz-eyebrow">Not sure where to start?</div>
+    <h2 class="quiz-headline">Answer five questions,<br><em>I'll shape the direction.</em></h2>
+    <p class="quiz-sub">Takes a minute. At the end your form is filled in for you &mdash; you just press send.</p>
     <div class="quiz-wrap" id="quizWrap">
 
       <!-- STEP 1 — Visual mood -->
@@ -1612,86 +1866,7 @@ select{color:#f5f2ee;}
     </div>
   </div>
 </section>
-<!-- PRICING -->
-<section class="pricing-section" id="pricing">
-  <div class="pricing-inner">
-    <div class="section-label" style="color:rgba(245,242,238,0.55);">Investment</div>
-    <h2 class="section-title">One fee. Everything handled.<br><em style="color:var(--stone);">Refined until it's right.</em></h2>
-    <p class="pricing-note" style="margin-top:1.5rem;">Most travel planning costs you time, energy, and missed experiences. This costs less than a dinner out, and gives you a trip worth remembering.</p>
-    <p class="pricing-note" style="margin-top:0.9rem;">You pay only for the planning itself. <strong style="color:var(--stone);">I reach out within hours</strong> to discuss your trip. Once we've shaped the direction together, you secure your plan with a simple payment request. Activities, stays and transfers are always paid <strong style="color:var(--stone);">directly to the host</strong>, at their own local price. Nothing passes through me, and nothing is marked up.</p>
-    <p class="pricing-note" style="margin-top:0.9rem;">What you actually get is a document &mdash; <a href="#deliverable" style="color:var(--cta);text-decoration:none;border-bottom:1px solid rgba(46,139,114,0.4);">see a real day from a real itinerary</a>.</p>
-    <div class="pricing-grid">
-
-    <div class="price-card">
-      <div class="price-label">Short Stay</div>
-      <div class="price-name">Escape</div>
-      <div class="price-amount">€9</div>
-      <div class="price-per">basic plan · 2–3 days</div>
-      <div class="price-divider"></div>
-      <ul class="price-includes">
-        <li class="li-check">Tailored itinerary for 2–3 days</li>
-        <li class="li-check">The 3 best experiences for your style</li>
-        <li class="li-check">Transfer &amp; logistics guidance</li>
-        <li class="li-check">Local tips you won't find online</li>
-        <li class="li-no">No accommodation planning</li>
-        <li class="li-no">No live support during trip</li>
-      </ul>
-    </div>
-
-    <div class="price-card featured">
-      <div class="price-badge">Most popular</div>
-      <div class="price-name">Explorer</div>
-      <div class="price-amount">€19</div>
-      <div class="price-per">full planning · 4–7 days</div>
-      <div class="price-divider"></div>
-      <ul class="price-includes">
-        <li>Full day-by-day plan, morning to evening</li>
-        <li>Activities arranged with hosts we&rsquo;ve met in person</li>
-        <li>Where to eat, park &amp; arrive, down to every detail</li>
-        <li>Accommodation matched to your style</li>
-        <li>Photography spots &amp; golden hour timing</li>
-        <li>Reachable by email &amp; WhatsApp during your trip (reasonable hours)</li>
-      </ul>
-    </div>
-
-    <div class="price-card price-private">
-      <div class="price-label" style="color:rgba(200,184,154,0.5);letter-spacing:0.2em;">Private</div>
-      <div class="price-name" style="color:var(--stone);font-size:1.25rem;line-height:1.3;">Curated for you.<br><em style="font-size:1rem;color:rgba(200,184,154,0.55);">Priced accordingly.</em></div>
-      <div class="price-per" style="color:rgba(200,184,154,0.35);margin-top:0.5rem;">Full travel plan · Your schedule · Your vision</div>
-      <div class="price-divider"></div>
-      <ul class="price-includes">
-        <li>Everything in Explorer</li>
-        <li>Multi-region coast, canyon &amp; mountain routing</li>
-        <li>Full group coordination for 2 to 20 people</li>
-        <li>Exclusive operators not available publicly</li>
-        <li>Adjustments until it feels exactly right</li>
-        <li>Priority WhatsApp, available when you need me</li>
-      </ul>
-      <div style="margin-top:1.2rem;padding-top:1rem;border-top:1px solid rgba(200,184,154,0.08);">
-        <a href="#plan" style="font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--stone);text-decoration:none;border-bottom:1px solid rgba(200,184,154,0.25);padding-bottom:2px;">Get in touch to discuss →</a>
-      </div>
-    </div>
-
-  </div>
-  </div>
-  <div class="pricing-scroll-hint">swipe to see all plans</div>
-</section>
-
-<!-- TESTIMONIALS SLIDER -->
-<!-- GOOGLE REVIEWS -->
-<section class="reviews-section" id="reviews">
-  <div class="reviews-head">
-    <div class="section-label" style="justify-content:center;">What travellers say</div>
-    <h2 class="section-title" style="text-align:center;max-width:100%;margin:0 auto 0.75rem;">Real experiences,<br><em style="color:var(--stone);">real people.</em></h2>
-    <p style="text-align:center;font-size:0.82rem;color:rgba(245,242,238,0.55);max-width:420px;margin:0 auto;">Verified reviews from travellers, straight from Google.</p>
-  </div>
-  <div class="reviews-widget">
-    <div class="sk-ww-google-reviews" data-embed-id="25718369"></div>
-    <script src="https://widgets.sociablekit.com/google-reviews/widget.js" defer></script>
-  </div>
-</section>
-
-<!-- FORM -->
+<!-- NOT READY YET? -->
 <div class="lead-magnet-strip" id="travel-guide">
   <div class="lead-magnet-strip-inner">
     <div class="lead-magnet-strip-text">
@@ -1705,156 +1880,13 @@ select{color:#f5f2ee;}
     </div>
   </div>
 </div>
-<section class="form-section" id="plan">
-  <div class="form-intro">
-    <div class="section-label">Let's begin</div>
-    <h2 class="section-title">Plan your Montenegro experience</h2>
-    <p class="form-tagline">Fill in the form and <strong>I'll personally reach out within a few hours</strong> to discuss your trip. Once we've talked it through, you secure your plan and I start crafting your itinerary. No templates, no copy-paste, just a plan made entirely for you.</p>
-    <div class="form-detail">
-      <span class="fd-icon">📅</span>
-      <div class="fd-text"><strong>Personal contact within hours</strong>I reach out to discuss your trip before anything is confirmed. No automated replies.</div>
-    </div>
-    <div class="form-detail">
-      <span class="fd-icon">🤝</span>
-      <div class="fd-text"><strong>Trusted local operators</strong>Every activity arranged with vetted partners personally selected.</div>
-    </div>
-    <div class="form-detail">
-      <span class="fd-icon">✏️</span>
-      <div class="fd-text"><strong>Refined until it's right</strong>We shape the itinerary together until every day feels exactly the way you want.</div>
-    </div>
-    <div class="form-detail">
-      <span class="fd-icon">⚡</span>
-      <div class="fd-text"><strong>Only a few clients per week</strong>I limit bookings to ensure every trip gets full personal attention.</div>
-    </div>
-    <div class="form-trust">No spam. Personal contact within hours.</div>
-  </div>
-  <div class="form-wrap" id="formWrap">
-    <div class="form-wrap-header">Send your request</div>
-    <form id="tripForm">
-      <div class="form-row">
-        <div class="form-group">
-          <label for="fname">First name</label>
-          <input type="text" id="fname" placeholder="Alex" required>
-        </div>
-        <div class="form-group">
-          <label for="lname">Last name</label>
-          <input type="text" id="lname" placeholder="Smith" required>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" placeholder="alex@email.com" required>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label for="arrival">Arrival date <span style="color:rgba(245,242,238,0.3);font-size:0.6rem;letter-spacing:0;">(optional)</span></label>
-          <input type="date" id="arrival">
-        </div>
-        <div class="form-group">
-          <label for="departure">Departure date <span style="color:rgba(245,242,238,0.3);font-size:0.6rem;letter-spacing:0;">(optional)</span></label>
-          <input type="date" id="departure">
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="group">Group size</label>
-        <select id="group">
-          <option value="">Select...</option>
-          <option>Solo</option>
-          <option>2 people</option>
-          <option>3–5 people</option>
-          <option>6–10 people</option>
-          <option>10+ people</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="interests">What excites you most?</label>
-        <select id="interests">
-          <option value="">Select your vibe...</option>
-          <option>Adventure & adrenaline</option>
-          <option>Nature & hiking</option>
-          <option>Culture & food</option>
-          <option>Relaxation & scenery</option>
-          <option>A mix of everything</option>
-        </select>
-      </div>
-      <div class="form-group" id="selectedAdventuresBox" style="display:none;">
-        <label>Adventures you're curious about</label>
-        <div class="sel-adv-wrap" id="selectedAdventures"></div>
-        <input type="hidden" id="selectedAdventuresField">
-        <div class="sel-adv-hint">Just a starting point — nothing is locked in. We'll shape the final plan together when we talk, so add whatever catches your eye or <a href="/adventures">browse more</a>. Remove any that don't fit with the ✕.</div>
-      </div>
-      <div class="form-group">
-        <label for="notes">Anything specific you want or want to avoid?</label>
-        <textarea id="notes" class="notes-textarea" placeholder="Tell me anything: dietary needs, mobility considerations, dream experiences, places you've already seen..."></textarea>
-      </div>
-      <div class="fee-note">
-        <strong>Planning fee.</strong> After we talk through your trip, I send a simple payment request to secure your plan. Then I craft and refine your itinerary until it feels exactly right.
-      </div>
-      <button type="submit" class="submit-btn">Send my request →</button>
-    </form>
-    <div class="success-msg" id="successMsg">
-      <div class="check">✦</div>
-      <h3>Request received.</h3>
-      <p><strong>I'll personally reach out within a few hours</strong> to discuss your trip and the next steps. Check your inbox and get ready for Montenegro.</p>
-    </div>
-  </div>
-</section>
-
-
-<!-- FAQ -->
-<section class="section" id="faq">
-  <div class="section-label">Common questions</div>
-  <h2 class="section-title">Everything you need to know</h2>
-  <div class="faq-list">
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)"><span>Is Montenegro safe for travellers?</span><span class="faq-arrow">+</span></div>
-      <div class="faq-a">Montenegro is generally considered a safe destination, with a low crime rate and welcoming locals. As anywhere, sensible precautions apply. For adventure activities, I work with operators who follow proper safety practices.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)"><span>Do I need a visa to visit Montenegro?</span><span class="faq-arrow">+</span></div>
-      <div class="faq-a">Many travellers — including citizens of the EU, UK, USA, Canada and Australia — can typically enter Montenegro visa-free for short stays, but rules change and depend on your nationality. Always confirm current requirements with an official source or your embassy before booking. I'm happy to point you in the right direction.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)"><span>How much does a typical trip cost in total?</span><span class="faq-arrow">+</span></div>
-      <div class="faq-a">Typical trips range from €200 to €1,500 per person, depending on duration, activities, and accommodation style. The planning fee (€9–19) is separate and secures your plan once we've talked through your trip. All activity costs are paid at cost — either directly to operators or coordinated through me — with full transparency and no markup.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)"><span>How does payment work?</span><span class="faq-arrow">+</span></div>
-      <div class="faq-a">After you fill in the form, I reach out within hours to discuss your trip. Once we've shaped the direction together, I send a simple payment request (PayPal or bank transfer) to secure your plan. Activity costs are paid directly to operators or coordinated through me, fully transparent, no markup.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)"><span>What if the weather changes my plans?</span><span class="faq-arrow">+</span></div>
-      <div class="faq-a">Wherever possible, I build backup options into your itinerary. If a canyon day gets rained out, we can often switch to a wine tour or coastal boat trip. Montenegro's weather is generally pleasant from late spring through early autumn, though mountain and coastal conditions can vary — so flexibility is part of the plan.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)"><span>Can you arrange accommodation too?</span><span class="faq-arrow">+</span></div>
-      <div class="faq-a">Yes, from boutique hotels in Kotor's Old Town to mountain lodges near Durmitor. No markup, just honest recommendations based on what I'd personally choose.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)"><span>What's the best time of year to visit?</span><span class="faq-arrow">+</span></div>
-      <div class="faq-a">Spring (April–May) is perfect for rafting and hiking, with rivers full and crowds minimal. Summer (June–September) is peak season for the coast. Autumn brings wine harvest and golden landscapes. Winter offers skiing in Kolašin. There's no bad time, just different experiences.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)"><span>Can you help groups and families with children?</span><span class="faq-arrow">+</span></div>
-      <div class="faq-a">Absolutely. Tell me in your request and I'll build an itinerary for everyone. Montenegro has experiences for every pace. Not everything needs to be adrenaline.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)"><span>How far in advance should I book?</span><span class="faq-arrow">+</span></div>
-      <div class="faq-a">At least 2–4 weeks before your trip is ideal. Summer dates (July–August) fill quickly, so earlier is better. That said, I'll always try to make last-minute trips work if I can.</div>
-    </div>
-  </div>
-</section>
-
-<!-- SCARCITY -->
-<div class="scarcity-strip">Only limited clients per week, ensuring every trip gets full personal attention</div>
-
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo"><img src="/wordmark.svg" alt="Experience Montenegro" style="height:18px;display:block;"></div>
   <div class="footer-links">
     <a href="#how">How it works</a>
     <a href="/adventures">Adventures</a><a href="/notes">Travel Notes</a>
-    <a href="#itineraries">Itineraries</a>
+    <a href="#deliverable">What you receive</a>
     <a href="#pricing">Pricing</a>
     
     <a href="#faq">FAQ</a>
@@ -2864,7 +2896,7 @@ function closeMobileMenu() {
       '#emPill .em-pill-txt{font-weight:500;}' +
       '#emPill .em-pill-arrow{transition:transform .25s;}' +
       '#emPill:hover .em-pill-arrow{transform:translateX(3px);}' +
-      '@media(max-width:768px){#emPill{bottom:1rem;font-size:0.78rem;padding:0.75rem 1.2rem;}}';
+      '@media(max-width:768px){#emPill{left:0.85rem;right:auto;bottom:1.05rem;max-width:calc(100vw - 6.8rem);transform:translateX(0) translateY(160%);font-size:0.76rem;padding:0.7rem 1.1rem;gap:0.5rem;}#emPill.show{transform:translateX(0) translateY(0);}#emPill .em-pill-txt{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}}';
     document.head.appendChild(s);
   }
   function renderPill() {
@@ -2942,6 +2974,70 @@ function closeMobileMenu() {
   }
 })();
 
+</script>
+<!-- MOBILE STICKY CTA -->
+<script>
+(function(){
+  if (!window.matchMedia || !window.matchMedia('(max-width:768px)').matches) return;
+
+  var css = document.createElement('style');
+  css.textContent =
+    '#emBar{position:fixed;left:0;right:0;bottom:0;z-index:9500;display:flex;align-items:center;gap:0.75rem;'+
+      'padding:0.7rem 0.9rem calc(0.7rem + env(safe-area-inset-bottom,0px));background:rgba(12,22,16,0.94);'+
+      'backdrop-filter:blur(14px);border-top:1px solid rgba(46,139,114,0.28);'+
+      'transform:translateY(130%);transition:transform .38s cubic-bezier(.2,.8,.2,1);font-family:"DM Sans",sans-serif;}'+
+    '#emBar.show{transform:translateY(0);}'+
+    '#emBar .eb-count{display:none;align-items:center;gap:0.4rem;font-size:0.72rem;color:rgba(245,242,238,0.72);'+
+      'border:1px solid rgba(200,184,154,0.22);border-radius:50px;padding:0.42rem 0.75rem;white-space:nowrap;}'+
+    '#emBar.has .eb-count{display:inline-flex;}'+
+    '#emBar .eb-go{flex:1;display:flex;align-items:center;justify-content:center;gap:0.5rem;background:#2e8b72;color:#fff;'+
+      'text-decoration:none;font-size:0.74rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.85rem 1rem;border-radius:5px;}'+
+    'body.em-bar-on{padding-bottom:4.6rem;}'+
+    '#emPill{display:none!important;}'+
+    '#floatingBtns{display:none!important;}'+
+    '#emBar .eb-wa{flex:0 0 auto;display:flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:50%;background:#25d366;}'+
+    '#emBar .eb-wa svg{width:22px;height:22px;color:#fff;}';
+  document.head.appendChild(css);
+
+  var bar = document.createElement('div');
+  bar.id = 'emBar';
+  bar.innerHTML =
+    '<span class="eb-count"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2l1.5 4h9L18 2"/><path d="M4 6h16l-1.2 13a2 2 0 01-2 1.8H7.2a2 2 0 01-2-1.8z"/></svg><b id="ebNum">0</b></span>'+
+    '<a href="#plan" class="eb-go" id="ebGo">Plan my trip &rarr;</a>'+
+    '<a class="eb-wa" href="https://wa.me/38268000000" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>';
+  document.body.appendChild(bar);
+  document.body.classList.add('em-bar-on');
+
+  var inForm = false;
+  function sync(){
+    var n = (window.EMShortlist ? EMShortlist.all().length : 0);
+    bar.classList.toggle('has', n > 0);
+    var num = document.getElementById('ebNum');
+    if (num) num.textContent = n;
+    var go = document.getElementById('ebGo');
+    if (go) go.innerHTML = (n > 0 ? 'Plan these ' + n + ' &rarr;' : 'Plan my trip &rarr;');
+    bar.classList.toggle('show', !inForm);
+  }
+  document.addEventListener('shortlist:change', sync);
+
+  // hide the bar once the form itself is on screen — it would just duplicate it
+  var plan = document.getElementById('plan');
+  if (plan && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function(e){
+      inForm = e[0].isIntersecting;
+      sync();
+    }, {threshold: 0.12}).observe(plan);
+  }
+
+  // only appear once the visitor has actually started reading
+  function onScroll(){
+    if (window.scrollY > window.innerHeight * 0.6) {
+      sync();
+      window.removeEventListener('scroll', onScroll);
+    }
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+})();
 </script>
 </body>
 </html>
