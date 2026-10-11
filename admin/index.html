@@ -261,7 +261,7 @@ function initAdmin() {
           <div class="adm-empty" id="advEmpty" style="display:none;">No adventures yet — the table may not exist. Run adventures-table.sql in Supabase.</div>
         </div>
         <div style="padding:0.9rem 1.5rem 1.5rem;font-size:0.65rem;line-height:1.7;color:rgba(200,184,154,0.3);">
-          Click a row to edit everything &mdash; name, description, facts, price, photo. Changes are live within seconds. <b style="color:rgba(200,184,154,0.55);">Photos</b> are uploaded to the site root on GitHub; here you only type the path, e.g. <b style="color:rgba(200,184,154,0.55);">/zipline.webp</b>.
+          Click a row to edit everything &mdash; name, description, facts, price, photo. Changes are live within seconds. <b style="color:rgba(200,184,154,0.55);">Photos</b> go in the <b style="color:rgba(200,184,154,0.55);">img</b> folder on GitHub; here you only type the path, e.g. <b style="color:rgba(200,184,154,0.55);">/img/zipline.webp</b>.
         </div>
       </div><!-- /tab-prices -->
 
@@ -278,7 +278,7 @@ function initAdmin() {
         </div>
 
         <div class="bk-f"><label>One-line subtitle</label><input type="text" id="advTag" placeholder="Across the Tara canyon, 1,000 m up"></div>
-        <div class="bk-f"><label>Photo path</label><input type="text" id="advImg" placeholder="/zipline.webp"></div>
+        <div class="bk-f"><label>Photo path</label><input type="text" id="advImg" placeholder="/img/zipline.webp"></div>
         <div class="bk-f"><label>Description &mdash; leave a blank line between paragraphs</label><textarea id="advDescr" rows="7" placeholder="First paragraph.&#10;&#10;Second paragraph."></textarea></div>
 
         <div style="font-size:0.55rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(200,184,154,0.45);margin:1.1rem 0 0.5rem;">The four facts</div>
