@@ -115,6 +115,11 @@ function initAdmin() {
       .adm-tab { background:none;border:none;border-bottom:2px solid transparent;color:rgba(200,184,154,0.5);padding:0.85rem 1.4rem;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;margin-bottom:-1px; }
       .adm-tab:hover { color:#f5f2ee; }
       .adm-tab.active { color:#f5f2ee;border-bottom-color:#2e8b72; }
+      .adm-tab-split { flex:1; }
+      .adm-tab-grouplabel { align-self:center;font-size:0.5rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(200,184,154,0.22);padding-right:0.7rem;border-left:1px solid rgba(200,184,154,0.1);padding-left:1.4rem;margin:0.6rem 0; }
+      .adm-tab.content-tab { color:rgba(193,127,59,0.6); }
+      .adm-tab.content-tab:hover { color:#e0a860; }
+      .adm-tab.content-tab.active { color:#e0a860;border-bottom-color:#c17f3b; }
       /* Booking/Host modal */
       .bk-modal { display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:99999;overflow-y:auto;padding:2rem 1rem;align-items:flex-start;justify-content:center; }
       .bk-modal.open { display:flex; }
@@ -153,6 +158,9 @@ function initAdmin() {
         <button class="adm-tab" onclick="admSwitchTab('bookings',this)">Bookings</button>
         <button class="adm-tab" onclick="admSwitchTab('hosts',this)">Hosts</button>
         <button class="adm-tab" onclick="admSwitchTab('prices',this)">Adventures</button>
+        <span class="adm-tab-split"></span>
+        <span class="adm-tab-grouplabel">Content</span>
+        <button class="adm-tab content-tab" onclick="admSwitchTab('notes',this)">Travel Notes</button>
       </div>
 
       <!-- ========== LEADS TAB ========== -->
@@ -264,6 +272,61 @@ function initAdmin() {
           Click a row to edit everything &mdash; name, description, facts, price, photo. Changes are live within seconds. <b style="color:rgba(200,184,154,0.55);">Photos</b> go in the <b style="color:rgba(200,184,154,0.55);">img</b> folder on GitHub; here you only type the path, e.g. <b style="color:rgba(200,184,154,0.55);">/img/zipline.webp</b>.
         </div>
       </div><!-- /tab-prices -->
+
+      <!-- ========== TRAVEL NOTES TAB ========== -->
+      <div id="tab-notes" style="display:none;">
+        <div class="adm-filters" style="margin-top:0.5rem;">
+          <span style="font-size:0.52rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(200,184,154,0.3);align-self:center;">Articles on experiencemontenegro.com/notes</span>
+          <span id="ntStatus" style="font-size:0.62rem;align-self:center;margin-left:0.6rem;"></span>
+          <input type="text" class="adm-search" id="ntSearch" placeholder="Search notes..." oninput="ntRender()" style="margin-left:1rem;">
+          <button class="adm-export-btn" onclick="ntNew()" style="margin-left:auto;background:#c17f3b;color:#fff;border-color:#c17f3b;">+ New note</button>
+        </div>
+        <div class="adm-table-wrap">
+          <table class="adm-table" id="ntTable">
+            <thead><tr><th style="width:44%;">Title</th><th style="width:16%;">Category</th><th style="width:14%;">Date</th><th style="width:10%;">Live</th><th style="width:8%;">Order</th><th style="width:8%;"></th></tr></thead>
+            <tbody id="ntBody"></tbody>
+          </table>
+          <div class="adm-empty" id="ntEmpty" style="display:none;">No notes yet &mdash; the table may not exist. Run notes-table.sql in Supabase.</div>
+        </div>
+        <div style="padding:0.9rem 1.5rem 1.5rem;font-size:0.65rem;line-height:1.7;color:rgba(200,184,154,0.3);">
+          The body accepts plain paragraphs &mdash; leave a blank line between them and they are formatted for you. For a subheading start the line with <b style="color:rgba(200,184,154,0.55);">## </b>. HTML works too if you want finer control.
+        </div>
+      </div><!-- /tab-notes -->
+
+    <div class="bk-modal" id="ntModal">
+      <div class="bk-modal-box" style="max-width:780px;">
+        <button class="adm-close" onclick="ntClose()" style="position:absolute;top:1rem;right:1rem;background:none;border:none;color:rgba(200,184,154,0.4);font-size:1.2rem;cursor:pointer;">&#10005;</button>
+        <div style="font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:1.3rem;" id="ntModalTitle">New note</div>
+
+        <div class="bk-f"><label>Title</label><input type="text" id="ntTitle" placeholder="Why Montenegro takes longer than the map suggests"></div>
+
+        <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:0 0.9rem;">
+          <div class="bk-f"><label>Slug &mdash; the web address, cannot be changed later</label><input type="text" id="ntSlug" placeholder="why-montenegro-takes-longer"></div>
+          <div class="bk-f"><label>Category</label><select id="ntTag"><option>Local Insight</option><option>Seasonal</option><option>Activity Guide</option><option>Itinerary</option></select></div>
+        </div>
+
+        <div class="bk-f"><label>Excerpt &mdash; the two lines shown on the card</label><textarea id="ntExcerpt" rows="2" placeholder="Distances here are short on paper and long in practice. Here is how to plan around it."></textarea></div>
+
+        <div class="bk-f"><label>Body</label><textarea id="ntBodyTxt" rows="16" style="font-family:ui-monospace,Menlo,Consolas,monospace;font-size:0.78rem;line-height:1.7;" placeholder="First paragraph.&#10;&#10;## A subheading&#10;&#10;Another paragraph."></textarea></div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0 0.9rem;">
+          <div class="bk-f"><label>Date (as written)</label><input type="text" id="ntDate" placeholder="March 2026"></div>
+          <div class="bk-f"><label>Read time</label><input type="text" id="ntRead" placeholder="6 min read"></div>
+          <div class="bk-f"><label>Order (low first)</label><input type="number" id="ntSort" placeholder="130"></div>
+        </div>
+
+        <label style="display:flex;align-items:center;gap:0.45rem;font-size:0.72rem;color:rgba(245,242,238,0.7);cursor:pointer;margin:0.3rem 0 1.4rem;"><input type="checkbox" id="ntActive" checked style="accent-color:#c17f3b;width:15px;height:15px;"> Live on the site</label>
+
+        <div style="display:flex;gap:0.6rem;align-items:center;">
+          <button onclick="ntSave()" style="background:#c17f3b;color:#fff;border:none;padding:0.7rem 1.5rem;font-family:'DM Sans',sans-serif;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;border-radius:4px;">Save</button>
+          <button onclick="ntPreview()" style="background:none;color:rgba(200,184,154,0.7);border:1px solid rgba(200,184,154,0.2);padding:0.7rem 1.3rem;font-family:'DM Sans',sans-serif;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;border-radius:4px;">Preview</button>
+          <button onclick="ntClose()" style="background:none;color:rgba(200,184,154,0.45);border:none;padding:0.7rem 0.6rem;font-family:'DM Sans',sans-serif;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;">Cancel</button>
+          <button id="ntDelBtn" onclick="ntDelete()" style="margin-left:auto;background:none;color:#c0392b;border:1px solid rgba(192,57,43,0.35);padding:0.7rem 1.2rem;font-family:'DM Sans',sans-serif;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;border-radius:4px;">Delete</button>
+        </div>
+        <div id="ntErr" style="font-size:0.68rem;color:#c0392b;margin-top:0.8rem;display:none;"></div>
+        <div id="ntPrev" style="display:none;margin-top:1.4rem;padding-top:1.2rem;border-top:1px solid rgba(200,184,154,0.1);"></div>
+      </div>
+    </div>
 
     <div class="bk-modal" id="advModal">
       <div class="bk-modal-box" style="max-width:720px;">
@@ -897,6 +960,188 @@ async function admSaveNotes() {
 // TABS
 // ══════════════════════════════════════════════════════════
 
+/* ========== TRAVEL NOTES (full CRUD) ========== */
+var ntRows = [], ntEditing = null;
+
+function ntEsc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function ntSay(msg, colour){
+  var el = document.getElementById('ntStatus');
+  if(!el) return;
+  el.textContent = msg || '';
+  el.style.color = colour || 'rgba(200,184,154,0.5)';
+  if(msg && colour === '#2e8b72') setTimeout(function(){ if(el.textContent===msg) el.textContent=''; }, 4000);
+}
+
+/* plain text in, article HTML out — blank line = paragraph, "## " = subheading */
+function ntToHtml(txt){
+  var s = String(txt||'').trim();
+  if(!s) return '';
+  if(/^\s*</.test(s)) return s;                       // already HTML, leave it alone
+  return s.split(/\n\s*\n/).map(function(block){
+    block = block.trim();
+    if(!block) return '';
+    if(block.indexOf('## ') === 0) return '<h3>' + ntEsc(block.slice(3).trim()) + '</h3>';
+    return '<p>' + ntEsc(block).replace(/\n/g, '<br>') + '</p>';
+  }).filter(Boolean).join('\n');
+}
+
+function ntSlugify(s){
+  return String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')
+    .replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,70);
+}
+
+async function loadNotesAdmin(){
+  try {
+    var res = await fetch(SUPABASE_URL_ADMIN + '/rest/v1/notes?select=*&order=sort.asc', { headers: admAuthHeaders() });
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    ntRows = await res.json();
+  } catch(e){
+    ntRows = [];
+    ntSay('Could not load — run notes-table.sql in Supabase', '#c0392b');
+  }
+  ntRender();
+}
+
+function ntRender(){
+  var body = document.getElementById('ntBody');
+  var empty = document.getElementById('ntEmpty');
+  if(!body) return;
+  var q = ((document.getElementById('ntSearch')||{}).value || '').toLowerCase();
+  var list = ntRows.filter(function(r){
+    return !q || (r.title||'').toLowerCase().indexOf(q) >= 0 || (r.tag||'').toLowerCase().indexOf(q) >= 0;
+  });
+  empty.style.display = list.length ? 'none' : 'block';
+  body.innerHTML = list.map(function(r){
+    var i = ntRows.indexOf(r);
+    var words = String(r.body||'').replace(/<[^>]*>/g,' ').split(/\s+/).filter(Boolean).length;
+    return '<tr style="cursor:pointer;" onclick="ntEdit(' + i + ')">' +
+      '<td style="color:#f5f2ee;">' + ntEsc(r.title) +
+        '<div style="font-size:0.58rem;color:rgba(200,184,154,0.25);">/notes · ' + ntEsc(r.slug) + ' · ' + words + ' words</div></td>' +
+      '<td style="color:rgba(193,127,59,0.75);font-size:0.68rem;letter-spacing:0.06em;">' + ntEsc(r.tag||'') + '</td>' +
+      '<td style="color:rgba(200,184,154,0.45);font-size:0.72rem;">' + ntEsc(r.date||'') + '</td>' +
+      '<td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:' + (r.active !== false ? '#2e8b72' : 'rgba(200,184,154,0.2)') + ';"></span></td>' +
+      '<td style="color:rgba(200,184,154,0.35);font-size:0.72rem;">' + (r.sort == null ? '' : r.sort) + '</td>' +
+      '<td style="text-align:right;color:rgba(200,184,154,0.3);font-size:0.68rem;">edit &rsaquo;</td>' +
+    '</tr>';
+  }).join('');
+}
+
+function ntOpen(){
+  document.getElementById('ntErr').style.display = 'none';
+  document.getElementById('ntPrev').style.display = 'none';
+  document.getElementById('ntModal').classList.add('open');
+}
+function ntClose(){ document.getElementById('ntModal').classList.remove('open'); ntEditing = null; }
+
+function ntNew(){
+  ntEditing = null;
+  document.getElementById('ntModalTitle').textContent = 'New note';
+  ['ntTitle','ntSlug','ntExcerpt','ntBodyTxt','ntRead'].forEach(function(id){ document.getElementById(id).value = ''; });
+  document.getElementById('ntSlug').readOnly = false;
+  document.getElementById('ntTag').value = 'Local Insight';
+  var now = new Date();
+  document.getElementById('ntDate').value = now.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+  document.getElementById('ntSort').value = ntRows.reduce(function(m,r){ return Math.max(m, r.sort||0); }, 0) + 10;
+  document.getElementById('ntActive').checked = true;
+  document.getElementById('ntDelBtn').style.display = 'none';
+  var t = document.getElementById('ntTitle'), s = document.getElementById('ntSlug');
+  delete s.dataset.touched;
+  t.oninput = function(){ if(!s.dataset.touched) s.value = ntSlugify(t.value); };
+  s.oninput = function(){ s.dataset.touched = '1'; };
+  ntOpen();
+}
+
+function ntEdit(i){
+  var r = ntRows[i];
+  if(!r) return;
+  ntEditing = r.slug;
+  document.getElementById('ntModalTitle').textContent = r.title;
+  document.getElementById('ntTitle').value = r.title || '';
+  document.getElementById('ntSlug').value = r.slug;
+  document.getElementById('ntSlug').readOnly = true;
+  document.getElementById('ntTag').value = r.tag || 'Local Insight';
+  document.getElementById('ntExcerpt').value = r.excerpt || '';
+  document.getElementById('ntBodyTxt').value = r.body || '';
+  document.getElementById('ntDate').value = r.date || '';
+  document.getElementById('ntRead').value = r.read_time || '';
+  document.getElementById('ntSort').value = (r.sort == null ? '' : r.sort);
+  document.getElementById('ntActive').checked = r.active !== false;
+  document.getElementById('ntDelBtn').style.display = '';
+  document.getElementById('ntTitle').oninput = null;
+  ntOpen();
+}
+
+function ntPreview(){
+  var box = document.getElementById('ntPrev');
+  box.style.display = 'block';
+  box.innerHTML = '<div style="font-size:0.5rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(200,184,154,0.3);margin-bottom:0.8rem;">Preview</div>' +
+    '<div style="font-family:Georgia,serif;font-size:0.92rem;line-height:1.85;color:rgba(245,242,238,0.8);">' +
+    ntToHtml(document.getElementById('ntBodyTxt').value) + '</div>';
+  box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+async function ntSave(){
+  var err = document.getElementById('ntErr');
+  var slug = ntSlugify(document.getElementById('ntSlug').value);
+  var title = document.getElementById('ntTitle').value.trim();
+  if(!slug || !title){
+    err.textContent = 'Title and slug are both required.';
+    err.style.display = 'block';
+    return;
+  }
+  if(!ntEditing && ntRows.some(function(r){ return r.slug === slug; })){
+    err.textContent = 'That slug is already taken — pick another.';
+    err.style.display = 'block';
+    return;
+  }
+  var row = {
+    slug: slug,
+    title: title,
+    tag: document.getElementById('ntTag').value,
+    excerpt: document.getElementById('ntExcerpt').value.trim(),
+    body: ntToHtml(document.getElementById('ntBodyTxt').value),
+    date: document.getElementById('ntDate').value.trim(),
+    read_time: document.getElementById('ntRead').value.trim(),
+    sort: Number(document.getElementById('ntSort').value) || 100,
+    active: document.getElementById('ntActive').checked
+  };
+  ntSay('Saving...');
+  try {
+    var res = await fetch(SUPABASE_URL_ADMIN + '/rest/v1/notes', {
+      method: 'POST',
+      headers: admAuthHeaders({ 'Content-Type': 'application/json', 'Prefer': 'resolution=merge-duplicates,return=minimal' }),
+      body: JSON.stringify([row])
+    });
+    if(!res.ok) throw new Error(await res.text());
+    ntClose();
+    ntSay('Saved ✓ live on the site', '#2e8b72');
+    await loadNotesAdmin();
+  } catch(e){
+    err.textContent = String(e.message || e).slice(0, 160);
+    err.style.display = 'block';
+    ntSay('');
+  }
+}
+
+async function ntDelete(){
+  if(!ntEditing) return;
+  if(!confirm('Delete this note for good? To just take it off the site, untick "Live on the site" instead.')) return;
+  try {
+    var res = await fetch(SUPABASE_URL_ADMIN + '/rest/v1/notes?slug=eq.' + encodeURIComponent(ntEditing), {
+      method: 'DELETE',
+      headers: admAuthHeaders({ 'Prefer': 'return=minimal' })
+    });
+    if(!res.ok) throw new Error(await res.text());
+    ntClose();
+    ntSay('Deleted', '#2e8b72');
+    await loadNotesAdmin();
+  } catch(e){
+    var err = document.getElementById('ntErr');
+    err.textContent = String(e.message || e).slice(0, 160);
+    err.style.display = 'block';
+  }
+}
+
 /* ========== ADVENTURES (full CRUD) ========== */
 var advRows = [], advEditing = null;
 
@@ -1097,9 +1342,11 @@ function admSwitchTab(tab, btn){
   document.getElementById('tab-bookings').style.display = tab==='bookings'?'block':'none';
   document.getElementById('tab-hosts').style.display = tab==='hosts'?'block':'none';
   document.getElementById('tab-prices').style.display = tab==='prices'?'block':'none';
+  document.getElementById('tab-notes').style.display = tab==='notes'?'block':'none';
   if(tab==='bookings'){ loadBookings(); loadHosts(); }
   if(tab==='hosts'){ loadHosts(); }
   if(tab==='prices'){ loadAdventuresAdmin(); }
+  if(tab==='notes'){ loadNotesAdmin(); }
 }
 
 // Jump from a booking to its client's lead, highlighted
