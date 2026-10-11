@@ -1,0 +1,21 @@
+/activities   /adventures  301
+/activities/  /adventures  301
+
+# images moved into /img/ — keep the old paths alive for Google,
+# for OG previews already shared, and for anything still linking in
+/rafting.webp                  /img/rafting.webp                  301
+/canyoning.webp                /img/canyoning.webp                301
+/jeep.webp                     /img/jeep.webp                     301
+/kayak.webp                    /img/kayak.webp                    301
+/hiking.webp                   /img/hiking.webp                   301
+/wine.webp                     /img/wine.webp                     301
+/horseback.webp                /img/horseback.webp                301
+/biking.webp                   /img/biking.webp                   301
+/paragliding.webp              /img/paragliding.webp              301
+/zipline.webp                  /img/zipline.webp                  301
+/cruising.webp                 /img/cruising.webp                 301
+/mountains-divider.png         /img/mountains-divider.png         301
+/mountains-divider-mobile.png  /img/mountains-divider-mobile.png  301
+/wordmark.svg                  /img/wordmark.svg                  301
+/logo.png                      /img/logo.png                      301
+/og-logo.png                   /img/og-logo.png                   301
