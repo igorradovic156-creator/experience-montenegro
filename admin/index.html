@@ -152,7 +152,7 @@ function initAdmin() {
         <button class="adm-tab active" onclick="admSwitchTab('leads',this)">Leads</button>
         <button class="adm-tab" onclick="admSwitchTab('bookings',this)">Bookings</button>
         <button class="adm-tab" onclick="admSwitchTab('hosts',this)">Hosts</button>
-        <button class="adm-tab" onclick="admSwitchTab('prices',this)">Prices</button>
+        <button class="adm-tab" onclick="admSwitchTab('prices',this)">Adventures</button>
       </div>
 
       <!-- ========== LEADS TAB ========== -->
@@ -244,23 +244,63 @@ function initAdmin() {
         </div>
       </div><!-- /tab-hosts -->
 
-      <!-- ========== PRICES TAB ========== -->
+      <!-- ========== ADVENTURES TAB ========== -->
       <div id="tab-prices" style="display:none;">
         <div class="adm-filters" style="margin-top:0.5rem;">
-          <span style="font-size:0.52rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(200,184,154,0.3);align-self:center;">Prices shown on experiencemontenegro.com/adventures</span>
-          <span id="prStatus" style="font-size:0.62rem;color:rgba(46,139,114,0.9);align-self:center;margin-left:0.6rem;"></span>
-          <button class="adm-export-btn" onclick="savePrices()" style="margin-left:auto;background:#2e8b72;color:#fff;border-color:#2e8b72;">Save changes</button>
+          <span style="font-size:0.52rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(200,184,154,0.3);align-self:center;">Shown on the homepage rail and /adventures</span>
+          <span id="advStatus" style="font-size:0.62rem;align-self:center;margin-left:0.6rem;"></span>
+          <button class="adm-export-btn" onclick="advNew()" style="margin-left:auto;background:#2e8b72;color:#fff;border-color:#2e8b72;">+ New adventure</button>
         </div>
         <div class="adm-table-wrap">
-          <table class="adm-table" id="prTable">
-            <thead><tr><th style="width:30%;">Adventure</th><th style="width:18%;">Price (&euro;)</th><th style="width:28%;">Unit</th><th style="width:14%;">Show on site</th><th style="width:10%;">Preview</th></tr></thead>
-            <tbody id="prBody"></tbody>
+          <table class="adm-table" id="advTable">
+            <thead><tr><th style="width:26%;">Adventure</th><th style="width:13%;">Category</th><th style="width:13%;">Price</th><th style="width:13%;">Hero rail</th><th style="width:11%;">Live</th><th style="width:12%;">Order</th><th style="width:12%;"></th></tr></thead>
+            <tbody id="advBody"></tbody>
           </table>
+          <div class="adm-empty" id="advEmpty" style="display:none;">No adventures yet — the table may not exist. Run adventures-table.sql in Supabase.</div>
         </div>
         <div style="padding:0.9rem 1.5rem 1.5rem;font-size:0.65rem;line-height:1.7;color:rgba(200,184,154,0.3);">
-          Cards show <b style="color:rgba(200,184,154,0.55);">from &euro;X</b>; the detail popup shows the full line plus &ldquo;paid to host&rdquo;. Untick <b style="color:rgba(200,184,154,0.55);">Show on site</b> to hide a price without deleting it. Changes are live within seconds &mdash; visitors may need one refresh.
+          Click a row to edit everything &mdash; name, description, facts, price, photo. Changes are live within seconds. <b style="color:rgba(200,184,154,0.55);">Photos</b> are uploaded to the site root on GitHub; here you only type the path, e.g. <b style="color:rgba(200,184,154,0.55);">/zipline.webp</b>.
         </div>
       </div><!-- /tab-prices -->
+
+    <div class="bk-modal" id="advModal">
+      <div class="bk-modal-box" style="max-width:720px;">
+        <button class="adm-close" onclick="advClose()" style="position:absolute;top:1rem;right:1rem;background:none;border:none;color:rgba(200,184,154,0.4);font-size:1.2rem;cursor:pointer;">&#10005;</button>
+        <div style="font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:1.3rem;" id="advModalTitle">New adventure</div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 0.9rem;">
+          <div class="bk-f"><label>Name (on /adventures)</label><input type="text" id="advName" placeholder="Zipline"></div>
+          <div class="bk-f"><label>Short label (homepage rail)</label><input type="text" id="advShort" placeholder="Zipline"></div>
+          <div class="bk-f"><label>Slug &mdash; cannot be changed later</label><input type="text" id="advId" placeholder="zipline"></div>
+          <div class="bk-f"><label>Category</label><select id="advCat"><option>Adventure</option><option>Nature</option><option>Water</option><option>Culture</option></select></div>
+        </div>
+
+        <div class="bk-f"><label>One-line subtitle</label><input type="text" id="advTag" placeholder="Across the Tara canyon, 1,000 m up"></div>
+        <div class="bk-f"><label>Photo path</label><input type="text" id="advImg" placeholder="/zipline.webp"></div>
+        <div class="bk-f"><label>Description &mdash; leave a blank line between paragraphs</label><textarea id="advDescr" rows="7" placeholder="First paragraph.&#10;&#10;Second paragraph."></textarea></div>
+
+        <div style="font-size:0.55rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(200,184,154,0.45);margin:1.1rem 0 0.5rem;">The four facts</div>
+        <div id="advFacts"></div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0 0.9rem;margin-top:0.9rem;">
+          <div class="bk-f"><label>Price (&euro;)</label><input type="number" min="0" step="1" id="advPrice" placeholder="25"></div>
+          <div class="bk-f"><label>Unit</label><input type="text" id="advUnit" placeholder="per person"></div>
+          <div class="bk-f"><label>Order (low first)</label><input type="number" id="advSort" placeholder="120"></div>
+        </div>
+
+        <div style="display:flex;gap:1.6rem;margin:0.4rem 0 1.4rem;">
+          <label style="display:flex;align-items:center;gap:0.45rem;font-size:0.72rem;color:rgba(245,242,238,0.7);cursor:pointer;"><input type="checkbox" id="advActive" checked style="accent-color:#2e8b72;width:15px;height:15px;"> Live on the site</label>
+          <label style="display:flex;align-items:center;gap:0.45rem;font-size:0.72rem;color:rgba(245,242,238,0.7);cursor:pointer;"><input type="checkbox" id="advHero" checked style="accent-color:#2e8b72;width:15px;height:15px;"> Show in the homepage rail</label>
+        </div>
+
+        <div style="display:flex;gap:0.6rem;align-items:center;">
+          <button onclick="advSave()" style="background:#2e8b72;color:#fff;border:none;padding:0.7rem 1.5rem;font-family:'DM Sans',sans-serif;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;border-radius:4px;">Save</button>
+          <button onclick="advClose()" style="background:none;color:rgba(200,184,154,0.6);border:1px solid rgba(200,184,154,0.2);padding:0.7rem 1.3rem;font-family:'DM Sans',sans-serif;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;border-radius:4px;">Cancel</button>
+          <button id="advDelBtn" onclick="advDelete()" style="margin-left:auto;background:none;color:#c0392b;border:1px solid rgba(192,57,43,0.35);padding:0.7rem 1.2rem;font-family:'DM Sans',sans-serif;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;border-radius:4px;">Delete</button>
+        </div>
+        <div id="advErr" style="font-size:0.68rem;color:#c0392b;margin-top:0.8rem;display:none;"></div>
+      </div>
+    </div>
     </div>
 
     <div id="loginBox">
@@ -809,80 +849,193 @@ async function admSaveNotes() {
 // TABS
 // ══════════════════════════════════════════════════════════
 
-/* ========== ADVENTURE PRICES ========== */
-var ADV_LIST = [
-  {id:'rafting',    name:'Tara Rafting',      price:45, unit:'per person'},
-  {id:'canyoning',  name:'Canyoning',         price:95, unit:'per person'},
-  {id:'jeep',       name:'Jeep Safari',       price:60, unit:'per person'},
-  {id:'kayak',      name:'Kayak & Boat',      price:35, unit:'per person'},
-  {id:'hiking',     name:'Hiking',            price:40, unit:'per person'},
-  {id:'wine',       name:'Wine & Food',       price:55, unit:'per person'},
-  {id:'horseback',  name:'Horseback Riding',  price:30, unit:'per person'},
-  {id:'biking',     name:'Mountain Biking',   price:45, unit:'per person'},
-  {id:'paragliding',name:'Paragliding',       price:80, unit:'per person'}
-];
-var prRows = [];
+/* ========== ADVENTURES (full CRUD) ========== */
+var advRows = [], advEditing = null;
 
-async function loadPrices(){
-  prRows = ADV_LIST.map(function(a){ return {id:a.id, name:a.name, price:a.price, unit:a.unit, active:true}; });
-  try {
-    var res = await fetch(SUPABASE_URL_ADMIN + '/rest/v1/adventure_prices?select=*', { headers: admAuthHeaders() });
-    if(res.ok){
-      var rows = await res.json();
-      rows.forEach(function(r){
-        var row = prRows.find(function(x){ return x.id===r.id; });
-        if(!row) return;
-        if(r.price!=null) row.price = Number(r.price);
-        if(r.unit) row.unit = r.unit;
-        row.active = r.active!==false;
-      });
-    }
-  } catch(e){}
-  prRender();
+function advEsc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function advSay(msg, colour){
+  var el = document.getElementById('advStatus');
+  if(!el) return;
+  el.textContent = msg || '';
+  el.style.color = colour || 'rgba(200,184,154,0.5)';
+  if(msg && colour === '#2e8b72') setTimeout(function(){ if(el.textContent===msg) el.textContent=''; }, 4000);
 }
 
-function prRender(){
-  document.getElementById('prBody').innerHTML = prRows.map(function(r,i){
-    return '<tr>'+
-      '<td style="color:#f5f2ee;">'+r.name+'</td>'+
-      '<td><input type="number" min="0" step="1" value="'+(r.price==null?'':r.price)+'" oninput="prSet('+i+',\'price\',this.value)" style="width:90px;background:rgba(200,184,154,0.05);border:1px solid rgba(200,184,154,0.15);color:#f5f2ee;padding:0.35rem 0.5rem;border-radius:3px;font-family:inherit;font-size:0.72rem;"></td>'+
-      '<td><input type="text" value="'+(r.unit||'')+'" oninput="prSet('+i+',\'unit\',this.value)" style="width:100%;max-width:200px;background:rgba(200,184,154,0.05);border:1px solid rgba(200,184,154,0.15);color:#f5f2ee;padding:0.35rem 0.5rem;border-radius:3px;font-family:inherit;font-size:0.72rem;"></td>'+
-      '<td><input type="checkbox" '+(r.active?'checked':'')+' onchange="prSet('+i+',\'active\',this.checked)" style="accent-color:#2e8b72;width:16px;height:16px;cursor:pointer;"></td>'+
-      '<td style="color:rgba(200,184,154,0.5);font-size:0.7rem;" id="prPrev'+i+'">'+prPreview(r)+'</td>'+
+async function loadAdventuresAdmin(){
+  try {
+    var res = await fetch(SUPABASE_URL_ADMIN + '/rest/v1/adventures?select=*&order=sort.asc', { headers: admAuthHeaders() });
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    advRows = await res.json();
+  } catch(e){
+    advRows = [];
+    advSay('Could not load — run adventures-table.sql in Supabase', '#c0392b');
+  }
+  advRender();
+}
+
+function advRender(){
+  var body = document.getElementById('advBody');
+  var empty = document.getElementById('advEmpty');
+  if(!body) return;
+  empty.style.display = advRows.length ? 'none' : 'block';
+  body.innerHTML = advRows.map(function(r, i){
+    var dot = function(on){ return '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:' + (on ? '#2e8b72' : 'rgba(200,184,154,0.2)') + ';"></span>'; };
+    return '<tr style="cursor:pointer;" onclick="advEdit(' + i + ')">' +
+      '<td style="color:#f5f2ee;">' + advEsc(r.name) + '<div style="font-size:0.6rem;color:rgba(200,184,154,0.28);">' + advEsc(r.id) + '</div></td>' +
+      '<td style="color:rgba(200,184,154,0.6);font-size:0.72rem;">' + advEsc(r.cat || '') + '</td>' +
+      '<td style="color:rgba(245,242,238,0.75);font-size:0.75rem;">' + (r.price == null ? '<span style="color:rgba(200,184,154,0.25);">—</span>' : '€' + r.price) + '</td>' +
+      '<td>' + dot(r.hero !== false) + '</td>' +
+      '<td>' + dot(r.active !== false) + '</td>' +
+      '<td style="color:rgba(200,184,154,0.4);font-size:0.72rem;">' + (r.sort == null ? '' : r.sort) + '</td>' +
+      '<td style="text-align:right;color:rgba(200,184,154,0.3);font-size:0.68rem;">edit &rsaquo;</td>' +
     '</tr>';
   }).join('');
 }
-function prPreview(r){
-  if(!r.active || r.price==null || r.price==='') return '<span style="color:rgba(200,184,154,0.2);">hidden</span>';
-  return 'from \u20ac'+r.price;
-}
-function prSet(i, key, val){
-  if(key==='price') val = (val===''? null : Number(val));
-  prRows[i][key] = val;
-  var p = document.getElementById('prPrev'+i);
-  if(p) p.innerHTML = prPreview(prRows[i]);
-  document.getElementById('prStatus').textContent = 'Unsaved changes';
-  document.getElementById('prStatus').style.color = '#d8a24a';
+
+function advFactInputs(facts){
+  var f = facts && facts.length ? facts : [['','*'],['','*'],['','*'],['','*']];
+  var html = '';
+  for(var k = 0; k < 4; k++){
+    var label = (f[k] && f[k][0]) || '';
+    var value = (f[k] && f[k][1] && f[k][1] !== '*') ? f[k][1] : '';
+    html += '<div style="display:grid;grid-template-columns:1fr 1.6fr;gap:0 0.6rem;">' +
+      '<div class="bk-f" style="margin-bottom:0.5rem;"><input type="text" class="adv-fk" placeholder="Duration" value="' + advEsc(label) + '"></div>' +
+      '<div class="bk-f" style="margin-bottom:0.5rem;"><input type="text" class="adv-fv" placeholder="Full day (~4h)" value="' + advEsc(value) + '"></div>' +
+    '</div>';
+  }
+  document.getElementById('advFacts').innerHTML = html;
 }
 
-async function savePrices(){
-  var st = document.getElementById('prStatus');
-  st.textContent = 'Saving...'; st.style.color = 'rgba(200,184,154,0.5)';
-  var payload = prRows.map(function(r){
-    return { id:r.id, price:(r.price===''||r.price==null)?null:Number(r.price), unit:r.unit||'per person', active:!!r.active };
-  });
+function advSlug(s){
+  return String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')
+    .replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,40);
+}
+
+function advOpen(){ document.getElementById('advErr').style.display='none'; document.getElementById('advModal').classList.add('open'); }
+function advClose(){ document.getElementById('advModal').classList.remove('open'); advEditing = null; }
+
+function advNew(){
+  advEditing = null;
+  document.getElementById('advModalTitle').textContent = 'New adventure';
+  document.getElementById('advName').value = '';
+  document.getElementById('advShort').value = '';
+  document.getElementById('advId').value = '';
+  document.getElementById('advId').readOnly = false;
+  document.getElementById('advCat').value = 'Adventure';
+  document.getElementById('advTag').value = '';
+  document.getElementById('advImg').value = '';
+  document.getElementById('advDescr').value = '';
+  document.getElementById('advPrice').value = '';
+  document.getElementById('advUnit').value = 'per person';
+  var maxSort = advRows.reduce(function(m, r){ return Math.max(m, r.sort || 0); }, 0);
+  document.getElementById('advSort').value = maxSort + 10;
+  document.getElementById('advActive').checked = true;
+  document.getElementById('advHero').checked = true;
+  document.getElementById('advDelBtn').style.display = 'none';
+  advFactInputs(null);
+  advOpen();
+  // auto-slug from the name until the slug is touched by hand
+  var nameEl = document.getElementById('advName'), idEl = document.getElementById('advId');
+  nameEl.oninput = function(){ if(!idEl.dataset.touched) idEl.value = advSlug(nameEl.value); };
+  idEl.oninput = function(){ idEl.dataset.touched = '1'; };
+}
+
+function advEdit(i){
+  var r = advRows[i];
+  if(!r) return;
+  advEditing = r.id;
+  document.getElementById('advModalTitle').textContent = r.name;
+  document.getElementById('advName').value = r.name || '';
+  document.getElementById('advShort').value = r.short || '';
+  document.getElementById('advId').value = r.id;
+  document.getElementById('advId').readOnly = true;
+  document.getElementById('advCat').value = r.cat || 'Adventure';
+  document.getElementById('advTag').value = r.tag || '';
+  document.getElementById('advImg').value = r.img || '';
+  document.getElementById('advDescr').value = r.descr || '';
+  document.getElementById('advPrice').value = (r.price == null ? '' : r.price);
+  document.getElementById('advUnit').value = r.unit || 'per person';
+  document.getElementById('advSort').value = (r.sort == null ? '' : r.sort);
+  document.getElementById('advActive').checked = r.active !== false;
+  document.getElementById('advHero').checked = r.hero !== false;
+  document.getElementById('advDelBtn').style.display = '';
+  var facts = r.facts;
+  if(typeof facts === 'string'){ try { facts = JSON.parse(facts); } catch(e){ facts = []; } }
+  advFactInputs(Array.isArray(facts) ? facts : []);
+  document.getElementById('advName').oninput = null;
+  advOpen();
+}
+
+async function advSave(){
+  var err = document.getElementById('advErr');
+  var id = advSlug(document.getElementById('advId').value);
+  var name = document.getElementById('advName').value.trim();
+  if(!id || !name){
+    err.textContent = 'Name and slug are both required.';
+    err.style.display = 'block';
+    return;
+  }
+  if(!advEditing && advRows.some(function(r){ return r.id === id; })){
+    err.textContent = 'That slug is already taken — pick another.';
+    err.style.display = 'block';
+    return;
+  }
+  var keys = document.querySelectorAll('.adv-fk'), vals = document.querySelectorAll('.adv-fv');
+  var facts = [];
+  for(var k = 0; k < keys.length; k++){
+    var a = keys[k].value.trim(), b = vals[k].value.trim();
+    if(a || b) facts.push([a, b]);
+  }
+  var priceRaw = document.getElementById('advPrice').value;
+  var row = {
+    id: id,
+    name: name,
+    short: document.getElementById('advShort').value.trim() || name,
+    cat: document.getElementById('advCat').value,
+    tag: document.getElementById('advTag').value.trim(),
+    img: document.getElementById('advImg').value.trim(),
+    descr: document.getElementById('advDescr').value,
+    facts: facts,
+    price: (priceRaw === '' ? null : Number(priceRaw)),
+    unit: document.getElementById('advUnit').value.trim() || 'per person',
+    hero: document.getElementById('advHero').checked,
+    active: document.getElementById('advActive').checked,
+    sort: Number(document.getElementById('advSort').value) || 100
+  };
+  advSay('Saving...');
   try {
-    var res = await fetch(SUPABASE_URL_ADMIN + '/rest/v1/adventure_prices', {
+    var res = await fetch(SUPABASE_URL_ADMIN + '/rest/v1/adventures', {
       method: 'POST',
-      headers: admAuthHeaders({ 'Content-Type':'application/json', 'Prefer':'resolution=merge-duplicates,return=minimal' }),
-      body: JSON.stringify(payload)
+      headers: admAuthHeaders({ 'Content-Type': 'application/json', 'Prefer': 'resolution=merge-duplicates,return=minimal' }),
+      body: JSON.stringify([row])
     });
-    if(!res.ok){ throw new Error(await res.text()); }
-    st.textContent = 'Saved \u2713 live on the site'; st.style.color = '#2e8b72';
-    setTimeout(function(){ st.textContent=''; }, 4000);
+    if(!res.ok) throw new Error(await res.text());
+    advClose();
+    advSay('Saved ✓ live on the site', '#2e8b72');
+    await loadAdventuresAdmin();
   } catch(e){
-    st.textContent = 'Save failed \u2014 ' + String(e.message||e).slice(0,90);
-    st.style.color = '#d05b4a';
+    err.textContent = String(e.message || e).slice(0, 160);
+    err.style.display = 'block';
+    advSay('');
+  }
+}
+
+async function advDelete(){
+  if(!advEditing) return;
+  if(!confirm('Delete this adventure for good? To just hide it, untick "Live on the site" instead.')) return;
+  try {
+    var res = await fetch(SUPABASE_URL_ADMIN + '/rest/v1/adventures?id=eq.' + encodeURIComponent(advEditing), {
+      method: 'DELETE',
+      headers: admAuthHeaders({ 'Prefer': 'return=minimal' })
+    });
+    if(!res.ok) throw new Error(await res.text());
+    advClose();
+    advSay('Deleted', '#2e8b72');
+    await loadAdventuresAdmin();
+  } catch(e){
+    var err = document.getElementById('advErr');
+    err.textContent = String(e.message || e).slice(0, 160);
+    err.style.display = 'block';
   }
 }
 
@@ -898,7 +1051,7 @@ function admSwitchTab(tab, btn){
   document.getElementById('tab-prices').style.display = tab==='prices'?'block':'none';
   if(tab==='bookings'){ loadBookings(); loadHosts(); }
   if(tab==='hosts'){ loadHosts(); }
-  if(tab==='prices'){ loadPrices(); }
+  if(tab==='prices'){ loadAdventuresAdmin(); }
 }
 
 // Jump from a booking to its client's lead, highlighted
