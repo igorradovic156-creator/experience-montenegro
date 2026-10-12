@@ -290,11 +290,12 @@ body::before {
 .how-section { background: var(--black); position: relative; overflow: hidden; padding-top: 2rem; }
 .step { padding: 2.5rem 2rem; border: 1px solid rgba(46,139,114,0.1); background: rgba(46,139,114,0.03); position: relative; overflow: hidden; transition: border-color 0.3s, background 0.3s; }
 .step::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--cta), transparent); opacity: 0; transition: opacity 0.3s; }
-.step::after { content: attr(data-num); position: absolute; bottom: -0.5rem; right: 1rem; font-family: 'Playfair Display', serif; font-size: 8rem; font-weight: 700; color: rgba(46,139,114,0.13); line-height: 1; pointer-events: none; transition: color 0.3s; }
+.step-num { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.15rem; letter-spacing: 0; line-height: 1; color: var(--cta); margin-bottom: 0.9rem; display: flex; align-items: center; gap: 0.7rem; }
+.step-num::after { content: ''; width: 28px; height: 1px; background: rgba(46,139,114,0.45); }
+.step::after { content: none; display:none; position: absolute; bottom: -0.5rem; right: 1rem; font-family: 'Playfair Display', serif; font-size: 8rem; font-weight: 700; color: rgba(46,139,114,0.13); line-height: 1; pointer-events: none; transition: color 0.3s; }
 .step:hover { background: rgba(46,139,114,0.06); border-color: rgba(46,139,114,0.25); }
 .step:hover::before { opacity: 1; }
 .step:hover::after { color: rgba(46,139,114,0.12); }
-.step-num { font-family: 'Playfair Display', serif; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cta); line-height: 1; margin-bottom: 1.2rem; font-weight: 400; }
 .step-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 400; margin-bottom: 0.75rem; color: var(--white); line-height: 1.2; }
 .step-desc { font-size: 0.85rem; line-height: 1.8; color: rgba(245,242,238,0.62); }
 .step-tag { display: block; font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--cta); margin-top: 1.6rem; padding-top: 1rem; border-top: 1px solid rgba(46,139,114,0.15); font-weight: 500; opacity: 0.8; }
@@ -761,9 +762,7 @@ footer { padding: 2.5rem 2rem; background: #102a1d; display: flex; justify-conte
   .hero-trust { gap: 0.75rem; padding-top: 1.5rem; }
   .section { padding: 4rem 1.2rem; }
   .step { padding: 2rem 1.4rem; }
-  .step::after { font-size: 3.6rem; top: 0.7rem; bottom: auto; right: 0.9rem; }
-  .step-title { padding-right: 3.2rem; position: relative; z-index: 1; }
-  .step-desc, .step-tag { position: relative; z-index: 1; }
+  .step-num { margin-bottom: 0.7rem; }
 
   .reviews-section { padding: 4rem 1.2rem; }
   .taste-section { padding: 4rem 0 3.5rem; }
@@ -772,7 +771,6 @@ footer { padding: 2.5rem 2rem; background: #102a1d; display: flex; justify-conte
   .steps { grid-template-columns: 1fr; gap: 0.75rem; }
   .step { padding: 1.75rem 1.5rem; }
   .step::after { font-size: 5rem; color: rgba(46,139,114,0.28) !important; }
-  .step-num { font-size: 2.5rem; margin-bottom: 1rem; }
   .step-title { font-size: 0.9rem; }
   .step-desc { font-size: 0.8rem; }
   .diff-section { padding: 4rem 1rem; }
@@ -1376,19 +1374,22 @@ select{color:#f5f2ee;}
   <h2 class="section-title">Three steps to your<br><em>perfect Montenegro trip.</em></h2>
   <div class="steps">
     <div class="step" data-num="01">
-      <div class="step-title">Tell me everything</div>
-      <div class="step-desc">Your dates, style and group size. The more you share, the better the plan.</div>
-      <span class="step-tag">→ Takes 5 minutes</span>
+      <div class="step-num">01</div>
+      <div class="step-title">Tell me how you travel</div>
+      <div class="step-desc">Your dates, who's coming, the pace you like &mdash; and what you'd rather skip. A short form or one WhatsApp message is enough to start.</div>
+      <span class="step-tag">Free &middot; no commitment</span>
     </div>
     <div class="step" data-num="02">
-      <div class="step-title">We talk it through</div>
-      <div class="step-desc">I reach out within hours to shape your trip together, then you secure your plan.</div>
-      <span class="step-tag">→ Personal contact within hours</span>
+      <div class="step-num">02</div>
+      <div class="step-title">We shape it together</div>
+      <div class="step-desc">I reply within hours, usually with a question or two. Once the direction feels right, you secure your plan with a single, one-off planning fee.</div>
+      <span class="step-tag">A real person, not a booking engine</span>
     </div>
     <div class="step" data-num="03">
-      <div class="step-title">Receive & refine</div>
-      <div class="step-desc">A tailored day-by-day plan, refined until it feels right. Then you just arrive.</div>
-      <span class="step-tag">→ Final itinerary 24–48h after your plan is secured</span>
+      <div class="step-num">03</div>
+      <div class="step-title">Arrive to a finished trip</div>
+      <div class="step-desc">Day by day, with honest drive times and local hosts I know personally. You pay each of them directly, at their own price &mdash; then you simply arrive.</div>
+      <span class="step-tag">Ready 24&ndash;48h after you confirm</span>
     </div>
   </div>
 </section>
@@ -1899,12 +1900,13 @@ select{color:#f5f2ee;}
     <div class="lead-magnet-strip-text">
       <div class="lead-magnet-label">Free resource</div>
       <div class="lead-magnet-title">The Montenegro Travel Guide</div>
-      <div class="lead-magnet-desc">Best seasons, hidden spots, what to skip. Leave your email and I'll send it over.</div>
+      <div class="lead-magnet-desc">Ten pages: when to come, the regions, getting around, and what nobody tells you. Leave your email and the PDF lands in your inbox.</div>
     </div>
     <div class="lead-magnet-row">
-      <input type="email" placeholder="Your email address" id="guideEmail">
+      <input type="email" placeholder="Your email address" id="guideEmail" autocomplete="email" onkeydown="if(event.key==='Enter')sendGuide()">
       <button onclick="sendGuide()">Send me the guide</button>
     </div>
+    <div id="guideStripMsg" style="display:none;font-size:0.74rem;line-height:1.6;margin-top:0.7rem;"></div>
   </div>
 </div>
 <!-- FOOTER -->
@@ -2302,28 +2304,74 @@ function toggleFaq(el) {
   if (!isOpen) item.classList.add('open');
 }
 
-async function sendGuide() {
-  const email = document.getElementById('guideEmail').value;
-  if (!email || email.indexOf('@') < 0) return;
-  const btn = document.querySelector('.lead-magnet-row button');
-  // Save email as a lead
+/* ---- free guide: save the lead, email the PDF, tell the visitor the truth ---- */
+var _guideSending = false;
+async function requestGuide(email){
+  email = String(email||'').trim();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return 'invalid';
+  if (_guideSending) return 'busy';
+  _guideSending = true;
   try {
-    await fetch(SUPABASE_URL + '/rest/v1/leads', {
+    // the lead is a bonus — never let it block the guide
+    fetch(SUPABASE_URL + '/rest/v1/leads', {
       method: 'POST',
-      headers: {
-        'apikey': SUPABASE_KEY,
-        'Authorization': 'Bearer ' + SUPABASE_KEY,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ email: email, name: 'Guide request', message: 'Requested the free travel guide', status: 'guide', source: 'guide', referrer: (window.EMAttr && EMAttr.referrer) || '', campaign: (window.EMAttr && EMAttr.campaign) || '', landing: (window.EMAttr && EMAttr.landing) || '' })
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+      body: JSON.stringify({ email: email, name: 'Guide request', message: 'Requested the free travel guide', status: 'guide',
+        source: 'guide', referrer: (window.EMAttr && EMAttr.referrer) || '', campaign: (window.EMAttr && EMAttr.campaign) || '', landing: (window.EMAttr && EMAttr.landing) || '' })
+    }).catch(function(){});
+    var res = await fetch(SUPABASE_URL + '/functions/v1/send-email', {
+      method: 'POST',
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'guide', email: email })
     });
-    sendEmail('guide', email);
-  } catch(e) { /* still confirm to user */ }
-  if (btn) {
-    btn.textContent = 'Sent ✦';
-    btn.style.background = 'var(--cta)';
-    btn.style.color = '#fff';
-    btn.disabled = true;
+    return res.ok ? 'ok' : 'fail';
+  } catch(e) {
+    return 'fail';
+  } finally {
+    _guideSending = false;
+  }
+}
+
+function guideNote(el, msg, ok){
+  if (!el) return;
+  el.style.display = 'block';
+  el.style.color = ok ? '#2e8b72' : '#e07a6a';
+  el.innerHTML = msg;
+}
+
+async function sendGuide() {
+  var input = document.getElementById('guideEmail');
+  var btn = document.querySelector('.lead-magnet-row button');
+  var note = document.getElementById('guideStripMsg');
+  var label = btn ? btn.textContent : '';
+  if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+  var r = await requestGuide(input && input.value);
+  if (r === 'ok') {
+    if (btn) { btn.textContent = 'Sent ✦'; btn.style.background = 'var(--cta)'; btn.style.color = '#fff'; }
+    if (input) input.value = '';
+    guideNote(note, '✓ On its way — check your inbox (and spam, just in case). The PDF is attached.', true);
+    return;
+  }
+  if (btn) { btn.disabled = false; btn.textContent = label; }
+  if (r === 'invalid') guideNote(note, 'That email doesn\'t look right — check it and try again.', false);
+  else if (r === 'fail') guideNote(note, 'That didn\'t go through. <a href="/montenegro-travel-guide.pdf" target="_blank" style="color:inherit;text-decoration:underline;">Download it directly here</a> instead.', false);
+}
+
+async function sendGuidePopup() {
+  var input = document.getElementById('guidePopupEmail');
+  var note = document.getElementById('guidePopupMsg');
+  var r = await requestGuide(input && input.value);
+  if (r === 'ok') {
+    guideNote(note, '✓ On its way — check your inbox. The PDF is attached.', true);
+    if (input) input.value = '';
+    setTimeout(function(){
+      var p = document.getElementById('guidePopup'); if (p) p.style.display = 'none';
+      var b = document.getElementById('guideFloatBtn'); if (b) b.classList.remove('popup-open');
+    }, 2600);
+  } else if (r === 'invalid') {
+    guideNote(note, 'That email doesn\'t look right.', false);
+  } else if (r === 'fail') {
+    guideNote(note, 'Didn\'t go through — <a href="/montenegro-travel-guide.pdf" target="_blank" style="color:inherit;text-decoration:underline;">download it here</a>.', false);
   }
 }
 
@@ -2802,19 +2850,6 @@ function toggleGuidePopup(e) {
   }
 }
 
-function sendGuidePopup() {
-  var email = document.getElementById('guidePopupEmail').value.trim();
-  if (!email) return;
-  // Reuse existing sendGuide logic
-  document.getElementById('guideEmail') && (document.getElementById('guideEmail').value = email);
-  sendGuide();
-  document.getElementById('guidePopupMsg').style.display = 'block';
-  document.getElementById('guidePopupEmail').value = '';
-  setTimeout(function(){
-    document.getElementById('guidePopup').style.display = 'none';
-    document.getElementById('guideFloatBtn').classList.remove('popup-open');
-  }, 2500);
-}
 
 // Close popup when clicking outside
 document.addEventListener('click', function(e) {
@@ -3043,21 +3078,22 @@ function closeMobileMenu() {
 
   var css = document.createElement('style');
   css.textContent =
-    '#emBar{position:fixed;left:0;right:0;bottom:0;z-index:9500;display:flex;align-items:center;gap:0.75rem;'+
-      'padding:0.7rem 0.9rem calc(0.7rem + env(safe-area-inset-bottom,0px));background:rgba(12,22,16,0.94);'+
-      'backdrop-filter:blur(14px);border-top:1px solid rgba(46,139,114,0.28);'+
-      'transform:translateY(130%);transition:transform .38s cubic-bezier(.2,.8,.2,1);font-family:"DM Sans",sans-serif;}'+
+    '#emBar{position:fixed;left:0;right:0;bottom:0;z-index:9500;display:flex;align-items:center;justify-content:space-between;gap:0.8rem;'+
+      'padding:0 1rem calc(1rem + env(safe-area-inset-bottom,0px));pointer-events:none;'+
+      'transform:translateY(160%);transition:transform .4s cubic-bezier(.2,.8,.2,1);font-family:"DM Sans",sans-serif;}'+
     '#emBar.show{transform:translateY(0);}'+
-    '#emBar .eb-count{display:none;align-items:center;gap:0.4rem;font-size:0.72rem;color:rgba(245,242,238,0.72);'+
-      'border:1px solid rgba(200,184,154,0.22);border-radius:50px;padding:0.42rem 0.75rem;white-space:nowrap;}'+
-    '#emBar.has .eb-count{display:inline-flex;}'+
-    '#emBar .eb-go{flex:1;display:flex;align-items:center;justify-content:center;gap:0.5rem;background:#2e8b72;color:#fff;'+
-      'text-decoration:none;font-size:0.74rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.85rem 1rem;border-radius:5px;}'+
-    'body.em-bar-on{padding-bottom:4.6rem;}'+
+    '#emBar > *{pointer-events:auto;}'+
+    '#emBar .eb-count{display:none!important;}'+
+    '#emBar .eb-go{display:inline-flex;align-items:center;justify-content:center;gap:0.55rem;height:54px;padding:0 1.6rem;'+
+      'background:#2e8b72;color:#fff;text-decoration:none;font-size:0.74rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;'+
+      'border-radius:50px;box-shadow:0 10px 28px rgba(0,0,0,0.45),0 0 0 1px rgba(255,255,255,0.08) inset;white-space:nowrap;}'+
+    '#emBar .eb-go:active{transform:scale(0.97);}'+
+    '#emBar .eb-wa{flex:0 0 auto;display:flex;align-items:center;justify-content:center;width:54px;height:54px;border-radius:50%;'+
+      'background:#25d366;box-shadow:0 10px 28px rgba(0,0,0,0.45),0 0 22px rgba(37,211,102,0.35);}'+
+    '#emBar .eb-wa svg{width:27px;height:27px;}'+
+    'body.em-bar-on{padding-bottom:5.5rem;}'+
     '#emPill{display:none!important;}'+
-    '#floatingBtns{display:none!important;}'+
-    '#emBar .eb-wa{flex:0 0 auto;display:flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:50%;background:#25d366;}'+
-    '#emBar .eb-wa svg{width:22px;height:22px;color:#fff;}';
+    '#floatingBtns{display:none!important;}';
   document.head.appendChild(css);
 
   var bar = document.createElement('div');
