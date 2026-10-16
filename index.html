@@ -1582,11 +1582,19 @@ select{color:#f5f2ee;}
 
   renderOrHide(FALLBACK);
 
-  fetch(SUPABASE_URL + '/rest/v1/reviews?select=*&active=eq.true&order=sort.asc',
-        { headers: { apikey: SUPABASE_KEY, Authorization: 'Bearer ' + SUPABASE_KEY } })
-    .then(function(r){ return r.ok ? r.json() : null; })
-    .then(function(rows){ renderOrHide(rows||[]); })
-    .catch(function(){});
+  // SUPABASE_URL / _KEY are defined lower in the page, so wait until it's parsed.
+  function loadReviews(){
+    var url = (typeof SUPABASE_URL !== 'undefined') ? SUPABASE_URL : null;
+    var key = (typeof SUPABASE_KEY !== 'undefined') ? SUPABASE_KEY : null;
+    if(!url || !key){ return; }
+    fetch(url + '/rest/v1/reviews?select=*&active=eq.true&order=sort.asc',
+          { headers: { apikey: key, Authorization: 'Bearer ' + key } })
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(rows){ renderOrHide(rows||[]); })
+      .catch(function(){});
+  }
+  if(document.readyState === 'loading'){ document.addEventListener('DOMContentLoaded', loadReviews); }
+  else { loadReviews(); }
 })();
 </script>
 
