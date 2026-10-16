@@ -1499,17 +1499,96 @@ select{color:#f5f2ee;}
 
 <!-- SOCIAL PROOF -->
 <!-- GOOGLE REVIEWS -->
+<style id="emReviewsCSS">
+.reviews-section{padding:5.5rem 2rem;background:#102a1d;}
+.rv-head{max-width:760px;margin:0 auto 3rem;text-align:center;}
+.rv-badge{display:inline-flex;align-items:center;gap:0.6rem;background:rgba(200,184,154,0.06);border:1px solid rgba(200,184,154,0.16);border-radius:50px;padding:0.5rem 1.1rem;margin-top:1.2rem;}
+.rv-badge .rv-g{width:16px;height:16px;flex-shrink:0;}
+.rv-badge .rv-score{font-size:0.9rem;font-weight:600;color:var(--white);letter-spacing:0.02em;}
+.rv-badge .rv-stars{color:#e0b24a;font-size:0.78rem;letter-spacing:0.08em;}
+.rv-badge .rv-count{font-size:0.72rem;color:rgba(245,242,238,0.5);}
+.rv-grid{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;}
+.rv-card{background:linear-gradient(165deg,rgba(200,184,154,0.055) 0%,rgba(200,184,154,0.02) 100%);border:1px solid rgba(200,184,154,0.12);border-radius:14px;padding:2rem 1.9rem;display:flex;flex-direction:column;transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s;}
+.rv-card:hover{border-color:rgba(46,139,114,0.4);transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,0.3);}
+.rv-top{display:flex;align-items:center;gap:0.9rem;margin-bottom:1.1rem;}
+.rv-av{width:48px;height:48px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:1.25rem;color:#0e1711;background:linear-gradient(145deg,#8bb8a4,#4e8f76);box-shadow:inset 0 1px 1px rgba(255,255,255,0.25);}
+.rv-id{flex:1;min-width:0;}
+.rv-name{font-family:'Playfair Display',serif;font-style:italic;font-size:1.08rem;color:var(--white);line-height:1.2;margin-bottom:0.25rem;}
+.rv-stars-row{color:#e0b24a;font-size:0.82rem;letter-spacing:0.12em;}
+.rv-quote{font-size:0.92rem;line-height:1.8;color:rgba(245,242,238,0.74);flex-grow:1;position:relative;}
+.rv-quote::before{content:'\201C';font-family:'Playfair Display',serif;color:rgba(46,139,114,0.55);font-size:2.4rem;line-height:0;position:absolute;left:-0.1rem;top:0.75rem;}
+.rv-quote span{display:block;padding-left:1.1rem;}
+.rv-foot{display:flex;align-items:center;gap:0.5rem;margin-top:1.5rem;padding-top:1.1rem;border-top:1px solid rgba(200,184,154,0.1);}
+.rv-foot .rv-g{width:15px;height:15px;flex-shrink:0;}
+.rv-foot-label{font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(245,242,238,0.4);}
+.rv-foot-loc{margin-left:auto;font-size:0.68rem;color:rgba(245,242,238,0.42);letter-spacing:0.03em;}
+.rv-cta{text-align:center;margin-top:2.6rem;}
+.rv-cta a{font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(245,242,238,0.55);text-decoration:none;border-bottom:1px solid rgba(200,184,154,0.25);padding-bottom:2px;transition:all 0.2s;}
+.rv-cta a:hover{color:var(--cta);border-color:var(--cta);}
+@media(max-width:768px){
+  .reviews-section{padding:4rem 1.2rem;}
+  .rv-grid{grid-template-columns:1fr;gap:1.1rem;}
+  .rv-card{padding:1.7rem 1.5rem;}
+  .rv-head{margin-bottom:2.2rem;}
+}
+</style>
 <section class="reviews-section" id="reviews">
-  <div class="reviews-head">
+  <div class="rv-head">
     <div class="section-label" style="justify-content:center;">What travellers say</div>
-    <h2 class="section-title" style="text-align:center;max-width:100%;margin:0 auto 0.75rem;">Real experiences,<br><em style="color:var(--stone);">real people.</em></h2>
-    <p style="text-align:center;font-size:0.82rem;color:rgba(245,242,238,0.55);max-width:420px;margin:0 auto;">Verified reviews from travellers, straight from Google.</p>
+    <h2 class="section-title" style="text-align:center;max-width:100%;margin:0 auto 0.6rem;">Real experiences,<br><em style="color:var(--stone);">real people.</em></h2>
+    <p style="text-align:center;font-size:0.84rem;color:rgba(245,242,238,0.55);max-width:440px;margin:0 auto;">The words of people who trusted me to shape their trip.</p>
+    <div class="rv-badge" id="rvBadge"></div>
   </div>
-  <div class="reviews-widget">
-    <div class="sk-ww-google-reviews" data-embed-id="25718369"></div>
-    <script src="https://widgets.sociablekit.com/google-reviews/widget.js" defer></script>
-  </div>
+  <div class="rv-grid" id="rvGrid"></div>
+  <div class="rv-cta"><a href="#plan">Start planning yours &rarr;</a></div>
 </section>
+<script>
+(function(){
+  var GOOGLE_SVG = '<svg class="rv-g" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#4285F4" d="M22.5 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.9a5.04 5.04 0 0 1-2.19 3.31v2.76h3.54c2.08-1.91 3.25-4.73 3.25-8.08z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.67l-3.54-2.76c-.98.66-2.23 1.06-3.74 1.06-2.87 0-5.3-1.94-6.17-4.55H2.18v2.85A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.83 14.08a6.6 6.6 0 0 1 0-4.16V7.07H2.18a11 11 0 0 0 0 9.86l3.65-2.85z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.07.56 4.21 1.65l3.14-3.14C17.45 2.09 14.96 1 12 1A11 11 0 0 0 2.18 7.07l3.65 2.85C6.7 7.32 9.13 5.38 12 5.38z"/></svg>';
+
+  // No fabricated testimonials. The section fills from the admin Reviews tab and
+  // stays hidden until there is at least one real review.
+  var FALLBACK = [];
+
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  function stars(n){ n=Math.max(1,Math.min(5,parseInt(n)||5)); return '\u2605\u2605\u2605\u2605\u2605'.slice(0,n) + '\u2606\u2606\u2606\u2606\u2606'.slice(0,5-n); }
+
+  function renderOrHide(list){
+    var sec=document.getElementById('reviews');
+    if(!list || !list.length){ if(sec) sec.style.display='none'; return; }
+    if(sec) sec.style.display='';
+    render(list);
+  }
+  function render(list){
+    var grid=document.getElementById('rvGrid'); if(!grid) return;
+    grid.innerHTML = list.map(function(r){
+      var initial = (r.name||'?').trim().charAt(0).toUpperCase();
+      var loc = r.location ? '<span class="rv-foot-loc">'+esc(r.location)+'</span>' : '';
+      return '<article class="rv-card">'+
+        '<div class="rv-top">'+
+          '<div class="rv-av">'+esc(initial)+'</div>'+
+          '<div class="rv-id"><div class="rv-name">'+esc(r.name)+'</div><div class="rv-stars-row">'+stars(r.rating)+'</div></div>'+
+        '</div>'+
+        '<div class="rv-quote"><span>'+esc(r.quote)+'</span></div>'+
+        '<div class="rv-foot">'+GOOGLE_SVG+'<span class="rv-foot-label">Google review</span>'+loc+'</div>'+
+      '</article>';
+    }).join('');
+    var avg = list.reduce(function(s,r){return s+(parseInt(r.rating)||5);},0)/list.length;
+    var badge=document.getElementById('rvBadge');
+    if(badge) badge.innerHTML = GOOGLE_SVG+'<span class="rv-score">'+avg.toFixed(1)+'</span>'+
+      '<span class="rv-stars">'+stars(Math.round(avg))+'</span>'+
+      '<span class="rv-count">'+list.length+' reviews</span>';
+  }
+
+  renderOrHide(FALLBACK);
+
+  fetch(SUPABASE_URL + '/rest/v1/reviews?select=*&active=eq.true&order=sort.asc',
+        { headers: { apikey: SUPABASE_KEY, Authorization: 'Bearer ' + SUPABASE_KEY } })
+    .then(function(r){ return r.ok ? r.json() : null; })
+    .then(function(rows){ renderOrHide(rows||[]); })
+    .catch(function(){});
+})();
+</script>
 
 <!-- PRICING -->
 <section class="pricing-section" id="pricing">
@@ -3158,6 +3237,8 @@ function closeMobileMenu() {
 .emb-f{margin-bottom:0.8rem;}
 .emb-f label{display:block;font-size:0.54rem;letter-spacing:0.13em;text-transform:uppercase;color:rgba(200,184,154,0.5);margin-bottom:0.3rem;}
 .emb-f input,.emb-f select,.emb-f textarea{width:100%;background:rgba(200,184,154,0.05);border:1px solid rgba(200,184,154,0.16);color:#f5f2ee;padding:0.68rem 0.8rem;font-family:'DM Sans',sans-serif;font-size:0.85rem;outline:none;border-radius:5px;box-sizing:border-box;}
+.emb-f select{color-scheme:dark;background:#16211a;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none' stroke='%23c8b89a' stroke-width='1.6'><path d='M1 1l5 5 5-5'/></svg>");background-repeat:no-repeat;background-position:right 0.85rem center;padding-right:2.1rem;cursor:pointer;}
+.emb-f select option{background:#16211a;color:#f5f2ee;}
 .emb-f input:focus,.emb-f select:focus,.emb-f textarea:focus{border-color:#2e8b72;background:rgba(46,139,114,0.06);}
 .emb-f textarea{resize:vertical;min-height:70px;}
 .emb-f input[type=date]{color-scheme:dark;}
