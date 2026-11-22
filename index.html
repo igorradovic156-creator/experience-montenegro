@@ -1237,7 +1237,8 @@ select{color:#f5f2ee;}
 <body>
 <!-- LOADER -->
 <div id="loader"><canvas id="loader-canvas"></canvas>
-  <div id="lottie-kayak" style="width:clamp(180px,40vw,320px);height:clamp(180px,40vw,320px);margin:0 auto 1.5rem;flex-shrink:0;"></div>
+  <div class="kayak-stage"><div class="loader-river" aria-hidden="true"><i class="lr-a"></i><i class="lr-b"></i></div>
+<div id="lottie-kayak" style="width:clamp(180px,40vw,320px);height:clamp(180px,40vw,320px);margin:0 auto 1.5rem;flex-shrink:0;"></div></div>
 
   <div class="loader-logo"><img src="/img/wordmark.svg" alt="Experience Montenegro" style="height:20px;display:block;margin:0 auto;"></div>
   <div class="loader-coords">42°26′N · 19°16′E </div>
@@ -3500,6 +3501,19 @@ function closeMobileMenu() {
 })();
 </script>
 <style id="emPolish">
+/* loader: a river flowing past the kayak */
+.kayak-stage{position:relative;margin:0 auto 1.5rem;flex-shrink:0;}
+.kayak-stage #lottie-kayak{position:relative;z-index:2;margin:0!important;}
+.loader-river{position:absolute;z-index:1;top:50%;left:50%;width:100vw;height:96px;transform:translate(-50%,-50%);pointer-events:none;
+  background:linear-gradient(to bottom,rgba(46,139,114,0),rgba(46,139,114,.16) 35%,rgba(46,139,114,.2) 50%,rgba(46,139,114,.16) 65%,rgba(46,139,114,0));
+  -webkit-mask:linear-gradient(to right,transparent,#000 18%,#000 82%,transparent);mask:linear-gradient(to right,transparent,#000 18%,#000 82%,transparent);}
+.loader-river i{position:absolute;inset:0;background-repeat:repeat-x;background-position:0 50%;}
+.loader-river .lr-a{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='90' fill='none' stroke-linecap='round'><g stroke='%235fc0a2' stroke-opacity='.45' stroke-width='1.6'><path d='M10 22h46'/><path d='M120 40h70'/><path d='M40 58h34'/><path d='M170 70h52'/><path d='M200 16h30'/></g></svg>");animation:riverFlow 1.5s linear infinite;}
+.loader-river .lr-b{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='380' height='90' fill='none' stroke-linecap='round'><g stroke='%23c8b89a' stroke-opacity='.22' stroke-width='1.2'><path d='M30 32h90'/><path d='M210 52h120'/><path d='M90 74h60'/><path d='M300 12h40'/></g></svg>");animation:riverFlowB 2.6s linear infinite;}
+@keyframes riverFlow{to{background-position:-260px 50%;}}
+@keyframes riverFlowB{to{background-position:-380px 50%;}}
+@media (prefers-reduced-motion:reduce){.loader-river i{animation:none;}}
+
 .mm-guide{margin-top:.6rem!important;background:rgba(224,178,74,.07)!important;border-color:rgba(224,178,74,.28)!important;}
 .mm-guide .mm-notes-label{color:#e0b24a!important;}
 
