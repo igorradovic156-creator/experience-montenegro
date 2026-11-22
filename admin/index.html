@@ -1935,5 +1935,77 @@ setInterval(function(){
   if (admAccessToken) loadLeads();
 }, 60000);
 </script>
+<style id="admPolish">
+/* ── Admin polish: calmer layout, readable labels, cards, mobile-friendly ── */
+#adminOverlay{background:#141511!important;--r:12px;--line:rgba(200,184,154,.1);}
+#adminOverlay ::-webkit-scrollbar{height:6px;width:8px}#adminOverlay ::-webkit-scrollbar-thumb{background:rgba(200,184,154,.15);border-radius:6px}
+/* sticky header + tabs */
+#adminOverlay .adm-header{position:sticky;top:0;z-index:20;background:rgba(15,15,13,.92)!important;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:1rem 2rem!important;}
+#adminOverlay .adm-tabs{position:sticky;top:51px;z-index:19;background:rgba(15,15,13,.92)!important;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:0 2rem!important;gap:.25rem!important;}
+#adminOverlay .adm-tab{padding:1rem 1rem!important;font-size:.68rem!important;font-weight:500;}
+#adminOverlay .adm-tab.content-tab{color:rgba(224,168,96,.6)!important;}
+#adminOverlay .adm-tab.content-tab.active,#adminOverlay .adm-tab.content-tab:hover{color:#e0a860!important;}
+#adminOverlay .adm-tab-grouplabel{color:rgba(200,184,154,.4)!important;}
+/* every tab's content sits in one centered column */
+#adminOverlay [id^="tab-"]{max-width:1240px;margin:0 auto;padding:1.5rem 2rem 4rem;}
+#adminOverlay #admDashboard{padding:0 0 1.5rem!important;border-bottom:none!important;}
+/* stats as cards */
+#adminOverlay .adm-stats{background:none!important;border:none!important;gap:.75rem!important;margin-bottom:.75rem;}
+#adminOverlay .adm-stat{background:rgba(200,184,154,.035)!important;border:1px solid var(--line);border-radius:var(--r);padding:1rem 1.2rem!important;}
+#adminOverlay .adm-stat-val{font-size:1.65rem!important;line-height:1.1;}
+#adminOverlay .adm-stat-lbl,#adminOverlay .adm-table th,#adminOverlay .adm-field-lbl{color:rgba(200,184,154,.6)!important;}
+#adminOverlay [style*="rgba(200,184,154,0.3)"],#adminOverlay [style*="rgba(200,184,154,0.35)"],#adminOverlay [style*="rgba(200,184,154,0.25)"]{color:rgba(200,184,154,.55)!important;}
+#admDashCards > div{border-radius:var(--r)!important;padding:1.1rem 1.25rem!important;}
+#admSources{background:rgba(200,184,154,.025);border:1px solid var(--line);border-radius:var(--r);padding:1.1rem 1.25rem;}
+/* toolbars */
+#adminOverlay .adm-filters{padding:.6rem 0!important;border:none!important;align-items:center;gap:.45rem!important;}
+#adminOverlay .adm-fbtn,#adminOverlay .adm-export-btn{border-radius:999px!important;padding:.45rem .95rem!important;font-size:.6rem!important;}
+#adminOverlay .adm-search,#adminOverlay .adm-sort{border-radius:999px!important;padding:.5rem 1rem!important;font-size:.78rem!important;border-color:rgba(200,184,154,.16)!important;}
+#adminOverlay .adm-search:focus{border-color:#2e8b72!important;}
+/* tables in a card */
+#adminOverlay .adm-table-wrap{padding:0!important;margin-top:.75rem;background:rgba(200,184,154,.02)!important;border:1px solid var(--line);border-radius:var(--r);overflow-x:auto;}
+#adminOverlay .adm-table th{padding:.85rem 1rem!important;background:rgba(200,184,154,.03);white-space:nowrap;}
+#adminOverlay .adm-table td{padding:.95rem 1rem!important;}
+#adminOverlay .adm-table tr:last-child td{border-bottom:none!important;}
+#adminOverlay .badge,#adminOverlay .adm-type-badge,#adminOverlay .plan-badge{border-radius:999px!important;padding:.28rem .7rem!important;}
+#bkCalView{padding:1rem 0!important;}
+/* modals */
+.adm-modal,.bk-modal{background:rgba(5,7,5,.72)!important;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);}
+.adm-modal-box,.bk-modal-box{background:#161713!important;border-radius:16px!important;border-color:rgba(200,184,154,.14)!important;box-shadow:0 30px 80px rgba(0,0,0,.55);padding:2rem 2rem 1.75rem!important;}
+.adm-notes,.bk-f input,.bk-f select,.bk-f textarea,#adminOverlay input[type=text],#adminOverlay input[type=number],#adminOverlay textarea,#adminOverlay select{border-radius:8px!important;}
+.adm-save,.bk-save,.bk-del,#bkMsgHost,#bkViewClient,#admCreatePlan,#admWa,#admEmail{border-radius:8px!important;}
+.adm-field-val{font-weight:400;}
+/* login */
+#loginBox .lb{border-radius:16px;background:rgba(200,184,154,.03);box-shadow:0 30px 80px rgba(0,0,0,.5);}
+#loginBox .lb input,#loginBox .lb button{border-radius:8px;}
+
+@media (max-width:760px){
+  #adminOverlay .adm-header{padding:.85rem 1rem!important;}
+  #admLastUpdate{display:none;}
+  #adminOverlay .adm-tabs{top:46px;padding:0 .5rem!important;overflow-x:auto;scrollbar-width:none;flex-wrap:nowrap;}
+  #adminOverlay .adm-tabs::-webkit-scrollbar{display:none;}
+  #adminOverlay .adm-tab{white-space:nowrap;padding:.9rem .75rem!important;flex:0 0 auto;}
+  #adminOverlay .adm-tab-split{display:none;}
+  #adminOverlay .adm-tab-grouplabel{white-space:nowrap;}
+  #adminOverlay [id^="tab-"]{padding:1rem 1rem 3rem;}
+  #adminOverlay .adm-stats{grid-template-columns:1fr 1fr!important;gap:.5rem!important;margin-bottom:.5rem;}
+  #adminOverlay .adm-stat{padding:.85rem 1rem!important;}
+  #adminOverlay .adm-stat-val{font-size:1.4rem!important;}
+  #admDashCards{grid-template-columns:1fr 1fr!important;gap:.5rem!important;}
+  #admDashCards > div{padding:.9rem 1rem!important;}
+  #admSources > div{grid-template-columns:1fr!important;}
+  #adminOverlay .adm-filters{flex-wrap:wrap;}
+  #adminOverlay .adm-search{width:100%!important;order:10;margin-left:0!important;}
+  #adminOverlay .adm-table td{padding:.85rem .8rem!important;font-size:.8rem!important;}
+  #adminOverlay .adm-table th{padding:.75rem .8rem!important;}
+  /* phones: drop secondary columns so rows fit without sideways scroll */
+  #admTable th:nth-child(3),#admTable td:nth-child(3),#admTable th:nth-child(5),#admTable td:nth-child(5),
+  #bkTable th:nth-child(3),#bkTable td:nth-child(3),#bkTable th:nth-child(5),#bkTable td:nth-child(5),
+  #htTable th:nth-child(3),#htTable td:nth-child(3),#htTable th:nth-child(5),#htTable td:nth-child(5){display:none;}
+  #advTable,#ntTable,#rvTable{min-width:620px;}
+  .adm-modal,.bk-modal{padding:0!important;}
+  .adm-modal-box,.bk-modal-box{margin-top:auto!important;border-radius:18px 18px 0 0!important;padding:1.6rem 1.25rem 2rem!important;max-width:100%!important;}
+}
+</style>
 </body>
 </html>
