@@ -1284,6 +1284,16 @@ select{color:#f5f2ee;}
     </div>
     <span class="mm-notes-arrow">&rarr;</span>
   </a>
+  <a href="#travel-guide" class="mobile-menu-notes mm-guide" onclick="closeMobileMenu();setTimeout(function(){var e=document.getElementById('guideEmail');if(e)e.focus({preventScroll:true});},700);">
+    <div style="display:flex;align-items:center;gap:.85rem;">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="color:#e0b24a;flex-shrink:0;"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8l-5-5z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>
+      <div>
+        <div class="mm-notes-label">Free &middot; PDF to your inbox</div>
+        <div class="mm-notes-title">Travel Guide</div>
+      </div>
+    </div>
+    <span class="mm-notes-arrow">&rarr;</span>
+  </a>
   <a href="#plan" class="mobile-menu-cta" onclick="closeMobileMenu()">Plan My Trip</a>
   <div class="mobile-menu-footer">
     <span>42°26′N · 19°16′E</span>
@@ -3490,6 +3500,9 @@ function closeMobileMenu() {
 })();
 </script>
 <style id="emPolish">
+.mm-guide{margin-top:.6rem!important;background:rgba(224,178,74,.07)!important;border-color:rgba(224,178,74,.28)!important;}
+.mm-guide .mm-notes-label{color:#e0b24a!important;}
+
 .sel-add-wrap{margin-top:1rem;}
 .sel-add-lbl{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(200,184,154,.6);margin-bottom:.55rem;}
 .sel-add{display:flex;flex-wrap:wrap;gap:.45rem;}
