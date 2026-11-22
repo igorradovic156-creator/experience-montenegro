@@ -1247,7 +1247,7 @@ select{color:#f5f2ee;}
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo"><img src="/img/wordmark.svg" alt="Experience Montenegro" style="height:18px;display:block;"></div>
+  <a href="/" class="nav-logo" aria-label="Experience Montenegro, home"><img class="nav-emblem" src="/img/logo-nav.png" alt="" width="36" height="36"><img class="nav-word" src="/img/wordmark.svg" alt="Experience Montenegro"></a>
   <div class="nav-links">
     <a href="/adventures" class="nav-link nav-activities">Adventures</a>
     <a href="/notes" class="nav-link">Travel Notes</a>
@@ -1316,12 +1316,14 @@ select{color:#f5f2ee;}
   <img id="heroBg2" alt="" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:0;transition:opacity 0.45s ease;">
   <div class="hero-overlay"></div>
   <div class="hero-content">
+    <div class="hero-label hero-in-1">Private trip planning &middot; Montenegro</div>
     <h1 class="hero-title" id="heroTitle" data-default-html="Your journey,<br><em>your way.</em>">Your journey,<br><em>your way.</em></h1>
     <p class="hero-sub" id="heroSub" data-default="Tell me your dates, your pace, your passions. I'll craft a personalised Montenegro itinerary that fits you, and only you.">Tell me your dates, your pace, your passions. I'll craft a personalised Montenegro itinerary that fits you, and only you.</p>
     <div class="hero-actions">
       <button type="button" class="btn-primary" id="heroPlanBtn" onclick="planFromHero()">Start planning</button>
       <a href="/adventures" class="btn-ghost">All adventures</a>
     </div>
+    <div class="hero-proof hero-in-5"><span class="hp-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span>Rated 5.0 by travellers</span><i></i><span>Hosts met in person</span><i></i><span>Reply within hours</span></div>
 
   </div>
 </section>
@@ -3453,7 +3455,47 @@ function closeMobileMenu() {
   if('IntersectionObserver' in window){ new IntersectionObserver(function(e){ vis=e[0].isIntersecting; send(); },{threshold:0.35}).observe(scr); }
 })();
 </script>
+<script>
+/* nav goes transparent over the hero; hero text enters once the loader is gone */
+(function(){
+  var nav=document.querySelector('nav'), hero=document.querySelector('.hero');
+  if(nav){ var f=function(){ nav.classList.toggle('at-top', window.scrollY < 30); }; f(); window.addEventListener('scroll',f,{passive:true}); }
+  if(!hero) return;
+  hero.classList.add('js-hero');
+  var done=false; function go(){ if(done) return; done=true; requestAnimationFrame(function(){ hero.classList.add('hero-on'); }); }
+  var L=document.getElementById('loader');
+  if(!L||L.classList.contains('hidden')){ go(); }
+  else{ try{ new MutationObserver(function(){ if(L.classList.contains('hidden')) go(); }).observe(L,{attributes:true,attributeFilter:['class','style']}); }catch(e){} }
+  setTimeout(go,4500);
+})();
+</script>
 <style id="emPolish">
+/* ── NAV: emblem + wordmark, transparent over the hero ── */
+nav{transition:background .45s ease,border-color .45s ease,padding .35s ease,backdrop-filter .45s;}
+.nav-logo{display:flex;align-items:center;gap:.7rem;text-decoration:none;}
+.nav-emblem{width:36px;height:36px;border-radius:50%;display:block;box-shadow:0 0 0 1px rgba(200,184,154,.28),0 4px 14px rgba(0,0,0,.45);transition:transform .5s cubic-bezier(.2,.8,.2,1);}
+.nav-logo:hover .nav-emblem{transform:rotate(-8deg) scale(1.05);}
+.nav-word{height:19px;display:block;}
+nav.at-top{background:linear-gradient(to bottom,rgba(6,10,7,.55),rgba(6,10,7,0)) border-box!important;border-bottom-color:transparent!important;}
+nav:not(.at-top){background:rgba(20,21,17,.86)!important;-webkit-backdrop-filter:blur(14px) saturate(1.2);backdrop-filter:blur(14px) saturate(1.2);}
+.nav-cta{border:1px solid rgba(245,242,238,.35)!important;border-radius:999px;padding:.55rem 1.1rem!important;transition:background .25s,border-color .25s,color .25s!important;}
+.nav-cta:hover{opacity:1!important;background:var(--cta);border-color:var(--cta)!important;}
+@media (max-width:768px){.nav-emblem{width:32px;height:32px;}.nav-word{height:16px;}.hero-title{font-size:2.75rem!important;line-height:1.04;}}
+
+/* ── HERO: slow living image + staged entrance ── */
+#heroBg,#heroBg2{animation:heroDrift 22s ease-in-out infinite alternate;will-change:transform;}
+@keyframes heroDrift{from{transform:scale(1.12) translate3d(-1.2%,0,0);}to{transform:scale(1.02) translate3d(1.2%,-1%,0);}}
+.hero-label{margin-bottom:1.3rem!important;color:rgba(232,220,196,.9)!important;}
+.hero-proof{display:flex;flex-wrap:wrap;align-items:center;gap:.55rem .8rem;font-size:.72rem;letter-spacing:.04em;color:rgba(245,242,238,.72);margin-top:-.6rem;}
+.hero-proof .hp-stars{color:#e0b24a;letter-spacing:.12em;font-size:.78rem;}
+.hero-proof i{width:3px;height:3px;border-radius:50%;background:rgba(200,184,154,.55);display:inline-block;}
+.hero-title em{background:linear-gradient(100deg,#c8b89a 0%,#efe3c8 45%,#c8b89a 70%);-webkit-background-clip:text;background-clip:text;color:transparent!important;}
+.js-hero .hero-label,.js-hero .hero-title,.js-hero .hero-sub,.js-hero .hero-actions,.js-hero .hero-proof{opacity:0;transform:translateY(22px);}
+.hero-on .hero-label,.hero-on .hero-title,.hero-on .hero-sub,.hero-on .hero-actions,.hero-on .hero-proof{opacity:1!important;transform:none;transition:opacity .9s ease,transform 1s cubic-bezier(.2,.8,.2,1);}
+.hero-on .hero-title{transition-delay:.12s;}.hero-on .hero-sub{transition-delay:.28s;}.hero-on .hero-actions{transition-delay:.42s;}.hero-on .hero-proof{transition-delay:.56s;}
+@media (prefers-reduced-motion:reduce){#heroBg,#heroBg2{animation:none;}.js-hero .hero-label,.js-hero .hero-title,.js-hero .hero-sub,.js-hero .hero-actions,.js-hero .hero-proof{opacity:1;transform:none;}}
+@media (max-width:768px){.hero-proof{font-size:.68rem;gap:.45rem .6rem;margin-top:-.4rem;}.hero-proof span:last-child,.hero-proof i:last-of-type{display:none;}}
+
 /* sample itinerary in a phone */
 .deliver-doc-wrap{display:flex;flex-direction:column;align-items:center;}
 .dp-badge{position:relative;z-index:3;margin-bottom:-0.9rem;background:var(--cta);color:#fff;font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;padding:.45rem .9rem;border-radius:999px;box-shadow:0 8px 20px -8px rgba(0,0,0,.6);}
