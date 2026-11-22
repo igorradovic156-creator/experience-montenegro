@@ -1714,6 +1714,7 @@ select{color:#f5f2ee;}
       <div class="form-group" id="selectedAdventuresBox" style="display:none;">
         <label>Adventures you're curious about</label>
         <div class="sel-adv-wrap" id="selectedAdventures"></div>
+        <div class="sel-add-wrap" id="selAddWrap" style="display:none;"><div class="sel-add-lbl">Add more to your trip</div><div class="sel-add" id="selAdd"></div></div>
         <input type="hidden" id="selectedAdventuresField">
         <div class="sel-adv-hint">Just a starting point — nothing is locked in. We'll shape the final plan together when we talk, so add whatever catches your eye or <a href="/adventures">browse more</a>. Remove any that don't fit with the ✕.</div>
       </div>
@@ -3104,6 +3105,25 @@ function closeMobileMenu() {
         '" onclick="EMShortlist.remove(\'' + name.replace(/'/g, "\\'") + '\')">✕</button></span>';
     }).join('');
     syncHiddenField(list);
+    renderAddMore(list);
+  }
+  /* quick-add: every adventure on the page that isn't picked yet */
+  function renderAddMore(list) {
+    var box = document.getElementById('selAddWrap'), row = document.getElementById('selAdd');
+    if (!box || !row) return;
+    var seen = {}, names = [];
+    document.querySelectorAll('.show-card[data-title]').forEach(function (c) {
+      var n = (c.getAttribute('data-title') || '').replace(/&amp;/g, '&').trim();
+      if (n && !seen[n] && list.indexOf(n) < 0) { seen[n] = 1; names.push(n); }
+    });
+    if (!names.length) { box.style.display = 'none'; row.innerHTML = ''; return; }
+    box.style.display = 'block';
+    row.innerHTML = names.map(function (n) {
+      return '<button type="button" class="sel-add-btn" data-n="' + escapeHtml(n).replace(/"/g, '&quot;') + '"><span>+</span>' + escapeHtml(n) + '</button>';
+    }).join('');
+    row.querySelectorAll('.sel-add-btn').forEach(function (b) {
+      b.addEventListener('click', function () { EM.add(b.getAttribute('data-n')); renderAll(); });
+    });
   }
   function syncHiddenField(list) {
     var hid = document.getElementById('selectedAdventuresField');
@@ -3470,6 +3490,15 @@ function closeMobileMenu() {
 })();
 </script>
 <style id="emPolish">
+.sel-add-wrap{margin-top:1rem;}
+.sel-add-lbl{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(200,184,154,.6);margin-bottom:.55rem;}
+.sel-add{display:flex;flex-wrap:wrap;gap:.45rem;}
+.sel-add-btn{display:inline-flex;align-items:center;gap:.4rem;font-family:'DM Sans',sans-serif;font-size:.76rem;color:rgba(245,242,238,.78);background:rgba(200,184,154,.05);border:1px dashed rgba(200,184,154,.28);border-radius:999px;padding:.42rem .85rem;cursor:pointer;transition:background .2s,border-color .2s,color .2s;}
+.sel-add-btn span{color:#5fc0a2;font-size:.9rem;line-height:1;}
+.sel-add-btn:hover,.sel-add-btn:active{background:rgba(46,139,114,.14);border-color:rgba(46,139,114,.55);border-style:solid;color:#fff;}
+.sel-chip{border-radius:999px!important;}
+@media (max-width:768px){.hero-proof span:last-child{display:inline!important;}.hero-proof i:last-of-type{display:inline-block!important;}.hero-proof span:nth-of-type(3),.hero-proof i:first-of-type{display:none!important;}}
+
 /* ── NAV: emblem + wordmark, transparent over the hero ── */
 nav{transition:background .45s ease,border-color .45s ease,padding .35s ease,backdrop-filter .45s;}
 .nav-logo{display:flex;align-items:center;gap:.7rem;text-decoration:none;}
