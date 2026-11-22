@@ -316,8 +316,65 @@ function showAddToPhone(){
 }
 
 document.getElementById('errWa').href = WHATSAPP;
+
+// ══ DEMO MODE (/my/?demo=1) — a made-up sample trip shown on the homepage. Never touches the database. ══
+var EM_DEMO = {
+  name:'Sofie', last:'& Daan', country:'Netherlands', group:'2 adults', arrival:'2027-06-12', departure:'2027-06-18',
+  welcome:"Welkom, Sofie and Daan! Here is your week, from the bay to the mountains and back to the lake. Every host below has your names and dates. If anything changes on the road, message me and I'll rearrange the rest. — Igor",
+  days:[
+    {title:'Arrival · Kotor Old Town', date:'2027-06-12', entries:[
+      {time:'14:00', name:'Pick up your car at Tivat Airport', dur:'20 min', notes:'Desk is right outside arrivals. Full insurance is already in your booking.', map:'42.4047,18.7233'},
+      {time:'15:30', name:'Check in · Stone house in Dobrota', dur:'15 min drive', notes:'Ana meets you at the gate and shows you where to park. Breakfast is on the terrace from 8:00.', map:'42.4430,18.7620'},
+      {time:'18:00', name:'Kotor Old Town & the fortress walk', dur:'2 h', price:'€15', payment:'pay at the gate', notes:'Start the climb after 18:00, when it is cooler and the light turns gold over the bay.', map:'42.4247,18.7712'},
+      {time:'20:30', name:'Dinner by the water in Muo', dur:'1.5 h', notes:'Ask for the grilled catch of the day. Table on the pier is booked in your name.', map:'42.4300,18.7560'}
+    ]},
+    {title:'The Bay by boat · Perast', date:'2027-06-13', entries:[
+      {time:'09:30', name:'Private boat with Captain Luka', dur:'4 h', persons:2, price:'€70', payment:'cash to Luka', notes:'Our Lady of the Rocks, the Blue Cave and a swim stop where it is quiet. Bring a swimsuit and a towel.', map:'42.4876,18.6986'},
+      {time:'14:00', name:'Lunch & a slow walk in Perast', dur:'2 h', notes:'Ten minutes up the hill behind the church for the best view of the two islands.', map:'42.4864,18.6987'}
+    ]},
+    {title:'Lovćen, Njeguši & Cetinje', date:'2027-06-14', entries:[
+      {time:'09:00', name:'Drive the Kotor serpentine', dur:'1 h', notes:'25 hairpin turns. Stop at bend 20 for the photo everyone takes. It is worth it.', map:'42.4029,18.7810'},
+      {time:'10:30', name:'Njeguši smokehouse visit', dur:'1 h', price:'€12', payment:'pay on the spot', notes:'Ham, cheese and a small rakija tasting with the family who runs it.', map:'42.4370,18.8150'},
+      {time:'12:30', name:'Njegoš Mausoleum on Lovćen', dur:'1.5 h', price:'€8', payment:'tickets at the top', notes:'461 steps through the tunnel. On a clear day you can see Albania.', map:'42.3990,18.8370'}
+    ]},
+    {title:'Tara Canyon rafting', date:'2027-06-15', entries:[
+      {time:'07:30', name:'Drive north to the Tara canyon', dur:'2.5 h', notes:'Fuel up before you leave the coast. Coffee stop in Plužine on the way.', map:'43.1530,18.8410'},
+      {time:'10:00', name:'Rafting the Tara with Marko', dur:'3 h', persons:2, price:'€45', payment:'cash to Marko', notes:'Wetsuit, helmet and guide included. Bring dry clothes for after.', map:'43.3383,18.8392'},
+      {time:'14:00', name:'Lunch at the camp & drive to Žabljak', dur:'1 h', notes:'Check in at the log cabin. The owner leaves the key under the bear.', map:'43.1550,19.1230'}
+    ]},
+    {title:'Durmitor · Black Lake', date:'2027-06-16', entries:[
+      {time:'09:00', name:'Black Lake loop on foot', dur:'2 h', price:'€3', payment:'park entry', notes:'Easy, flat path all the way round. Go early and you will have it almost to yourselves.', map:'43.1460,19.0890'},
+      {time:'13:00', name:'Sedlo pass panorama drive', dur:'3 h', notes:'One of the most beautiful roads in the Balkans. Pull over often.', map:'43.0870,19.0280'}
+    ]},
+    {title:'Skadar Lake & departure', date:'2027-06-17', entries:[
+      {time:'10:00', name:'Boat on Skadar Lake from Virpazar', dur:'2 h', persons:2, price:'€30', payment:'pay the skipper', notes:'Water lilies, pelicans and a swim in the middle of the lake.', map:'42.2460,19.0920'},
+      {time:'13:00', name:'Family winery lunch in Crmnica', dur:'2 h', price:'€25', payment:'pay on the spot', notes:'Try the Vranac straight from the barrel. Your last afternoon. Take it slow.', map:'42.2620,19.0610'}
+    ]}
+  ]
+};
+function emRunDemo(){
+  render({data:EM_DEMO}); show('content');
+  document.title = 'Sample itinerary · Experience Montenegro';
+  document.documentElement.style.scrollBehavior = 'auto';
+  // auto-scroll loop, driven by the homepage (play/pause when the phone is on screen)
+  var playing = false, y = 0, last = 0, hold = 0, speed = 38;
+  function step(t){
+    if(!playing){ last = 0; return; }
+    if(!last) last = t; var dt = Math.min((t-last)/1000, 0.05); last = t;
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    if(hold > 0){ hold -= dt; if(hold <= 0 && y >= max){ y = 0; window.scrollTo(0,0); hold = 1.6; } }
+    else { y = Math.min(y + speed*dt, max); window.scrollTo(0, y); if(y >= max) hold = 2.2; }
+    requestAnimationFrame(step);
+  }
+  window.addEventListener('message', function(e){
+    if(e.origin !== location.origin) return;
+    if(e.data === 'em-demo-play' && !playing){ playing = true; hold = hold || 1.2; requestAnimationFrame(step); }
+    if(e.data === 'em-demo-pause'){ playing = false; }
+  });
+}
 var code = getCodeFromURL();
-if(code){ show('loadingState'); loadItinerary(code); } else { show('gateState'); }
+if(/[?&]demo=1/.test(location.search)){ emRunDemo(); }
+else if(code){ show('loadingState'); loadItinerary(code); } else { show('gateState'); }
 </script>
 </body>
 </html>
