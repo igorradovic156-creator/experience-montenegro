@@ -1240,7 +1240,7 @@ select{color:#f5f2ee;}
   <div class="kayak-stage"><div class="loader-river" aria-hidden="true"><i class="lr-a"></i><i class="lr-b"></i></div>
 <div id="lottie-kayak" style="width:clamp(180px,40vw,320px);height:clamp(180px,40vw,320px);margin:0 auto 1.5rem;flex-shrink:0;"></div></div>
 
-  <div class="loader-logo"><img src="/img/wordmark.svg" alt="Experience Montenegro" style="height:20px;display:block;margin:0 auto;"></div>
+  <div class="loader-logo"><img src="/img/wordmark.svg" alt="Experience Montenegro" style="display:block;margin:0 auto;"></div>
   <div class="loader-coords">42°26′N · 19°16′E </div>
   <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
 </div>
@@ -3501,6 +3501,13 @@ function closeMobileMenu() {
 })();
 </script>
 <style id="emPolish">
+/* loader: the name stands out */
+#loader .loader-logo{animation:loaderFadeUp .7s ease .45s forwards!important;margin-bottom:.9rem!important;}
+#loader .loader-logo img{height:34px!important;filter:drop-shadow(0 0 18px rgba(200,184,154,.28)) drop-shadow(0 2px 10px rgba(0,0,0,.6));}
+#loader .loader-coords{animation-delay:.75s!important;color:rgba(95,192,162,.85)!important;font-size:.68rem!important;}
+#loader .loader-bar-wrap{animation-delay:.9s!important;height:2px!important;background:rgba(200,184,154,.16)!important;border-radius:2px;}
+@media (max-width:768px){#loader .loader-logo img{height:27px!important;}}
+
 /* loader: a river flowing past the kayak */
 .kayak-stage{position:relative;margin:0 auto 1.5rem;flex-shrink:0;}
 .kayak-stage #lottie-kayak{position:relative;z-index:2;margin:0!important;}
