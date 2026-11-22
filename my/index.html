@@ -284,6 +284,13 @@ function render(row){
 
 // ══ WEATHER (Open-Meteo, no key needed) — Podgorica coords ══
 (function(){
+  if(/[?&]demo=1/.test(location.search)){
+    document.getElementById('wIcon').textContent='☀️';
+    document.getElementById('wTemp').textContent='27°C';
+    document.getElementById('wDesc').textContent='Clear sky';
+    document.getElementById('weatherWrap').style.display='block';
+    return;
+  }
   fetch('https://api.open-meteo.com/v1/forecast?latitude=42.44&longitude=19.26&current=temperature_2m,weather_code&timezone=auto')
     .then(function(r){return r.json();})
     .then(function(d){
