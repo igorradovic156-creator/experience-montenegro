@@ -3186,6 +3186,7 @@ function closeMobileMenu() {
     '#emBar .eb-wa svg{width:27px;height:27px;}'+
     'body.em-bar-on{padding-bottom:5.5rem;}'+
     '#emPill{display:none!important;}'+
+    '#emBar .eb-go{display:none!important;}#emBar.has .eb-go{display:inline-flex!important;}#emBar .eb-wa{margin-left:auto;}'+
     '#floatingBtns{display:none!important;}';
   document.head.appendChild(css);
 
@@ -3448,6 +3449,30 @@ function closeMobileMenu() {
 })();
 </script>
 
+<script>
+/* pricing stack: the card underneath shrinks and dims as the next one slides over it */
+(function(){
+  var mq=window.matchMedia('(max-width:768px)');
+  var cards=[].slice.call(document.querySelectorAll('.pricing-grid .price-card'));
+  if(cards.length<2) return;
+  var ticking=false;
+  function upd(){
+    ticking=false;
+    for(var i=0;i<cards.length;i++){
+      var c=cards[i];
+      if(!mq.matches||i===cards.length-1){c.style.scale='';c.style.filter='';continue;}
+      var a=c.getBoundingClientRect(), b=cards[i+1].getBoundingClientRect();
+      var p=1-Math.min(Math.max((b.top-a.top-16)/Math.max(a.height-16,1),0),1);
+      c.style.scale=(1-0.06*p).toFixed(4);
+      c.style.filter=p>0.01?'brightness('+(1-0.4*p).toFixed(3)+')':'';
+    }
+  }
+  function req(){ if(!ticking){ticking=true;requestAnimationFrame(upd);} }
+  window.addEventListener('scroll',req,{passive:true});
+  window.addEventListener('resize',req);
+  req();
+})();
+</script>
 <style id="emPolish">
 /* ── Design polish: one shared set of radii, gutters and controls ── */
 :root{--r-ctl:10px;--r-card:14px;--r-lg:16px;--gutter:1.25rem;}
@@ -3507,10 +3532,16 @@ select{appearance:none;-webkit-appearance:none;padding-right:2.4rem!important;
   .hero-actions{align-items:stretch!important;width:100%;}
   .hero-actions > *{width:100%;justify-content:center;text-align:center;box-sizing:border-box;}
 
-  /* pricing: separate cards with breathing room */
-  .pricing-grid{gap:.75rem!important;padding:.25rem var(--gutter) 1rem!important;scroll-padding-left:var(--gutter);grid-template-columns:repeat(3,80vw)!important;}
-  .price-card,.price-card:last-child{border:1px solid rgba(46,139,114,.18)!important;border-radius:var(--r-lg);overflow:hidden;}
-  .price-card.featured{border-color:transparent!important;box-shadow:0 18px 40px -18px rgba(46,139,114,.65);}
+  /* pricing: cards stack like sheets of paper as you scroll */
+  .pricing-section{overflow:clip!important;}
+  .pricing-grid{display:block!important;overflow:visible!important;padding:0 0 .5rem!important;max-width:none!important;border:none!important;}
+  .price-card,.price-card:last-child{position:sticky;top:84px;margin-bottom:1.1rem;border:1px solid rgba(46,139,114,.2)!important;border-radius:var(--r-lg);overflow:hidden;
+    box-shadow:0 -14px 34px -10px rgba(0,0,0,.55);transform-origin:50% 0;will-change:scale,filter;}
+  .price-card:nth-child(2){top:100px;}
+  .price-card:nth-child(3){top:116px;margin-bottom:0;}
+  .price-card:not(.featured):not(.price-private){background:#0b1610!important;}
+  .price-card.featured{border-color:transparent!important;}
+  .pricing-scroll-hint{display:none!important;}
 
   /* form card */
   #formWrap{padding:1.6rem 1.25rem!important;}
