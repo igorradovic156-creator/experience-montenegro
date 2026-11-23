@@ -1439,9 +1439,15 @@ select{color:#f5f2ee;}
       <p class="rm-lead">Sea, lake, canyon and high mountains, often within two hours of each other. Tap a place to see what it&rsquo;s like.</p>
       <div class="rm-card" id="rmCard" aria-live="polite"></div>
       <div class="rm-note">
-        <p><b>This map is just the basics.</b> The best of Montenegro isn&rsquo;t on it: a quiet beach without the crowds, a village table with homemade cheese, ham, honey and wine, a family who has done this for generations.</p>
-        <p>Your itinerary takes you to those places and to the best local hosts, the ones I know and trust.</p>
-        <a href="#plan">Plan my trip &rarr;</a>
+        <div class="rm-note-k">Beyond the map</div>
+        <h4>This map is just the basics.</h4>
+        <p>The best of Montenegro isn&rsquo;t on it. Your itinerary takes you there, to local hosts I know and trust.</p>
+        <ul class="rm-note-list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17c2.4 0 2.4-2 4.75-2S9.6 17 12 17s2.4-2 4.75-2 2.35 2 4.75 2"/><circle cx="16.5" cy="7.5" r="3"/></svg>Quiet beaches, away from the crowds</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11h16a8 8 0 01-16 0z"/><path d="M9 4c-1 1.5 1 2.5 0 4M13 4c-1 1.5 1 2.5 0 4"/></svg>Homemade cheese, ham, honey and wine</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18M5 20V10l7-5 7 5v10"/><path d="M10 20v-5h4v5"/></svg>Families who have done this for generations</li>
+        </ul>
+        <a href="#plan" class="rm-note-cta">Plan my trip <span>&rarr;</span></a>
       </div>
     </div>
     <div class="rm-map"><svg class="rm-svg" viewBox="-120 -15 800 750" role="group" aria-label="Map of Montenegro's regions">
@@ -3544,14 +3550,24 @@ function closeMobileMenu() {
 .rm-lb-x{position:absolute;top:-14px;right:-14px;width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.25);background:#0f2419;color:#fff;font-size:1.4rem;line-height:1;cursor:pointer;}
 @media (max-width:600px){.rm-lb-x{top:8px;right:8px;}}
 
-.rm-note{margin-top:1.4rem;padding:1.4rem 1.5rem;border-left:2px solid #e0b24a;border-radius:0 16px 16px 0;background:linear-gradient(90deg,rgba(224,178,74,.09),rgba(224,178,74,0));max-width:540px;}
-.rm-note p{font-size:.9rem;line-height:1.7;color:rgba(245,242,238,.72);margin:0 0 .7rem;}
-.rm-note p b{display:block;font-family:'Playfair Display',serif;font-weight:400;font-size:1.2rem;color:#fff;margin-bottom:.35rem;}
-.rm-note a{display:inline-block;margin-top:.4rem;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:#e0b24a;text-decoration:none;border-bottom:1px solid rgba(224,178,74,.4);padding-bottom:2px;}
-@media (max-width:860px){.rm-note{order:4;margin-top:.4rem;}}
+.rm-note{margin-top:1.5rem;padding:1.7rem 1.7rem 1.6rem;border-radius:20px;border:1px solid rgba(224,178,74,.22);background:linear-gradient(150deg,rgba(224,178,74,.08),rgba(224,178,74,.015) 60%);max-width:560px;}
+.rm-note-k{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:#e0b24a;margin-bottom:.6rem;}
+.rm-note h4{font-family:'Playfair Display',serif;font-weight:400;font-size:1.4rem;line-height:1.25;color:#fff;margin:0 0 .55rem;}
+.rm-note p{font-size:.9rem;line-height:1.65;color:rgba(245,242,238,.68);margin:0 0 1.2rem;}
+.rm-note-list{list-style:none;margin:0 0 1.4rem;padding:0;display:grid;gap:.7rem;}
+.rm-note-list li{display:flex;align-items:center;gap:.8rem;font-size:.88rem;color:rgba(245,242,238,.85);}
+.rm-note-list svg{flex-shrink:0;width:34px;height:34px;padding:8px;border-radius:50%;color:#e0b24a;background:rgba(224,178,74,.1);border:1px solid rgba(224,178,74,.25);}
+.rm-note-cta{display:inline-flex;align-items:center;gap:.5rem;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:#0b1b14;background:#e0b24a;padding:.85rem 1.3rem;border-radius:10px;text-decoration:none;font-weight:600;transition:transform .2s,background .2s;}
+.rm-note-cta:hover{background:#ecc163;}
+.rm-note-cta span{transition:transform .2s;}.rm-note-cta:hover span{transform:translateX(3px);}
+@media (max-width:860px){.rm-note{order:4;margin-top:.6rem;padding:1.4rem 1.3rem;}.rm-note h4{font-size:1.25rem;}}
+/* soft hand-over to the next section */
+.rm-section{position:relative;}
+.rm-section::after{content:'';position:absolute;left:0;right:0;bottom:0;height:220px;background:linear-gradient(to bottom,rgba(16,42,29,0),#102a1d);pointer-events:none;}
+.rm-inner{position:relative;z-index:1;}
 
 /* ── regions map ── */
-.rm-section{background:linear-gradient(to bottom,#102a1d 0,#0d2118 160px,#0b1b14 340px);padding:3.5rem 2rem 6rem;overflow:hidden;margin-top:-1px;}
+.rm-section{background:linear-gradient(to bottom,#102a1d 0,#0d2118 160px,#0b1b14 340px);padding:3.5rem 2rem 3rem;overflow:hidden;margin-top:-1px;}
 .rm-chips{display:none;}
 .rm-inner{max-width:1160px;margin:0 auto;display:grid;grid-template-columns:1fr 1.1fr;gap:3rem;align-items:center;}
 .rm-lead{color:rgba(245,242,238,.66);font-size:.98rem;line-height:1.75;margin:1.2rem 0 1.8rem;max-width:450px;}
@@ -3578,7 +3594,7 @@ function closeMobileMenu() {
 .rm-pin.sel .rm-lbl{fill:#fff;font-weight:600;}
 .rm-lbl{font-size:13px;}
 @media (max-width:860px){
-  .rm-section{padding:2.5rem 1.25rem 4.5rem;}
+  .rm-section{padding:2.5rem 1.25rem 2.5rem;}
   .rm-inner{grid-template-columns:minmax(0,1fr);gap:1.2rem;}
   .rm-map{min-width:0;}
   .rm-copy{display:contents;}
