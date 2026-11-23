@@ -1584,6 +1584,61 @@ select{color:#f5f2ee;}
 </script>
 
 <!-- PRICING -->
+<section class="worth-section" id="worth">
+  <div class="worth-inner">
+    <div class="section-label">Is it worth it?</div>
+    <h2 class="section-title">Do the maths<br><em style="color:var(--stone);">on your own trip.</em></h2>
+    <p class="worth-lead">Move the sliders to match your trip and see what planning it yourself really costs.</p>
+
+    <div class="worth-card">
+      <div class="worth-controls">
+        <div class="wc-row">
+          <div class="wc-head"><span>How many days?</span><b id="wDaysV">7 days</b></div>
+          <input type="range" id="wDays" min="2" max="14" value="7" aria-label="Trip length in days">
+        </div>
+        <div class="wc-row">
+          <div class="wc-head"><span>How many travellers?</span><b id="wPplV">2 people</b></div>
+          <input type="range" id="wPpl" min="1" max="10" value="2" aria-label="Number of travellers">
+        </div>
+        <div class="wc-row">
+          <div class="wc-head"><span>How do you usually plan?</span></div>
+          <div class="wc-seg" id="wStyle">
+            <button type="button" data-h="1.5">Light</button>
+            <button type="button" data-h="2.5" class="on">Thorough</button>
+            <button type="button" data-h="4">Every detail</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="worth-results">
+        <div class="wr-big">
+          <div class="wr-label">Your plan costs</div>
+          <div class="wr-num"><span id="wPerDay">€1.36</span></div>
+          <div class="wr-sub">per person, per day &middot; <span id="wFee">€19</span> in total</div>
+        </div>
+        <div class="wr-compare">
+          <div class="wr-bar-row"><span>Planning it yourself</span><b id="wHrs">18 hours</b></div>
+          <div class="wr-bar"><i id="wBarDiy" style="width:100%"></i></div>
+          <div class="wr-bar-row"><span>With me</span><b>10 minutes</b></div>
+          <div class="wr-bar"><i class="me" style="width:2%"></i></div>
+          <div class="wr-note" id="wEvenings">That's about 7 evenings of tabs, reviews and maps you get back.</div>
+        </div>
+        <ul class="wr-list">
+          <li><b id="wDayPlans">7</b> days planned, morning to evening</li>
+          <li><b id="wHosts">5&ndash;7</b> hosts I know personally, matched to your days</li>
+          <li><b id="wPins">30+</b> map pins: where to eat, park and swim</li>
+          <li>WhatsApp support while you travel</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="worth-foot">
+      <a href="#plan" class="next-step-btn worth-cta" id="wCta">Plan my 7-day trip &middot; &euro;19</a>
+      <p>Time estimates are typical, not exact. The fee is the only thing you pay me; hosts are paid directly.</p>
+    </div>
+  </div>
+</section>
+
 <section class="pricing-section" id="pricing">
   <div class="pricing-inner">
     <div class="section-label" style="color:rgba(245,242,238,0.55);">Investment</div>
@@ -3466,7 +3521,81 @@ function closeMobileMenu() {
   setTimeout(go,4500);
 })();
 </script>
+<script>
+/* "Is it worth it?" calculator */
+(function(){
+  var d=document.getElementById('wDays'), p=document.getElementById('wPpl'); if(!d||!p) return;
+  var hPerDay=2.5;
+  function $(id){ return document.getElementById(id); }
+  function fill(el){ var v=(el.value-el.min)/(el.max-el.min)*100; el.style.setProperty('--p',v+'%'); }
+  function pop(el){ el.classList.remove('wr-pop'); void el.offsetWidth; el.classList.add('wr-pop'); }
+  function upd(){
+    var days=+d.value, ppl=+p.value, fee=days<=3?9:19;
+    var hrs=Math.round(days*hPerDay + (ppl>4?3:ppl>2?1.5:0));
+    var per=fee/(days*ppl);
+    $('wDaysV').textContent=days+' day'+(days>1?'s':''); $('wPplV').textContent=ppl+(ppl>1?' people':' person');
+    var pd=$('wPerDay'); pd.textContent='€'+(per<1?per.toFixed(2):per.toFixed(2).replace(/\.00$/,'')); pop(pd);
+    $('wFee').textContent='€'+fee;
+    $('wHrs').textContent=hrs+' hours';
+    $('wBarDiy').style.width=Math.min(100,Math.max(12,hrs/60*100))+'%';
+    $('wEvenings').textContent="That's about "+Math.max(1,Math.round(hrs/2.5))+' evenings of tabs, reviews and maps you get back.';
+    $('wDayPlans').textContent=days;
+    var hosts=Math.max(2,Math.round(days*.8)); $('wHosts').textContent=hosts+'–'+(hosts+2);
+    $('wPins').textContent=(days*4)+'+';
+    $('wCta').textContent='Plan my '+days+'-day trip · €'+fee;
+    fill(d); fill(p);
+  }
+  d.addEventListener('input',upd); p.addEventListener('input',upd);
+  document.querySelectorAll('#wStyle button').forEach(function(b){ b.addEventListener('click',function(){
+    document.querySelectorAll('#wStyle button').forEach(function(x){ x.classList.remove('on'); }); b.classList.add('on'); hPerDay=+b.dataset.h; upd(); }); });
+  upd();
+})();
+</script>
 <style id="emPolish">
+/* ── "Is it worth it?" calculator ── */
+.worth-section{background:#0b1b14;padding:6rem 2rem 5rem;}
+.worth-inner{max-width:1100px;margin:0 auto;}
+.worth-lead{color:rgba(245,242,238,.62);font-size:.95rem;line-height:1.7;margin:1.1rem 0 2.6rem;max-width:520px;}
+.worth-card{display:grid;grid-template-columns:1fr 1.15fr;gap:0;border:1px solid rgba(95,192,162,.18);border-radius:22px;overflow:hidden;background:#0f2419;box-shadow:0 40px 80px -40px rgba(0,0,0,.7);}
+.worth-controls{padding:2.4rem 2.2rem;display:flex;flex-direction:column;gap:2rem;border-right:1px solid rgba(95,192,162,.12);}
+.wc-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.9rem;font-size:.86rem;color:rgba(245,242,238,.72);}
+.wc-head b{font-family:'Playfair Display',serif;font-weight:400;font-size:1.35rem;color:#fff;}
+.worth-controls input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:999px;background:linear-gradient(90deg,var(--cta) var(--p,40%),rgba(255,255,255,.1) var(--p,40%));outline:none;cursor:pointer;}
+.worth-controls input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:#f5f2ee;border:4px solid var(--cta);box-shadow:0 4px 14px rgba(0,0,0,.45);cursor:grab;}
+.worth-controls input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#f5f2ee;border:4px solid var(--cta);cursor:grab;}
+.wc-seg{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;padding:4px;border-radius:12px;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.08);}
+.wc-seg button{border:none;background:none;color:rgba(245,242,238,.65);font:500 .8rem 'DM Sans',sans-serif;padding:.7rem .4rem;border-radius:9px;cursor:pointer;transition:background .2s,color .2s;}
+.wc-seg button.on{background:var(--cta);color:#fff;}
+.worth-results{padding:2.4rem 2.2rem;display:flex;flex-direction:column;gap:1.8rem;background:radial-gradient(ellipse 90% 70% at 100% 0%,rgba(46,139,114,.2),transparent 60%);}
+.wr-label{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:#5fc0a2;}
+.wr-num{font-family:'Playfair Display',serif;font-size:clamp(3.2rem,7vw,4.6rem);line-height:1;color:#fff;margin:.45rem 0 .4rem;letter-spacing:-.01em;}
+.wr-sub{font-size:.86rem;color:rgba(245,242,238,.6);}
+.wr-sub span{color:var(--stone);}
+.wr-bar-row{display:flex;justify-content:space-between;font-size:.8rem;color:rgba(245,242,238,.66);margin-bottom:.45rem;}
+.wr-bar-row b{color:#fff;font-weight:600;}
+.wr-bar{height:10px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden;margin-bottom:1rem;}
+.wr-bar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#c17f3b,#e0b24a);transition:width .5s cubic-bezier(.2,.8,.2,1);}
+.wr-bar i.me{background:#5fc0a2;min-width:10px;}
+.wr-note{font-size:.8rem;color:rgba(200,184,154,.75);line-height:1.6;}
+.wr-list{list-style:none;margin:0;padding:1.3rem 0 0;border-top:1px solid rgba(95,192,162,.12);display:grid;gap:.6rem;}
+.wr-list li{position:relative;padding-left:1.6rem;font-size:.86rem;color:rgba(245,242,238,.75);line-height:1.5;}
+.wr-list li::before{content:'';position:absolute;left:0;top:.3rem;width:14px;height:14px;border-radius:50%;background:rgba(46,139,114,.2);box-shadow:inset 0 0 0 1px rgba(95,192,162,.5);}
+.wr-list li::after{content:'';position:absolute;left:4px;top:.55rem;width:6px;height:3px;border-left:1.6px solid #5fc0a2;border-bottom:1.6px solid #5fc0a2;transform:rotate(-45deg);}
+.wr-list b{color:#fff;font-weight:600;}
+.worth-foot{display:flex;align-items:center;gap:1.5rem;margin-top:2rem;flex-wrap:wrap;}
+.worth-foot p{flex:1;min-width:240px;font-size:.74rem;color:rgba(245,242,238,.42);line-height:1.6;margin:0;}
+.worth-cta{margin:0!important;}
+.wr-pop{animation:wrPop .35s ease;}
+@keyframes wrPop{0%{transform:scale(1);}40%{transform:scale(1.06);}100%{transform:scale(1);}}
+@media (max-width:860px){
+  .worth-section{padding:4.5rem 1.25rem 4rem;}
+  .worth-card{grid-template-columns:1fr;}
+  .worth-controls{border-right:none;border-bottom:1px solid rgba(95,192,162,.12);padding:1.8rem 1.35rem;gap:1.6rem;}
+  .worth-results{padding:1.8rem 1.35rem;gap:1.5rem;}
+  .worth-foot{flex-direction:column;align-items:stretch;}
+  .worth-cta{text-align:center;justify-content:center;}
+}
+
 /* deep-forest palette: replaces the olive grey behind the process, "much more" and guide strip */
 :root{--black:#0b1b14;}
 .how-section{background:#0b1b14!important;}
