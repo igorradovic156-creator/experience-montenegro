@@ -258,6 +258,81 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:#171814;border-b
   window.EMAttr = a;
 })();
 </script>
+
+<style id="emNotesV2">
+/* ── deep-forest palette, matches the homepage ── */
+:root{--black:#0b1b14;}
+body{background:#0b1b14!important;}
+nav{background:rgba(11,27,20,.88)!important;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom-color:rgba(95,192,162,.1)!important;}
+.notes-hero{background:radial-gradient(ellipse 80% 70% at 85% 0%,rgba(46,139,114,.16),transparent 60%)!important;overflow:hidden;}
+/* filters: pills, scroll sideways on phones */
+.notes-filters{display:flex;gap:.5rem;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;flex-wrap:nowrap!important;}
+.notes-filters::-webkit-scrollbar{display:none;}
+.nf-btn{flex:0 0 auto;border-radius:999px!important;padding:.55rem 1rem!important;white-space:nowrap;}
+.nf-btn.active{background:var(--cta)!important;border-color:var(--cta)!important;color:#fff!important;}
+.nf-btn.active .nf-count{color:rgba(255,255,255,.75)!important;}
+/* featured */
+.featured-card{border-radius:20px!important;overflow:hidden;border:1px solid rgba(95,192,162,.14)!important;background:#0f2419!important;}
+.featured-right{position:relative;overflow:hidden;background:#0f2419!important;}
+.featured-right img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.8,.2,1);}
+.featured-card:hover .featured-right img{transform:scale(1.05);}
+.featured-right::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#0f2419 0%,rgba(15,36,25,0) 35%);}
+.featured-title{margin:0;}
+/* cards with photos */
+.notes-grid{gap:1.25rem!important;}
+.note-card{padding:0!important;border-radius:18px!important;overflow:hidden;background:#0f2419!important;border:1px solid rgba(95,192,162,.12)!important;display:flex!important;flex-direction:column;transition:transform .35s cubic-bezier(.2,.8,.2,1),border-color .3s,box-shadow .3s!important;}
+.note-card:hover{transform:translateY(-4px);border-color:rgba(95,192,162,.35)!important;box-shadow:0 24px 50px -24px rgba(0,0,0,.7);}
+.note-card-img{position:relative;aspect-ratio:16/10;overflow:hidden;background:#0b1b14;}
+.note-card-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .9s cubic-bezier(.2,.8,.2,1);}
+.note-card:hover .note-card-img img{transform:scale(1.06);}
+.note-card-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(11,27,20,.55),transparent 55%);}
+.note-card-chip{position:absolute;left:.9rem;top:.9rem;z-index:1;font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:rgba(11,27,20,.62);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.16);padding:.38rem .7rem;border-radius:999px;}
+.note-card-body{padding:1.3rem 1.4rem 1.25rem;display:flex;flex-direction:column;flex:1;}
+.note-card .note-title{margin:0 0 .6rem;}
+.note-card .note-excerpt{flex:1;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+.note-card .note-meta{display:flex;justify-content:space-between;align-items:center;margin-top:1rem;padding-top:.9rem;border-top:1px solid rgba(200,184,154,.08);}
+.note-date{color:rgba(200,184,154,.5)!important;}
+/* newsletter + footer */
+.newsletter-section{background:linear-gradient(180deg,#0b1b14,#0f2419)!important;}
+.newsletter-form input,.newsletter-form button{border-radius:10px!important;}
+.notes-footer{background:#0f2419!important;}
+/* article: a full page, not a pop-up */
+.note-modal{background:#0b1b14!important;padding:0!important;}
+.note-modal-inner{max-width:760px!important;margin:0 auto!important;background:transparent!important;border:none!important;padding:5.5rem 1.5rem 4rem!important;}
+.note-modal-close{position:fixed!important;top:1rem!important;left:1rem!important;right:auto!important;z-index:5;display:inline-flex;align-items:center;gap:.45rem;font:500 .74rem 'DM Sans',sans-serif!important;letter-spacing:.04em;color:#fff!important;background:rgba(11,27,20,.7)!important;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.16)!important;border-radius:999px;padding:.6rem 1rem!important;}
+.note-modal-close span{font-size:1rem;line-height:1;}
+.note-hero-img{margin:0 -1.5rem 2rem;aspect-ratio:16/9;overflow:hidden;border-radius:20px;background:#0f2419;}
+.note-hero-img img{width:100%;height:100%;object-fit:cover;display:block;}
+.note-modal-title{font-size:clamp(1.9rem,4.6vw,2.8rem)!important;line-height:1.15!important;margin:0 0 1.2rem!important;}
+.note-author{display:flex;align-items:center;gap:.75rem;padding-bottom:1.6rem;margin-bottom:2rem;border-bottom:1px solid rgba(200,184,154,.1);}
+.note-author img{width:40px;height:40px;border-radius:50%;box-shadow:0 0 0 1px rgba(200,184,154,.25);}
+.note-author b{display:block;font-weight:600;font-size:.86rem;color:var(--white);}
+.note-author span{display:block;font-size:.72rem;color:rgba(200,184,154,.55);margin-top:2px;}
+.note-modal-body{font-size:1.02rem!important;line-height:1.85!important;color:rgba(245,242,238,.82)!important;}
+.note-modal-body p:first-child::first-letter{font-family:'Playfair Display',serif;float:left;font-size:3.4rem;line-height:.9;padding:.35rem .6rem 0 0;color:var(--stone);}
+.note-modal-body h2,.note-modal-body h3{font-size:1.45rem!important;margin:2.4rem 0 .9rem!important;color:#fff!important;}
+.note-modal-cta{margin-top:3rem!important;padding:1.6rem 1.7rem!important;border:1px solid rgba(95,192,162,.25)!important;border-radius:18px;background:linear-gradient(135deg,rgba(46,139,114,.18),rgba(46,139,114,.05));}
+.note-modal-cta-text b{display:block;font-family:'Playfair Display',serif;font-weight:400;font-size:1.25rem;color:#fff;margin-bottom:.3rem;}
+.note-modal-cta-text span{display:block;font-size:.84rem;color:rgba(245,242,238,.65);line-height:1.6;}
+.note-modal-cta-btn{border-radius:10px!important;padding:.9rem 1.5rem!important;}
+.note-share-btn{border-radius:999px!important;}
+.note-related-grid{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:1rem!important;}
+.note-related-item{border-radius:14px!important;overflow:hidden;padding:0 0 1rem!important;background:#0f2419!important;border:1px solid rgba(95,192,162,.12)!important;}
+.note-related-img{aspect-ratio:16/10;overflow:hidden;margin-bottom:.8rem;}
+.note-related-img img{width:100%;height:100%;object-fit:cover;display:block;}
+.note-related-tag,.note-related-title{padding:0 1rem;}
+.note-reading-progress{background:linear-gradient(90deg,var(--cta),#5fc0a2)!important;height:3px!important;z-index:6!important;}
+@media (max-width:760px){
+  .featured-card{display:flex!important;flex-direction:column;}
+  .featured-right{min-height:210px;order:-1;}
+  .featured-left{order:1;}
+  .featured-right::after{background:linear-gradient(0deg,#0f2419 0%,rgba(15,36,25,0) 45%);}
+  .note-modal-inner{padding:4.5rem 1.25rem 3rem!important;}
+  .note-hero-img{margin:0 -1.25rem 1.6rem;border-radius:0;}
+  .note-related-grid{grid-template-columns:1fr!important;}
+  .note-modal-body{font-size:.98rem!important;}
+}
+</style>
 </head>
 <body>
 
@@ -336,13 +411,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:#171814;border-b
 <div class="note-modal" id="noteModal">
   <div class="note-reading-progress" id="noteProgress"></div>
   <div class="note-modal-inner">
-    <button class="note-modal-close" onclick="closeNote()">✕</button>
+    <button class="note-modal-close" onclick="closeNote()" aria-label="Back to all notes"><span>&larr;</span> All notes</button>
+    <div class="note-hero-img" id="nImg"></div>
     <div class="note-modal-tag" id="nTag"></div>
-    <div class="note-modal-title" id="nTitle"></div>
-    <div class="note-modal-meta" id="nMeta"></div>
+    <h1 class="note-modal-title" id="nTitle"></h1>
+    <div class="note-author"><img src="/img/logo-nav.png" alt=""><div><b>Igor</b><span id="nMeta"></span></div></div>
     <div class="note-modal-body" id="nBody"></div>
     <div class="note-modal-cta">
-      <div class="note-modal-cta-text">Want a trip built around this?</div>
+      <div class="note-modal-cta-text"><b>Want a trip built around this?</b><span>Tell me your dates and I&rsquo;ll plan every day, with hosts I know personally.</span></div>
       <a href="/#plan" class="note-modal-cta-btn">Plan my trip →</a>
     </div>
     <div class="note-share">
@@ -501,7 +577,7 @@ var currentNoteForShare = null;
 
 function shareNote(method) {
   if (!currentNoteForShare) return;
-  var url = 'https://experiencemontenegro.com/notes#' + currentNoteForShare.slug;
+  var url = 'https://experiencemontenegro.com/notes/?n=' + currentNoteForShare.slug;
   var title = currentNoteForShare.title;
   if (method === 'whatsapp') {
     window.open('https://wa.me/?text=' + encodeURIComponent(title + ' — ' + url), '_blank');
@@ -557,33 +633,50 @@ async function subscribeNewsletter() {
   document.getElementById('newsletterSuccess').style.display = 'block';
 }
 
+/* ── photo for each note: its own image if set in admin, otherwise matched by topic ── */
+var EM_NOTE_IMG = {
+  'why-montenegro-takes-longer-than-the-map-suggests':'jeep','choosing-the-right-montenegro-coastal-base':'cruising',
+  'best-montenegro-itinerary-fewer-stops':'hiking','why-timing-matters-in-montenegro':'zipline',
+  'how-to-find-authentic-food-in-montenegro':'wine','montenegro-coast-canyon-mountain-itinerary':'biking',
+  'montenegro-in-may-and-june':'horseback','montenegro-in-july-and-august':'paragliding',
+  'montenegro-in-september-and-october':'hiking','tara-rafting-in-montenegro':'rafting',
+  'canyoning-in-montenegro-guide':'canyoning','boat-tour-private-cruise-or-kayak-montenegro':'kayak'
+};
+function noteImg(n){
+  if (n.image) return n.image;
+  if (EM_NOTE_IMG[n.slug]) return '/img/' + EM_NOTE_IMG[n.slug] + '.webp';
+  var t = ((n.title||'') + ' ' + (n.slug||'')).toLowerCase();
+  var keys = [['raft','rafting'],['canyon','canyoning'],['kayak','kayak'],['boat','cruising'],['cruise','cruising'],['coast','cruising'],['bay','cruising'],
+    ['food','wine'],['wine','wine'],['eat','wine'],['jeep','jeep'],['road','jeep'],['drive','jeep'],['hik','hiking'],['mountain','hiking'],['durmitor','hiking'],
+    ['bike','biking'],['cycl','biking'],['horse','horseback'],['paraglid','paragliding'],['zip','zipline']];
+  for (var i=0;i<keys.length;i++) if (t.indexOf(keys[i][0])>=0) return '/img/' + keys[i][1] + '.webp';
+  var pool=['hiking','cruising','rafting','wine','jeep','kayak'], h=0; for (var j=0;j<t.length;j++) h=(h*31+t.charCodeAt(j))|0;
+  return '/img/' + pool[Math.abs(h)%pool.length] + '.webp';
+}
+function noteEsc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function noteHref(n){ return '/notes/?n=' + encodeURIComponent(n.slug||''); }
+
 function renderNotes() {
   var grid = document.getElementById('notesGrid');
   var featured = document.getElementById('notesFeatured');
   var filtered = currentFilter === 'all' ? travelNotes : travelNotes.filter(function(n){return n.tag===currentFilter;});
-
   if (filtered.length === 0) {
     featured.innerHTML = '';
     grid.innerHTML = '<div class="notes-empty"><div class="notes-empty-title">Notes coming soon.</div><div class="notes-empty-sub">Insider guides, hidden spots, seasonal tips, written from Podgorica.</div></div>';
     return;
   }
-
-  // Featured = first article of the filtered set
-  var featuredNote = filtered[0];
-  var featuredIdx = travelNotes.indexOf(featuredNote);
+  var f = filtered[0], fi = travelNotes.indexOf(f);
   featured.innerHTML =
-    '<a class="featured-card" href="#" onclick="event.preventDefault();openNote(' + featuredIdx + ')">' +
+    '<a class="featured-card" href="' + noteHref(f) + '" onclick="event.preventDefault();openNote(' + fi + ')">' +
       '<div class="featured-left">' +
         '<div class="featured-badge">Featured</div>' +
-        '<div class="featured-tag">' + featuredNote.tag + '</div>' +
-        '<div class="featured-title">' + featuredNote.title + '</div>' +
-        '<div class="featured-excerpt">' + featuredNote.excerpt + '</div>' +
-        '<div class="featured-meta"><span>' + featuredNote.date + '</span><span>·</span><span>' + (featuredNote.readTime||'') + '</span><span class="featured-read">Read note</span></div>' +
+        '<div class="featured-tag">' + noteEsc(f.tag) + '</div>' +
+        '<h2 class="featured-title">' + noteEsc(f.title) + '</h2>' +
+        '<div class="featured-excerpt">' + noteEsc(f.excerpt) + '</div>' +
+        '<div class="featured-meta"><span>' + noteEsc(f.date) + '</span><span>·</span><span>' + noteEsc(f.readTime||'') + '</span><span class="featured-read">Read note</span></div>' +
       '</div>' +
-      '<div class="featured-right"><div class="featured-right-mark">EM</div></div>' +
+      '<div class="featured-right"><img src="' + noteImg(f) + '" alt="" loading="eager"></div>' +
     '</a>';
-
-  // Rest go in grid
   var rest = filtered.slice(1);
   grid.innerHTML = '';
   if (rest.length === 0) { grid.style.display = 'none'; return; }
@@ -592,16 +685,14 @@ function renderNotes() {
     var idx = travelNotes.indexOf(note);
     var card = document.createElement('a');
     card.className = 'note-card';
-    card.href = '#';
+    card.href = noteHref(note);
     card.onclick = function(e) { e.preventDefault(); openNote(idx); };
     card.innerHTML =
-      '<div class="note-tag">' + note.tag + '</div>' +
-      '<div class="note-title">' + note.title + '</div>' +
-      '<div class="note-excerpt">' + note.excerpt + '</div>' +
-      '<div class="note-meta">' +
-        '<span class="note-date">' + note.date + '</span>' +
-        '<span class="note-read-time">' + (note.readTime||'') + '</span>' +
-        '<span class="note-read">Read →</span>' +
+      '<div class="note-card-img"><img src="' + noteImg(note) + '" alt="" loading="lazy"><span class="note-card-chip">' + noteEsc(note.tag) + '</span></div>' +
+      '<div class="note-card-body">' +
+        '<h3 class="note-title">' + noteEsc(note.title) + '</h3>' +
+        '<div class="note-excerpt">' + noteEsc(note.excerpt) + '</div>' +
+        '<div class="note-meta"><span class="note-date">' + noteEsc(note.date) + (note.readTime ? ' · ' + noteEsc(note.readTime) : '') + '</span><span class="note-read">Read →</span></div>' +
       '</div>';
     grid.appendChild(card);
   });
@@ -614,59 +705,75 @@ function filterNotes(f, btn) {
   renderNotes();
 }
 
-function openNote(i) {
-  var n = travelNotes[i];
+var EM_LIST_TITLE = document.title;
+var EM_LIST_DESC = (document.querySelector('meta[name="description"]')||{}).content || '';
+function setMeta(title, desc, url, img){
+  document.title = title;
+  var set = function(sel, attr, v){ var el = document.querySelector(sel); if (el) el.setAttribute(attr, v); };
+  set('meta[name="description"]','content',desc); set('link[rel="canonical"]','href',url);
+  set('meta[property="og:title"]','content',title); set('meta[property="og:description"]','content',desc); set('meta[property="og:url"]','content',url);
+  set('meta[name="twitter:title"]','content',title); set('meta[name="twitter:description"]','content',desc);
+  var ld = document.getElementById('emArticleLd');
+  if (img) {
+    if (!ld) { ld = document.createElement('script'); ld.type = 'application/ld+json'; ld.id = 'emArticleLd'; document.head.appendChild(ld); }
+    ld.textContent = JSON.stringify({ '@context':'https://schema.org', '@type':'Article', headline:title.replace(/ \| Experience Montenegro$/,''), description:desc,
+      image:'https://experiencemontenegro.com'+img, mainEntityOfPage:url, author:{ '@type':'Person', name:'Igor' }, publisher:{ '@type':'Organization', name:'Experience Montenegro' } });
+  } else if (ld) { ld.remove(); }
+}
+
+function openNote(i, fromHistory) {
+  var n = travelNotes[i]; if (!n) return;
   currentNoteForShare = n;
+  var img = noteImg(n);
+  document.getElementById('nImg').innerHTML = '<img src="' + img + '" alt="">';
   document.getElementById('nTag').textContent = n.tag;
   document.getElementById('nTitle').textContent = n.title;
-  document.getElementById('nMeta').textContent = n.date + (n.readTime ? ' · ' + n.readTime : '');
+  document.getElementById('nMeta').textContent = 'Local planner, Podgorica · ' + n.date + (n.readTime ? ' · ' + n.readTime : '');
   document.getElementById('nBody').innerHTML = n.body;
 
-  // Related notes — same tag first, then fill with others
   var related = travelNotes.filter(function(x, xi){ return xi !== i && x.tag === n.tag; });
-  if (related.length < 2) {
-    travelNotes.forEach(function(x, xi){
-      if (xi !== i && x.tag !== n.tag && related.length < 2) related.push(x);
-    });
-  }
-  related = related.slice(0, 2);
-  var relEl = document.getElementById('noteRelated');
-  if (related.length > 0) {
-    var html = '<div class="note-related-label">Related notes</div><div class="note-related-grid">';
-    related.forEach(function(r) {
+  travelNotes.forEach(function(x, xi){ if (xi !== i && related.indexOf(x) < 0 && related.length < 3) related.push(x); });
+  related = related.slice(0, 3);
+  document.getElementById('noteRelated').innerHTML = related.length ?
+    '<div class="note-related-label">Keep reading</div><div class="note-related-grid">' + related.map(function(r){
       var ri = travelNotes.indexOf(r);
-      html += '<a class="note-related-item" href="#" onclick="event.preventDefault();openNote(' + ri + ')">' +
-        '<div class="note-related-tag">' + r.tag + '</div>' +
-        '<div class="note-related-title">' + r.title + '</div></a>';
-    });
-    html += '</div>';
-    relEl.innerHTML = html;
-  } else {
-    relEl.innerHTML = '';
-  }
+      return '<a class="note-related-item" href="' + noteHref(r) + '" onclick="event.preventDefault();openNote(' + ri + ')">' +
+        '<div class="note-related-img"><img src="' + noteImg(r) + '" alt="" loading="lazy"></div>' +
+        '<div class="note-related-tag">' + noteEsc(r.tag) + '</div><div class="note-related-title">' + noteEsc(r.title) + '</div></a>';
+    }).join('') + '</div>' : '';
 
-  document.getElementById('noteModal').classList.add('open');
-  document.getElementById('noteModal').scrollTop = 0;
+  var m = document.getElementById('noteModal');
+  m.classList.add('open'); m.scrollTop = 0;
   var _pb = document.getElementById('noteProgress'); if (_pb) _pb.style.width = '0%';
   document.body.style.overflow = 'hidden';
-  if (n.slug) history.replaceState(null, '', '#' + n.slug);
-  document.title = n.title + ' | Experience Montenegro';
+  if (!fromHistory && n.slug) history.pushState({ note: n.slug }, '', noteHref(n));
+  setMeta(n.title + ' | Experience Montenegro', n.excerpt || EM_LIST_DESC, 'https://experiencemontenegro.com' + noteHref(n), img);
 }
 
-function closeNote() {
-  document.getElementById('noteModal').classList.remove('open');
+function closeNote(fromHistory) {
+  var m = document.getElementById('noteModal');
+  if (!m.classList.contains('open')) return;
+  m.classList.remove('open');
   document.body.style.overflow = '';
-  history.replaceState(null, '', 'notes.html');
-  document.title = 'Montenegro Travel Notes — Local Insights & Itinerary Tips | Experience Montenegro';
+  if (!fromHistory) history.pushState(null, '', '/notes/');
+  setMeta(EM_LIST_TITLE, EM_LIST_DESC, 'https://experiencemontenegro.com/notes', null);
 }
 
-// Deep link: open article if URL hash matches a slug
-(function() {
-  var hash = window.location.hash.replace('#', '');
-  if (!hash) return;
-  for (var i = 0; i < travelNotes.length; i++) {
-    if (travelNotes[i].slug === hash) { openNote(i); break; }
-  }
+/* open the article named in the address: /notes/?n=slug (or the old #slug links) */
+function emSlugFromUrl(){
+  var q = new URLSearchParams(location.search).get('n');
+  return q || (location.hash || '').replace('#','');
+}
+function emOpenFromUrl(){
+  var slug = emSlugFromUrl();
+  if (!slug) { closeNote(true); return; }
+  for (var i = 0; i < travelNotes.length; i++) if (travelNotes[i].slug === slug) { openNote(i, true); return; }
+}
+window.addEventListener('popstate', emOpenFromUrl);
+(function(){
+  var h = (location.hash||'').replace('#','');
+  if (h && !new URLSearchParams(location.search).get('n')) history.replaceState(null, '', '/notes/?n=' + h);
+  emOpenFromUrl();
 })();
 
 document.getElementById('noteModal').addEventListener('click', function(e) {
@@ -695,12 +802,15 @@ renderNotes();
           date: r.date || '',
           readTime: r.read_time || '',
           excerpt: r.excerpt || '',
-          body: r.body || ''
+          body: r.body || '',
+          image: r.image || ''
         };
       });
       if (!live.length) return;
       travelNotes = live;
+      updateFilterCounts();
       renderNotes();
+      emOpenFromUrl();
     })
     .catch(function(){});
 })();

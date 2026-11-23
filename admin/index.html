@@ -325,6 +325,8 @@ function initAdmin() {
           <div class="bk-f"><label>Category</label><select id="ntTag"><option>Local Insight</option><option>Seasonal</option><option>Activity Guide</option><option>Itinerary</option></select></div>
         </div>
 
+        <div class="bk-f"><label>Photo &mdash; leave on Automatic to match the topic, or pick one / paste a link</label><div style="display:grid;grid-template-columns:1fr 1.3fr;gap:.6rem;"><select id="ntImgPick" onchange="document.getElementById('ntImage').value=this.value"><option value="">Automatic</option><option value="/img/rafting.webp">Rafting</option><option value="/img/canyoning.webp">Canyoning</option><option value="/img/kayak.webp">Kayak</option><option value="/img/cruising.webp">Cruising</option><option value="/img/hiking.webp">Hiking</option><option value="/img/jeep.webp">Jeep</option><option value="/img/wine.webp">Wine</option><option value="/img/biking.webp">Biking</option><option value="/img/horseback.webp">Horseback</option><option value="/img/paragliding.webp">Paragliding</option><option value="/img/zipline.webp">Zipline</option></select><input type="text" id="ntImage" placeholder="/img/rafting.webp or https://..." oninput="document.getElementById('ntImgPick').value=''"></div></div>
+
         <div class="bk-f"><label>Excerpt &mdash; the two lines shown on the card</label><textarea id="ntExcerpt" rows="2" placeholder="Distances here are short on paper and long in practice. Here is how to plan around it."></textarea></div>
 
         <div class="bk-f"><label>Body</label><textarea id="ntBodyTxt" rows="16" style="font-family:ui-monospace,Menlo,Consolas,monospace;font-size:0.78rem;line-height:1.7;" placeholder="First paragraph.&#10;&#10;## A subheading&#10;&#10;Another paragraph."></textarea></div>
@@ -1165,7 +1167,7 @@ function ntClose(){ document.getElementById('ntModal').classList.remove('open');
 function ntNew(){
   ntEditing = null;
   document.getElementById('ntModalTitle').textContent = 'New note';
-  ['ntTitle','ntSlug','ntExcerpt','ntBodyTxt','ntRead'].forEach(function(id){ document.getElementById(id).value = ''; });
+  ['ntTitle','ntSlug','ntExcerpt','ntBodyTxt','ntRead','ntImage','ntImgPick'].forEach(function(id){ document.getElementById(id).value = ''; });
   document.getElementById('ntSlug').readOnly = false;
   document.getElementById('ntTag').value = 'Local Insight';
   var now = new Date();
@@ -1193,6 +1195,8 @@ function ntEdit(i){
   document.getElementById('ntBodyTxt').value = r.body || '';
   document.getElementById('ntDate').value = r.date || '';
   document.getElementById('ntRead').value = r.read_time || '';
+  document.getElementById('ntImage').value = r.image || '';
+  document.getElementById('ntImgPick').value = [].some.call(document.getElementById('ntImgPick').options,function(o){return o.value===(r.image||'');}) ? (r.image||'') : '';
   document.getElementById('ntSort').value = (r.sort == null ? '' : r.sort);
   document.getElementById('ntActive').checked = r.active !== false;
   document.getElementById('ntDelBtn').style.display = '';
@@ -1234,6 +1238,8 @@ async function ntSave(){
     sort: Number(document.getElementById('ntSort').value) || 100,
     active: document.getElementById('ntActive').checked
   };
+  var ntImg = document.getElementById('ntImage').value.trim();
+  if (ntImg || (ntEditing && ntRows.some(function(x){ return x.slug===ntEditing && 'image' in x; }))) row.image = ntImg;
   ntSay('Saving...');
   try {
     var res = await fetch(SUPABASE_URL_ADMIN + '/rest/v1/notes', {
