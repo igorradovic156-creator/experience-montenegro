@@ -287,7 +287,11 @@ nav{background:rgba(11,27,20,.88)!important;-webkit-backdrop-filter:blur(14px);b
 .note-card:hover .note-card-img img{transform:scale(1.06);}
 .note-card-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(11,27,20,.55),transparent 55%);}
 .note-card-chip{position:absolute;left:.9rem;top:.9rem;z-index:1;font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:rgba(11,27,20,.62);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.16);padding:.38rem .7rem;border-radius:999px;}
-.note-card-body{padding:1.3rem 1.4rem 1.25rem;display:flex;flex-direction:column;flex:1;}
+.note-card-body{padding:1.6rem 1.5rem 1.35rem;display:flex;flex-direction:column;flex:1;}
+.note-card-body .note-tag{margin-bottom:.8rem;}
+.featured-noimg{background:radial-gradient(ellipse at 70% 40%,rgba(46,139,114,.22),transparent 65%),#0f2419!important;}
+.featured-noimg::after{display:none;}
+@media (max-width:760px){.featured-noimg{display:none!important;}}
 .note-card .note-title{margin:0 0 .6rem;}
 .note-card .note-excerpt{flex:1;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
 .note-card .note-meta{display:flex;justify-content:space-between;align-items:center;margin-top:1rem;padding-top:.9rem;border-top:1px solid rgba(200,184,154,.08);}
@@ -332,6 +336,11 @@ nav{background:rgba(11,27,20,.88)!important;-webkit-backdrop-filter:blur(14px);b
   .note-related-grid{grid-template-columns:1fr!important;}
   .note-modal-body{font-size:.98rem!important;}
 }
+</style>
+<style id="emNavCta">
+/* nav button: same pill as the homepage */
+.nav-cta{border-radius:999px!important;background:transparent!important;border:1px solid rgba(245,242,238,.35)!important;padding:.55rem 1.15rem!important;color:#fff!important;transition:background .25s,border-color .25s!important;}
+.nav-cta:hover{background:var(--cta)!important;border-color:var(--cta)!important;}
 </style>
 </head>
 <body>
@@ -642,17 +651,7 @@ var EM_NOTE_IMG = {
   'montenegro-in-september-and-october':'hiking','tara-rafting-in-montenegro':'rafting',
   'canyoning-in-montenegro-guide':'canyoning','boat-tour-private-cruise-or-kayak-montenegro':'kayak'
 };
-function noteImg(n){
-  if (n.image) return n.image;
-  if (EM_NOTE_IMG[n.slug]) return '/img/' + EM_NOTE_IMG[n.slug] + '.webp';
-  var t = ((n.title||'') + ' ' + (n.slug||'')).toLowerCase();
-  var keys = [['raft','rafting'],['canyon','canyoning'],['kayak','kayak'],['boat','cruising'],['cruise','cruising'],['coast','cruising'],['bay','cruising'],
-    ['food','wine'],['wine','wine'],['eat','wine'],['jeep','jeep'],['road','jeep'],['drive','jeep'],['hik','hiking'],['mountain','hiking'],['durmitor','hiking'],
-    ['bike','biking'],['cycl','biking'],['horse','horseback'],['paraglid','paragliding'],['zip','zipline']];
-  for (var i=0;i<keys.length;i++) if (t.indexOf(keys[i][0])>=0) return '/img/' + keys[i][1] + '.webp';
-  var pool=['hiking','cruising','rafting','wine','jeep','kayak'], h=0; for (var j=0;j<t.length;j++) h=(h*31+t.charCodeAt(j))|0;
-  return '/img/' + pool[Math.abs(h)%pool.length] + '.webp';
-}
+function noteImg(n){ return n.image || ''; }
 function noteEsc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function noteHref(n){ return '/notes/?n=' + encodeURIComponent(n.slug||''); }
 
@@ -675,7 +674,7 @@ function renderNotes() {
         '<div class="featured-excerpt">' + noteEsc(f.excerpt) + '</div>' +
         '<div class="featured-meta"><span>' + noteEsc(f.date) + '</span><span>·</span><span>' + noteEsc(f.readTime||'') + '</span><span class="featured-read">Read note</span></div>' +
       '</div>' +
-      '<div class="featured-right"><img src="' + noteImg(f) + '" alt="" loading="eager"></div>' +
+      (noteImg(f) ? '<div class="featured-right"><img src="' + noteImg(f) + '" alt="" loading="eager"></div>' : '<div class="featured-right featured-noimg"><div class="featured-right-mark">EM</div></div>') +
     '</a>';
   var rest = filtered.slice(1);
   grid.innerHTML = '';
@@ -688,8 +687,9 @@ function renderNotes() {
     card.href = noteHref(note);
     card.onclick = function(e) { e.preventDefault(); openNote(idx); };
     card.innerHTML =
-      '<div class="note-card-img"><img src="' + noteImg(note) + '" alt="" loading="lazy"><span class="note-card-chip">' + noteEsc(note.tag) + '</span></div>' +
+      (noteImg(note) ? '<div class="note-card-img"><img src="' + noteImg(note) + '" alt="" loading="lazy"><span class="note-card-chip">' + noteEsc(note.tag) + '</span></div>' : '') +
       '<div class="note-card-body">' +
+        (noteImg(note) ? '' : '<div class="note-tag">' + noteEsc(note.tag) + '</div>') +
         '<h3 class="note-title">' + noteEsc(note.title) + '</h3>' +
         '<div class="note-excerpt">' + noteEsc(note.excerpt) + '</div>' +
         '<div class="note-meta"><span class="note-date">' + noteEsc(note.date) + (note.readTime ? ' · ' + noteEsc(note.readTime) : '') + '</span><span class="note-read">Read →</span></div>' +
@@ -717,15 +717,21 @@ function setMeta(title, desc, url, img){
   if (img) {
     if (!ld) { ld = document.createElement('script'); ld.type = 'application/ld+json'; ld.id = 'emArticleLd'; document.head.appendChild(ld); }
     ld.textContent = JSON.stringify({ '@context':'https://schema.org', '@type':'Article', headline:title.replace(/ \| Experience Montenegro$/,''), description:desc,
-      image:'https://experiencemontenegro.com'+img, mainEntityOfPage:url, author:{ '@type':'Person', name:'Igor' }, publisher:{ '@type':'Organization', name:'Experience Montenegro' } });
+      image:/^https?:/.test(img)?img:'https://experiencemontenegro.com'+img, mainEntityOfPage:url, author:{ '@type':'Person', name:'Igor' }, publisher:{ '@type':'Organization', name:'Experience Montenegro' } });
   } else if (ld) { ld.remove(); }
+  if (!img && title !== EM_LIST_TITLE) { setMetaLd(title, desc, url); }
 }
 
+function setMetaLd(title, desc, url){
+  var ld = document.getElementById('emArticleLd');
+  if (!ld) { ld = document.createElement('script'); ld.type = 'application/ld+json'; ld.id = 'emArticleLd'; document.head.appendChild(ld); }
+  ld.textContent = JSON.stringify({ '@context':'https://schema.org', '@type':'Article', headline:title.replace(/ \| Experience Montenegro$/,''), description:desc, mainEntityOfPage:url, author:{ '@type':'Person', name:'Igor' }, publisher:{ '@type':'Organization', name:'Experience Montenegro' } });
+}
 function openNote(i, fromHistory) {
   var n = travelNotes[i]; if (!n) return;
   currentNoteForShare = n;
   var img = noteImg(n);
-  document.getElementById('nImg').innerHTML = '<img src="' + img + '" alt="">';
+  var nImg = document.getElementById('nImg'); nImg.innerHTML = img ? '<img src="' + img + '" alt="">' : ''; nImg.style.display = img ? '' : 'none';
   document.getElementById('nTag').textContent = n.tag;
   document.getElementById('nTitle').textContent = n.title;
   document.getElementById('nMeta').textContent = 'Local planner, Podgorica · ' + n.date + (n.readTime ? ' · ' + n.readTime : '');
@@ -738,7 +744,7 @@ function openNote(i, fromHistory) {
     '<div class="note-related-label">Keep reading</div><div class="note-related-grid">' + related.map(function(r){
       var ri = travelNotes.indexOf(r);
       return '<a class="note-related-item" href="' + noteHref(r) + '" onclick="event.preventDefault();openNote(' + ri + ')">' +
-        '<div class="note-related-img"><img src="' + noteImg(r) + '" alt="" loading="lazy"></div>' +
+        (noteImg(r) ? '<div class="note-related-img"><img src="' + noteImg(r) + '" alt="" loading="lazy"></div>' : '') +
         '<div class="note-related-tag">' + noteEsc(r.tag) + '</div><div class="note-related-title">' + noteEsc(r.title) + '</div></a>';
     }).join('') + '</div>' : '';
 
