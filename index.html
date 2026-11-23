@@ -1438,7 +1438,11 @@ select{color:#f5f2ee;}
       <h2 class="section-title">Small country.<br><em style="color:var(--stone);">Very different days.</em></h2>
       <p class="rm-lead">Sea, lake, canyon and high mountains, often within two hours of each other. Tap a place to see what it&rsquo;s like.</p>
       <div class="rm-card" id="rmCard" aria-live="polite"></div>
-      <p class="rm-foot">Your plan connects only the places that fit you, in an order that makes sense on the road.</p>
+      <div class="rm-note">
+        <p><b>This is the Montenegro anyone can find.</b> The places worth remembering aren&rsquo;t on this map: the cove you can only reach by boat, the konoba with no sign outside, the family that opens its cellar for you.</p>
+        <p>Those are the places your itinerary takes you, with hosts I know personally, at the hour they&rsquo;re at their best.</p>
+        <a href="#plan">Plan my trip &rarr;</a>
+      </div>
     </div>
     <div class="rm-map"><svg class="rm-svg" viewBox="-120 -15 800 750" role="group" aria-label="Map of Montenegro's regions">
   <defs><linearGradient id="rmLand" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#173a29"/><stop offset="1" stop-color="#11291d"/></linearGradient>
@@ -3515,6 +3519,12 @@ function closeMobileMenu() {
 })();
 </script>
 <style id="emPolish">
+.rm-note{margin-top:1.4rem;padding:1.4rem 1.5rem;border-left:2px solid #e0b24a;border-radius:0 16px 16px 0;background:linear-gradient(90deg,rgba(224,178,74,.09),rgba(224,178,74,0));max-width:540px;}
+.rm-note p{font-size:.9rem;line-height:1.7;color:rgba(245,242,238,.72);margin:0 0 .7rem;}
+.rm-note p b{display:block;font-family:'Playfair Display',serif;font-weight:400;font-size:1.2rem;color:#fff;margin-bottom:.35rem;}
+.rm-note a{display:inline-block;margin-top:.4rem;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:#e0b24a;text-decoration:none;border-bottom:1px solid rgba(224,178,74,.4);padding-bottom:2px;}
+@media (max-width:860px){.rm-note{order:4;margin-top:.4rem;}}
+
 /* ── regions map ── */
 .rm-section{background:linear-gradient(to bottom,#102a1d 0,#0d2118 160px,#0b1b14 340px);padding:3.5rem 2rem 6rem;overflow:hidden;margin-top:-1px;}
 .rm-chips{display:none;}
@@ -3550,7 +3560,6 @@ function closeMobileMenu() {
   .rm-copy > .section-label,.rm-copy > .section-title,.rm-copy > .rm-lead{order:1;}
   .rm-map{order:2;}
   .rm-card{order:3;min-height:0;}
-  .rm-foot{order:4;}
   .rm-lead{margin-bottom:0;}
   .rm-lbl{display:none;}
   .rm-pin.sel .rm-lbl{display:block;font-size:22px;stroke-width:6px;}
