@@ -1234,6 +1234,7 @@ select{color:#f5f2ee;}
   window.EMAttr = a;
 })();
 </script>
+<style id="emNavGuide">.nav-guide{display:inline-flex!important;align-items:center;gap:.4rem;color:#e0b24a!important;}.nav-guide svg{flex-shrink:0;}.nav-guide:hover{color:#f0c96a!important;}</style>
 </head>
 <body>
 <!-- LOADER -->
@@ -1254,6 +1255,7 @@ select{color:#f5f2ee;}
   <div class="nav-links">
     <a href="/adventures" class="nav-link nav-activities">Adventures</a>
     <a href="/notes" class="nav-link">Travel Notes</a>
+    <a href="#travel-guide" class="nav-link nav-guide" onclick="setTimeout(function(){var e=document.getElementById('guideEmail');if(e)e.focus({preventScroll:true});},700);"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5M12 11v6M9.5 14.5L12 17l2.5-2.5"/></svg>Free Guide</a>
     <a href="#plan" class="nav-cta">Plan My Trip</a>
   </div>
   <button class="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
@@ -1415,7 +1417,7 @@ select{color:#f5f2ee;}
   <h2 class="and-more-headline">If you can dream it,<br><em>we can plan it.</em></h2>
   <p class="and-more-items">Skydiving &middot; Special events &middot; Photography &amp; drone tours &middot; Water sports &middot; Helicopter tours &middot; Fishing on Skadar Lake &middot; Cultural walks &middot; Ski &amp; Snow</p>
 
-  <div style="position:absolute;bottom:0;left:0;right:0;line-height:0;pointer-events:none;"><picture><source media="(max-width:768px)" srcset="/img/mountains-divider-mobile.png"><img src="/img/mountains-divider.png" alt="" aria-hidden="true" onerror="this.closest('picture').parentNode.style.display='none';" style="width:100%;height:auto;display:block;opacity:0.95;"></picture></div>
+  <div style="position:absolute;bottom:0;left:0;right:0;line-height:0;pointer-events:none;"><picture><source media="(max-width:768px)" srcset="/img/mountains-divider-mobile.png"><img src="/img/mountains-divider-wide.png" alt="" aria-hidden="true" onerror="this.closest('picture').parentNode.style.display='none';" style="width:100%;height:auto;display:block;opacity:0.95;"></picture></div>
 </section>
 
 <!-- THE DIFFERENCE -->
@@ -3536,6 +3538,8 @@ function closeMobileMenu() {
 })();
 </script>
 <style id="emPolish">
+@media (min-width:769px){.and-more-section{padding-bottom:clamp(170px,12vw,290px)!important;}}
+
 .rm-head{display:flex;align-items:center;justify-content:space-between;gap:.6rem;margin-bottom:.85rem;}
 .rm-head .rm-type{margin-bottom:0;}
 .rm-photo{display:inline-flex;align-items:center;gap:.4rem;font:500 .7rem 'DM Sans',sans-serif;letter-spacing:.04em;color:#fff;background:rgba(255,255,255,.06);border:1px solid rgba(200,184,154,.25);border-radius:999px;padding:.4rem .8rem;cursor:pointer;transition:background .2s,border-color .2s;}
