@@ -1439,13 +1439,13 @@ select{color:#f5f2ee;}
       <div class="rm-card" id="rmCard" aria-live="polite"></div>
       <div class="rm-note">
         <div class="rm-note-k">Beyond the map</div>
-        <h4>The map shows you where.<br><em>Your itinerary shows you how.</em></h4>
-        <div class="rm-vs">
-          <div class="rm-vs-h"><span>Free on any map</span><span>Only in your itinerary</span></div>
-          <div class="rm-vs-r"><span class="rm-vs-free">Where the beaches are</span><span class="rm-vs-paid">Which cove is empty at 9&nbsp;am, and how to get there</span></div>
-          <div class="rm-vs-r"><span class="rm-vs-free">That the food is good</span><span class="rm-vs-paid">The family table with their own cheese, ham and rakija</span></div>
-          <div class="rm-vs-r"><span class="rm-vs-free">A list of things to do</span><span class="rm-vs-paid">Hosts I know personally, expecting you by name</span></div>
-        </div>
+        <h4>This map is just the basics.</h4>
+        <p>The best of Montenegro isn&rsquo;t on it. Your itinerary takes you there, to local hosts I know and trust.</p>
+        <ul class="rm-note-list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17c2.4 0 2.4-2 4.75-2S9.6 17 12 17s2.4-2 4.75-2 2.35 2 4.75 2"/><circle cx="16.5" cy="7.5" r="3"/></svg>Quiet beaches, away from the crowds</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11h16a8 8 0 01-16 0z"/><path d="M9 4c-1 1.5 1 2.5 0 4M13 4c-1 1.5 1 2.5 0 4"/></svg>Homemade cheese, ham, honey and wine</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18M5 20V10l7-5 7 5v10"/><path d="M10 20v-5h4v5"/></svg>Families who have done this for generations</li>
+        </ul>
       </div>
     </div>
     <div class="rm-map"><svg class="rm-svg" viewBox="-120 -15 800 750" role="group" aria-label="Map of Montenegro's regions">
@@ -3589,25 +3589,6 @@ function closeMobileMenu() {
 })();
 </script>
 <style id="emPolish">
-.rm-note h4 em{color:var(--stone);}
-.rm-vs{margin-top:1.3rem;}
-.rm-vs-h,.rm-vs-r{display:grid;grid-template-columns:1fr 1.35fr;gap:1.2rem;}
-.rm-vs-h{padding-bottom:.6rem;border-bottom:1px solid rgba(200,184,154,.14);}
-.rm-vs-h span{font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(200,184,154,.5);}
-.rm-vs-h span:last-child{color:#e0b24a;}
-.rm-vs-r{padding:.95rem 0;border-bottom:1px solid rgba(200,184,154,.08);align-items:baseline;}
-.rm-vs-r:last-child{border-bottom:none;padding-bottom:0;}
-.rm-vs-free{font-size:.84rem;color:rgba(245,242,238,.42);}
-.rm-vs-paid{font-size:.92rem;line-height:1.5;color:#fff;font-weight:500;}
-@media (max-width:560px){.rm-vs-h,.rm-vs-r{gap:.9rem;grid-template-columns:.85fr 1.3fr;}.rm-vs-paid{font-size:.86rem;}}
-
-.rm-note{max-width:620px!important;}
-.rm-note-list{gap:1rem!important;}
-.rm-note-list li{align-items:flex-start!important;}
-.rm-note-list li div{display:flex;flex-direction:column;gap:.2rem;padding-top:.15rem;}
-.rm-note-list li b{font-weight:600;font-size:.9rem;color:#fff;}
-.rm-note-list li span{font-size:.82rem;line-height:1.55;color:rgba(245,242,238,.62);}
-
 .rm-note-link{display:inline-flex;align-items:center;gap:.45rem;font-family:'Playfair Display',serif;font-style:italic;font-size:1.05rem;color:var(--stone);text-decoration:none;border-bottom:1px solid rgba(200,184,154,.35);padding-bottom:3px;transition:color .2s,border-color .2s;}
 .rm-note-link span{font-style:normal;transition:transform .25s;}
 .rm-note-link:hover{color:#fff;border-color:rgba(255,255,255,.6);}
