@@ -481,6 +481,7 @@ function initAdmin() {
           <div><div class="adm-field-lbl">Country</div><div class="adm-field-val" id="admMCountry"></div></div>
           <div><div class="adm-field-lbl">Plan</div><div class="adm-field-val" id="admMPlan"></div></div>
           <div><div class="adm-field-lbl">Date</div><div class="adm-field-val" id="admMDate"></div></div>
+          <div><div class="adm-field-lbl">Came from</div><div class="adm-field-val" id="admMSource"></div></div>
         </div>
         <div class="adm-field-lbl">Message</div>
         <div class="adm-field-val" id="admMMsg" style="background:rgba(200,184,154,0.03);padding:0.65rem;border-left:2px solid rgba(46,139,114,0.25);margin-bottom:1rem;"></div>
@@ -746,12 +747,19 @@ function sourceLabel(l){
   if ((l.status||'') === 'guide') return 'guide';
   return 'unknown';
 }
+var SOURCE_NAMES={guide:'Travel guide',form:'Plan form',modal:'Plan pop-up',quiz:'Trip quiz',newsletter:'Newsletter',unknown:'Unknown'};
+function sourceName(s){ return SOURCE_NAMES[s]||s; }
+function sourceText(l){
+  var s=sourceName(sourceLabel(l));
+  var ref=l.referrer && l.referrer!=='(direct)' ? l.referrer.replace(/^www\./,'') : (l.referrer==='(direct)'?'direct':'');
+  return s+(ref?' · via '+ref:'')+(l.campaign?' · '+l.campaign:'');
+}
 function sourceCell(l){
   var s = sourceLabel(l);
   var colour = { modal:'#2e8b72', form:'#4a90c2', quiz:'#c17f3b', guide:'#8e7cc3', unknown:'rgba(200,184,154,0.25)' }[s] || 'rgba(200,184,154,0.4)';
   var ref = l.referrer && l.referrer !== '(direct)' ? l.referrer : (l.referrer === '(direct)' ? 'direct' : '');
   var camp = l.campaign ? '<div style="font-size:0.56rem;color:rgba(193,127,59,0.7);">'+String(l.campaign).slice(0,32)+'</div>' : '';
-  return '<span style="font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:'+colour+';">'+s+'</span>'+
+  return '<span style="font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:'+colour+';">'+sourceName(s)+'</span>'+
          (ref ? '<div style="font-size:0.58rem;color:rgba(200,184,154,0.28);">via '+ref+'</div>' : '') + camp;
 }
 
@@ -836,7 +844,7 @@ function admRender() {
       waitCell = '<span class="'+cls+'">'+waitingLabel(days)+'</span>';
     }
 
-    tr.innerHTML = '<td><div class="adm-name">'+(l.name||'—')+'</div><div class="adm-email">'+(l.email||'')+'</div></td>'+
+    tr.innerHTML = '<td><div class="adm-name">'+(l.name||'—')+'</div><div class="adm-email">'+(l.email||'')+'</div><div class="adm-src-m">'+sourceText(l)+'</div></td>'+
       '<td><span class="adm-type-badge adm-type-'+type+'">'+type+'</span></td>'+
       '<td>'+sourceCell(l)+'</td>'+
       '<td class="adm-date">'+d+'</td>'+
@@ -899,6 +907,7 @@ function admOpenModal(l) {
   document.getElementById('admMCountry').textContent = l.country||'—';
   document.getElementById('admMPlan').textContent = l.plan||'—';
   document.getElementById('admMDate').textContent = d;
+  var _ms=document.getElementById('admMSource'); if(_ms) _ms.textContent = sourceText(l);
   document.getElementById('admMMsg').textContent = l.message||'No message';
   document.getElementById('admMNotes').value = l.notes||'';
   document.getElementById('admWa').href = 'https://wa.me/?text=Hi '+encodeURIComponent(l.name||'')+'!';
@@ -1942,6 +1951,9 @@ setInterval(function(){
 }, 60000);
 </script>
 <style id="admUI">
+.adm-src-m{display:none;font-size:.66rem;color:#a48cf0;margin-top:.25rem;}
+@media (max-width:560px){.adm-src-m{display:block;}}
+
 /* ═══════════ Admin UI v2 — glass control centre ═══════════ */
 #adminOverlay{
   --bg0:#07131a;--glass:rgba(255,255,255,.055);--glass2:rgba(255,255,255,.085);--edge:rgba(255,255,255,.1);--edge2:rgba(255,255,255,.16);
