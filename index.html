@@ -1474,7 +1474,7 @@ select{color:#f5f2ee;}
       </ul>
     </div>
 
-    <div class="deliver-doc-wrap">
+    <div class="deliver-doc-wrap" id="sample">
       <div class="dp-badge">Sample itinerary &middot; 6 days</div>
       <div class="dp-phone" aria-label="Preview of a sample itinerary on a phone">
         <div class="dp-notch"></div>
@@ -1661,7 +1661,7 @@ select{color:#f5f2ee;}
     <h2 class="section-title">One fee. Everything handled.<br><em style="color:var(--stone);">Refined until it's right.</em></h2>
     <p class="pricing-note" style="margin-top:1.5rem;">Most travel planning costs you time, energy, and missed experiences. This costs less than a dinner out, and gives you a trip worth remembering.</p>
     <p class="pricing-note" style="margin-top:0.9rem;">You pay only for the planning itself. <strong style="color:var(--stone);">I reach out within hours</strong> to discuss your trip. Once we've shaped the direction together, you secure your plan with a simple payment request. Activities, stays and transfers are always paid <strong style="color:var(--stone);">directly to the host</strong>, at their own local price. Nothing passes through me, and nothing is marked up.</p>
-    <p class="pricing-note" style="margin-top:0.9rem;">What you actually get is a private itinerary link &mdash; <a href="#deliverable" style="color:var(--cta);text-decoration:none;border-bottom:1px solid rgba(46,139,114,0.4);">see a sample itinerary</a>.</p>
+    <p class="pricing-note" style="margin-top:0.9rem;">What you actually get is a private itinerary link &mdash; <a href="#sample" style="color:var(--cta);text-decoration:none;border-bottom:1px solid rgba(46,139,114,0.4);">see a sample itinerary</a>.</p>
     <div class="pricing-grid">
 
     <div class="price-card">
@@ -3590,6 +3590,8 @@ function closeMobileMenu() {
 })();
 </script>
 <style id="emPolish">
+#sample{scroll-margin-top:96px;}
+
 /* the old "and much more" block is now just the mountain transition */
 .and-more-section{padding:2rem 0 clamp(150px,13vw,300px)!important;}
 @media (max-width:768px){.and-more-section{padding:1rem 0 125px!important;}}
