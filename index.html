@@ -1439,9 +1439,13 @@ select{color:#f5f2ee;}
       <div class="rm-card" id="rmCard" aria-live="polite"></div>
       <div class="rm-note">
         <div class="rm-note-k">Beyond the map</div>
-        <h4>This map is just the basics.</h4>
-        <p>The best of Montenegro isn&rsquo;t on it. Here&rsquo;s what your itinerary gives you that a map never will:</p>
-        <ul class="rm-note-list"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17c2.4 0 2.4-2 4.75-2S9.6 17 12 17s2.4-2 4.75-2 2.35 2 4.75 2"/><circle cx="16.5" cy="7.5" r="3"/></svg><div><b>Places tourists don&rsquo;t find</b><span>Quiet beaches, viewpoints and villages that aren&rsquo;t in any guidebook.</span></div></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11h16a8 8 0 01-16 0z"/><path d="M9 4c-1 1.5 1 2.5 0 4M13 4c-1 1.5 1 2.5 0 4"/></svg><div><b>Food straight from the people who make it</b><span>Cheese, prosciutto, honey, wine and rakija at a family table, not a tourist menu.</span></div></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18M5 20V10l7-5 7 5v10"/><path d="M10 20v-5h4v5"/></svg><div><b>Hosts who treat you as guests</b><span>Families, guides and skippers I know personally. They know you&rsquo;re coming.</span></div></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg><div><b>The right place at the right hour</b><span>When to go to miss the crowds, which road to take, where to park.</span></div></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M16.5 7.5c0-1.7-2-3-4.5-3s-4.5 1.3-4.5 3 2 2.6 4.5 3 4.5 1.4 4.5 3.2-2 3.3-4.5 3.3-4.5-1.4-4.5-3.2"/></svg><div><b>Local prices, paid directly</b><span>No middleman and no tourist mark-up. You pay the hosts yourself.</span></div></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 01-12.6 7.4L3 20.5l1.6-5.2A8.5 8.5 0 1121 11.5z"/></svg><div><b>Someone local on your side</b><span>If it rains or plans change, one message and I rearrange the rest.</span></div></li></ul>
+        <h4>The map shows you where.<br><em>Your itinerary shows you how.</em></h4>
+        <div class="rm-vs">
+          <div class="rm-vs-h"><span>Free on any map</span><span>Only in your itinerary</span></div>
+          <div class="rm-vs-r"><span class="rm-vs-free">Where the beaches are</span><span class="rm-vs-paid">Which cove is empty at 9&nbsp;am, and how to get there</span></div>
+          <div class="rm-vs-r"><span class="rm-vs-free">That the food is good</span><span class="rm-vs-paid">The family table with their own cheese, ham and rakija</span></div>
+          <div class="rm-vs-r"><span class="rm-vs-free">A list of things to do</span><span class="rm-vs-paid">Hosts I know personally, expecting you by name</span></div>
+        </div>
       </div>
     </div>
     <div class="rm-map"><svg class="rm-svg" viewBox="-120 -15 800 750" role="group" aria-label="Map of Montenegro's regions">
@@ -3585,6 +3589,18 @@ function closeMobileMenu() {
 })();
 </script>
 <style id="emPolish">
+.rm-note h4 em{color:var(--stone);}
+.rm-vs{margin-top:1.3rem;}
+.rm-vs-h,.rm-vs-r{display:grid;grid-template-columns:1fr 1.35fr;gap:1.2rem;}
+.rm-vs-h{padding-bottom:.6rem;border-bottom:1px solid rgba(200,184,154,.14);}
+.rm-vs-h span{font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(200,184,154,.5);}
+.rm-vs-h span:last-child{color:#e0b24a;}
+.rm-vs-r{padding:.95rem 0;border-bottom:1px solid rgba(200,184,154,.08);align-items:baseline;}
+.rm-vs-r:last-child{border-bottom:none;padding-bottom:0;}
+.rm-vs-free{font-size:.84rem;color:rgba(245,242,238,.42);}
+.rm-vs-paid{font-size:.92rem;line-height:1.5;color:#fff;font-weight:500;}
+@media (max-width:560px){.rm-vs-h,.rm-vs-r{gap:.9rem;grid-template-columns:.85fr 1.3fr;}.rm-vs-paid{font-size:.86rem;}}
+
 .rm-note{max-width:620px!important;}
 .rm-note-list{gap:1rem!important;}
 .rm-note-list li{align-items:flex-start!important;}
