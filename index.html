@@ -1446,7 +1446,7 @@ select{color:#f5f2ee;}
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11h16a8 8 0 01-16 0z"/><path d="M9 4c-1 1.5 1 2.5 0 4M13 4c-1 1.5 1 2.5 0 4"/></svg>Homemade cheese, ham, honey and wine</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18M5 20V10l7-5 7 5v10"/><path d="M10 20v-5h4v5"/></svg>Families who have done this for generations</li>
         </ul>
-        <a href="#plan" class="rm-note-cta">Plan my trip <span>&rarr;</span></a>
+        <a href="#plan" class="rm-note-link">Plan a trip like this <span>&rarr;</span></a>
       </div>
     </div>
     <div class="rm-map"><svg class="rm-svg" viewBox="-120 -15 800 750" role="group" aria-label="Map of Montenegro's regions">
@@ -3590,6 +3590,11 @@ function closeMobileMenu() {
 })();
 </script>
 <style id="emPolish">
+.rm-note-link{display:inline-flex;align-items:center;gap:.45rem;font-family:'Playfair Display',serif;font-style:italic;font-size:1.05rem;color:var(--stone);text-decoration:none;border-bottom:1px solid rgba(200,184,154,.35);padding-bottom:3px;transition:color .2s,border-color .2s;}
+.rm-note-link span{font-style:normal;transition:transform .25s;}
+.rm-note-link:hover{color:#fff;border-color:rgba(255,255,255,.6);}
+.rm-note-link:hover span{transform:translateX(4px);}
+
 #sample{scroll-margin-top:96px;}
 
 /* the old "and much more" block is now just the mountain transition */
@@ -3640,7 +3645,7 @@ function closeMobileMenu() {
 .rm-note-k{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:#e0b24a;margin-bottom:.6rem;}
 .rm-note h4{font-family:'Playfair Display',serif;font-weight:400;font-size:1.4rem;line-height:1.25;color:#fff;margin:0 0 .55rem;}
 .rm-note p{font-size:.9rem;line-height:1.65;color:rgba(245,242,238,.68);margin:0 0 1.2rem;}
-.rm-note-list{list-style:none;margin:0 0 1.4rem;padding:0;display:grid;gap:.7rem;}
+.rm-note-list{list-style:none;margin:0 0 1.2rem;padding:0;display:grid;gap:.7rem;}
 .rm-note-list li{display:flex;align-items:center;gap:.8rem;font-size:.88rem;color:rgba(245,242,238,.85);}
 .rm-note-list svg{flex-shrink:0;width:34px;height:34px;padding:8px;border-radius:50%;color:#e0b24a;background:rgba(224,178,74,.1);border:1px solid rgba(224,178,74,.25);}
 .rm-note-cta{display:inline-flex;align-items:center;gap:.5rem;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:#0b1b14;background:#e0b24a;padding:.85rem 1.3rem;border-radius:10px;text-decoration:none;font-weight:600;transition:transform .2s,background .2s;}
