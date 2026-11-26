@@ -1377,6 +1377,9 @@ select{color:#f5f2ee;}
     <button class="show-card" onclick="pickActivity(this)" data-img="/img/biking.webp" data-label="Adventure" data-title="Mountain Biking" data-sub="Quiet mountain roads, forest singletrack and long alpine descents — e-bikes available for the climbs.">
       <img src="/img/biking.webp" alt="Mountain Biking" loading="lazy"><span class="show-card-name">E-Biking</span>
     </button>
+    <button class="show-card" onclick="pickActivity(this)" data-img="/img/quad.webp" data-label="Adventure" data-title="Quad Tours" data-sub="Off-road trails above the coast and in the mountains, with an instructor or on your own.">
+      <img src="/img/quad.webp" alt="Quad Tours" loading="lazy"><span class="show-card-name">Quad Tours</span>
+    </button>
     <button class="show-card" onclick="pickActivity(this)" data-img="/img/paragliding.webp" data-label="Adventure" data-title="Paragliding" data-sub="Tandem flights above the Bay of Kotor — Montenegro from a perspective most visitors never see.">
       <img src="/img/paragliding.webp" alt="Paragliding" loading="lazy"><span class="show-card-name">Paragliding</span>
     </button>
@@ -3594,6 +3597,11 @@ function closeMobileMenu() {
 (function(){
   var v=document.getElementById('heroVid'); if(!v) return;
   if(!window.matchMedia('(max-width:768px)').matches) return;
+  /* end the video where the adventures rail starts, so the bottom of each shot stays visible */
+  function fit(){ var h=document.querySelector('.hero'), r=document.querySelector('.showcase-wrap'); if(!h||!r) return;
+    var o=Math.max(0, h.getBoundingClientRect().bottom - r.getBoundingClientRect().top);
+    v.style.setProperty('--rail-overlap', o+'px'); }
+  fit(); window.addEventListener('resize',fit); window.addEventListener('load',fit);
   var c=navigator.connection||{};
   if(c.saveData || /(^|-)2g$/.test(c.effectiveType||'')) return;
   if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){ v.classList.add('on'); return; }
@@ -3610,8 +3618,8 @@ function closeMobileMenu() {
 </script>
 <style id="emPolish">
 /* hero video (phones only; desktop keeps the photo) */
-#heroVid{display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:0;transition:opacity .6s ease;pointer-events:none;}
-@media (max-width:768px){#heroVid{display:block;}#heroVid.on{opacity:1;}#heroBg,#heroBg2{animation:none!important;}}
+#heroVid{display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 50%;z-index:0;opacity:0;transition:opacity .6s ease;pointer-events:none;}
+@media (max-width:768px){.hero-overlay{background:linear-gradient(to bottom,rgba(10,14,10,.45) 0%,rgba(10,14,10,.12) 26%,rgba(16,22,16,.42) 64%,rgba(20,24,18,.75) 86%,#20231c 100%)!important;}#heroVid{display:block;inset:0 0 auto 0;height:calc(100% - var(--rail-overlap,80px));}#heroVid.on{opacity:1;}#heroBg,#heroBg2{animation:none!important;}}
 
 .rm-note-link{display:inline-flex;align-items:center;gap:.45rem;font-family:'Playfair Display',serif;font-style:italic;font-size:1.05rem;color:var(--stone);text-decoration:none;border-bottom:1px solid rgba(200,184,154,.35);padding-bottom:3px;transition:color .2s,border-color .2s;}
 .rm-note-link span{font-style:normal;transition:transform .25s;}
