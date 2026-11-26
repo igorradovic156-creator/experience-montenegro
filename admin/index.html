@@ -1451,7 +1451,12 @@ async function advSave(){
     advSay('Saved ✓ live on the site', '#2e8b72');
     await loadAdventuresAdmin();
   } catch(e){
-    err.textContent = String(e.message || e).slice(0, 160);
+    var m = String(e.message || e);
+    if (/row-level security|permission denied|42501/i.test(m)) m = 'Not allowed to save. Run fix-adventures.sql in Supabase, then try again.';
+    else if (/does not exist|42P01|PGRST205/i.test(m)) m = 'The adventures table is missing. Run fix-adventures.sql in Supabase.';
+    else if (/column/i.test(m)) m = 'A column is missing in the database. Run fix-adventures.sql in Supabase. (' + m.slice(0,80) + ')';
+    else if (/jwt|expired/i.test(m)) m = 'Your session expired. Log out and log in again.';
+    err.textContent = m.slice(0, 220);
     err.style.display = 'block';
     advSay('');
   }
@@ -1949,6 +1954,38 @@ if (document.readyState !== 'loading') initAdmin();
 setInterval(function(){
   if (admAccessToken) loadLeads();
 }, 60000);
+</script>
+<script>
+/* Keep the admin session alive: Supabase sign-ins expire after an hour.
+   Any request that comes back "expired" refreshes the session once and is sent again. */
+(function(){
+  var _fetch=window.fetch.bind(window), refreshing=null;
+  function isSb(u){ return typeof u==='string' && typeof SUPABASE_URL_ADMIN!=='undefined' && u.indexOf(SUPABASE_URL_ADMIN)===0 && u.indexOf('/auth/v1/')<0; }
+  async function refresh(){
+    var rt=sessionStorage.getItem('em_refresh_token'); if(!rt) return false;
+    try{
+      var r=await _fetch(SUPABASE_URL_ADMIN+'/auth/v1/token?grant_type=refresh_token',{method:'POST',headers:{apikey:SUPABASE_KEY_ADMIN,'Content-Type':'application/json'},body:JSON.stringify({refresh_token:rt})});
+      var d=await r.json(); if(!r.ok||!d.access_token) return false;
+      admAccessToken=d.access_token; sessionStorage.setItem('em_access_token',d.access_token);
+      if(d.refresh_token) sessionStorage.setItem('em_refresh_token',d.refresh_token);
+      return true;
+    }catch(e){ return false; }
+  }
+  window.admRefreshSession=function(){ if(!refreshing) refreshing=refresh().finally(function(){ refreshing=null; }); return refreshing; };
+  window.fetch=async function(url,opts){
+    var res=await _fetch(url,opts);
+    if(!isSb(url) || res.status!==401) return res;
+    var body=''; try{ body=await res.clone().text(); }catch(e){}
+    if(!/jwt|expired|token/i.test(body)) return res;
+    if(!(await window.admRefreshSession())){ if(typeof admForceRelogin==='function') admForceRelogin(); return res; }
+    var o=Object.assign({},opts||{}); var h=Object.assign({},(o.headers)||{});
+    h['Authorization']='Bearer '+admAccessToken; o.headers=h;
+    return _fetch(url,o);
+  };
+  /* refresh quietly every 45 minutes while the admin is open */
+  setInterval(function(){ if(sessionStorage.getItem('em_refresh_token')) window.admRefreshSession(); }, 45*60*1000);
+  document.addEventListener('visibilitychange',function(){ if(!document.hidden && sessionStorage.getItem('em_refresh_token')) window.admRefreshSession(); });
+})();
 </script>
 <style id="admUI">
 .adm-src-m{display:none;font-size:.66rem;color:#a48cf0;margin-top:.25rem;}
