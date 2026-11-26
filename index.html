@@ -1329,6 +1329,7 @@ select{color:#f5f2ee;}
     style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;transition:opacity 0.45s ease;"
   >
   <img id="heroBg2" alt="" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:0;transition:opacity 0.45s ease;">
+  <video id="heroVid" muted playsinline loop preload="none" aria-hidden="true" poster="/video/hero-mobile-poster.jpg"></video>
   <div class="hero-overlay"></div>
   <div class="hero-content">
     <div class="hero-label hero-in-1">Private trip planning</div>
@@ -3588,7 +3589,30 @@ function closeMobileMenu() {
   });
 })();
 </script>
+<script>
+/* hero video: phones only, loads after the page, skipped on slow/saver connections; an activity pick shows its photo instead */
+(function(){
+  var v=document.getElementById('heroVid'); if(!v) return;
+  if(!window.matchMedia('(max-width:768px)').matches) return;
+  var c=navigator.connection||{};
+  if(c.saveData || /(^|-)2g$/.test(c.effectiveType||'')) return;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){ v.classList.add('on'); return; }
+  function start(){
+    v.src='/video/hero-mobile.mp4'; v.load();
+    v.addEventListener('playing',function(){ v.classList.add('on'); },{once:true});
+    var p=v.play(); if(p&&p.catch) p.catch(function(){});
+  }
+  if(document.readyState==='complete') setTimeout(start,300); else window.addEventListener('load',function(){ setTimeout(start,300); });
+  var orig=window.pickActivity;
+  if(typeof orig==='function'){ window.pickActivity=function(card){ v.classList.remove('on'); try{v.pause();}catch(e){} return orig.apply(this,arguments); }; }
+  document.addEventListener('visibilitychange',function(){ if(document.hidden) v.pause(); else if(v.classList.contains('on')) v.play().catch(function(){}); });
+})();
+</script>
 <style id="emPolish">
+/* hero video (phones only; desktop keeps the photo) */
+#heroVid{display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:0;transition:opacity .6s ease;pointer-events:none;}
+@media (max-width:768px){#heroVid{display:block;}#heroVid.on{opacity:1;}#heroBg,#heroBg2{animation:none!important;}}
+
 .rm-note-link{display:inline-flex;align-items:center;gap:.45rem;font-family:'Playfair Display',serif;font-style:italic;font-size:1.05rem;color:var(--stone);text-decoration:none;border-bottom:1px solid rgba(200,184,154,.35);padding-bottom:3px;transition:color .2s,border-color .2s;}
 .rm-note-link span{font-style:normal;transition:transform .25s;}
 .rm-note-link:hover{color:#fff;border-color:rgba(255,255,255,.6);}
