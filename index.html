@@ -1329,7 +1329,7 @@ select{color:#f5f2ee;}
     style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;transition:opacity 0.45s ease;"
   >
   <img id="heroBg2" alt="" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:0;transition:opacity 0.45s ease;">
-  <video id="heroVid" muted playsinline loop preload="none" aria-hidden="true" poster="/video/hero-mobile-poster.jpg"></video>
+  <video id="heroVid" muted playsinline loop preload="none" aria-hidden="true" poster="/video/hero-mobile-poster.jpg?v=2"></video>
   <div class="hero-overlay"></div>
   <div class="hero-content">
     <div class="hero-label hero-in-1">Private trip planning</div>
@@ -3598,7 +3598,7 @@ function closeMobileMenu() {
   if(c.saveData || /(^|-)2g$/.test(c.effectiveType||'')) return;
   if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){ v.classList.add('on'); return; }
   function start(){
-    v.src='/video/hero-mobile.mp4'; v.load();
+    v.src='/video/hero-mobile.mp4?v=2'; v.load();
     v.addEventListener('playing',function(){ v.classList.add('on'); },{once:true});
     var p=v.play(); if(p&&p.catch) p.catch(function(){});
   }
