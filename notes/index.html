@@ -839,5 +839,40 @@ renderNotes();
 })();
 
 </script>
+<style id="emSubMenu">
+.sm-btn{display:none;width:42px;height:42px;border:none;background:none;cursor:pointer;align-items:center;justify-content:center;flex-direction:column;gap:5px;padding:0;}
+.sm-btn span{display:block;width:22px;height:1.5px;background:#f5f2ee;transition:transform .3s,opacity .3s;}
+.sm-open .sm-btn span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+.sm-open .sm-btn span:nth-child(2){opacity:0;}
+.sm-open .sm-btn span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+.sm-panel{position:fixed;inset:0;z-index:999;background:rgba(11,27,20,.97);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);display:flex;flex-direction:column;padding:6.5rem 1.6rem 2rem;opacity:0;pointer-events:none;transition:opacity .3s;}
+.sm-open .sm-panel{opacity:1;pointer-events:auto;}
+.sm-panel a.sm-l{display:flex;align-items:baseline;gap:1rem;padding:1rem 0;border-bottom:1px solid rgba(200,184,154,.1);font-family:'Playfair Display',serif;font-size:1.7rem;color:#f5f2ee;text-decoration:none;}
+.sm-panel a.sm-l small{font-family:'DM Sans',sans-serif;font-size:.62rem;letter-spacing:.14em;color:rgba(200,184,154,.5);}
+.sm-panel a.sm-l.on{color:var(--stone,#c8b89a);font-style:italic;}
+.sm-guide{display:flex;align-items:center;gap:.8rem;margin-top:1.6rem;padding:1rem 1.1rem;border-radius:14px;border:1px solid rgba(224,178,74,.28);background:rgba(224,178,74,.07);text-decoration:none;color:#fff;font-size:.9rem;}
+.sm-guide b{display:block;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:#e0b24a;font-weight:500;margin-bottom:.15rem;}
+.sm-cta{margin-top:auto;display:block;text-align:center;padding:1rem;border-radius:10px;background:var(--cta,#2e8b72);color:#fff;text-decoration:none;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;}
+nav{z-index:1000!important;}
+@media (max-width:768px){.sm-btn{display:flex;}nav .nav-links{display:none!important;}.nav-hamburger{display:none!important;}}
+</style>
+<script>
+(function(){
+  var nav=document.querySelector('nav'); if(!nav) return;
+  var here=location.pathname.replace(/\/$/,'')||'/';
+  var b=document.createElement('button'); b.className='sm-btn'; b.type='button'; b.setAttribute('aria-label','Menu'); b.innerHTML='<span></span><span></span><span></span>';
+  nav.appendChild(b);
+  var p=document.createElement('div'); p.className='sm-panel';
+  var L=[['/','Home','01'],['/adventures','Adventures','02'],['/notes','Travel Notes','03'],['/#plan','Plan my trip','04']];
+  p.innerHTML=L.map(function(x){ return '<a class="sm-l'+(here===x[0]?' on':'')+'" href="'+x[0]+'"><small>'+x[2]+'</small>'+x[1]+'</a>'; }).join('')+
+    '<a class="sm-guide" href="/#travel-guide"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#e0b24a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5M12 11v6M9.5 14.5L12 17l2.5-2.5"/></svg><div><b>Free &middot; PDF to your inbox</b>Montenegro Travel Guide</div></a>'+
+    '<a class="sm-cta" href="/#plan">Plan my trip &rarr;</a>';
+  document.body.appendChild(p);
+  function t(o){ document.documentElement.classList.toggle('sm-open',o); document.body.style.overflow=o?'hidden':''; }
+  b.addEventListener('click',function(){ t(!document.documentElement.classList.contains('sm-open')); });
+  p.addEventListener('click',function(e){ if(e.target.closest('a')) t(false); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') t(false); });
+})();
+</script>
 </body>
 </html>
