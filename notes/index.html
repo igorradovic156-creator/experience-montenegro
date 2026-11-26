@@ -653,7 +653,22 @@ var EM_NOTE_IMG = {
   'montenegro-in-september-and-october':'hiking','tara-rafting-in-montenegro':'rafting',
   'canyoning-in-montenegro-guide':'canyoning','boat-tour-private-cruise-or-kayak-montenegro':'kayak'
 };
-function noteImg(n){ return n.image || ''; }
+/* own photos per note; a photo set in admin always wins */
+var EM_NOTE_IMG = {
+  'why-montenegro-takes-longer-than-the-map-suggests':'durmitor-road',
+  'choosing-the-right-montenegro-coastal-base':'herceg-novi',
+  'best-montenegro-itinerary-fewer-stops':'durmitor-clouds',
+  'why-timing-matters-in-montenegro':'kotor-bay',
+  'how-to-find-authentic-food-in-montenegro':'fish-grill',
+  'montenegro-coast-canyon-mountain-itinerary':'lovcen-view',
+  'montenegro-in-may-and-june':'bjelasica-lake',
+  'montenegro-in-july-and-august':'zanjic-beach',
+  'montenegro-in-september-and-october':'durmitor-lake',
+  'tara-rafting-in-montenegro':'tara-rafting',
+  'canyoning-in-montenegro-guide':'nevidio',
+  'boat-tour-private-cruise-or-kayak-montenegro':'sea-sunset'
+};
+function noteImg(n){ return n.image || (EM_NOTE_IMG[n.slug] ? '/img/places/' + EM_NOTE_IMG[n.slug] + '.webp' : ''); }
 function noteEsc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function noteHref(n){ return '/notes/?n=' + encodeURIComponent(n.slug||''); }
 
